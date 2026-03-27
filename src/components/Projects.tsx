@@ -3,42 +3,76 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
+// Each tag has a color — used for pill bg and card hover border
+const tagColors: Record<string, string> = {
+  'Product Design': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  'SaaS': 'bg-green-500/10 text-green-400 border-green-500/20',
+  'B2B': 'bg-green-500/10 text-green-400 border-green-500/20',
+  'UX Design': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  'Fintech': 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+  'Research': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  'UX Research': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  'Strategy': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  'E-commerce': 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+  'Gamification': 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+}
+
+// Each project gets an accent color for hover border
+const accentColors: Record<string, string> = {
+  'deckup': 'hover:border-blue-500/40',
+  'dil-kyc': 'hover:border-amber-500/40',
+  'research-strategy': 'hover:border-green-500/40',
+  'fintech-gamification': 'hover:border-purple-500/40',
+}
+
 const projects = [
   {
     slug: 'deckup',
-    title: 'DeckUp — SaaS for Consultants',
+    title: 'Deck-Up — SaaS for Consultants',
     company: 'SlideXpress',
     year: '2024',
     tags: ['Product Design', 'SaaS', 'B2B'],
-    metric: { value: '45–60%', label: 'Productivity gain' },
-    description: 'Built a SaaS product from scratch for power PowerPoint users and consultants. Led research, design and product roadmap.',
+    metrics: [
+      { value: '45–60%', label: 'Productivity gain' },
+      { value: '40%', label: 'User comfort' },
+    ],
+    description: 'DeckUp increases the productivity of daily power users by 45–60% by providing a toolbar specifically created for power users. Phase 2 integrates AI for personalisation and quick deck generation.',
   },
   {
     slug: 'dil-kyc',
-    title: 'KYC & Onboarding Digitisation',
+    title: 'Digitisation of KYC & Customer Management',
     company: 'Diamond India Limited',
     year: '2024',
     tags: ['UX Design', 'Fintech', 'Research'],
-    metric: { value: '55%', label: 'Onboarding time reduced' },
-    description: "Digitised India's largest bullion operator's offline KYC and customer management system.",
+    metrics: [
+      { value: '55%', label: 'Onboarding time reduced' },
+      { value: '40%', label: 'Employee efficiency' },
+    ],
+    description: "DIL is India's largest bullion supplier. We digitised their extensive offline KYC and customer management system, reducing onboarding from 2 weeks to 5–7 days.",
   },
   {
-    slug: 'tata-neu',
-    title: 'Tata Neu App — UX Evaluation',
-    company: 'TCS',
-    year: '2022',
-    tags: ['UX Research', 'Heuristics', 'Analytics'],
-    metric: { value: '13%', label: 'Engagement increase' },
-    description: 'Conducted heuristic evaluation using Nielsen principles, documenting UX issues across the super-app.',
+    slug: 'research-strategy',
+    title: 'Research & Strategy for Growth',
+    company: 'Commongood, USA',
+    year: '2023',
+    tags: ['UX Research', 'Strategy', 'E-commerce'],
+    metrics: [
+      { value: '43%', label: 'Content engagement' },
+      { value: '11%', label: 'Cart checkout volume' },
+    ],
+    description: 'UX evaluation and research-based strategies for a US-based snacking company specializing in healthy, convenient and delicious snack bars.',
   },
   {
-    slug: 'teamlease',
-    title: 'TeamLease Platform Revamp',
-    company: 'TeamLease',
-    year: '2019',
-    tags: ['UX Research', 'Redesign'],
-    metric: { value: '126%', label: 'Engagement growth' },
-    description: 'Primary and secondary research including on-ground interviews, social listening and diary studies.',
+    slug: 'fintech-gamification',
+    title: 'Gamification in Fintech — Board Game Inspired',
+    company: 'Mindseye Creative',
+    year: '2023',
+    tags: ['Gamification', 'Fintech', 'UX Design'],
+    metrics: [
+      { value: '85%', label: 'Usability score' },
+      { value: '70%', label: 'User retention' },
+    ],
+    description: 'Designed a user-friendly fintech interface inspired by board game mechanics, simplifying access to complex financial products through familiar interaction patterns.',
   },
 ]
 
@@ -66,25 +100,42 @@ export default function Projects() {
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
             <Link href={`/work/${project.slug}`}>
-              <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 h-full hover:border-zinc-600 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+              <div className={`bg-zinc-900 border border-zinc-800 rounded-2xl p-8 h-full transition-all duration-300 hover:-translate-y-1 cursor-pointer group ${accentColors[project.slug]}`}>
+
                 <div className="flex justify-between items-start mb-6">
                   <div>
                     <p className="text-zinc-600 text-xs mb-1">{project.company} · {project.year}</p>
-                    <h3 className="text-white text-xl font-semibold">{project.title}</h3>
+                    <h3 className="text-white text-xl font-semibold leading-snug">{project.title}</h3>
                   </div>
-                  <div className="text-right">
-                    <div className="text-white text-2xl font-bold">{project.metric.value}</div>
-                    <div className="text-zinc-600 text-xs">{project.metric.label}</div>
+                  <div className="text-zinc-700 group-hover:text-white transition-colors ml-4 shrink-0 mt-1">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+                    </svg>
                   </div>
                 </div>
+
                 <p className="text-zinc-500 text-sm leading-relaxed mb-6">{project.description}</p>
+
+                <div className="flex gap-8 mb-6">
+                  {project.metrics.map(metric => (
+                    <div key={metric.label}>
+                      <div className="text-white text-2xl font-bold">{metric.value}</div>
+                      <div className="text-zinc-600 text-xs mt-0.5">{metric.label}</div>
+                    </div>
+                  ))}
+                </div>
+
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map(tag => (
-                    <span key={tag} className="text-xs text-zinc-600 border border-zinc-800 px-3 py-1 rounded-full">
+                    <span
+                      key={tag}
+                      className={`text-xs px-3 py-1 rounded-full border ${tagColors[tag] || 'bg-zinc-800 text-zinc-500 border-zinc-700'}`}
+                    >
                       {tag}
                     </span>
                   ))}
                 </div>
+
               </div>
             </Link>
           </motion.div>
