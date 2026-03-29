@@ -1,9 +1,9 @@
 'use client'
 
 // app/work/[slug]/page.tsx
-// This single file handles ALL summary pages — /work/munk-pack, /work/deckup, etc.
-// To add a new project: create a data file in lib/case-studies/ and add it to the index.
+// This single file handles ALL summary pages — /work/deckup, /work/research-strategy, etc.
 
+import React, { use } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -103,7 +103,6 @@ function Step({ step }: { step: ProcessStep }) {
       transition={{ duration: 0.6 }}
       className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16 pb-16 border-b border-zinc-900 last:border-0 last:mb-0 last:pb-0"
     >
-      {/* Text block — swap order based on imagePosition */}
       <div className={isLeft ? 'order-1 md:order-2' : ''}>
         <p className="text-zinc-600 text-xs tracking-widest uppercase mb-3">{step.num}</p>
         <h3 className="text-white font-semibold text-2xl mb-4">{step.title}</h3>
@@ -118,8 +117,6 @@ function Step({ step }: { step: ProcessStep }) {
           </div>
         )}
       </div>
-
-      {/* Image block */}
       <div className={isLeft ? 'order-2 md:order-1' : ''}>
         {step.image.src ? (
           <img src={step.image.src} alt={step.image.alt} className={`w-full rounded-2xl ${step.image.aspect ?? 'aspect-video'} object-cover`} />
@@ -164,11 +161,11 @@ function Member({ m }: { m: TeamMember }) {
 }
 
 // ─── MAIN TEMPLATE ────────────────────────────────────────────────────────────
-export default function CaseStudySummary({ params }: { params: { slug: string } }) {
-  const cs: CaseStudy | undefined = getCaseStudy(params.slug)
+export default function CaseStudySummary({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params)
+  const cs: CaseStudy | undefined = getCaseStudy(slug)
   const [modalOpen, setModalOpen] = useState(false)
 
-  // 404 fallback — Next.js will handle this more gracefully with notFound() in a server component
   if (!cs) {
     return (
       <main className="bg-[#0a0a0a] min-h-screen text-white flex items-center justify-center">
@@ -185,10 +182,9 @@ export default function CaseStudySummary({ params }: { params: { slug: string } 
   return (
     <main className="bg-[#0a0a0a] min-h-screen text-white">
 
-      {/* ── 1. HERO ───────────────────────────────────────────────────────────── */}
+      {/* ── 1. HERO ── */}
       <section className="relative min-h-screen flex flex-col justify-end overflow-hidden">
 
-        {/* Banner — video or image */}
         {cs.hero.banner ? (
           cs.hero.banner.type === 'video' ? (
             <video
@@ -250,10 +246,10 @@ export default function CaseStudySummary({ params }: { params: { slug: string } 
             className="flex flex-wrap gap-4"
           >
             {[
-              { label: 'Client',    value: cs.client },
-              { label: 'My Role',   value: cs.role },
-              { label: 'Timeline',  value: cs.timeline },
-              { label: 'Year',      value: cs.year },
+              { label: 'Client',   value: cs.client },
+              { label: 'My Role',  value: cs.role },
+              { label: 'Timeline', value: cs.timeline },
+              { label: 'Year',     value: cs.year },
             ].map(m => (
               <div key={m.label} className="bg-zinc-900/80 border border-zinc-800 px-4 py-2 rounded-xl">
                 <p className="text-zinc-600 text-xs">{m.label}</p>
@@ -271,15 +267,15 @@ export default function CaseStudySummary({ params }: { params: { slug: string } 
         </motion.div>
       </section>
 
-      {/* ── 2. OVERVIEW ───────────────────────────────────────────────────────── */}
+      {/* ── 2. OVERVIEW ── */}
       <section className="px-8 md:px-16 lg:px-24 py-24 border-t border-zinc-900">
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16"
         >
           {[
-            { label: 'Context',                              text: cs.overview.context },
-            { label: 'Problem',                              text: cs.overview.problem },
+            { label: 'Context',                                text: cs.overview.context },
+            { label: 'Problem',                                text: cs.overview.problem },
             { label: cs.overview.directionLabel ?? 'Solution', text: cs.overview.direction },
           ].map(col => (
             <div key={col.label}>
@@ -290,7 +286,7 @@ export default function CaseStudySummary({ params }: { params: { slug: string } 
         </motion.div>
       </section>
 
-      {/* ── 3. METRICS ────────────────────────────────────────────────────────── */}
+      {/* ── 3. METRICS ── */}
       <section className="px-8 md:px-16 lg:px-24 py-20 border-t border-zinc-900 bg-zinc-900/30">
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
@@ -299,7 +295,6 @@ export default function CaseStudySummary({ params }: { params: { slug: string } 
           <p className="text-zinc-600 text-xs tracking-widest uppercase mb-2">Results</p>
           <h2 className="text-white text-3xl md:text-4xl font-bold">Impact</h2>
         </motion.div>
-
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-16">
           {cs.metrics.map((m, i) => (
             <motion.div
@@ -315,7 +310,7 @@ export default function CaseStudySummary({ params }: { params: { slug: string } 
         </div>
       </section>
 
-      {/* ── 4. PROCESS ────────────────────────────────────────────────────────── */}
+      {/* ── 4. PROCESS ── */}
       <section className="px-8 md:px-16 lg:px-24 py-24 border-t border-zinc-900">
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
@@ -324,11 +319,10 @@ export default function CaseStudySummary({ params }: { params: { slug: string } 
           <p className="text-zinc-600 text-xs tracking-widest uppercase mb-3">Process</p>
           <h2 className="text-white text-3xl md:text-4xl font-bold">{cs.processIntro ?? 'How we got there'}</h2>
         </motion.div>
-
         {cs.process.map((step, i) => <Step key={i} step={step} />)}
       </section>
 
-      {/* ── 5. FINDINGS ───────────────────────────────────────────────────────── */}
+      {/* ── 5. FINDINGS ── */}
       {cs.findings.length > 0 && (
         <section className="px-8 md:px-16 lg:px-24 py-24 border-t border-zinc-900">
           <motion.div
@@ -352,7 +346,7 @@ export default function CaseStudySummary({ params }: { params: { slug: string } 
         </section>
       )}
 
-      {/* ── 6. CONCLUSION ─────────────────────────────────────────────────────── */}
+      {/* ── 6. CONCLUSION ── */}
       <section className="px-8 md:px-16 lg:px-24 py-24 border-t border-zinc-900">
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
@@ -379,12 +373,11 @@ export default function CaseStudySummary({ params }: { params: { slug: string } 
         )}
       </section>
 
-      {/* ── 7. CTA ────────────────────────────────────────────────────────────── */}
+      {/* ── 7. CTA ── */}
       <section className="px-8 md:px-16 lg:px-24 py-32 border-t border-zinc-900 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/[0.02] blur-3xl" />
         </div>
-
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
           className="relative z-10 text-center max-w-2xl mx-auto"
@@ -393,12 +386,10 @@ export default function CaseStudySummary({ params }: { params: { slug: string } 
             <span className="text-zinc-600 text-xs">🔒</span>
             <span className="text-zinc-500 text-xs tracking-widest uppercase">Protected</span>
           </div>
-
           <h2 className="text-white text-4xl md:text-6xl font-bold tracking-tight leading-none mb-6 whitespace-pre-line">
             {cs.cta.heading}
           </h2>
           <p className="text-zinc-500 text-base md:text-lg mb-10 leading-relaxed">{cs.cta.body}</p>
-
           <motion.button
             whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
             onClick={() => setModalOpen(true)}
@@ -409,14 +400,13 @@ export default function CaseStudySummary({ params }: { params: { slug: string } 
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>
           </motion.button>
-
           <p className="text-zinc-700 text-xs mt-5">Access code required</p>
         </motion.div>
       </section>
 
       {modalOpen && (
         <PasswordModal
-          slug={cs.slug}
+          slug={slug}
           onClose={() => setModalOpen(false)}
           onSuccess={handleUnlock}
         />
