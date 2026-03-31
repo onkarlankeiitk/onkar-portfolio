@@ -4,10 +4,10 @@ import { motion } from 'framer-motion'
 
 const experience = [
   {
-    role: 'Senior UX Designer',
-    company: 'SlideXpress - A unit of Mindseye Creative',
+    role: 'Product Design Specialist',
+    company: 'SlideXpress',
     period: 'Dec 2024 — Dec 2025',
-    description: 'Building DeckUp SaaS from scratch. Led research, design and cross-functional team. Defined product roadmap, conceptualised GTM strategy and conversion funnels.',
+    description: 'Built DeckUp SaaS from scratch. Led research, design and cross-functional team. Defined product roadmap using RICE framework. Conceptualised GTM strategy and conversion funnels.',
   },
   {
     role: 'Senior UX Designer',
@@ -15,18 +15,17 @@ const experience = [
     period: 'Apr 2023 — Dec 2024',
     description: 'Managed end-to-end client projects from briefs to delivery. Built complex Webflow sites. Led tech and design teams. Leveraged Hotjar, Amplitude and Microsoft Clarity for data-informed decisions.',
   },
-  
+  {
+    role: 'Course Designer',
+    company: 'LearningMate',
+    period: 'Nov 2022 — Feb 2023',
+    description: 'Designed course structure for Introduction to Manufacturing: Product Design and Innovation for grades 9-12 in Pennsylvania. Designed structure, content strategy and assessments.',
+  },
   {
     role: 'UX Designer',
     company: 'Tata Consultancy Services',
     period: 'Sept 2020 — Mar 2022',
     description: 'Contributed to TCS Vision 2025. Heuristic evaluation of Tata Neu app resulting in 13% more engagement. Collaborated on Air Asia flight booking UX. Designed hybrid work booking system.',
-  },
-  {
-    role: 'Instructional Designer: (Course Designer) Product Design & Innovation - Part time',
-    company: 'LearningMate',
-    period: 'Nov 2022 — Feb 2023',
-    description: 'Designed course structure & sample lessons & assessment criteria for Introduction to Manufacturing: Product Design and Innovation for grades 9-12 in Pennsylvania. Designed structure, content strategy and assessments.',
   },
   {
     role: 'Product Designer — Internship',
@@ -114,18 +113,13 @@ export default function About() {
       >
         <p className="text-zinc-600 text-sm tracking-widest uppercase mb-4">About</p>
         <h2 className="text-white text-4xl md:text-5xl font-bold mb-8">
-          Craftsman, who loves tech & working with amazing folks!
+          Designer who thinks like a PM.
         </h2>
         <p className="text-zinc-400 text-lg leading-relaxed">
-          Over the years of building services and products, my love for intentional design practices has grown tremendously. If you design something good, it shapes you as well. That's where intent plays the role. Whether its defining actual problem, 
-          finding insights or perfecting pixels, intent has driven me crazily for the success of the products!
-          And thus, it has become my motto as well, 'Design with intent'.
-          I love to go to the actual rootcause of problems, finding different 'WHYs', and come up with solutions and strategies that actually work.
-          For the 5+ years, I have tried to perfect my craft, while keeping with the trends and new design styles. Now with the advent of AI,
-          my workflows have changed, allowing faster iterations and less confusion.
+          IIT Kanpur M.Des graduate with 5+ years combining UX design expertise with
+          data-driven product strategy. I specialise in behavioural analytics, growth metrics,
+          and translating user insights into successful product outcomes.
         </p>
-        
-        
       </motion.div>
 
       {/* ── Experience timeline ──────────────────────────────────────────────── */}
@@ -190,17 +184,16 @@ export default function About() {
               <div className={`w-0.5 opacity-70 shrink-0 mr-6 self-stretch ${section.accent}`} />
 
               {/* Pills */}
-              <div className="flex flex-wrap gap-2.5 self-start">
-                {section.skills.map((skill, skillIndex) => (
+              <motion.div
+                className="flex flex-wrap gap-2.5 self-start"
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: sectionIndex * 0.1 }}
+              >
+                {section.skills.map((skill) => (
                   <span
                     key={skill}
-                    initial={{ opacity: 0, scale: 0.92 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.3,
-                      delay: sectionIndex * 0.1 + skillIndex * 0.03,
-                    }}
                     className="text-zinc-400 border border-zinc-800 px-4 py-2 rounded-full text-sm
                                hover:bg-white hover:text-black hover:border-white
                                transition-all duration-200 cursor-default"
@@ -208,7 +201,7 @@ export default function About() {
                     {skill}
                   </span>
                 ))}
-              </div>
+              </motion.div>
             </motion.div>
           ))}
         </div>
