@@ -107,6 +107,7 @@ function OrigamiCanvas() {
     let t = 0
 
     function resize() {
+      if (!canvas) return
       canvas.width = canvas.offsetWidth * window.devicePixelRatio
       canvas.height = canvas.offsetHeight * window.devicePixelRatio
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
