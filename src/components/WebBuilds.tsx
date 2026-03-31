@@ -122,7 +122,7 @@ export default function WebBuilds() {
         <p className="text-zinc-600 text-sm tracking-widest uppercase mb-4">No / Low Code</p>
         <h2 className="text-white text-4xl md:text-5xl font-bold">Webflow Builds</h2>
         <p className="text-zinc-500 mt-4 text-lg max-w-xl">
-          Production websites built using Webflow, fine-tuned with HTML and CSS.
+          Production websites crafted using figma, brewed using webflow & fine-tuned with HTML and CSS.
         </p>
       </motion.div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12" style={{ perspective: '1000px' }}>

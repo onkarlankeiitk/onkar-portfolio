@@ -5,9 +5,9 @@ import { motion } from 'framer-motion'
 const experience = [
   {
     role: 'Senior UX Designer',
-    company: 'SlideXpress',
+    company: 'SlideXpress - A unit of Mindseye Creative',
     period: 'Dec 2024 — Dec 2025',
-    description: 'Built DeckUp SaaS from scratch. Led research, design and cross-functional team. Defined product roadmap using RICE framework. Conceptualised GTM strategy and conversion funnels.',
+    description: 'Building DeckUp SaaS from scratch. Led research, design and cross-functional team. Defined product roadmap, conceptualised GTM strategy and conversion funnels.',
   },
   {
     role: 'Senior UX Designer',
@@ -26,7 +26,7 @@ const experience = [
     role: 'Instructional Designer: (Course Designer) Product Design & Innovation - Part time',
     company: 'LearningMate',
     period: 'Nov 2022 — Feb 2023',
-    description: 'Designed course structure for Introduction to Manufacturing: Product Design and Innovation for grades 9-12 in Pennsylvania. Designed structure, content strategy and assessments.',
+    description: 'Designed course structure & sample lessons & assessment criteria for Introduction to Manufacturing: Product Design and Innovation for grades 9-12 in Pennsylvania. Designed structure, content strategy and assessments.',
   },
   {
     role: 'Product Designer — Internship',
@@ -114,13 +114,18 @@ export default function About() {
       >
         <p className="text-zinc-600 text-sm tracking-widest uppercase mb-4">About</p>
         <h2 className="text-white text-4xl md:text-5xl font-bold mb-8">
-          Designer who thinks like a PM.
+          Craftsman, who loves tech & working with amazing folks!
         </h2>
         <p className="text-zinc-400 text-lg leading-relaxed">
-          IIT Kanpur M.Des graduate with 5+ years combining UX design expertise with
-          data-driven product strategy. I specialise in behavioural analytics, growth metrics,
-          and translating user insights into successful product outcomes.
+          Over the years of building services and products, my love for intentional design practices has grown tremendously. If you design something good, it shapes you as well. That's where intent plays the role. Whether its defining actual problem, 
+          finding insights or perfecting pixels, intent has driven me crazily for the success of the products!
+          And thus, it has become my motto as well, 'Design with intent'.
+          I love to go to the actual rootcause of problems, finding different 'WHYs', and come up with solutions and strategies that actually work.
+          For the 5+ years, I have tried to perfect my craft, while keeping with the trends and new design styles. Now with the advent of AI,
+          my workflows have changed, allowing faster iterations and less confusion.
         </p>
+        
+        
       </motion.div>
 
       {/* ── Experience timeline ──────────────────────────────────────────────── */}

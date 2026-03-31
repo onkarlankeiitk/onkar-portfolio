@@ -25,14 +25,20 @@ export default function Nav() {
           Contact
         </a>
         <a
-          href="https://drive.google.com/file/d/1wDjkbRqU7HU97B6fdTVDiCW9R__m6_e6/view?usp=sharing"
-          target="_blank"
-          rel="noreferrer"
-          className="bg-white text-black text-sm font-medium px-4 py-2 rounded-full hover:bg-zinc-200 transition-colors"
+        href="https://drive.google.com/file/d/1wDjkbRqU7HU97B6fdTVDiCW9R__m6_e6/view?usp=sharing"
+        target="_blank"
+        rel="noreferrer"
+        className="relative group bg-white text-black text-sm font-semibold px-5 py-2.5 rounded-full overflow-hidden hover:bg-zinc-100 transition-colors"
         >
-          Resume
+        <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/80 to-transparent skew-x-12" />
+        <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ boxShadow: '0 0 20px 6px rgba(255,255,255,0.2)' }}
+        />
+        <span className="relative z-10">Resume</span>
         </a>
       </div>
     </motion.nav>
   )
 }
+
+

@@ -6,28 +6,28 @@ const behanceProjects = [
   {
     title: 'IndiGo Go Next Experience Design',
     url: 'https://www.behance.net/gallery/149525913/IndiGo-Go-Next-Experience-Design',
-    cover: '/behance/behance-01.jpg',
-    year: '2022',
+    cover: '/behance/behance-01.png',
+    year: '2020',
     color: 'hover:border-blue-500/40',
   },
   {
     title: 'Designing for Last Mile Reach — Financial Inclusion',
     url: 'https://www.behance.net/gallery/153941575/Designing-for-last-mile-reach-financial-inclusion',
-    cover: '/behance/behance-02.jpg',
-    year: '2022',
+    cover: '/behance/behance-02.png',
+    year: '2020',
     color: 'hover:border-green-500/40',
   },
   {
     title: 'Delivering Better Experience — A Redesign',
     url: 'https://www.behance.net/gallery/88634913/Delivering-Better-Experience-A-REDESIGN',
-    cover: '/behance/behance-03.jpg',
+    cover: '/behance/behance-03.png',
     year: '2020',
     color: 'hover:border-amber-500/40',
   },
   {
     title: 'Icons Design Planner',
     url: 'https://www.behance.net/gallery/72384035/Icons-Design-Planner',
-    cover: '/behance/behance-04.jpg',
+    cover: '/behance/behance-04.png',
     year: '2019',
     color: 'hover:border-purple-500/40',
   },
@@ -96,7 +96,7 @@ export default function Behance() {
         className="mt-10 flex justify-center"
       >
         <a
-          href="https://www.behance.net/onkarlanke"
+          href="https://www.behance.net/lankeonkar"
           target="_blank"
           rel="noreferrer"
           className="border border-zinc-700 text-zinc-400 px-6 py-3 rounded-full text-sm font-medium hover:border-blue-500/60 hover:text-blue-400 transition-colors"
