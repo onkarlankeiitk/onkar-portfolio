@@ -6,10 +6,9 @@ import { getCaseStudy } from '@/lib/case-studies'
 
 export async function POST(
   request: Request,
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: { slug: string } }
 ) {
-  const { slug } = await params
-  const cs = getCaseStudy(slug)
+  const cs = getCaseStudy(params.slug)
 
   if (!cs) {
     return NextResponse.json({ ok: false }, { status: 404 })
