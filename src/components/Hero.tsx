@@ -99,18 +99,21 @@ function OrigamiCanvas() {
   const mouse = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    const canvasEl = canvasRef.current
+    if (!canvasEl) return
+    const canvas: HTMLCanvasElement = canvasEl
+    const rawCtx = canvas.getContext('2d')
+    if (!rawCtx) return
+    const ctx: CanvasRenderingContext2D = rawCtx
     let animId: number
     let t = 0
 
     function resize() {
       if (!canvas) return
+      const dpr = window.devicePixelRatio || 1
       canvas.width = canvas.offsetWidth * window.devicePixelRatio
       canvas.height = canvas.offsetHeight * window.devicePixelRatio
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
+      if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
     resize()
     window.addEventListener('resize', resize)
