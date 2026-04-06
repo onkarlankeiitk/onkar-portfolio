@@ -25,7 +25,7 @@ export default function Nav() {
           Contact
         </a>
         <a
-        href="https://drive.google.com/file/d/1mGaHWoTOAxsBCkwWMJ3PrZJJf3xvhB5C/view?usp=sharing"
+        href="https://drive.google.com/file/d/1PNn9pC0hjqr5yJNAO6Donal4jPbvpnWo/view?usp=sharing"
         target="_blank"
         rel="noreferrer"
         className="relative group bg-white text-black text-sm font-semibold px-5 py-2.5 rounded-full overflow-hidden hover:bg-zinc-100 transition-colors"

@@ -462,7 +462,7 @@ export default function Hero() {
           </motion.h2>
 
           <motion.p variants={item} className="text-zinc-500 text-base md:text-lg max-w-md leading-relaxed mb-10">
-            5+ years crafting research-based product strategies and end-to-end experiences.
+            5+ years crafting research-based strategies and end-to-end experiences, by bridging Tech & Design
           </motion.p>
 
           <motion.div variants={item} className="flex gap-4">
