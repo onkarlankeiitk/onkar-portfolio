@@ -21,15 +21,52 @@ function extractAll(xml: string, tag: string): string[] {
   return results
 }
 
-function estimateReadTime(html: string): string {
-  const text = html.replace(/<[^>]+>/g, ' ')
-  const words = text.trim().split(/\s+/).filter(Boolean).length
-  const minutes = Math.max(1, Math.round(words / 200))
-  return `${minutes} min read`
-}
-
 function cleanUrl(url: string): string {
   return url.split('?')[0]
+}
+
+// Maps common Medium category slugs to portfolio-friendly display labels
+const TAG_MAP: Record<string, string> = {
+  'ux': 'UX Design',
+  'ui': 'UI Design',
+  'design': 'Design',
+  'product-design': 'Product Design',
+  'product-management': 'Product',
+  'design-thinking': 'Design Thinking',
+  'industrial-design': 'Industrial Design',
+  'user-research': 'User Research',
+  'research': 'Research',
+  'strategy': 'Strategy',
+  'ai': 'AI',
+  'artificial-intelligence': 'AI',
+  'claude': 'AI',
+  'creativity': 'Creativity',
+  'productivity': 'Productivity',
+  'typography': 'Typography',
+  'branding': 'Branding',
+  'illustration': 'Illustration',
+  'engineering': 'Engineering',
+  'technology': 'Technology',
+  'startup': 'Startup',
+  'innovation': 'Innovation',
+  'leadership': 'Leadership',
+  'work': 'Work & Career',
+  'culture': 'Culture',
+  'aviation': 'Aviation',
+  'boeing': 'Case Study',
+  'squircle': 'Design Theory',
+  'ios': 'iOS',
+  'android': 'Android',
+  'figma': 'Figma',
+  'webflow': 'Webflow',
+  'framer': 'Framer',
+}
+
+function prettifyTag(slug: string): string {
+  const lower = slug.toLowerCase()
+  if (TAG_MAP[lower]) return TAG_MAP[lower]
+  // Fallback: capitalise each word
+  return lower.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 }
 
 function parseItems(rssXml: string) {
@@ -40,7 +77,6 @@ function parseItems(rssXml: string) {
     publication: string
     tags: string[]
     pubDate: string
-    readTime: string
   }> = []
 
   let m: RegExpExecArray | null
@@ -58,16 +94,15 @@ function parseItems(rssXml: string) {
       ? pubMatch[1].split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
       : 'Medium'
 
-    const tags = extractAll(block, 'category').slice(0, 3)
+    const tags = extractAll(block, 'category')
+      .map(t => prettifyTag(t))
+      .filter((t, i, a) => a.indexOf(t) === i) // dedupe
+      .slice(0, 2)
 
     const pubDateRaw = block.match(/<pubDate>([^<]+)<\/pubDate>/)?.[1]?.trim() ?? ''
 
-    // Use content:encoded if available, otherwise fall back to description
-    const contentHtml = extractCdata(block, 'content:encoded') || extractCdata(block, 'description')
-    const readTime = estimateReadTime(contentHtml)
-
     if (title && url) {
-      items.push({ title, url, publication, tags, pubDate: pubDateRaw, readTime })
+      items.push({ title, url, publication, tags, pubDate: pubDateRaw })
     }
   }
   return items

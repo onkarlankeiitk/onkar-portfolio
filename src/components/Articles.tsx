@@ -9,7 +9,6 @@ interface Article {
   publication: string
   tags: string[]
   pubDate: string
-  readTime: string
 }
 
 const TAG_COLORS = [
@@ -115,7 +114,6 @@ export default function Articles() {
                     <p className="text-zinc-300 text-sm font-medium truncate group-hover:text-white transition-colors">
                       {article.title}
                     </p>
-                    <p className="text-zinc-600 text-xs mt-0.5">{article.readTime}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
