@@ -6,6 +6,7 @@ import Behance from '@/components/Behance'
 import Sketches from '@/components/Sketches'
 import WebBuilds from '@/components/WebBuilds'
 import Articles from '@/components/Articles'
+import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <Behance />
       <About />
       <Sketches />
+      <Footer />
     </main>
   )
 }

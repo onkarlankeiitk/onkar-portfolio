@@ -39,6 +39,31 @@ function ImageSlot({ alt, hint, aspect = 'aspect-video', className = '' }: {
   )
 }
 
+// ─── BANNER SLOT — full-bleed, no padding, banner height ─────────────────────
+function BannerSlot({ src, alt }: { src: string | null; alt: string }) {
+  if (src) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
+        className="w-full overflow-hidden"
+        style={{ height: 'clamp(320px, 45vw, 640px)' }}
+      >
+        <img src={src} alt={alt} className="w-full h-full object-cover" />
+      </motion.div>
+    )
+  }
+  return (
+    <div
+      className="w-full border-y-2 border-dashed border-zinc-300 bg-zinc-100 flex flex-col items-center justify-center gap-2"
+      style={{ height: 'clamp(320px, 45vw, 640px)' }}
+    >
+      <div className="text-4xl opacity-20">🖼</div>
+      <p className="text-zinc-500 text-sm font-medium">{alt || 'Banner image'}</p>
+      <p className="text-zinc-400 text-xs">Full-bleed banner — set src in data file</p>
+    </div>
+  )
+}
+
 // ─── PASSWORD MODAL ───────────────────────────────────────────────────────────
 function PasswordModal({ slug, onClose, onSuccess }: {
   slug: string; onClose: () => void; onSuccess: () => void
@@ -211,13 +236,13 @@ export default function CaseStudySummary() {
         {cs.hero.banner ? (
           cs.hero.banner.type === 'video' ? (
             <video autoPlay muted loop playsInline poster={cs.hero.banner.poster}
-              className="absolute inset-0 w-full h-full object-cover opacity-50"
+              className="absolute inset-0 w-full h-full object-cover"
             >
               <source src={cs.hero.banner.src!} type="video/mp4" />
             </video>
           ) : (
             <img src={cs.hero.banner.src!} alt={cs.hero.headline}
-              className="absolute inset-0 w-full h-full object-cover opacity-50"
+              className="absolute inset-0 w-full h-full object-cover"
             />
           )
         ) : (
@@ -229,7 +254,12 @@ export default function CaseStudySummary() {
             </div>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#f9f9f7] via-[#f9f9f7]/70 to-transparent" />
+        {/* Left-to-right gradient — fades out at 50% width, 80% opacity */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: 'linear-gradient(to right, rgba(249,249,247,0.8) 0%, transparent 50%)' }} />
+        {/* Bottom overlay — fades up to 60% of banner height, 80% opacity */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: 'linear-gradient(to top, rgba(249,249,247,0.8) 0%, rgba(249,249,247,0.48) 30%, transparent 60%)' }} />
 
         <div className="relative z-10 px-8 md:px-16 lg:px-24 pb-20 pt-32">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
@@ -365,10 +395,22 @@ export default function CaseStudySummary() {
           <p className={`text-xs tracking-widest uppercase mb-3 font-semibold ${accent.text}`}>Process</p>
           <h2 className="text-zinc-900 text-3xl md:text-4xl font-bold">{cs.processIntro ?? 'How we got there'}</h2>
         </motion.div>
-        {cs.process.map((step, i) => <Step key={i} step={step} accent={accent} />)}
+        {cs.process.map((step, i) => (
+          <React.Fragment key={i}>
+            <Step step={step} accent={accent} />
+            {i === 1 && cs.process.length > 2 && (
+              <div className="-mx-8 md:-mx-16 lg:-mx-24 mb-20">
+                <BannerSlot
+                  src={cs.processMidBanner?.src ?? null}
+                  alt={cs.processMidBanner?.alt ?? 'Process mid-point banner'}
+                />
+              </div>
+            )}
+          </React.Fragment>
+        ))}
       </section>
 
-      {/* ── FULL-WIDTH IMAGE SLOT 3 — after process ── */}
+      {/* ── FULL-WIDTH IMAGE SLOT 3 — after process (legacy fwImages) ── */}
       {fwImages?.[2] && (
         <motion.div
           initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
@@ -376,6 +418,14 @@ export default function CaseStudySummary() {
         >
           <img src={fwImages[2].src} alt={fwImages[2].alt} className="w-full rounded-2xl shadow-sm object-cover" />
         </motion.div>
+      )}
+
+      {/* ── BANNER BEFORE FINDINGS — full-bleed ── */}
+      {cs.findings.length > 0 && (
+        <BannerSlot
+          src={cs.preFindingsBanner?.src ?? null}
+          alt={cs.preFindingsBanner?.alt ?? 'Key findings banner'}
+        />
       )}
 
       {/* ── 5. FINDINGS ── */}

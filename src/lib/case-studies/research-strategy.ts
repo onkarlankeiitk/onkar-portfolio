@@ -18,7 +18,7 @@ export const researchStrategy: CaseStudy = {
     // { src: '/case-studies/research-strategy/banner.mp4', type: 'video', poster: '/case-studies/research-strategy/poster.jpg' }
     // or for an image/gif:
     // { src: '/case-studies/research-strategy/banner.gif', type: 'image' }
-    banner: null,
+    banner: { src: '/case-studies/research-strategy/step-00-banner.png', type: "image" },
     headline: 'Munk Pack',
     subline: 'Research & UX strategy for a US health snacking brand — driving 24% sales growth in 90 days.',
   },
@@ -49,7 +49,7 @@ export const researchStrategy: CaseStudy = {
       body: 'Reviewed the full existing site for information architecture, hierarchy, navigation flow, page interlinking, and storytelling. Mapped the entire structure to identify dead-ends and content gaps before any qualitative work began.',
       tags: ['IA mapping', '14 heuristic issues found', 'Severity-rated Critical → Low'],
       image: {
-        src: null, // replace with: '/case-studies/research-strategy/site-audit.png'
+        src: '/case-studies/research-strategy/step-01-research.png', // replace with: '/case-studies/research-strategy/site-audit.png'
         alt: 'Original site audit diagram',
         hint: 'Replace with your original sitemap or site audit screenshot from Phase I PDF',
         aspect: 'aspect-[4/3]',
@@ -62,7 +62,7 @@ export const researchStrategy: CaseStudy = {
       body: 'Benchmarked Kind, Magic Spoon, GoMacro, IQ Bar, Ratio, and High Key across 17 parameters jointly defined with Commongood — covering content hierarchy, navigation, social proof, lead gen, storytelling, filters, and mobile.',
       tags: ['Kind & Magic Spoon lead on lifestyle storytelling', 'Munk Pack\'s 1g sugar is an edge the site wasn\'t using'],
       image: {
-        src: null, // replace with: '/case-studies/research-strategy/competitive.png'
+        src: '/case-studies/research-strategy/step-02-competitive.png', // replace with: '/case-studies/research-strategy/competitive.png'
         alt: 'Competitive analysis table',
         hint: 'Replace with your competitive analysis spreadsheet or benchmarking slide from Phase I PDF',
         aspect: 'aspect-[4/3]',

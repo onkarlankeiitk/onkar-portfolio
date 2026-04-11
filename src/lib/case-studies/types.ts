@@ -63,7 +63,13 @@ export type CaseStudy = {
   processIntro?: string   // optional subtitle above the process section
   process: ProcessStep[]
 
+  /** Full-bleed banner image injected between process step 2 and step 3 */
+  processMidBanner?: { src: string | null; alt: string }
+
   findings: FindingCard[]
+
+  /** Full-bleed banner image shown immediately before the Key Findings section */
+  preFindingsBanner?: { src: string | null; alt: string }
 
   conclusion: {
     heading: string     // e.g. 'What I learnt'
