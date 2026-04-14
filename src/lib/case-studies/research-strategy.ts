@@ -18,7 +18,7 @@ export const researchStrategy: CaseStudy = {
     // { src: '/case-studies/research-strategy/banner.mp4', type: 'video', poster: '/case-studies/research-strategy/poster.jpg' }
     // or for an image/gif:
     // { src: '/case-studies/research-strategy/banner.gif', type: 'image' }
-    banner: { src: '/case-studies/research-strategy/step-00-banner.png', type: "image" },
+    banner: { src: '/case-studies/research-strategy/step-00-banner.mp4', type: "video" },
     headline: 'Munk Pack',
     subline: 'Research & UX strategy for a US health snacking brand — driving 24% sales growth in 90 days.',
   },
@@ -52,7 +52,7 @@ export const researchStrategy: CaseStudy = {
         src: '/case-studies/research-strategy/step-01-research.png', // replace with: '/case-studies/research-strategy/site-audit.png'
         alt: 'Original site audit diagram',
         hint: 'Replace with your original sitemap or site audit screenshot from Phase I PDF',
-        aspect: 'aspect-[4/3]',
+        aspect: 'aspect-[7/4]',
       },
       imagePosition: 'right',
     },
@@ -75,10 +75,10 @@ export const researchStrategy: CaseStudy = {
       body: 'Mapped 4 audience segments — kids, students, working adults, seniors — each with distinct context, frustrations, and use-cases. Built customer journey flows identifying the drop-off point where most users were leaving.',
       tags: ['Students 15–28', 'Working Adults 25–55', 'Seniors 60+', 'Kids (parents decide)'],
       image: {
-        src: null, // replace with: '/case-studies/research-strategy/segmentation.png'
+        src: '/case-studies/research-strategy/step-03-direction.png',
         alt: 'User segmentation and journey map',
         hint: 'Replace with the User Map: Segmentation & Behaviour Mapping diagram from Sitemap PDF',
-        aspect: 'aspect-[4/3]',
+        aspect: 'aspect-[5/3]',
       },
       imagePosition: 'right',
     },
@@ -88,14 +88,20 @@ export const researchStrategy: CaseStudy = {
       body: 'Delivered a full IA overhaul and Figma wireframes for all 10 pages — homepage, shop, product detail, learn/nutrition (with Allulose explainer + Net Carbs Calculator), rewards, about, contact, store locator, blog, and legal.',
       tags: ['Circular navigation', 'Single filterable shop', 'Subscribe & Save', 'Net Carbs Calculator surfaced', 'Lifestyle content per segment'],
       image: {
-        src: null, // replace with: '/case-studies/research-strategy/wireframes.png'
+        src: '/case-studies/research-strategy/step-04-comms.png', // replace with: '/case-studies/research-strategy/wireframes.png'
         alt: 'Figma wireframes — all 10 pages',
         hint: 'Replace with a full Figma canvas screenshot showing all page wireframes tiled together',
-        aspect: 'aspect-[4/3]',
+        aspect: 'aspect-[5.5/3]',
       },
       imagePosition: 'left',
     },
   ],
+
+  processMidBanner: { src: '/case-studies/research-strategy/strategy_banner.png', alt: 'Strategy overview' },
+
+  preFindingsBanner: { src: '/case-studies/research-strategy/IA+wires.png', alt: 'IA and wireframes overview' },
+
+  preConclusionBanner: { src: '/case-studies/research-strategy/conclusion.banner.png', alt: 'conclusion' },
 
   findings: [
     {
@@ -125,7 +131,7 @@ export const researchStrategy: CaseStudy = {
   },
 
   team: [
-    { initials: 'OL', name: 'Onkar Lanke',   role: 'Researcher & Project Lead', url: 'https://www.linkedin.com/in/onkarlanke/' },
+    { initials: 'OL', name: 'Onkar Lanke',   role: 'UX & Project Lead', url: 'https://www.linkedin.com/in/onkarlanke/' },
     { initials: 'KI', name: 'Krithika Iyer', role: 'Visual Designer',           url: 'https://www.linkedin.com/in/krithika-iyer-596a3a1b0/' },
     { initials: 'PM', name: 'Priyanka',       role: 'Project Manager',           url: 'https://www.linkedin.com/in/tatzope/' },
   ],

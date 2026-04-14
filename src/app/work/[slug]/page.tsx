@@ -256,10 +256,10 @@ export default function CaseStudySummary() {
         )}
         {/* Left-to-right gradient — fades out at 50% width, 80% opacity */}
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(to right, rgba(249,249,247,0.8) 0%, transparent 50%)' }} />
+          style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.8) 0%, transparent 50%)' }} />
         {/* Bottom overlay — fades up to 60% of banner height, 80% opacity */}
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, rgba(249,249,247,0.8) 0%, rgba(249,249,247,0.48) 30%, transparent 60%)' }} />
+          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.48) 30%, transparent 60%)' }} />
 
         <div className="relative z-10 px-8 md:px-16 lg:px-24 pb-20 pt-32">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
@@ -398,7 +398,7 @@ export default function CaseStudySummary() {
         {cs.process.map((step, i) => (
           <React.Fragment key={i}>
             <Step step={step} accent={accent} />
-            {i === 1 && cs.process.length > 2 && (
+            {i === 2 && cs.process.length > 2 && (
               <div className="-mx-8 md:-mx-16 lg:-mx-24 mb-20">
                 <BannerSlot
                   src={cs.processMidBanner?.src ?? null}
@@ -458,6 +458,14 @@ export default function CaseStudySummary() {
         >
           <img src={fwImages[3].src} alt={fwImages[3].alt} className="w-full rounded-2xl shadow-sm object-cover" />
         </motion.div>
+      )}
+
+      {/* ── BANNER BEFORE CONCLUSION — full-bleed ── */}
+      {cs.preConclusionBanner && (
+        <BannerSlot
+          src={cs.preConclusionBanner.src ?? null}
+          alt={cs.preConclusionBanner.alt ?? 'Conclusion banner'}
+        />
       )}
 
       {/* ── 6. CONCLUSION ── */}

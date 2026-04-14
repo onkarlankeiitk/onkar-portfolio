@@ -71,6 +71,9 @@ export type CaseStudy = {
   /** Full-bleed banner image shown immediately before the Key Findings section */
   preFindingsBanner?: { src: string | null; alt: string }
 
+  /** Full-bleed banner image shown immediately before the Conclusion section */
+  preConclusionBanner?: { src: string | null; alt: string }
+
   conclusion: {
     heading: string     // e.g. 'What I learnt'
     paragraphs: string[]
