@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 export default function Footer() {
   return (
-    <footer className="relative px-8 md:px-16 lg:px-24 pt-24 pb-12 border-t border-zinc-900 overflow-hidden">
+    <footer id="contact" className="relative px-8 md:px-16 lg:px-24 pt-24 pb-12 border-t border-zinc-900 overflow-hidden">
 
       {/* Large background text */}
       <p
@@ -61,7 +61,7 @@ export default function Footer() {
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
             </span>
-            <span className="text-sm font-medium">+91 78430 45699</span>
+            <span className="text-sm font-medium">+91 86698 82810</span>
           </a>
 
           {/* LinkedIn */}

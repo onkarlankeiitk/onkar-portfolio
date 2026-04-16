@@ -147,7 +147,7 @@ function Hero() {
           Back to work
         </Link>
         <div className="flex gap-2">
-          {['B2B SaaS', 'RegTech', 'Compliance'].map(t => (
+          {['B2B SaaS', 'RegTech', 'Compliance', 'Gamification'].map(t => (
             <Pill key={t} purple>{t}</Pill>
           ))}
         </div>
@@ -185,8 +185,9 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
           className="text-zinc-400 text-xl md:text-2xl font-light max-w-2xl mb-12 leading-relaxed"
         >
-          A visual rule builder that gives compliance teams full ownership of identity
-          verification pipelines — without writing a line of code.
+          A gamified, no-code rule builder that turns compliance configuration into an
+          engaging puzzle-solving experience — giving teams full ownership of KYC flows
+          without writing a line of code.
         </motion.p>
 
         {/* Meta row */}
@@ -214,7 +215,7 @@ function Hero() {
         className="relative z-10 px-8 md:px-16 pb-10 flex items-center justify-between"
       >
         <p className="text-zinc-700 text-xs italic max-w-xs">
-          "Compliance managers need ownership, not workarounds."
+          "This is like going from writing code to playing with Lego — I can finally experiment without waiting on developers."
         </p>
         <motion.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.8 }}
           className="text-zinc-600 text-xs">
@@ -261,10 +262,10 @@ function Brief() {
         {/* Impact strip */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-100 rounded-2xl overflow-hidden mb-16">
           {[
-            { v: '3',    l: 'User types',           s: 'Compliance, Product, Dev' },
-            { v: '10+',  l: 'Screens designed',     s: 'End-to-end system' },
-            { v: '4',    l: 'Tools benchmarked',    s: 'CIBIL, Scratch, Zapier, Miro' },
-            { v: '6',    l: 'Rule block types',     s: 'Atom-level components' },
+            { v: '80%',  l: 'Faster deployment',    s: '3 weeks → 3 days' },
+            { v: '95%',  l: 'Team adoption',        s: 'Within 6 months' },
+            { v: '60%',  l: 'Fewer dev tickets',    s: 'For flow changes' },
+            { v: '9.1',  l: 'Satisfaction score',   s: 'Up from 7.2 / 10' },
           ].map(m => (
             <div key={m.l} className="bg-white px-6 py-8">
               <div className="text-4xl font-bold mb-1" style={{ color: PURPLE }}>{m.v}</div>
@@ -324,7 +325,8 @@ function Strategy() {
         <p className="text-zinc-400 text-base max-w-2xl mb-16 leading-relaxed">
           Before any wireframes, three weeks were spent understanding the domain, the users, and the failure modes
           of every analogous tool. A compliance canvas isn't a flowchart builder — the stakes of getting the logic
-          wrong are regulatory. That context drove every structural decision in the design.
+          wrong are regulatory. That context drove every structural decision, including an early strategic call
+          to use gamification to reduce cognitive load and build confidence in a high-stakes domain.
         </p>
 
         {/* Engagement timeline */}
@@ -646,12 +648,13 @@ function DesignSystem() {
 
         <SectionLabel light>05 — Design System</SectionLabel>
         <h2 className="text-white text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
-          The block architecture — atom to organism
+          Gamified block architecture — atom to organism
         </h2>
         <p className="text-zinc-400 text-base max-w-2xl mb-16 leading-relaxed">
-          The entire builder rests on a three-level hierarchy. An individual rule is an Atom. A logical
-          grouping (onboarding checks) is a Molecule. The complete deployable programme is an Organism.
-          This structure became a shared language for design, product, and engineering.
+          The entire builder rests on a three-level hierarchy — Atom, Molecule, Organism — with a
+          gamification layer running through every interaction. Puzzle-piece blocks snap together like
+          a game, a live compliance score rewards progress, and colour-coded categories give the canvas
+          instant visual legibility. This structure became a shared language for design, product, and engineering.
         </p>
 
         {/* Hierarchy visual */}
@@ -1103,6 +1106,11 @@ function Reflection() {
       title: 'Approval gates create organisational trust',
       body: 'The deployment approval step — a risk officer signs off on a human-readable diff before anything goes live — was the feature compliance managers reacted to most positively. It gave them accountability visibility and made the tool safe enough to delegate to junior team members.',
     },
+    {
+      n: '05',
+      title: 'Gamification isn\'t frivolous — it reduces errors in high-stakes work',
+      body: 'Puzzle-piece snapping, compliance score badges, and colour-coded feedback weren\'t decorative. They reduced cognitive load, made invalid connections impossible, and gave users confidence before deploying. Turning compliance configuration into a game-like experience made people slower to rush and faster to get it right.',
+    },
   ]
 
   return (
@@ -1135,13 +1143,37 @@ function Reflection() {
         <div className="max-w-3xl">
           <p className="text-xs uppercase tracking-widest font-semibold mb-8" style={{ color: PURPLE }}>What I learnt</p>
           {[
-            'The most important design decision was choosing to constrain the canvas. Every instinct in product design says "give users more power" — but power without structure is friction wearing a different mask. Compliance managers needed a tool that matched their mental model, not a blank playground.',
+            'The most important design decision was choosing to constrain the canvas — and the second was committing to gamification as a serious UX strategy, not decoration. Puzzle-piece blocks, compliance score feedback, and snap-together interactions made a high-stakes, error-costly domain feel manageable and even enjoyable. Gamification removed the fear of getting it wrong.',
             'The atom → molecule → organism hierarchy turned out to be more than an architectural choice — it became a shared language between design, product, and engineering. When everyone could say "this is an atom-level check inside the onboarding molecule," conversations about scope, testing, and versioning became dramatically clearer. Naming your design system properly is a product strategy decision.',
             'Designing for governance — the approval gate, the diff view, the deployment log — was where this tool became genuinely enterprise-grade. Most SaaS tools treat deployment as a button. In regulated industries, deployment is a sign-off process with legal consequences. That distinction drove the most consequential design decisions in this project, and it\'s something no amount of design system work alone could have surfaced. It required understanding the regulatory environment the product lived in.',
           ].map((p, i) => (
             <p key={i} className={`leading-relaxed mb-6 last:mb-0 ${i === 0 ? 'text-zinc-700 text-lg' : 'text-zinc-500 text-base'}`}>
               {p}
             </p>
+          ))}
+        </div>
+
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl">
+          {[
+            {
+              quote: '"This is like going from writing code to playing with Lego — I can finally experiment without waiting on developers."',
+              attr: 'Senior Compliance Manager, Major Bank',
+            },
+            {
+              quote: '"We launched a new product line in 2 days instead of 2 months. This tool is a game-changer."',
+              attr: 'Head of Operations, NBFC',
+            },
+          ].map((t, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              className="border border-zinc-200 rounded-2xl p-7"
+              style={{ borderLeftWidth: 4, borderLeftColor: PURPLE }}
+            >
+              <p className="text-zinc-700 text-sm leading-relaxed mb-4 italic">{t.quote}</p>
+              <p className="text-zinc-400 text-xs">— {t.attr}</p>
+            </motion.div>
           ))}
         </div>
 

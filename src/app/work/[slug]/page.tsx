@@ -238,6 +238,7 @@ export default function CaseStudySummary() {
             <video autoPlay muted loop playsInline poster={cs.hero.banner.poster}
               className="absolute inset-0 w-full h-full object-cover"
             >
+              <source src={cs.hero.banner.src!} type={cs.hero.banner.src!.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
               <source src={cs.hero.banner.src!} type="video/mp4" />
             </video>
           ) : (

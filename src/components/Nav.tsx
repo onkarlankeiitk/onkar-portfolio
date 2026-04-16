@@ -21,9 +21,9 @@ export default function Nav() {
         <Link href="#about" className="text-zinc-400 hover:text-white transition-colors text-sm hidden md:block">
           About
         </Link>
-        <a href="mailto:onkarlanke.iitk@gmail.com" className="text-zinc-400 hover:text-white transition-colors text-sm hidden md:block">
+        <Link href="/#contact" className="text-zinc-400 hover:text-white transition-colors text-sm hidden md:block">
           Contact
-        </a>
+        </Link>
         <a
         href="https://drive.google.com/file/d/1PNn9pC0hjqr5yJNAO6Donal4jPbvpnWo/view?usp=sharing"
         target="_blank"

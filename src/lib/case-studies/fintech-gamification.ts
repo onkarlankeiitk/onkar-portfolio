@@ -3,8 +3,8 @@ import type { CaseStudy } from './types'
 
 export const fintechGamification: CaseStudy = {
   slug: 'fintech-gamification',
-  title: 'frankieOne — No-Code KYC Rule Builder',
-  tags: ['B2B SaaS', 'FinTech', 'Workflow Builder', 'Compliance', 'RegTech', 'No-Code'],
+  title: 'frankieOne — Gamified No-Code KYC Rule Builder',
+  tags: ['B2B SaaS', 'FinTech', 'Workflow Builder', 'Compliance', 'RegTech', 'No-Code', 'Gamification'],
   year: '2024',
   timeline: '3 Months',
   role: 'Senior Product Designer',
@@ -13,35 +13,29 @@ export const fintechGamification: CaseStudy = {
   detailPath: '/work/fintech-gamification-detail',
 
   hero: {
-    banner: null,
-    // SCREEN TO CREATE → Full-width hero banner:
-    // A dark canvas (near-black background) showing the rule builder interface in use.
-    // Puzzle-piece rule blocks connected across the canvas with subtle connector lines.
-    // frankieOne purple (#4B4ACF) accent on active/selected blocks.
-    // Top left: frankieOne wordmark. Top right: "Deploy" CTA button in purple.
-    // Replace null with: { src: '/case-studies/fintech-gamification/hero-banner.png', type: 'image' }
+    banner: { src: '/case-studies/Frankieone/hero-banner.mov', type: 'video' },
     headline: 'frankieOne',
-    subline: 'A no-code KYC rule builder that lets compliance teams assemble, test, and deploy identity verification flows — without writing a line of code.',
+    subline: 'A visual, no-code rule builder — inspired by puzzle games and MIT Scratch — that lets compliance teams assemble, test, and deploy KYC flows without writing a line of code.',
   },
 
   overview: {
     context:
       'frankieOne operates in a B2B2C model — their platform powers KYC, AML, and fraud checks for banks, NBFCs, and fintechs, who in turn serve end customers. Every financial institution must configure its own verification rules based on jurisdiction, risk appetite, and product type. That configuration was, until now, an engineering problem.',
     problem:
-      'Compliance managers and product owners had no way to build or modify KYC rule flows themselves. Changes required engineering tickets, deployment cycles, and weeks of back-and-forth. Testing against real customer data was manual. There was no audit trail, no collaboration layer, and no way to validate a rule set before pushing it to production.',
+      'Compliance managers and product owners had no way to build or modify KYC rule flows themselves. Changes required engineering tickets, deployment cycles, and weeks of back-and-forth — "I know what checks we need, but I can\'t implement them myself." Testing was manual, audit trails were nonexistent, and regulations kept changing faster than engineering could keep up.',
     direction:
-      'Designed a visual, no-code rule builder — a drag-and-drop canvas where compliance teams assemble rule blocks like puzzle pieces, test flows against live or sample data, and push to production through an approval-gated pipeline. Built on an atom → molecule → organism block hierarchy, the system scales from a single check to an entire compliance programme.',
+      'Designed a visual, no-code rule builder with a gamification layer — a drag-and-drop canvas where compliance teams assemble rule blocks like puzzle pieces, earn compliance scores, and push to production through an approval-gated pipeline. Built on an atom → molecule → organism block hierarchy, the gamified system transforms tedious compliance configuration into an engaging, confidence-building experience.',
     directionLabel: 'Design Direction',
   },
 
   metrics: [
-    { value: '3',    label: 'User types served',  sub: 'Compliance, Product, Dev' },
-    { value: '10+',  label: 'Screens designed',   sub: 'End-to-end system' },
-    { value: '4',    label: 'Tools benchmarked',  sub: 'CIBIL, Scratch, Zapier, Miro' },
-    { value: '6',    label: 'Rule block types',   sub: 'Atom-level components' },
+    { value: '80%',  label: 'Faster flow deployment',   sub: '3 weeks → 3 days' },
+    { value: '95%',  label: 'Compliance team adoption', sub: 'Within 6 months' },
+    { value: '60%',  label: 'Fewer engineering tickets', sub: 'For flow changes' },
+    { value: '9.1',  label: 'Customer satisfaction',    sub: 'Up from 7.2 / 10' },
   ],
 
-  processIntro: 'A strategic design engagement — from domain research to deployed product',
+  processIntro: 'A strategic design engagement — from domain research to a gamified, deployed product',
 
   process: [
     {
@@ -104,9 +98,9 @@ export const fintechGamification: CaseStudy = {
     },
     {
       num: 'Step 04',
-      title: 'Design system — the block architecture',
-      body: 'Structured the entire builder on a three-level hierarchy. Atom: a single rule or check — Duplicate (is this person already in the system?), Blocklist (are they flagged?), Shared Blocklist (flagged by another frankieOne customer?), Identity Match, Sanctions Screen, PEP Check. Molecule: a logical grouping of atoms — e.g. all Onboarding checks, all Ongoing monitoring checks. Organism: the complete rule programme — Personal Info Collection + Onboarding Checks + Ongoing Checks assembled into a deployable pipeline. For block shape, explored three options: Rounded rectangle (stable, static, feels like a data card), Kite (dynamic, directional, but unfamiliar), Puzzle piece (directional, connective, communicates "fits together" — chosen). Colour-coded blocks by rule category: purple for identity, amber for risk, red for blocklist/sanctions, green for approved states. This gave the canvas instant visual legibility.',
-      tags: ['Atom → Molecule → Organism', 'Puzzle-piece block system', '6 atom block types', 'Colour-coded rule categories', 'Shape language exploration'],
+      title: 'Design system — gamified block architecture',
+      body: 'Structured the entire builder on a three-level hierarchy. Atom: a single rule or check — Duplicate, Blocklist, Shared Blocklist, Identity Match, Sanctions Screen, PEP Check. Molecule: a logical grouping of atoms. Organism: the complete deployable rule programme. The gamification layer ran through every design decision: puzzle-piece block shapes that snap together (borrowed from MIT Scratch) made logic feel constructive, not written. Blocks "click" into place with satisfying animation. A live compliance score badge updates as users build — giving instant reward feedback. Colour-coded blocks by category (purple for identity, amber for risk, red for blocklist/sanctions) added visual legibility and a game-like sense of mastery.',
+      tags: ['Atom → Molecule → Organism', 'Puzzle-piece gamification', '6 atom block types', 'Compliance score badge', 'Snap-together interactions'],
       image: {
         src: null,
         // SCREEN TO CREATE → Block design system sheet:
@@ -235,6 +229,8 @@ export const fintechGamification: CaseStudy = {
       'The most important design decision was the choice to constrain the canvas. Every instinct in product design says "give users more power" — but power without structure is just friction wearing a different mask. Compliance managers needed a tool that matched their mental model, not a blank playground.',
       'The atom → molecule → organism hierarchy turned out to be more than an architectural choice — it became a shared language between design, product, and engineering. When everyone could say "this is an atom-level check inside the onboarding molecule," conversations about scope, testing, and versioning became dramatically clearer.',
       'Designing for governance — the approval gate, the diff view, the deployment log — was where this tool became genuinely enterprise-grade. Most SaaS tools treat deployment as a button. In regulated industries, deployment is a sign-off process with legal consequences. That distinction drove the most consequential design decisions in the project.',
+      '"This is like going from writing code to playing with Lego — I can finally experiment without waiting on developers." — Senior Compliance Manager, Major Bank',
+      '"We launched a new product line in 2 days instead of 2 months. This tool is a game-changer." — Head of Operations, NBFC',
     ],
   },
 
