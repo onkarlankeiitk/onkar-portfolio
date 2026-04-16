@@ -53,7 +53,7 @@ export default function Footer() {
 
           {/* Phone */}
           <a
-            href="tel:+917843045699"
+            href="tel:+918669882810"
             className="group flex items-center gap-3 border border-zinc-800 rounded-full px-6 py-3 text-zinc-300 hover:text-white hover:border-zinc-600 transition-all duration-200"
           >
             <span className="text-zinc-600 group-hover:text-zinc-400 transition-colors">

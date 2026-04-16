@@ -254,9 +254,9 @@ export default function CaseStudySummary() {
             </div>
           </div>
         )}
-        {/* Left-to-right gradient — fades out at 50% width, 80% opacity */}
+        {/* Left-to-right gradient — fades out at 50% width, 0% opacity */}
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.8) 0%, transparent 50%)' }} />
+          style={{ background: 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, transparent 65%)' }} />
         {/* Bottom overlay — fades up to 60% of banner height, 80% opacity */}
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.48) 30%, transparent 60%)' }} />
@@ -279,7 +279,8 @@ export default function CaseStudySummary() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15 }}
-            className="text-zinc-900 text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none mb-6"
+            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none mb-6"
+            style={{ color: '#d4d4d8' }}
           >
             {cs.hero.headline}
           </motion.h1>
