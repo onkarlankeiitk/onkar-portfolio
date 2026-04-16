@@ -518,8 +518,10 @@ function Benchmarking() {
         'Users understand complex scores because the inputs are visible and named',
       ],
       takeaway: 'Compliance logic should be decomposable into named, weighted components — not a black box score.',
-      color: 'border-emerald-200 bg-emerald-50',
-      accent: 'text-emerald-600',
+      // CIBIL / TransUnion brand red
+      brandColor: '#D32011',
+      brandBg: '#FFF0EE',
+      brandBorder: '#FACCC8',
     },
     {
       name: 'Scratch (MIT)',
@@ -530,8 +532,10 @@ function Benchmarking() {
         'Block shape communicates what can connect where',
       ],
       takeaway: 'Constraining where blocks can connect paradoxically makes users feel more in control, not less.',
-      color: 'border-amber-200 bg-amber-50',
-      accent: 'text-amber-600',
+      // Scratch brand orange
+      brandColor: '#FF8C1A',
+      brandBg: '#FFF5E9',
+      brandBorder: '#FFD9A8',
     },
     {
       name: 'Zapier / Make.com',
@@ -542,8 +546,10 @@ function Benchmarking() {
         'Modular steps with clear pass/fail branching are universally understood',
       ],
       takeaway: 'A compliance rule set is an automation workflow — design the canvas to feel like one.',
-      color: 'border-blue-200 bg-blue-50',
-      accent: 'text-blue-600',
+      // Zapier brand orange-red
+      brandColor: '#FF4A00',
+      brandBg: '#FFF3EE',
+      brandBorder: '#FFD0BC',
     },
     {
       name: 'Miro',
@@ -554,8 +560,10 @@ function Benchmarking() {
         'Toolbar density is the primary usability risk on large canvases',
       ],
       takeaway: 'A panel-and-canvas layout works for structured work; unconstrained canvases create paralysis for task-completion contexts.',
-      color: 'border-rose-200 bg-rose-50',
-      accent: 'text-rose-600',
+      // Miro brand yellow — darkened for text legibility
+      brandColor: '#8A6D00',
+      brandBg: '#FFFDE0',
+      brandBorder: '#FFE566',
     },
   ]
 
@@ -578,17 +586,18 @@ function Benchmarking() {
               key={tool.name}
               initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className={`border rounded-2xl overflow-hidden ${tool.color}`}
+              className="border rounded-2xl overflow-hidden"
+              style={{ backgroundColor: tool.brandBg, borderColor: tool.brandBorder }}
             >
               <div className="px-7 pt-7 pb-5 border-b border-white/60">
-                <p className={`text-xs uppercase tracking-widest font-semibold mb-1 ${tool.accent}`}>{tool.category}</p>
+                <p className="text-xs uppercase tracking-widest font-semibold mb-1" style={{ color: tool.brandColor }}>{tool.category}</p>
                 <p className="text-zinc-900 font-bold text-lg">{tool.name}</p>
               </div>
               <div className="px-7 py-5">
                 <ul className="space-y-2 mb-5">
                   {tool.observations.map(o => (
                     <li key={o} className="flex items-start gap-2 text-zinc-600 text-sm">
-                      <span className={`mt-0.5 shrink-0 ${tool.accent}`}>›</span> {o}
+                      <span className="mt-0.5 shrink-0" style={{ color: tool.brandColor }}>›</span> {o}
                     </li>
                   ))}
                 </ul>

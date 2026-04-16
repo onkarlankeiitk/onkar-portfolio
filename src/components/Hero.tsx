@@ -2,6 +2,10 @@
 
 import { motion, Variants, useMotionValue, useSpring } from 'framer-motion'
 import { useEffect, useRef } from 'react'
+import {
+  siFigma, siWebflow, siFramer, siHotjar,
+  siNotion, siMiro, siGithub, siVercel, siAnthropic,
+} from 'simple-icons'
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -13,29 +17,21 @@ const item: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } }
 }
 
+// iconFill: actual displayed fill — dark-branded tools use white so they're visible on the dark card
 const tools = [
-  { name: 'Figma',      category: 'Design',    icon: 'https://cdn.simpleicons.org/figma/ffffff' },
-  { name: 'Webflow',    category: 'Design',    icon: 'https://cdn.simpleicons.org/webflow/ffffff' },
-  { name: 'Framer',     category: 'Design',    icon: 'https://cdn.simpleicons.org/framer/ffffff' },
-  { name: 'Hotjar',     category: 'Research',  icon: 'https://cdn.simpleicons.org/hotjar/ffffff' },
-  { name: 'Amplitude',  category: 'Analytics', icon: '/icons/amplitude.svg' },
-  { name: 'Notion',     category: 'Strategy',  icon: 'https://cdn.simpleicons.org/notion/ffffff' },
-  { name: 'Miro',       category: 'Strategy',  icon: 'https://cdn.simpleicons.org/miro/ffffff' },
-  { name: 'MS Clarity', category: 'Analytics', icon: '/icons/ms-clarity.svg' },
-  { name: 'GitHub',     category: 'Dev',       icon: 'https://cdn.simpleicons.org/github/ffffff' },
-  { name: 'Vercel',     category: 'Dev',       icon: 'https://cdn.simpleicons.org/vercel/ffffff' },
-  { name: 'Claude',     category: 'AI',        icon: 'https://cdn.simpleicons.org/anthropic/ffffff' },
-  { name: 'VS Code',    category: 'Dev',       icon: '/icons/vscode.svg' },
+  { name: 'Figma',      category: 'Design',    svgPath: siFigma.path,      iconFill: '#F24E1E', borderColor: '#F24E1E' },
+  { name: 'Webflow',    category: 'Design',    svgPath: siWebflow.path,    iconFill: '#146EF5', borderColor: '#146EF5' },
+  { name: 'Framer',     category: 'Design',    svgPath: siFramer.path,     iconFill: '#0055FF', borderColor: '#0055FF' },
+  { name: 'Hotjar',     category: 'Research',  svgPath: siHotjar.path,     iconFill: '#FF3C00', borderColor: '#FF3C00' },
+  { name: 'Amplitude',  category: 'Analytics', svgPath: null,              iconFill: '#1271F7', borderColor: '#1271F7' },
+  { name: 'Notion',     category: 'Strategy',  svgPath: siNotion.path,     iconFill: '#ffffff', borderColor: '#888888' },
+  { name: 'Miro',       category: 'Strategy',  svgPath: siMiro.path,       iconFill: '#FFD02F', borderColor: '#FFD02F' },
+  { name: 'MS Clarity', category: 'Analytics', svgPath: null,              iconFill: '#0078D4', borderColor: '#0078D4' },
+  { name: 'GitHub',     category: 'Dev',       svgPath: siGithub.path,     iconFill: '#ffffff', borderColor: '#888888' },
+  { name: 'Vercel',     category: 'Dev',       svgPath: siVercel.path,     iconFill: '#ffffff', borderColor: '#888888' },
+  { name: 'Claude',     category: 'AI',        svgPath: siAnthropic.path,  iconFill: '#ffffff', borderColor: '#D4704F' },
+  { name: 'VS Code',    category: 'Dev',       svgPath: null,              iconFill: '#007ACC', borderColor: '#007ACC' },
 ]
-
-const categoryColors: Record<string, string> = {
-  'Design':    'hover:border-blue-500/50',
-  'Research':  'hover:border-amber-500/50',
-  'Analytics': 'hover:border-amber-500/50',
-  'Strategy':  'hover:border-green-500/50',
-  'Dev':       'hover:border-purple-500/50',
-  'AI':        'hover:border-orange-500/50',
-}
 
 // ─── MOUSE GRADIENT ───────────────────────────────────────────────────────────
 function MouseGradient() {
@@ -400,15 +396,35 @@ function OrigamiCanvas() {
 }
 
 // ─── TOOL CARD ────────────────────────────────────────────────────────────────
+// Fallback img paths for tools not available in the simple-icons package
+const fallbackImgSrc: Record<string, string> = {
+  'Amplitude':  '/icons/amplitude.svg',
+  'MS Clarity': '/icons/ms-clarity.svg',
+  'VS Code':    '/icons/vscode.svg',
+}
+
 function ToolCard({ tool }: { tool: typeof tools[0] }) {
   return (
     <motion.div
-      whileHover={{ scale: 1.06, y: -3 }}
+      whileHover={{ scale: 1.06, y: -3, borderColor: tool.borderColor }}
       transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-      className={`shrink-0 flex items-center gap-3 bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 px-5 py-3 rounded-xl cursor-default transition-colors duration-200 ${categoryColors[tool.category] || 'hover:border-zinc-600'}`}
+      className="shrink-0 flex items-center gap-3 bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 px-5 py-3 rounded-xl cursor-default"
     >
-      <img src={tool.icon} alt={tool.name} className="w-5 h-5 brightness-0 invert opacity-80"
-        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+      {tool.svgPath ? (
+        // Inline SVG — guaranteed brand color, no network request
+        <svg role="img" viewBox="0 0 24 24" width={20} height={20} fill={tool.iconFill} className="shrink-0">
+          <path d={tool.svgPath} />
+        </svg>
+      ) : (
+        // Local SVG file fallback (Amplitude, MS Clarity, VS Code)
+        <img
+          src={fallbackImgSrc[tool.name]}
+          alt={tool.name}
+          width={20} height={20}
+          className="shrink-0"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+        />
+      )}
       <span className="text-zinc-300 text-sm font-medium whitespace-nowrap">{tool.name}</span>
       <span className="text-zinc-600 text-xs whitespace-nowrap">{tool.category}</span>
     </motion.div>
