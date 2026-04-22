@@ -10,11 +10,11 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-jetbrains-mono);
+  --font-heading: var(--font-syncopate);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-jetbrains-mono), monospace;
+  font-family: var(--font-syncopate), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
