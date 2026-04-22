@@ -87,7 +87,7 @@ export default function Projects() {
         className="mb-16"
       >
         <p className="text-zinc-600 text-sm tracking-widest uppercase mb-4">Selected Work</p>
-        <h2 className="text-white text-4xl md:text-5xl font-bold">Case Studies</h2>
+        <h2 className="text-white text-4xl md:text-5xl font-light">Case Studies</h2>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -105,7 +105,7 @@ export default function Projects() {
                 <div className="flex justify-between items-start mb-6">
                   <div>
                     <p className="text-zinc-600 text-xs mb-1">{project.company} · {project.year}</p>
-                    <h3 className="text-white text-xl font-semibold leading-snug">{project.title}</h3>
+                    <h3 className="text-white text-xl font-light leading-snug">{project.title}</h3>
                   </div>
                   <div className="text-zinc-700 group-hover:text-white transition-colors ml-4 shrink-0 mt-1">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -119,7 +119,7 @@ export default function Projects() {
                 <div className="flex gap-8 mb-6">
                   {project.metrics.map(metric => (
                     <div key={metric.label}>
-                      <div className="text-white text-2xl font-bold">{metric.value}</div>
+                      <div className="text-white text-2xl font-normal">{metric.value}</div>
                       <div className="text-zinc-600 text-xs mt-0.5">{metric.label}</div>
                     </div>
                   ))}
