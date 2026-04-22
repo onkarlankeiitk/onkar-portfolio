@@ -35,15 +35,15 @@ function MediumIcon({ className }: { className: string }) {
 
 function SkeletonRow() {
   return (
-    <div className="flex items-center justify-between gap-6 px-5 py-4 bg-zinc-900 border border-zinc-800 rounded-xl animate-pulse">
-      <div className="flex items-center gap-4 min-w-0 flex-1">
-        <div className="shrink-0 w-8 h-8 rounded-lg bg-zinc-800" />
+    <div className="flex items-center justify-between gap-6 px-6 py-5 bg-zinc-900 border border-zinc-800 rounded-xl animate-pulse">
+      <div className="flex items-center gap-5 min-w-0 flex-1">
+        <div className="shrink-0 w-10 h-10 rounded-xl bg-zinc-800" />
         <div className="flex-1 space-y-2">
-          <div className="h-3.5 bg-zinc-800 rounded w-3/4" />
-          <div className="h-2.5 bg-zinc-800 rounded w-1/4" />
+          <div className="h-4 bg-zinc-800 rounded w-3/4" />
+          <div className="h-3 bg-zinc-800 rounded w-1/4" />
         </div>
       </div>
-      <div className="h-5 w-20 bg-zinc-800 rounded-full hidden md:block" />
+      <div className="h-5 w-24 bg-zinc-800 rounded-full hidden md:block" />
     </div>
   )
 }
@@ -104,20 +104,25 @@ export default function Articles() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
-                className="group flex items-center justify-between gap-6 px-5 py-4 bg-zinc-900 border border-zinc-800 rounded-xl hover:border-blue-500/30 transition-all duration-200"
+                className="group flex items-center justify-between gap-6 px-6 py-5 bg-zinc-900 border border-zinc-800 rounded-xl hover:border-blue-500/30 hover:bg-zinc-800/60 transition-all duration-200"
               >
-                <div className="flex items-center gap-4 min-w-0">
-                  <div className="shrink-0 w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center group-hover:bg-blue-500/10 transition-colors">
-                    <MediumIcon className="w-4 h-4 text-zinc-400 group-hover:text-blue-400 transition-colors" />
+                <div className="flex items-center gap-5 min-w-0">
+                  <div className="shrink-0 w-10 h-10 rounded-xl bg-zinc-800 flex items-center justify-center group-hover:bg-blue-500/10 transition-colors">
+                    <MediumIcon className="w-5 h-5 text-zinc-400 group-hover:text-blue-400 transition-colors" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-zinc-300 text-sm font-medium truncate group-hover:text-white transition-colors">
+                    <p className="text-zinc-200 text-base font-medium leading-snug group-hover:text-white transition-colors">
                       {article.title}
                     </p>
+                    {article.pubDate && (
+                      <p className="text-zinc-600 text-xs mt-1">
+                        {new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
-                  <span className={`text-xs px-2 py-0.5 rounded-full border hidden md:block ${tagColor(primaryTag)}`}>
+                  <span className={`text-xs px-3 py-1 rounded-full border hidden md:block ${tagColor(primaryTag)}`}>
                     {primaryTag}
                   </span>
                   <svg className="w-4 h-4 text-zinc-700 group-hover:text-blue-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
