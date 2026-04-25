@@ -494,7 +494,7 @@ export default function Hero() {
             </motion.a>
 
             <motion.a href="https://www.linkedin.com/in/onkarlanke/" target="_blank" rel="noreferrer"
-              className="border border-zinc-700 text-zinc-400 px-7 py-3.5 rounded-full text-sm font-medium hover:border-blue-500/60 hover:text-blue-400 transition-colors"
+              className="border border-blue-500/60 text-blue-400 px-7 py-3.5 rounded-full text-sm font-medium hover:bg-blue-500/60 hover:text-white transition-colors"
               whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             >

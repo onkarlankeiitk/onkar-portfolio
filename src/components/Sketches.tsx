@@ -120,7 +120,7 @@ export default function Sketches() {
         className="px-8 md:px-16 lg:px-24 mb-12"
       >
         <p className="text-zinc-600 text-sm tracking-widest uppercase mb-3">Thinking out loud</p>
-        <h2 className="text-white text-2xl font-semibold">What brought me to design!</h2>
+        <h2 className="text-white text-2xl font-semibold">Design breaks: pen strokes in between design sprints</h2>
         <p className="text-zinc-500 mt-2 text-sm max-w-md">
           Raw sketches and explorations — My love for sketching & early concepts keep me going.
         </p>

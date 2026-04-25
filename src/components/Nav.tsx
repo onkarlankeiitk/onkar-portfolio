@@ -28,12 +28,10 @@ export default function Nav() {
         href="https://drive.google.com/file/d/1PNn9pC0hjqr5yJNAO6Donal4jPbvpnWo/view?usp=sharing"
         target="_blank"
         rel="noreferrer"
-        className="relative group bg-white text-black text-sm font-semibold px-5 py-2.5 rounded-full overflow-hidden hover:bg-zinc-100 transition-colors"
+        className="relative group text-white text-sm font-semibold px-5 py-2.5 rounded-full overflow-hidden transition-opacity hover:opacity-90"
+        style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}
         >
-        <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/80 to-transparent skew-x-12" />
-        <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{ boxShadow: '0 0 20px 6px rgba(255,255,255,0.2)' }}
-        />
+        <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12" />
         <span className="relative z-10">Resume</span>
         </a>
       </div>
