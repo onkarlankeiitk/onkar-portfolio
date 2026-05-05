@@ -11,7 +11,7 @@ export default function Nav() {
       transition={{ duration: 0.6 }}
       className="fixed top-0 left-0 right-0 z-50 px-8 py-5 flex justify-between items-center backdrop-blur-sm bg-[#0a0a0a]/80 border-b border-zinc-900"
     >
-      <Link href="/" className="text-white font-semibold text-lg tracking-tight">
+      <Link href="/#hero" className="text-white font-semibold text-lg tracking-tight">
         Onkar Lanke
       </Link>
       <div className="flex items-center gap-6">

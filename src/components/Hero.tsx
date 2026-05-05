@@ -450,7 +450,7 @@ function MarqueeRow() {
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 export default function Hero() {
   return (
-    <section className="min-h-screen flex flex-col justify-center pt-24 relative overflow-hidden">
+    <section id="hero" className="min-h-screen flex flex-col justify-center pt-24 relative overflow-hidden">
 
       <MouseGradient />
       <Blobs />
@@ -469,8 +469,8 @@ export default function Hero() {
             <p className="text-zinc-400 text-sm tracking-widest uppercase">Available for opportunities</p>
           </motion.div>
 
-          <motion.h1 variants={item} className="text-white text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-none mb-6">
-            Onkar Lanke
+          <motion.h1 variants={item} className="text-white text-[2.1rem] md:text-[2.625rem] lg:text-[3.15rem] font-black tracking-tight leading-none mb-6">
+            Connecting dots, bridging Tech & Design
           </motion.h1>
 
           <motion.h2 variants={item} className="text-zinc-400 text-xl md:text-3xl font-light mb-6">
@@ -478,7 +478,7 @@ export default function Hero() {
           </motion.h2>
 
           <motion.p variants={item} className="text-zinc-500 text-base md:text-lg max-w-md leading-relaxed mb-10">
-            5+ years crafting research-based strategies and end-to-end experiences, by bridging Tech & Design
+            5+ years crafting end-to-end experiences & research based product strategies!
           </motion.p>
 
           <motion.div variants={item} className="flex gap-4">
@@ -498,7 +498,7 @@ export default function Hero() {
               whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             >
-              LinkedIn
+              Connect on LinkedIn
             </motion.a>
           </motion.div>
 

@@ -74,7 +74,7 @@ export default function Articles() {
       >
         <div>
           <p className="text-zinc-600 text-xs tracking-widest uppercase mb-1">Writing</p>
-          <h2 className="text-white text-5xl font-bold">Latest pen-downs..</h2>
+          <h2 className="text-white text-5xl font-bold">Latest pen-downs on medium</h2>
         </div>
         <a
           href="https://medium.com/@onkarlanke"

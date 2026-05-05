@@ -113,16 +113,17 @@ export default function About() {
         className="max-w-3xl mb-24"
       >
         <p className="text-zinc-600 text-sm tracking-widest uppercase mb-4">About</p>
-        <h2 className="text-white text-4xl md:text-5xl font-bold mb-8">
-          Craftsman, who loves tech & working with amazing folks!
+        <h2 className="text-white text-4xl md:text-5xl font-bold mb-4">
+          Craftsmanship + Tech + Amazing folks
         </h2>
+        <h3 className="text-zinc-400 text-2xl md:text-3xl font-light mb-8">
+          Hey! Thanks for stopping by.
+        </h3>
+        <p className="text-zinc-400 text-lg leading-relaxed mb-6">
+          I'm an engineer turned Designer with utmost fascination for Tech. Design & Tech interplay with each other, leading to tech inspired Design and vice versa.
+        </p>
         <p className="text-zinc-400 text-lg leading-relaxed">
-          Over the years of building services and products, my love for intentional design practices has grown tremendously. If you design something good, it shapes you as well. That's where intent plays the role. Whether its defining actual problem, 
-          finding insights or perfecting pixels, intent has driven me crazily for the success of the products!
-          And thus, it has become my motto as well, 'Design with intent'.
-          I love to go to the actual rootcause of problems, finding different 'WHYs', and come up with solutions and strategies that actually work.
-          For the 5+ years, I have tried to perfect my craft, while keeping with the trends and new design styles. Now with the advent of AI,
-          my workflows have changed, allowing faster iterations and less confusion.
+          Over the years, my love for intentional design practices has grown tremendously. It is said that "Good design shapes you" and I have literally experienced that, specially in last 2 years. My design passion not only built pixel products but also architecture for space design, lighting design and sound design. "Designing and building with Intent" has literally become my motto. Connect with me if you've any collabs or just chats!
         </p>
         
         
