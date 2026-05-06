@@ -13,79 +13,105 @@ export const deckup: CaseStudy = {
   detailPath: '/work/deckup-detail',
 
   hero: {
-    banner: null,
+    banner: { type: 'video', src: '/hero-video.mp4' },
     headline: 'DeckUp',
-    subline: 'A PowerPoint productivity plugin that cuts repetitive formatting time by up to 60% — built end-to-end for consultants, strategy teams, and agencies.',
+    subline: 'From SlideXpress internal expertise to a 4-platform SaaS — a PowerPoint productivity plugin built end-to-end for consultants, strategy teams, and agencies.',
   },
 
   overview: {
     context:
-      'SlideXpress serves power PowerPoint users — consultants, strategy teams, and agencies who live inside decks all day. DeckUp is a purpose-built toolbar and management platform for these users, eliminating the repetitive friction points they hit dozens of times per session.',
+      'SlideXpress, a creative deck design studio, had spent years building internal techniques and tools for faster, higher-quality work. The team asked a simple question: why not turn that expertise into a product? DeckUp was born from that moment — Phase I focusing on core plugin and platform, Phase II planned to integrate AI for personalisation and deck generation.',
     problem:
-      'Power users were spending 30–40% of their deck time on formatting, consistency checks, and repetitive slide tasks that native PowerPoint doesn\'t solve well. Everything from table formatting to agenda generation required 4–6 clicks through buried menus — every time.',
+      'Power PowerPoint users — consultants, agencies, corporate managers — spent 30–40% of deck time on repetitive formatting, consistency fixes, and agenda management. Every common task required 4–6 clicks through buried menus, compounding into hours lost per week.',
     direction:
-      'Led end-to-end product design across 4 interconnected platforms: a marketing website, subscription dashboard, the PowerPoint plugin itself, and an installer. Built from user research and competitive benchmarking through a 60+ component design system, complete user flows, and 4 rounds of usability testing.',
+      'Led end-to-end product design across 4 platforms: website, subscription dashboard, PowerPoint plugin, and installer. Drove research, competitive benchmarking, a pricing model, 6 user flows, a 60+ component design system, Chargebee-based subscription engine, and a phased prelaunch strategy with existing SlideXpress customers.',
     directionLabel: 'My Approach',
   },
 
   metrics: [
-    { value: '60%',  label: 'Productivity gain',      sub: 'For daily power users' },
-    { value: '7',    label: 'Competitors analysed',   sub: 'Onboarding + feature benchmarking' },
-    { value: '4',    label: 'Platforms designed',     sub: 'Website · Dashboard · Plugin · Installer' },
-    { value: '60+',  label: 'Design system components', sub: 'Built from scratch in Figma' },
+    { value: '60%',  label: 'Productivity gain',        sub: 'For daily power users' },
+    { value: '4',    label: 'Platforms designed',        sub: 'Website · Dashboard · Plugin · Installer' },
+    { value: '60+',  label: 'Design system components',  sub: 'Built from scratch in Figma' },
+    { value: '4',    label: 'Test rounds',               sub: 'Onboarding · Plugin · Admin · Visual QA' },
   ],
 
-  processIntro: 'From zero to shipped product',
+  processIntro: 'From internal knowledge to shipped product',
 
   process: [
     {
-      num: 'Step 01',
-      title: 'User research — mapping the consultant workflow',
-      body: 'Conducted in-depth research across 5 user segments: Consultants, Corporate managers, Presentation specialists, Educators, and IT Admins. Identified the top 12 repetitive PowerPoint tasks consuming the most time per session — from table formatting to consistency checks and agenda generation.',
-      tags: ['User interviews', '5 segments mapped', 'Workflow analysis', 'Pain point prioritisation'],
+      num: 'Origin',
+      title: 'The idea — turning internal expertise into a product',
+      body: 'SlideXpress had spent years developing techniques, shortcuts, and tools for faster, higher-quality deck delivery. That knowledge lived in training sessions and internal workshops. The team questioned: why not package this as a product for the world? DeckUp was the answer. Development was scoped into two phases — Phase I focusing on the core plugin and subscription platform, Phase II planned to layer in AI for personalisation, smart deck generation from a library, and data-driven content creation.',
+      tags: ['Product vision', 'Phase I: Core plugin + platform', 'Phase II: AI personalisation', 'Internal → commercial'],
       image: {
         src: null,
-        alt: 'User research — 5 segment persona map',
-        hint: 'Replace with the persona/user segment diagram from the research phase — showing Product users (Consultants, Corporate, Individual, Presentation specialists, Education) vs Platform users (IT admins)',
+        alt: 'DeckUp product vision — Phase I and Phase II roadmap',
+        hint: 'Roadmap visual: Phase I (Core Plugin + Platform) and Phase II (AI personalisation, deck generation from library, data-driven content). Could show a simple two-phase timeline or product vision diagram.',
         aspect: 'aspect-[4/3]',
       },
       imagePosition: 'right',
     },
     {
-      num: 'Step 02',
-      title: 'Competitive analysis — 7 tools benchmarked',
-      body: 'Benchmarked 7 existing PowerPoint plugins and productivity tools: PPT Productivity, Power-User, Efficient Elements, think-cell, Grammarly, Macabacus, and Lucidchart. Also ran a detailed onboarding flow comparison across DeckUp, Microsoft, Grammarly, think-cell, and Powtoon to identify best-in-class patterns.',
-      tags: ['7 tools benchmarked', 'Onboarding comparison', 'Pricing analysis', 'Feature matrix'],
+      num: 'Step 01',
+      title: 'Research — pain points, personas, competitor study & pricing model',
+      body: 'Studied the real pain points of power PowerPoint users across 5 segments: Consultants, Corporate Managers, Presentation Specialists, Educators, and IT Admins. Identified the top recurring tasks eating the most time. Ran a full competitor study across 7 tools for features, onboarding, and pricing. Developed a pricing model with a critical financial planning lens — balancing product sustainability with competitive positioning. Personas and user journeys were mapped to anchor design decisions in real user goals.',
+      tags: ['5 user segments', '7 competitors analysed', 'Pricing model & financial planning', 'Personas & journey maps'],
       image: {
         src: null,
-        alt: 'Competitive benchmarking — 7 tools and onboarding comparison',
-        hint: 'Replace with the competitive comparison table or onboarding flow comparison document',
+        alt: 'User segments, personas, and competitor benchmarking overview',
+        hint: 'Show the two user tracks: Product users (Consultants, Corporate Managers, Individual Professionals, Presentation Specialists, Educators) vs Platform users (IT Admins). Optionally overlay the competitor matrix.',
         aspect: 'aspect-[4/3]',
       },
       imagePosition: 'left',
     },
     {
-      num: 'Step 03',
-      title: 'Architecture & flows — 4 platforms, 6 core journeys',
-      body: 'Designed the full service map across Website, Dashboard, Plugin, and Installer. Then mapped 6 user journeys: Free Trial onboarding, Buy Now onboarding, Enterprise (get-a-quote), Renewal (manual + automatic), and the Installer activation flow — including all edge cases and email trigger points.',
-      tags: ['Service map', '4 platforms', '6 user flows', 'Email trigger design'],
+      num: 'Step 02',
+      title: 'Plugin design — hierarchy, behaviours, use cases & iterations',
+      body: 'Designed the plugin toolbar from the ground up: defining information hierarchy, user behaviours within PowerPoint\'s constrained panel environment, and every use case for Quick Tools, Table Formatting, Agendas, Infographics, and Labels. Went through multiple rounds of testing and reiteration with the SlideXpress team — always focused on maximum value creation per click. The goal was not features, it was removing friction.',
+      tags: ['Toolbar hierarchy', 'Use case mapping', 'State design (Default / Hover / Active)', '60+ Figma components', 'Iterative testing'],
       image: {
         src: null,
-        alt: 'Service map and user flows across 4 platforms',
-        hint: 'Replace with the service map or combined flow diagram showing Website → Dashboard → Plugin → Installer relationships',
+        alt: 'DeckUp toolbar UI — plugin panel inside PowerPoint',
+        hint: 'Screenshot of the DeckUp toolbar in PowerPoint showing the plugin panel: Quick Tools, Table Formatting, Agendas, Labels feature. Show the compact, accessible layout.',
         aspect: 'aspect-[4/3]',
       },
       imagePosition: 'right',
     },
     {
-      num: 'Step 04',
-      title: 'Design system & toolbar UI — 60+ components, 4 test rounds',
-      body: 'Built a full design system from scratch — typography, colour tokens, spacing, and 60+ components with default, hover, and active states. Then designed all toolbar features (Quick Tools, Table formatting, Agendas, Infographics, Labels, Identical Select) and iterated through 4 rounds of usability testing with real users.',
-      tags: ['60+ Figma components', 'State design (Default / Hover / Active)', '4 usability test rounds', 'Toolbar feature specs'],
+      num: 'Step 03',
+      title: 'Subscription platform — user management, plan types & cross-team alignment',
+      body: 'While the plugin was being built, the design team worked in parallel on the subscription platform — covering user management for Single, Teams, and Enterprise accounts. Each plan type had distinct flows and admin needs. Both teams ran weekly alignment sessions to sync on goals, match development timelines, and ensure the plugin and platform stayed coherent as one product — not two separate tools.',
+      tags: ['Single · Teams · Enterprise flows', 'User management dashboard', 'Weekly cross-team alignment', 'IT Admin experience'],
       image: {
         src: null,
-        alt: 'Toolbar UI and design system components',
-        hint: 'Replace with a screenshot of the DeckUp toolbar in PowerPoint — showing the plugin panel with Quick Tools, Table, and other features visible',
+        alt: 'Subscription platform — user management dashboard',
+        hint: 'Show the subscription dashboard: user list, licence management, plan status, add/remove users. Highlight the three plan types (Single, Teams, Enterprise) in the UI.',
+        aspect: 'aspect-[4/3]',
+      },
+      imagePosition: 'left',
+    },
+    {
+      num: 'Step 04',
+      title: 'Cross-functional onboarding — 4 plan flows, installer & renewals',
+      body: 'DeckUp is a standalone PC/laptop installer — not a browser extension. This makes onboarding genuinely cross-functional: it starts on the website with account creation and validation, moves through plan selection and payment, then installer download and plugin activation. Four distinct plan flows were designed: Free Trial, Buy Now (Single), Teams, and Enterprise (get-a-quote). Renewal flows covered both automatic and manual paths with 30/15/7-day email reminders for each scenario.',
+      tags: ['Free Trial · Buy Now · Teams · Enterprise', 'Installer activation flow', 'Renewal strategies', 'Email trigger design', '6 complete user journeys'],
+      image: {
+        src: null,
+        alt: 'Cross-functional onboarding flows — website to plugin activation',
+        hint: 'Flow diagram showing the full onboarding path: Website → Account creation → Plan selection → Payment → Installer download → Plugin activation → 30-day trial / Paid plan. Show multiple plan paths branching.',
+        aspect: 'aspect-[4/3]',
+      },
+      imagePosition: 'right',
+    },
+    {
+      num: 'Step 05',
+      title: 'Tech stack, testing & prelaunch — Chargebee, 4 test rounds & limited rollout',
+      body: 'To reduce Phase I development time, Chargebee was adopted as the subscription engine — handling billing, licence management, and renewals. Its dashboard also served as the internal analytics and growth metrics platform, providing data visualisation, reports, and user management in one place without building custom analytics from scratch. Testing ran across 4 structured rounds: plugin core flows, onboarding, dashboard and enterprise, and visual QA. The prelaunch strategy launched with a limited cohort of existing SlideXpress customers — gaining an outside perspective and catching early issues before a wider rollout.',
+      tags: ['Chargebee subscription engine', 'Growth analytics & reporting', '4 QA rounds', 'Limited prelaunch with existing customers'],
+      image: {
+        src: null,
+        alt: 'QA tracking and prelaunch framework',
+        hint: 'Could show the QA tracking sheet (Deckup_testing.xlsx) with columns for issue type, status (Done/Verified/Pending), or a prelaunch rollout framework diagram.',
         aspect: 'aspect-[4/3]',
       },
       imagePosition: 'left',
@@ -95,27 +121,27 @@ export const deckup: CaseStudy = {
   findings: [
     {
       num: 'Finding 01',
-      title: 'Formatting is the biggest time sink — and it\'s invisible',
-      desc: 'Consultants spent 30–40% of deck time on formatting, alignment, and consistency fixes. Because each individual task felt small, the aggregate cost was invisible to them — until we mapped session recordings. The solution had to save time without requiring users to think about saving time.',
+      title: 'Internal expertise is the best product foundation',
+      desc: 'DeckUp was not a hypothesis — it came from years of SlideXpress building and refining techniques for real clients. The research phase validated this: the pain points the team had solved internally were exactly what the wider market struggled with. Starting with genuine domain knowledge compressed the research-to-design cycle significantly.',
     },
     {
       num: 'Finding 02',
-      title: '4–6 clicks for every common task is too many',
-      desc: 'Switching between native PowerPoint ribbon menus for common tasks averaged 4–6 clicks per action. DeckUp reduced the top 12 tasks to 1–2 clicks. That reduction, multiplied across hundreds of actions per session, accounts for the 60% productivity gain.',
+      title: 'Cross-functional onboarding is as much a design problem as the plugin itself',
+      desc: 'Because DeckUp is a standalone installer — not a web app — the onboarding spans website, payment, download, installation, and activation across multiple contexts. Each transition point was a potential drop-off. Designing these handoffs with the same rigour as the plugin UI was essential for launch-readiness.',
     },
     {
       num: 'Finding 03',
-      title: 'IT Admins are the real purchase decision-maker',
-      desc: 'In enterprise contexts, the end user (consultant) and the buyer (IT admin) are different people with completely different needs. The dashboard and enterprise flow had to satisfy both — ease of use for the consultant, licence control and bulk management for the admin.',
+      title: 'Smart tech choices accelerate design — Chargebee removed months of build time',
+      desc: 'Choosing Chargebee as the subscription engine for Phase I meant the team didn\'t need to design or build a custom billing and analytics stack. This freed up design and dev capacity to focus on what mattered: the plugin experience and onboarding flows. The prelaunch with existing customers provided real feedback before full market exposure.',
     },
   ],
 
   conclusion: {
     heading: 'What I learnt',
     paragraphs: [
-      'Building a product from scratch across 4 connected platforms taught me that consistency is a design problem before it\'s a technical one. Every flow — from the marketing website to the installer to the plugin itself — had to feel like one product. The design system was the thing that made that possible.',
-      'Working directly with consultants through 4 rounds of usability testing changed the product significantly each time. Features I thought were obvious were confusing; shortcuts I thought were complex became the most-used interactions. There is no substitute for watching a real user try to do a real task.',
-      'The 60% productivity gain validated the core hypothesis: a purpose-built tool for a specific professional workflow will always outperform a general-purpose one. The win wasn\'t in adding features — it was in removing clicks.',
+      'Building DeckUp from scratch taught me that the best products come from solving real, lived-in problems. SlideXpress didn\'t guess at what consultants needed — they had been living those needs for years. My job was to translate that domain knowledge into a coherent, scalable product across 4 platforms.',
+      'The parallel workstreams — plugin and subscription platform — required constant cross-team alignment. Weekly syncs weren\'t just a project management ritual; they were the mechanism that kept both surfaces coherent. When they slipped, inconsistencies crept in. When they held, the product felt like one thing.',
+      'Phase II remains ahead: AI-powered personalisation, smart deck generation from a content library, and data-driven creation flows. The foundation built in Phase I — the design system, the subscription infrastructure, the user research — was designed to support that expansion without rebuilding from scratch.',
     ],
   },
 
@@ -132,6 +158,6 @@ export const deckup: CaseStudy = {
 
   cta: {
     heading: 'Want the full\ncase study?',
-    body: 'The detailed breakdown covers user research synthesis, all 7 competitor analyses, complete service map, all 6 user flows, the full design system, every toolbar feature, and all 4 rounds of usability testing.',
+    body: 'The detailed breakdown covers the origin story, user research synthesis, all 7 competitor analyses, the pricing model, complete service map, all 6 user flows, the full design system, every toolbar feature, Chargebee tech stack decisions, all 4 rounds of usability testing, and the prelaunch strategy.',
   },
 }

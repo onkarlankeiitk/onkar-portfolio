@@ -76,16 +76,19 @@ function ImageCaption({ children, dark = false }: { children: React.ReactNode; d
 
 // ─── STICKY NAV ───────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
-  { id: 'brief',    label: 'Brief' },
-  { id: 'research', label: 'Research' },
-  { id: 'compete',  label: 'Competitive' },
-  { id: 'ia',       label: 'Architecture' },
-  { id: 'flows',    label: 'Flows' },
-  { id: 'system',   label: 'Design System' },
-  { id: 'toolbar',  label: 'Toolbar' },
-  { id: 'qa',       label: 'Testing' },
-  { id: 'reflect',  label: 'Reflection' },
-  { id: 'team',     label: 'Team' },
+  { id: 'idea',      label: 'The Idea' },
+  { id: 'research',  label: 'Research' },
+  { id: 'compete',   label: 'Competitive' },
+  { id: 'ia',        label: 'Architecture' },
+  { id: 'flows',     label: 'Flows' },
+  { id: 'system',    label: 'Design System' },
+  { id: 'toolbar',   label: 'Toolbar' },
+  { id: 'platform',  label: 'Platform' },
+  { id: 'qa',        label: 'Testing' },
+  { id: 'chargebee', label: 'Tech Stack' },
+  { id: 'prelaunch', label: 'Pre-launch' },
+  { id: 'reflect',   label: 'Reflection' },
+  { id: 'team',      label: 'Team' },
 ]
 
 function StickyNav() {
@@ -219,30 +222,36 @@ function Hero() {
   )
 }
 
-// ─── SECTION: BRIEF ───────────────────────────────────────────────────────────
-function Brief() {
+// ─── SECTION: THE IDEA ────────────────────────────────────────────────────────
+function TheIdea() {
   return (
-    <section id="brief" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="idea" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>01 — The Brief</SectionLabel>
-        <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-16 max-w-3xl leading-tight">
-          PowerPoint is powerful. Using it well isn't.
+        <SectionLabel>01 — The Idea</SectionLabel>
+        <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
+          Internal expertise, productised.
         </h2>
+        <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
+          SlideXpress, a unit of Mindseye Creative Studio, had spent years delivering high-quality deck design services.
+          Over time, the team built techniques, shortcuts, and internal tools for faster implementation, creativity, and quality.
+          That knowledge usually lived in training sessions and internal workshops. Then came the question: <em>why not turn this into a product?</em>
+        </p>
 
+        {/* Origin story */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-20">
           {[
             {
-              head: 'Who is SlideXpress?',
-              body: 'SlideXpress builds productivity tools for heavy PowerPoint users — consultants, strategy teams, corporate managers, and agencies who spend 4–8 hours a day inside decks. DeckUp is their flagship product: a PowerPoint plugin that surfaces the most-needed formatting and consistency tools in a single, always-accessible toolbar.',
+              head: 'The origin',
+              body: 'SlideXpress had been building and refining deck production techniques for years. The team had solved — for themselves — many of the pain points their clients struggled with daily. DeckUp was the decision to stop keeping that knowledge internal and offer it to the world as a tool.',
             },
             {
-              head: 'The problem',
-              body: 'Native PowerPoint buries common actions 4–6 clicks deep inside ribbons and menus. Consultants were spending 30–40% of their deck time on repetitive formatting tasks — alignment, font consistency, table cleanup, agenda generation. These tasks individually feel small; multiplied across a session, they compound into hours lost per week.',
+              head: 'The two-phase plan',
+              body: 'Development was scoped deliberately. Phase I would focus on the core plugin and subscription platform — getting the product into users\' hands with proven, high-value features. Phase II would layer in AI for personalisation, smart deck generation from a content library, and data-driven creation flows.',
             },
             {
-              head: 'The ask',
-              body: 'Design a four-platform product from scratch: a marketing website, a subscription and user management dashboard, the PowerPoint plugin toolbar itself, and an installer. Each platform serves a different user with different needs — requiring coherent flows and a shared design system to hold them together.',
+              head: 'The design challenge',
+              body: 'Building a four-platform product from scratch: a marketing website, a subscription and user management dashboard, the PowerPoint plugin toolbar itself, and a standalone installer. Each platform serves different users with different needs — all held together by a shared design system.',
             },
           ].map(col => (
             <div key={col.head}>
@@ -252,11 +261,68 @@ function Brief() {
           ))}
         </div>
 
+        {/* Phase roadmap */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-20">
+          {[
+            {
+              phase: 'Phase I',
+              label: 'Core plugin & platform',
+              status: 'Shipped',
+              statusStyle: 'bg-green-100 text-green-700',
+              items: [
+                'PowerPoint toolbar plugin — 5 core feature groups',
+                'Subscription & user management dashboard',
+                'Marketing website with ordering flow',
+                'Standalone PC/laptop installer',
+                'Cross-functional onboarding — 4 plan types',
+                'Chargebee subscription engine + analytics',
+              ],
+              border: 'border-blue-200',
+              headBg: 'bg-blue-50',
+            },
+            {
+              phase: 'Phase II',
+              label: 'AI integration & personalisation',
+              status: 'Planned',
+              statusStyle: 'bg-amber-100 text-amber-700',
+              items: [
+                'AI-powered deck personalisation',
+                'Smart deck generation from content library',
+                'Data-driven slide creation',
+                'Feature updates driven by Phase I usage data',
+                'Enhanced team collaboration tools',
+                'Advanced analytics for power users',
+              ],
+              border: 'border-zinc-200',
+              headBg: 'bg-zinc-50',
+            },
+          ].map(p => (
+            <div key={p.phase} className={`rounded-2xl border overflow-hidden ${p.border}`}>
+              <div className={`px-7 py-5 flex items-center justify-between ${p.headBg}`}>
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: BLUE }}>{p.phase}</span>
+                  <p className="text-zinc-800 font-semibold text-base mt-0.5">{p.label}</p>
+                </div>
+                <span className={`text-xs font-semibold px-3 py-1.5 rounded-full ${p.statusStyle}`}>{p.status}</span>
+              </div>
+              <div className="px-7 py-5 bg-white">
+                <ul className="space-y-2.5">
+                  {p.items.map(item => (
+                    <li key={item} className="flex items-start gap-2.5 text-zinc-600 text-sm">
+                      <span style={{ color: BLUE }} className="mt-0.5 shrink-0">→</span> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* Impact numbers */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-100 rounded-2xl overflow-hidden mb-16">
           {[
             { v: '60%',  l: 'Productivity gain',        s: 'For daily power users' },
-            { v: '7',    l: 'Competitors benchmarked',  s: 'Onboarding + features' },
+            { v: '7',    l: 'Competitors benchmarked',  s: 'Onboarding + features + pricing' },
             { v: '4',    l: 'Platforms designed',       s: 'Website · Dashboard · Plugin · Installer' },
             { v: '60+',  l: 'Design system components', s: 'Built from scratch in Figma' },
           ].map(m => (
@@ -268,23 +334,21 @@ function Brief() {
           ))}
         </div>
 
-        {/* Service map */}
-        <div className="mb-8">
-          <p className="text-zinc-400 text-xs uppercase tracking-widest mb-6">The 4-platform ecosystem</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-            {[
-              { platform: 'Website',   role: 'Market product, provide info, resources, order, support', icon: '🌐' },
-              { platform: 'Dashboard', role: 'Subscription management, user add/delete, renewals',       icon: '📊' },
-              { platform: 'Plugin',    role: 'Productivity features, licence validation, account sync',  icon: '🔌' },
-              { platform: 'Installer', role: 'Installation, activation, account sync',                  icon: '⚙️' },
-            ].map(p => (
-              <div key={p.platform} className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6">
-                <div className="text-2xl mb-3">{p.icon}</div>
-                <p className="text-zinc-800 text-sm font-semibold mb-2">{p.platform}</p>
-                <p className="text-zinc-400 text-xs leading-relaxed">{p.role}</p>
-              </div>
-            ))}
-          </div>
+        {/* 4-platform ecosystem */}
+        <p className="text-zinc-400 text-xs uppercase tracking-widest mb-6">The 4-platform ecosystem</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+          {[
+            { platform: 'Website',   role: 'Market product, provide info, resources, order, support', icon: '🌐' },
+            { platform: 'Dashboard', role: 'Subscription management, user add/delete, renewals',       icon: '📊' },
+            { platform: 'Plugin',    role: 'Productivity features, licence validation, account sync',  icon: '🔌' },
+            { platform: 'Installer', role: 'Installation, activation, account sync',                  icon: '⚙️' },
+          ].map(p => (
+            <div key={p.platform} className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6">
+              <div className="text-2xl mb-3">{p.icon}</div>
+              <p className="text-zinc-800 text-sm font-semibold mb-2">{p.platform}</p>
+              <p className="text-zinc-400 text-xs leading-relaxed">{p.role}</p>
+            </div>
+          ))}
         </div>
 
         <ProcessImage
@@ -451,6 +515,49 @@ function Research() {
                 aspect="aspect-[4/3]"
               />
             </div>
+          </div>
+        </div>
+
+        <Divider />
+
+        {/* Pricing model */}
+        <div>
+          <p className="text-blue-500 text-xs font-semibold uppercase tracking-widest mb-6">Pricing model — financial planning & product sustainability</p>
+          <p className="text-zinc-500 text-sm max-w-2xl leading-relaxed mb-8">
+            Pricing wasn't treated as an afterthought. The model went through a critical study to balance product sustainability
+            with competitive positioning. Three user tiers were defined, each with a distinct value proposition
+            and commercial logic — ensuring DeckUp could fund its own growth while remaining accessible to its primary audience.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              {
+                tier: 'Personal',
+                target: 'Individual consultants & freelancers',
+                logic: 'Single-seat licence. Low friction entry. Free trial drives conversion. Annual billing preferred for revenue predictability.',
+                accent: 'border-blue-200 bg-blue-50',
+                label: 'text-blue-500',
+              },
+              {
+                tier: 'Teams',
+                target: 'Agencies and consulting firms (2–49 seats)',
+                logic: 'Per-seat pricing with team discount threshold. Admin dashboard access included. Renewal via annual subscription — reduces churn risk.',
+                accent: 'border-zinc-200 bg-zinc-50',
+                label: 'text-zinc-500',
+              },
+              {
+                tier: 'Enterprise',
+                target: 'Large organisations (50+ seats)',
+                logic: 'Custom pricing via get-a-quote flow. Pro-rata additions mid-term. IT Admin controls all provisioning. Dedicated onboarding and support.',
+                accent: 'border-zinc-200 bg-zinc-50',
+                label: 'text-zinc-500',
+              },
+            ].map(t => (
+              <div key={t.tier} className={`rounded-2xl border p-6 ${t.accent}`}>
+                <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${t.label}`}>{t.tier}</p>
+                <p className="text-zinc-800 text-sm font-semibold mb-2">{t.target}</p>
+                <p className="text-zinc-500 text-xs leading-relaxed">{t.logic}</p>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -990,6 +1097,127 @@ function ToolbarFeatures() {
   )
 }
 
+// ─── SECTION: SUBSCRIPTION PLATFORM ──────────────────────────────────────────
+function Platform() {
+  return (
+    <section id="platform" className="px-8 md:px-16 lg:px-24 py-28 bg-[#f9f9f7]">
+      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+
+        <SectionLabel>08 — Subscription Platform</SectionLabel>
+        <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
+          Built in parallel. Aligned every week.
+        </h2>
+        <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
+          While the plugin team focused on toolbar features and interaction design, the platform team simultaneously
+          built the subscription layer — user management, plan types, and admin controls. The two streams ran in parallel
+          with weekly cross-team sessions to stay aligned on goals, match development timelines, and ensure the plugin
+          and platform felt like one coherent product.
+        </p>
+
+        {/* Plan types */}
+        <div className="mb-16">
+          <p className="text-zinc-400 text-xs uppercase tracking-widest mb-6">Three plan types — three different user management experiences</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              {
+                plan: 'Single User',
+                desc: 'Self-managed account. Subscription dashboard shows plan status, renewal date, billing history, and licence key. User manages their own account with no admin overhead.',
+                features: ['Personal subscription view', 'Licence key management', 'Self-serve renewal', 'Billing history'],
+                border: 'border-blue-200',
+                headBg: 'bg-blue-50',
+                accent: 'text-blue-500',
+              },
+              {
+                plan: 'Teams',
+                desc: 'Team owner manages seats. Can add/remove users, see per-seat usage, and handle renewals. Team members get plugin access without managing their own account.',
+                features: ['Seat management', 'Add / remove team members', 'Usage visibility per user', 'Team-level renewal'],
+                border: 'border-zinc-200',
+                headBg: 'bg-zinc-50',
+                accent: 'text-zinc-500',
+              },
+              {
+                plan: 'Enterprise',
+                desc: 'IT Admin as primary actor. Full licence provisioning, bulk user management, pro-rata additions mid-term, team-level access controls, and dedicated support channel.',
+                features: ['IT Admin dashboard', 'Bulk user provisioning', 'Pro-rata seat additions', 'Team access controls', 'Enterprise renewal paths'],
+                border: 'border-zinc-200',
+                headBg: 'bg-zinc-50',
+                accent: 'text-zinc-500',
+              },
+            ].map(p => (
+              <motion.div
+                key={p.plan}
+                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ duration: 0.4 }}
+                className={`rounded-2xl border overflow-hidden ${p.border}`}
+              >
+                <div className={`px-6 py-4 ${p.headBg}`}>
+                  <p className={`text-xs font-bold uppercase tracking-widest mb-0.5 ${p.accent}`}>Plan type</p>
+                  <p className="text-zinc-800 font-semibold text-base">{p.plan}</p>
+                </div>
+                <div className="px-6 py-5 bg-white">
+                  <p className="text-zinc-500 text-sm leading-relaxed mb-4">{p.desc}</p>
+                  <ul className="space-y-2">
+                    {p.features.map(f => (
+                      <li key={f} className="flex items-start gap-2 text-zinc-600 text-xs">
+                        <span style={{ color: BLUE }} className="shrink-0 mt-0.5">→</span> {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Cross-team alignment */}
+        <div className="bg-white border border-zinc-200 rounded-2xl p-8 mb-12">
+          <p className="text-blue-500 text-xs font-semibold uppercase tracking-widest mb-5">Cross-team alignment process</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <p className="text-zinc-700 text-sm font-semibold mb-3">Weekly alignment sessions</p>
+              <p className="text-zinc-500 text-sm leading-relaxed mb-4">
+                Plugin and platform teams ran weekly syncs throughout the build. Each session covered:
+                feature status, dev blockers, flow decisions that affected both surfaces, and design
+                handoff timing to match the development schedule.
+              </p>
+              <ul className="space-y-2">
+                {[
+                  'Sync on shared flows (onboarding, licence validation, renewal)',
+                  'Flag cross-surface inconsistencies before they reached dev',
+                  'Match design delivery cadence to sprint schedule',
+                  'Shared QA ownership across both teams',
+                ].map(item => (
+                  <li key={item} className="flex items-start gap-2 text-zinc-500 text-xs">
+                    <span style={{ color: BLUE }} className="shrink-0 mt-0.5">→</span> {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-zinc-700 text-sm font-semibold mb-3">Why parallel workstreams needed structure</p>
+              <p className="text-zinc-500 text-sm leading-relaxed">
+                Running two design streams simultaneously without deliberate alignment creates invisible debt —
+                flows that work on paper but break at the handoff between surfaces. The weekly sessions
+                weren't coordination overhead; they were the mechanism that made the plugin and platform
+                feel like one product rather than two tools that happened to share a licence.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <ProcessImage
+          src={null}
+          label="Subscription dashboard — user management and plan controls"
+          hint="Screenshot of the DeckUp subscription dashboard showing user list, licence status, plan type indicator (Single/Teams/Enterprise), add/remove user controls, renewal date, and billing section."
+          aspect="aspect-[16/8]"
+        />
+        <ImageCaption>The DeckUp subscription platform — three plan types, each with a distinct user management experience.</ImageCaption>
+
+      </motion.div>
+    </section>
+  )
+}
+
 // ─── SECTION: TESTING & QA ───────────────────────────────────────────────────
 const FUNCTIONAL_ISSUES = [
   { issue: 'Plugin panel not persisting state after PowerPoint restart', status: 'Done' },
@@ -1024,7 +1252,7 @@ function Testing() {
     <section id="qa" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-28">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>08 — Testing & QA</SectionLabel>
+        <SectionLabel>09 — Testing & QA</SectionLabel>
         <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
           4 rounds of testing. Every issue tracked to closure.
         </h2>
@@ -1105,6 +1333,161 @@ function Testing() {
   )
 }
 
+// ─── SECTION: TECH STACK & CHARGEBEE ─────────────────────────────────────────
+function Chargebee() {
+  return (
+    <section id="chargebee" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+
+        <SectionLabel>10 — Tech Stack Decision</SectionLabel>
+        <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
+          Chargebee: the smart shortcut that didn't compromise quality
+        </h2>
+        <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
+          For Phase I, the team made a deliberate architectural decision: use Chargebee as the subscription engine
+          instead of building a custom billing and analytics stack from scratch. This wasn't a shortcut — it was
+          scope management. Freeing up development capacity meant the team could invest more deeply in what
+          actually mattered: the plugin experience and cross-functional onboarding flows.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          {/* What Chargebee handles */}
+          <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-8">
+            <p className="text-blue-500 text-xs font-semibold uppercase tracking-widest mb-5">What Chargebee handles</p>
+            <ul className="space-y-3">
+              {[
+                { item: 'Subscription lifecycle management', sub: 'Trial, activation, upgrade, downgrade, cancellation' },
+                { item: 'Billing & payment processing',      sub: 'Cards, invoicing, receipts, pro-rata calculations' },
+                { item: 'Licence and seat management',       sub: 'Per-seat tracking, mid-term additions, deactivation' },
+                { item: 'Renewal automation',                sub: 'Auto-renewal, manual renewal, expiry handling' },
+                { item: 'Email trigger management',          sub: '30/15/7-day reminder sequences, confirmation emails' },
+              ].map(r => (
+                <li key={r.item} className="flex items-start gap-3">
+                  <span style={{ color: BLUE }} className="shrink-0 mt-0.5 font-bold">→</span>
+                  <div>
+                    <p className="text-zinc-800 text-sm font-medium">{r.item}</p>
+                    <p className="text-zinc-400 text-xs mt-0.5">{r.sub}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Chargebee as analytics layer */}
+          <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-8">
+            <p className="text-blue-500 text-xs font-semibold uppercase tracking-widest mb-5">Chargebee as the analytics layer</p>
+            <p className="text-zinc-500 text-sm leading-relaxed mb-5">
+              For Phase I, the team decided to use Chargebee's dashboard as the primary analytics and growth metrics tool —
+              not just for billing. It provided all required insights in a comprehensive, ready-to-use format.
+            </p>
+            <ul className="space-y-3">
+              {[
+                'MRR / ARR tracking and subscription growth metrics',
+                'Cohort analysis and trial-to-paid conversion data',
+                'Churn and renewal rate visibility',
+                'User-level subscription status and history',
+                'Revenue reports and data visualisation built-in',
+              ].map(item => (
+                <li key={item} className="flex items-start gap-2 text-zinc-600 text-sm">
+                  <span style={{ color: BLUE }} className="shrink-0 mt-0.5">→</span> {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Design implication */}
+        <div className="rounded-2xl border-2 p-8" style={{ borderColor: BLUE, backgroundColor: '#EFF6FF' }}>
+          <p className="text-blue-700 text-xs font-semibold uppercase tracking-widest mb-3">Design implication</p>
+          <p className="text-blue-800 text-sm leading-relaxed">
+            Using Chargebee changed the scope of what the DeckUp design team needed to build. The subscription dashboard
+            didn't need to include billing history, invoice generation, or payment method management — Chargebee
+            handled all of that. The team's design effort on the dashboard focused entirely on the user-facing experience:
+            licence management, user provisioning, plan visibility, and the actions that Chargebee couldn't handle natively.
+            This produced a leaner, more focused dashboard — and saved weeks of design and development time.
+          </p>
+        </div>
+
+      </motion.div>
+    </section>
+  )
+}
+
+// ─── SECTION: MARKETING & PRELAUNCH ──────────────────────────────────────────
+function PreLaunch() {
+  return (
+    <section id="prelaunch" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-28">
+      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+
+        <SectionLabel light>11 — Marketing & Pre-launch Strategy</SectionLabel>
+        <h2 className="text-white text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
+          Launch small. Learn fast. Expand with confidence.
+        </h2>
+        <p className="text-zinc-400 text-base max-w-2xl mb-16 leading-relaxed">
+          Rather than opening DeckUp to a cold market at launch, the team developed a framework to start with a limited cohort —
+          existing SlideXpress clients who already understood the problem domain. This gave the team an outside perspective
+          from real users, in a context where feedback was candid and course-corrections were actionable before a wider rollout.
+        </p>
+
+        {/* Strategy cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16">
+          {[
+            {
+              num: '01',
+              title: 'Limited launch with existing customers',
+              desc: 'The first cohort was drawn from existing SlideXpress clients — people who already had a relationship with the studio, understood the problem, and could give honest, context-rich feedback. This removed the "cold user" variable and ensured early feedback came from the right people.',
+            },
+            {
+              num: '02',
+              title: 'Outside perspective before market exposure',
+              desc: 'Even with a trusted cohort, these were people who hadn\'t been inside the design process. Their fresh eyes caught usability friction the team had normalised — interactions that felt obvious to the team but needed polish for someone encountering the product for the first time.',
+            },
+            {
+              num: '03',
+              title: 'Make early changes before wider rollout',
+              desc: 'The limited launch wasn\'t a soft launch — it was a structured learning phase. Issues caught here were actioned before broader market exposure, meaning the version that reached new users was already battle-tested against the most important feedback channel the team had.',
+            },
+          ].map((card, i) => (
+            <motion.div
+              key={card.num}
+              initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6"
+            >
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white mb-5"
+                style={{ backgroundColor: BLUE }}>
+                {card.num}
+              </div>
+              <h4 className="text-white font-semibold text-base mb-3">{card.title}</h4>
+              <p className="text-zinc-400 text-sm leading-relaxed">{card.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Launch sequence */}
+        <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8">
+          <p className="text-blue-400 text-xs font-semibold uppercase tracking-widest mb-6">Phased launch sequence</p>
+          <div className="flex flex-col md:flex-row gap-0 md:gap-0 divide-y md:divide-y-0 md:divide-x divide-zinc-800">
+            {[
+              { phase: 'Phase 0',  label: 'Internal QA',              desc: '4 rounds of testing with the SlideXpress team. Onboarding and plugin flows signed off.' },
+              { phase: 'Phase 1',  label: 'Limited cohort launch',    desc: 'Existing SlideXpress clients. Outside perspective, candid feedback, early fixes.' },
+              { phase: 'Phase 2',  label: 'Early adopter expansion',  desc: 'Wider rollout to warm leads and newsletter subscribers. Battle-tested product.' },
+              { phase: 'Phase 3',  label: 'Market launch',            desc: 'Full marketing push, paid acquisition, and broader distribution.' },
+            ].map((s, i) => (
+              <div key={s.phase} className="flex-1 px-6 py-4 first:pl-0 last:pr-0">
+                <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: BLUE }}>{s.phase}</p>
+                <p className="text-white text-sm font-semibold mb-2">{s.label}</p>
+                <p className="text-zinc-500 text-xs leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </motion.div>
+    </section>
+  )
+}
+
 // ─── SECTION: REFLECTION ─────────────────────────────────────────────────────
 function Reflection() {
   const findings = [
@@ -1134,7 +1517,7 @@ function Reflection() {
     <section id="reflect" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>09 — Findings & Reflection</SectionLabel>
+        <SectionLabel>12 — Findings & Reflection</SectionLabel>
         <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-16 max-w-3xl leading-tight">
           What building a 4-platform SaaS from scratch taught me
         </h2>
@@ -1168,6 +1551,30 @@ function Reflection() {
               {p}
             </p>
           ))}
+        </div>
+
+        <Divider />
+
+        {/* Phase II outlook */}
+        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-8 max-w-3xl">
+          <p className="text-blue-500 text-xs font-semibold uppercase tracking-widest mb-4">What's next — Phase II</p>
+          <h3 className="text-zinc-900 font-semibold text-xl mb-4">AI integration & personalisation</h3>
+          <p className="text-zinc-600 text-sm leading-relaxed mb-5">
+            Phase I built the foundation: a 4-platform product, a design system, a subscriber base, and a tested onboarding
+            model. Phase II is planned to build on top of that — not rebuild it. The work ahead is AI-powered:
+          </p>
+          <ul className="space-y-2.5">
+            {[
+              'AI personalisation — adapting the toolbar and suggestions to each user\'s working patterns',
+              'Smart deck generation from a content library — creating slide scaffolds from simple data inputs',
+              'Feature updates driven by Phase I usage analytics — building what users actually reach for',
+              'Enhanced collaboration tools for Teams and Enterprise accounts',
+            ].map(item => (
+              <li key={item} className="flex items-start gap-2 text-zinc-600 text-sm">
+                <span style={{ color: BLUE }} className="shrink-0 mt-0.5">→</span> {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
       </motion.div>
@@ -1280,14 +1687,17 @@ export default function DeckUpDetail() {
     <main className="bg-white text-zinc-900 antialiased">
       <StickyNav />
       <Hero />
-      <Brief />
+      <TheIdea />
       <Research />
       <Competitive />
       <IA />
       <Flows />
       <DesignSystem />
       <ToolbarFeatures />
+      <Platform />
       <Testing />
+      <Chargebee />
+      <PreLaunch />
       <Reflection />
       <Team />
       <FooterCTA />
