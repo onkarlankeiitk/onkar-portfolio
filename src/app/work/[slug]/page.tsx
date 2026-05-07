@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { getCaseStudy } from '@/lib/case-studies'
 import type { CaseStudy, ProcessStep, FindingCard, TeamMember } from '@/lib/case-studies/types'
+import Nav from '@/components/Nav'
 
 // ─── ACCENT COLORS PER PROJECT ────────────────────────────────────────────────
 // Matches the hover border colors used on the homepage cards
@@ -230,15 +231,15 @@ export default function CaseStudySummary() {
 
   return (
     <main className="bg-[#f9f9f7] min-h-screen text-zinc-900">
+      <Nav />
 
       {/* ── 1. HERO ── */}
       <section className="relative min-h-screen flex flex-col justify-end overflow-hidden">
         {cs.hero.banner ? (
           cs.hero.banner.type === 'video' ? (
-            <video autoPlay muted loop playsInline poster={cs.hero.banner.poster}
+            <video autoPlay muted loop playsInline preload="auto" poster={cs.hero.banner.poster}
               className="absolute inset-0 w-full h-full object-cover"
             >
-              <source src={cs.hero.banner.src!} type={cs.hero.banner.src!.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
               <source src={cs.hero.banner.src!} type="video/mp4" />
             </video>
           ) : (

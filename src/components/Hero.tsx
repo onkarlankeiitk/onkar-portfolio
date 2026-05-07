@@ -469,7 +469,7 @@ export default function Hero() {
             <p className="text-zinc-400 text-sm tracking-widest uppercase">Available for opportunities</p>
           </motion.div>
 
-          <motion.h1 variants={item} className="text-white text-[2.1rem] md:text-[2.625rem] lg:text-[3.15rem] font-black tracking-tight leading-none mb-6">
+          <motion.h1 variants={item} className="text-white text-[2.73rem] md:text-[3.41rem] lg:text-[4.1rem] font-black tracking-tight leading-none mb-6">
             Connecting dots, bridging Tech & Design
           </motion.h1>
 

@@ -7,6 +7,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
+import Nav from '@/components/Nav'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const DARK   = '#0F0F12'
@@ -1225,6 +1226,7 @@ function FooterCTA() {
 export default function FrankieOneDetail() {
   return (
     <main className="antialiased" style={{ backgroundColor: DARK }}>
+      <Nav />
       <StickyNav />
       <Hero />
       <Brief />

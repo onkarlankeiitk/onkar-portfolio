@@ -22,7 +22,7 @@ export const deckup: CaseStudy = {
     context:
       'SlideXpress, a creative deck design studio, had spent years building internal techniques and tools for faster, higher-quality work. The team asked a simple question: why not turn that expertise into a product? DeckUp was born from that moment — Phase I focusing on core plugin and platform, Phase II planned to integrate AI for personalisation and deck generation.',
     problem:
-      'Power PowerPoint users — consultants, agencies, corporate managers — spent 30–40% of deck time on repetitive formatting, consistency fixes, and agenda management. Every common task required 4–6 clicks through buried menus, compounding into hours lost per week.',
+      'Power PowerPoint users — consultants, agencies, corporate managers — spent 30–40% of deck time on repetitive formatting, consistency fixes, agenda management, and creative data visualisation. Every common task required 4–6 clicks through buried menus, and building compelling charts or infographics from scratch consumed even more. These inefficiencies compounded into hours lost per week.',
     direction:
       'Led end-to-end product design across 4 platforms: website, subscription dashboard, PowerPoint plugin, and installer. Drove research, competitive benchmarking, a pricing model, 6 user flows, a 60+ component design system, Chargebee-based subscription engine, and a phased prelaunch strategy with existing SlideXpress customers.',
     directionLabel: 'My Approach',

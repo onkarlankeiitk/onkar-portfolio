@@ -7,6 +7,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
+import Nav from '@/components/Nav'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const NAVY  = '#0D1B2A'
@@ -1431,6 +1432,7 @@ function FooterCTA() {
 export default function DILKYCDetail() {
   return (
     <main className="bg-white text-zinc-900 antialiased">
+      <Nav />
       <StickyNav />
       <Hero />
       <Brief />

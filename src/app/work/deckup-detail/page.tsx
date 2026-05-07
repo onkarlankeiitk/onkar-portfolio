@@ -7,6 +7,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
+import Nav from '@/components/Nav'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const DARK  = '#0B1628'
@@ -182,8 +183,8 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
           className="text-zinc-400 text-xl md:text-2xl font-light max-w-2xl mb-12 leading-relaxed"
         >
-          A PowerPoint productivity plugin that reduces repetitive formatting time
-          by up to 60% — built end-to-end for consultants and strategy teams.
+          A PowerPoint productivity plugin that reduces repetitive formatting, data visualisation,
+          and consistency work by up to 60% — built end-to-end for consultants and strategy teams.
         </motion.p>
 
         {/* Meta row */}
@@ -372,8 +373,8 @@ function Research() {
       type: 'Product User',
       primary: true,
       desc: 'Strategy and management consultants building client-facing deliverables. High-frequency PowerPoint users — often 5–8 hours per day. Deeply familiar with formatting conventions. Primary drivers of the productivity pain point.',
-      needs: ['One-click formatting and alignment', 'Consistency checks across large decks', 'Fast agenda and TOC generation', 'Reliable table formatting tools'],
-      pains: ['4–6 clicks for every common formatting task', 'Inconsistent fonts and alignment across slides', 'Re-doing the same tasks in every new deck'],
+      needs: ['One-click formatting and alignment', 'Consistency checks across large decks', 'Fast agenda and TOC generation', 'Reliable table formatting tools', 'Creative data visualisation without building from scratch'],
+      pains: ['4–6 clicks for every common formatting task', 'Inconsistent fonts and alignment across slides', 'Re-doing the same tasks in every new deck', 'Building charts and infographics from scratch every time'],
     },
     {
       segment: 'Corporate Managers',
@@ -1685,6 +1686,7 @@ function FooterCTA() {
 export default function DeckUpDetail() {
   return (
     <main className="bg-white text-zinc-900 antialiased">
+      <Nav />
       <StickyNav />
       <Hero />
       <TheIdea />
