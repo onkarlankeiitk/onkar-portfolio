@@ -22,7 +22,7 @@ export const deckup: CaseStudy = {
     context:
       'SlideXpress, a creative deck design studio, had spent years building internal techniques and tools for faster, higher-quality work. The team asked a simple question: why not turn that expertise into a product? DeckUp was born from that moment — Phase I focusing on core plugin and platform, Phase II planned to integrate AI for personalisation and deck generation.',
     problem:
-      'Power PowerPoint users — consultants, agencies, corporate managers — spent 30–40% of deck time on repetitive formatting, consistency fixes, agenda management, and creative data visualisation. Every common task required 4–6 clicks through buried menus, and building compelling charts or infographics from scratch consumed even more. These inefficiencies compounded into hours lost per week.',
+      'Power PowerPoint users — consultants, agencies, corporate managers — spent 30–40% of deck time on tasks the software never solved: aligning and positioning multiple elements manually, resizing shapes one by one, building tables that reset unpredictably, constructing network diagrams and matrix layouts from scratch, hunting for consistency errors slide by slide, and rebuilding the same charts, maps, and visual libraries in every new project. There was no way to track content flow, no global error check, no identical-element selection, and no shared asset library. Every common operation required 4–6 clicks through buried menus — and the work compounded into hours lost every week.',
     direction:
       'Led end-to-end product design across 4 platforms: website, subscription dashboard, PowerPoint plugin, and installer. Drove research, competitive benchmarking, a pricing model, 6 user flows, a 60+ component design system, Chargebee-based subscription engine, and a phased prelaunch strategy with existing SlideXpress customers.',
     directionLabel: 'My Approach',
@@ -31,7 +31,7 @@ export const deckup: CaseStudy = {
   metrics: [
     { value: '60%',  label: 'Productivity gain',        sub: 'For daily power users' },
     { value: '4',    label: 'Platforms designed',        sub: 'Website · Dashboard · Plugin · Installer' },
-    { value: '60+',  label: 'Design system components',  sub: 'Built from scratch in Figma' },
+    { value: '11',   label: 'Core problems solved',       sub: 'Alignment · Tables · Diagrams · Checks · Libraries' },
     { value: '4',    label: 'Test rounds',               sub: 'Onboarding · Plugin · Admin · Visual QA' },
   ],
 
@@ -66,9 +66,9 @@ export const deckup: CaseStudy = {
     },
     {
       num: 'Step 02',
-      title: 'Plugin design — hierarchy, behaviours, use cases & iterations',
-      body: 'Designed the plugin toolbar from the ground up: defining information hierarchy, user behaviours within PowerPoint\'s constrained panel environment, and every use case for Quick Tools, Table Formatting, Agendas, Infographics, and Labels. Went through multiple rounds of testing and reiteration with the SlideXpress team — always focused on maximum value creation per click. The goal was not features, it was removing friction.',
-      tags: ['Toolbar hierarchy', 'Use case mapping', 'State design (Default / Hover / Active)', '60+ Figma components', 'Iterative testing'],
+      title: 'Plugin design — 11 core problems, hierarchy, use cases & iterations',
+      body: 'Designed the plugin toolbar from the ground up to solve 11 specific problems power users faced daily: organising, positioning & aligning elements; editing size & shape across multiple objects in one click; tracking content flow and annotating slides; creating and formatting tables; showing progressions visually; selecting identical elements and changing their properties across the full deck; arranging content in matrix layouts; generating network diagrams instantly; running global checks for standard errors; creative data visualisation (charts, maps, symbols, visual libraries); and a custom brand element library. Each feature was designed with defined information hierarchy, user behaviours within PowerPoint\'s constrained panel environment, and multiple rounds of testing and reiteration — always focused on maximum value per click.',
+      tags: ['Align & position', 'Multi-element size & shape', 'Content tracker & annotations', 'Table creation & formatting', 'Visual progressions', 'Identical Select', 'Matrix layouts', 'Network diagrams', 'Global error checks', 'Charts, maps & visual libraries', 'Custom element library'],
       image: {
         src: null,
         alt: 'DeckUp toolbar UI — plugin panel inside PowerPoint',
@@ -158,6 +158,6 @@ export const deckup: CaseStudy = {
 
   cta: {
     heading: 'Want the full\ncase study?',
-    body: 'The detailed breakdown covers the origin story, user research synthesis, all 7 competitor analyses, the pricing model, complete service map, all 6 user flows, the full design system, every toolbar feature, Chargebee tech stack decisions, all 4 rounds of usability testing, and the prelaunch strategy.',
+    body: 'The detailed breakdown covers the origin story, user research synthesis, all 7 competitor analyses, the pricing model, complete service map, all 6 user flows, the full design system, all 11 plugin features (alignment tools, table formatting, content tracker, matrix layouts, network diagrams, global checks, data visualisation libraries, custom element library, and more), Chargebee tech stack decisions, all 4 rounds of usability testing, and the prelaunch strategy.',
   },
 }

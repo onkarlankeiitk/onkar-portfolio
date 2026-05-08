@@ -62,7 +62,7 @@ export const dilKyc: CaseStudy = {
         // Replace null with: '/case-studies/dil-kyc/step-01-discovery.png'
         alt: 'Competitive landscape and DIL brand differential matrix',
         hint: 'Create a Banks vs DIL comparison table + 8 brand keywords grid + value proposition — see instructions above',
-        aspect: 'aspect-[16/9]',
+        aspect: 'aspect-[4/3]',
       },
       imagePosition: 'right',
     },
@@ -85,7 +85,7 @@ export const dilKyc: CaseStudy = {
         // Replace null with: '/case-studies/dil-kyc/step-02-research.png'
         alt: 'Harish Gupta persona card and two customer journey flows',
         hint: 'Create persona card with goals/frustrations + two journey flows with pain points — see instructions above',
-        aspect: 'aspect-[16/9]',
+        aspect: 'aspect-[4/3]',
       },
       imagePosition: 'left',
     },
@@ -105,7 +105,7 @@ export const dilKyc: CaseStudy = {
         // Replace null with: '/case-studies/dil-kyc/step-03-ia.png'
         alt: 'DIL website site map — 7-section information architecture',
         hint: 'Create a full IA tree diagram with all 7 sections and their children — see instructions above',
-        aspect: 'aspect-[16/9]',
+        aspect: 'aspect-[4/3]',
       },
       imagePosition: 'right',
     },
@@ -130,7 +130,7 @@ export const dilKyc: CaseStudy = {
         // Replace null with: '/case-studies/dil-kyc/step-04-kyc-flow.png'
         alt: '3-step KYC application flow — Basic Info, Application Form, Agreement',
         hint: 'Create 3-panel composite of the KYC flow screens — see detailed field-level instructions above',
-        aspect: 'aspect-[16/9]',
+        aspect: 'aspect-[4/3]',
       },
       imagePosition: 'left',
     },
@@ -181,7 +181,7 @@ export const dilKyc: CaseStudy = {
         // Replace null with: '/case-studies/dil-kyc/step-06-renewal.png'
         alt: 'KYC renewal flow and authenticated customer account dashboard',
         hint: 'Create the KYC renewal screen (all steps complete + amber banner + two CTAs) alongside the account dashboard — see instructions above',
-        aspect: 'aspect-[16/9]',
+        aspect: 'aspect-[4/3]',
       },
       imagePosition: 'left',
     },

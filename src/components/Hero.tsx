@@ -491,14 +491,22 @@ export default function Hero() {
               <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 style={{ boxShadow: '0 0 28px 8px rgba(255,255,255,0.3)' }} />
               <span className="relative z-10">Contact Me</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                className="relative z-10 transition-transform duration-300 group-hover:rotate-45">
+                <path d="M7 17L17 7M7 7h10v10"/>
+              </svg>
             </motion.a>
 
             <motion.a href="https://www.linkedin.com/in/onkarlanke/" target="_blank" rel="noreferrer"
-              className="border border-blue-500/60 text-blue-400 px-7 py-3.5 rounded-full text-sm font-medium hover:bg-blue-500/60 hover:text-white transition-colors"
+              className="group inline-flex items-center gap-2 border border-blue-500/60 text-blue-400 px-7 py-3.5 rounded-full text-sm font-medium hover:bg-blue-500/60 hover:text-white transition-colors"
               whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             >
               Connect on LinkedIn
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                className="transition-transform duration-300 group-hover:rotate-45">
+                <path d="M7 17L17 7M7 7h10v10"/>
+              </svg>
             </motion.a>
           </motion.div>
 

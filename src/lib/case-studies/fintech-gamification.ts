@@ -54,7 +54,7 @@ export const fintechGamification: CaseStudy = {
         // Replace null with: '/case-studies/fintech-gamification/step-01-discovery.png'
         alt: 'frankieOne B2B2C model and KYC risk lifecycle diagram',
         hint: 'Create a 3-tier B2B2C diagram + horizontal risk lifecycle flow — see instructions above',
-        aspect: 'aspect-[16/9]',
+        aspect: 'aspect-[4/3]',
       },
       imagePosition: 'right',
     },
@@ -73,7 +73,7 @@ export const fintechGamification: CaseStudy = {
         // Replace null with: '/case-studies/fintech-gamification/step-02-persona.png'
         alt: 'Compliance manager persona and job-to-be-done workflow',
         hint: 'Create a persona card (Pravin) + 6-step JTBD workflow with pain points highlighted — see instructions above',
-        aspect: 'aspect-[16/9]',
+        aspect: 'aspect-[4/3]',
       },
       imagePosition: 'left',
     },
@@ -92,7 +92,7 @@ export const fintechGamification: CaseStudy = {
         // Replace null with: '/case-studies/fintech-gamification/step-03-benchmarking.png'
         alt: 'Benchmarking comparison across CIBIL, Scratch, Zapier, and Miro',
         hint: 'Create a 4-column benchmarking grid with tool screenshots + key takeaways — see instructions above',
-        aspect: 'aspect-[16/9]',
+        aspect: 'aspect-[4/3]',
       },
       imagePosition: 'right',
     },
@@ -134,7 +134,7 @@ export const fintechGamification: CaseStudy = {
         // Replace null with: '/case-studies/fintech-gamification/step-05-wireframes.png'
         alt: 'Side-by-side wireframe comparison of Model 1 and Model 2',
         hint: 'Create annotated side-by-side wireframes showing Model 1 (pain points) vs Model 2 (improvements) — see instructions above',
-        aspect: 'aspect-[16/9]',
+        aspect: 'aspect-[4/3]',
       },
       imagePosition: 'right',
     },
@@ -159,7 +159,7 @@ export const fintechGamification: CaseStudy = {
         // Replace null with: '/case-studies/fintech-gamification/step-06-hifi.png'
         alt: 'High-fidelity rule builder canvas with block library, connected flow, and config drawer',
         hint: 'Create the full pixel-perfect rule builder canvas UI — see detailed instructions above',
-        aspect: 'aspect-[16/9]',
+        aspect: 'aspect-[4/3]',
       },
       imagePosition: 'left',
     },

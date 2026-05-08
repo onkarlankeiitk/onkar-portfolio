@@ -9,7 +9,6 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { getCaseStudy } from '@/lib/case-studies'
 import type { CaseStudy, ProcessStep, FindingCard, TeamMember } from '@/lib/case-studies/types'
-import Nav from '@/components/Nav'
 
 // ─── ACCENT COLORS PER PROJECT ────────────────────────────────────────────────
 // Matches the hover border colors used on the homepage cards
@@ -231,7 +230,27 @@ export default function CaseStudySummary() {
 
   return (
     <main className="bg-[#f9f9f7] min-h-screen text-zinc-900">
-      <Nav />
+
+      {/* ── BACK BUTTON ── */}
+      <motion.div
+        initial={{ opacity: 0, x: -16 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4 }}
+        className="fixed top-6 left-8 md:left-12 z-50"
+      >
+        <Link
+          href="/#work"
+          className="flex items-center gap-2 text-zinc-900 hover:text-zinc-600 transition-colors group bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-zinc-200 shadow-sm"
+        >
+          <svg
+            className="w-5 h-5 transition-transform group-hover:-translate-x-1"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          <span className="text-lg font-semibold tracking-tight">Back</span>
+        </Link>
+      </motion.div>
 
       {/* ── 1. HERO ── */}
       <section className="relative min-h-screen flex flex-col justify-end overflow-hidden">
@@ -264,14 +283,6 @@ export default function CaseStudySummary() {
           style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.48) 30%, transparent 60%)' }} />
 
         <div className="relative z-10 px-8 md:px-16 lg:px-24 pb-20 pt-32">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-            className="flex items-center gap-2 text-zinc-400 text-xs mb-8"
-          >
-            <Link href="/#work" className="hover:text-zinc-600 transition-colors">Work</Link>
-            <span>/</span>
-            <span className="text-zinc-500">{cs.title}</span>
-          </motion.div>
-
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
             className="flex flex-wrap gap-2 mb-6"
           >

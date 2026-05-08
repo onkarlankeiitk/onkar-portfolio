@@ -80,10 +80,10 @@ const NAV_ITEMS = [
   { id: 'idea',      label: 'The Idea' },
   { id: 'research',  label: 'Research' },
   { id: 'compete',   label: 'Competitive' },
+  { id: 'toolbar',   label: 'Plugin Design' },
   { id: 'ia',        label: 'Architecture' },
   { id: 'flows',     label: 'Flows' },
   { id: 'system',    label: 'Design System' },
-  { id: 'toolbar',   label: 'Toolbar' },
   { id: 'platform',  label: 'Platform' },
   { id: 'qa',        label: 'Testing' },
   { id: 'chargebee', label: 'Tech Stack' },
@@ -373,16 +373,38 @@ function Research() {
       type: 'Product User',
       primary: true,
       desc: 'Strategy and management consultants building client-facing deliverables. High-frequency PowerPoint users — often 5–8 hours per day. Deeply familiar with formatting conventions. Primary drivers of the productivity pain point.',
-      needs: ['One-click formatting and alignment', 'Consistency checks across large decks', 'Fast agenda and TOC generation', 'Reliable table formatting tools', 'Creative data visualisation without building from scratch'],
-      pains: ['4–6 clicks for every common formatting task', 'Inconsistent fonts and alignment across slides', 'Re-doing the same tasks in every new deck', 'Building charts and infographics from scratch every time'],
+      needs: [
+        'Align, position & distribute multiple elements in one click',
+        'Resize and reshape multiple objects simultaneously',
+        'Track content flow and annotate slides without leaving PowerPoint',
+        'Create and format tables that stay consistent',
+        'Show progressions visually — agendas, TOC, section markers',
+        'Select identical elements and change properties across the full deck',
+        'Arrange content in matrix layouts instantly',
+        'Generate network diagrams and charts without building from scratch',
+        'Run a global error check before sharing',
+        'Access charts, maps, symbols, and visual libraries in one place',
+        'Maintain a custom library of brand-approved elements across projects',
+      ],
+      pains: [
+        'Aligning and positioning elements requires 4–6 clicks per action, per element',
+        'Resizing or reshaping multiple objects means editing each one individually',
+        'No way to track content flow or annotate slides within PowerPoint',
+        'Table formatting resets unpredictably — borders, widths, and cell heights',
+        'Network diagrams, matrix layouts, and progressions built manually every time',
+        'No way to select all identical elements and change a property in one action',
+        'No global error check — consistency issues caught manually at the end, if at all',
+        'Charts, maps, and visual libraries require external tools or builds from scratch',
+        'Frequently-used brand elements rebuilt from zero in every new project',
+      ],
     },
     {
       segment: 'Corporate Managers',
       type: 'Product User',
       primary: false,
       desc: 'Senior managers and directors in large enterprises who build internal reports, board decks, and business reviews. Less frequent users than consultants, but high value per session. Prioritise consistency and professional appearance.',
-      needs: ['Template and brand consistency enforcement', 'Clean, professional output quickly', 'Easy label and classification system'],
-      pains: ['Brand inconsistency across team decks', 'Time wasted on formatting that should be automatic'],
+      needs: ['Brand consistency enforcement across team decks', 'Clean, professional output quickly', 'Easy label and classification system', 'Global quality check before sharing with stakeholders'],
+      pains: ['Brand inconsistency across team decks — fonts, colours, element styles all drift', 'Time wasted on formatting that should be automatic', 'No self-serve way to check a deck for standard errors before it goes out'],
     },
     {
       segment: 'IT Admins',
@@ -671,7 +693,7 @@ function IA() {
     <section id="ia" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>04 — Information Architecture</SectionLabel>
+        <SectionLabel>05 — Information Architecture</SectionLabel>
         <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
           8-section website designed to move visitors from discovery to trial
         </h2>
@@ -796,7 +818,7 @@ function Flows() {
     <section id="flows" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-28">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel light>05 — User Flows</SectionLabel>
+        <SectionLabel light>06 — User Flows</SectionLabel>
         <h2 className="text-white text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
           6 journeys. Every edge case accounted for.
         </h2>
@@ -916,7 +938,7 @@ function DesignSystem() {
     <section id="system" className="px-8 md:px-16 lg:px-24 py-28 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>06 — Design System</SectionLabel>
+        <SectionLabel>07 — Design System</SectionLabel>
         <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
           One design system. Four platforms. Zero visual inconsistency.
         </h2>
@@ -992,38 +1014,96 @@ function DesignSystem() {
   )
 }
 
-// ─── SECTION: TOOLBAR FEATURES ────────────────────────────────────────────────
+// ─── SECTION: PLUGIN DESIGN & TOOLBAR FEATURES ───────────────────────────────
 function ToolbarFeatures() {
   const features = [
     {
       num: '01',
-      name: 'Quick Tools',
-      desc: 'The most-used formatting operations surfaced in a single-click toolbar. Alignment, distribution, sizing, and shape operations that normally require 4–6 native PowerPoint clicks reduced to one. The "just a click" philosophy made tangible.',
-      tags: ['1-click formatting', 'Alignment', 'Distribution', 'Sizing'],
+      name: 'Organise, Position & Align',
+      desc: 'Every alignment and distribution operation — left, right, centre, top, bottom, distribute evenly — surfaced in a single-click toolbar. Select multiple components and align them in one action. What used to require 4–6 clicks through buried menus becomes one.',
+      tags: ['Multi-element alignment', '1-click positioning', 'Distribute evenly', 'Edge & centre align'],
+      imgLabel: 'Align & position tools panel',
+      imgHint: 'Toolbar panel showing alignment options: left/right/centre/top/bottom buttons, distribute horizontally/vertically controls. Default and Hover states. From Toolbar folder screenshots.',
     },
     {
       num: '02',
-      name: 'Table Formatting',
-      desc: 'Intelligent table cleanup and formatting. Handles column widths, row heights, border consistency, and cell alignment — operations that are particularly painful in native PowerPoint, where table formatting behaves inconsistently.',
-      tags: ['Column/row sizing', 'Border consistency', 'Cell alignment', '1-click cleanup'],
+      name: 'Edit Size & Shape in One Click',
+      desc: 'Select any number of elements and apply uniform size or shape changes simultaneously. Resize multiple objects to an exact dimension, swap shapes, or apply consistent corner radii across all — operations that normally require modifying each element one by one.',
+      tags: ['Multi-element resize', 'Uniform sizing', 'Shape swap', 'Batch dimension edits'],
+      imgLabel: 'Size & shape editor panel',
+      imgHint: 'Toolbar showing size controls: width/height input fields, shape swap options, corner radius control applied to multiple selected elements. From Toolbar folder.',
     },
     {
       num: '03',
-      name: 'Agendas & Table of Contents',
-      desc: 'Generates slide-based agendas and table of contents automatically from the deck structure. Eliminates the time consultants spend manually building and maintaining agenda slides — especially when slide order changes mid-project.',
-      tags: ['Auto-generation', 'TOC from deck structure', 'Section tracking', 'Auto-update'],
+      name: 'Track Content Flow & Annotate Slides',
+      desc: 'On Page Tracker gives a live view of all elements on the current slide — layer order, content type, and position. Annotation tools let designers and collaborators mark up slides with notes and markers without disrupting the actual slide content.',
+      tags: ['On Page Tracker', 'Layer visibility', 'Slide annotations', 'Content flow map'],
+      imgLabel: 'On Page Tracker — content flow panel',
+      imgHint: 'Toolbar panel showing On Page Tracker: list of elements on current slide with layer order indicators, annotation marker tools. From Toolbar folder screenshots.',
     },
     {
       num: '04',
-      name: 'Infographics',
-      desc: 'A library of ready-to-use infographic templates — timelines, process diagrams, comparison charts — that consultants can populate with data rather than building from scratch in PowerPoint. Significant time saving for high-frequency slide types.',
-      tags: ['Template library', 'Timelines', 'Process diagrams', 'Comparison charts'],
+      name: 'Create & Format Tables',
+      desc: 'Insert tables with predefined styles, then format column widths, row heights, border consistency, and cell alignment in one pass. Eliminates the erratic behaviour of native PowerPoint tables — borders that reset, cells that shift — the most consistently frustrating formatting task in the tool.',
+      tags: ['Table insertion', 'Column/row sizing', 'Border consistency', '1-click cleanup', 'Cell alignment'],
+      imgLabel: 'Table Formatting panel',
+      imgHint: 'Toolbar showing Table Formatting: insert table options, column/row controls, border style picker, cell alignment buttons. From Toolbar folder.',
     },
     {
       num: '05',
-      name: 'Labels & Identical Select',
-      desc: 'Labels (Confidential, Draft, Example, Illustrative, Sample) applied across slides with one action. Identical Select finds all elements with matching properties — font, size, colour — and applies changes to all simultaneously, enforcing consistency across a full deck.',
-      tags: ['Classification labels', 'Bulk property selection', 'Consistency enforcement', 'Batch edits'],
+      name: 'Show Progressions Visually',
+      desc: 'Generate agenda slides, table of contents, and section progression visuals automatically from the deck structure. Eliminates the manual work of building and re-maintaining agenda slides every time slide order changes mid-project.',
+      tags: ['Auto agenda', 'TOC generation', 'Section progression', 'Auto-update on reorder'],
+      imgLabel: 'Agenda & progressions panel',
+      imgHint: 'Toolbar showing Agenda/TOC generator with auto-populated section list, progression visual, generate button. From Toolbar folder.',
+    },
+    {
+      num: '06',
+      name: 'Select Identical Elements & Edit Across Deck',
+      desc: 'Identical Select scans the entire deck for elements sharing the same properties — font, size, colour, shape type — and selects them all simultaneously. Apply a change once and it propagates across every matching element in the deck. Combined with classification Labels (Confidential, Draft, Example) applied across all slides in one action.',
+      tags: ['Identical Select', 'Cross-deck editing', 'Bulk property changes', 'Classification labels', 'Consistency enforcement'],
+      imgLabel: 'Identical Select & Labels panel',
+      imgHint: 'Toolbar panel showing Identical Select with property match criteria, and Labels feature: Confidential/Draft/Example/Illustrative/Sample with slide scope selector. From Toolbar folder screenshots.',
+    },
+    {
+      num: '07',
+      name: 'Matrix Layouts',
+      desc: 'Instantly organise content into grid or matrix structures with predefined layout options. Select elements and apply a matrix arrangement — rows, columns, and spacing — in a single action. Eliminates the manual work of building structured layouts slide by slide.',
+      tags: ['Grid layouts', 'Matrix arrangement', '1-click organisation', 'Row/column control'],
+      imgLabel: 'Matrix layouts panel',
+      imgHint: 'Toolbar showing Matrix Layout options: grid size selector, row/column input, spacing control, before/after preview. From Toolbar folder.',
+    },
+    {
+      num: '08',
+      name: 'Create Network Diagrams Instantly',
+      desc: 'Generate network, relationship, and hierarchy diagrams from predefined diagram types — org charts, process flows, relationship maps — and populate them with data rather than drawing every node and connector manually in PowerPoint.',
+      tags: ['Org charts', 'Process flows', 'Relationship maps', 'Instant generation', 'Node/connector library'],
+      imgLabel: 'Network diagram generator',
+      imgHint: 'Toolbar showing Network Diagram options: diagram type selector (org chart, process flow, relationship map), input area, generate button. From Toolbar folder.',
+    },
+    {
+      num: '09',
+      name: 'Global Checks for Standard Errors',
+      desc: 'Run a quality check across the entire deck in one action. Flags standard errors — inconsistent fonts, misaligned elements, off-brand colours, label inconsistencies — and delivers a clear report of issues before the deck is shared. Replaces the manual end-of-project review that consistently missed things.',
+      tags: ['Font consistency check', 'Alignment audit', 'Colour compliance', 'Label validation', 'Error report'],
+      imgLabel: 'Global Checks error report panel',
+      imgHint: 'Toolbar panel showing Global Checks results: categorised error list (font issues, alignment issues, colour issues), fix/ignore actions per issue. From Toolbar folder.',
+    },
+    {
+      num: '10',
+      name: 'Creative Data Visualisation',
+      desc: 'A comprehensive library of chart types, map templates, symbol sets, and visual data components that consultants can populate with data rather than building from scratch. Covers the full range of data story formats — bar charts, heat maps, icon arrays, geographic maps, and custom visual metaphors.',
+      tags: ['Charts & graphs', 'Map templates', 'Symbol libraries', 'Icon arrays', 'Visual metaphors'],
+      imgLabel: 'Data visualisation library panel',
+      imgHint: 'Toolbar or panel showing the visualisation library: chart types (bar, line, scatter, heat map), map templates, symbol sets. From Toolbar folder.',
+    },
+    {
+      num: '11',
+      name: 'Custom Element Library',
+      desc: 'Build and maintain a persistent library of brand-approved elements — icons, shapes, dividers, callouts, layout presets — accessible directly from the toolbar. Stop rebuilding frequently-used components in every new deck. Syncs across the team so brand consistency is enforced at the asset level.',
+      tags: ['Brand element library', 'Custom icons & shapes', 'Team sync', 'Reusable components', 'Layout presets'],
+      imgLabel: 'Custom element library panel',
+      imgHint: 'Toolbar showing Custom Library: categorised brand elements, search, add-to-slide button. Shows team-synced icons, shapes, layout components. From Toolbar folder.',
     },
   ]
 
@@ -1031,17 +1111,86 @@ function ToolbarFeatures() {
     <section id="toolbar" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>07 — Toolbar Features</SectionLabel>
+        <SectionLabel>04 — Plugin Design</SectionLabel>
         <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
-          5 features. All of them solving the same root problem.
+          11 core problems. One panel. Designed to live inside PowerPoint.
         </h2>
         <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
-          Every toolbar feature was derived from the research phase — each one targeting a specific category of
-          repetitive task. The plugin panel lives inside PowerPoint, always accessible, without disrupting the
-          user's working mode.
+          With research done, the team turned to plugin design — defining the information hierarchy of the panel,
+          mapping user behaviours and use cases for all 11 feature groups, and running multiple rounds of testing
+          and iteration focused on maximum value per click. The panel lives inside PowerPoint, always accessible,
+          without disrupting the user's working mode.
         </p>
 
-        <div className="space-y-0 divide-y divide-zinc-100 mb-16">
+        {/* Design process row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+          {[
+            {
+              step: 'Hierarchy & structure',
+              desc: 'Defined the panel information hierarchy — which features surface at the top level vs nested, how groups are labelled, and how the toolbar scales with plan type (free trial vs paid).',
+            },
+            {
+              step: 'User behaviours & use cases',
+              desc: 'Mapped the primary use cases for each feature group. Consultants open Quick Tools first every session; Labels are used at the end of a project. Hierarchy reflects actual usage frequency.',
+            },
+            {
+              step: 'Testing & iteration',
+              desc: 'Tested with the SlideXpress team at each iteration round. Key changes: re-ordering of feature groups, label clarity improvements, and reducing steps to reach the most-used tools.',
+            },
+          ].map((item, i) => (
+            <motion.div
+              key={item.step}
+              initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
+              className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6"
+            >
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white mb-4 shrink-0"
+                style={{ backgroundColor: BLUE }}>
+                {i + 1}
+              </div>
+              <p className="text-zinc-800 text-sm font-semibold mb-2">{item.step}</p>
+              <p className="text-zinc-500 text-xs leading-relaxed">{item.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Process image: full panel overview */}
+        <ProcessImage
+          src={null}
+          label="DeckUp toolbar — full plugin panel in PowerPoint"
+          hint="Screenshot of the DeckUp toolbar as it appears inside PowerPoint — showing the full panel with: Record, Present in Teams, Share buttons at top; Slide Elements section with On Page Tracker; all 5 feature group sections visible. Use the toolbar screenshots from the Toolbar folder (Screenshot 2026-04-17 files)."
+          aspect="aspect-[16/7]"
+        />
+        <ImageCaption>The DeckUp toolbar — full panel layout showing all 5 feature groups as they appear inside PowerPoint.</ImageCaption>
+
+        <Divider />
+
+        {/* Process images: hierarchy & iterations */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+          <div>
+            <ProcessImage
+              src={null}
+              label="Plugin information hierarchy — panel structure wireframes"
+              hint="Wireframe or Figma layout showing the plugin panel hierarchy: top-level feature groups, nested sub-controls, section headers. Shows how the panel structure was defined before visual design. From UX Work folder or Toolbar design files."
+              aspect="aspect-[4/3]"
+            />
+            <ImageCaption>Panel hierarchy wireframes — defining the structure before visual design.</ImageCaption>
+          </div>
+          <div>
+            <ProcessImage
+              src={null}
+              label="Iteration comparison — early vs refined toolbar design"
+              hint="Side-by-side showing an early iteration of the toolbar panel vs the refined final version. Highlights changes in feature ordering, label clarity, and interaction patterns that came from testing rounds. From Toolbar design/iteration files."
+              aspect="aspect-[4/3]"
+            />
+            <ImageCaption>Early vs refined — key changes that came out of testing with the SlideXpress team.</ImageCaption>
+          </div>
+        </div>
+
+        {/* Feature breakdown */}
+        <p className="text-zinc-400 text-xs uppercase tracking-widest mb-10">All 11 features</p>
+
+        <div className="space-y-0 divide-y divide-zinc-100 mb-6">
           {features.map((feature, i) => (
             <motion.div
               key={feature.num}
@@ -1058,39 +1207,22 @@ function ToolbarFeatures() {
                   <h3 className="text-zinc-900 text-xl font-bold">{feature.name}</h3>
                 </div>
                 <p className="text-zinc-500 text-sm leading-relaxed mb-5">{feature.desc}</p>
-              </div>
-              <div>
-                <p className="text-zinc-400 text-xs uppercase tracking-widest mb-4">What this feature does</p>
                 <div className="flex flex-wrap gap-2">
                   {feature.tags.map(t => (
                     <span key={t} className="text-xs px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 font-medium">{t}</span>
                   ))}
                 </div>
               </div>
+              <div>
+                <ProcessImage
+                  src={null}
+                  label={feature.imgLabel}
+                  hint={feature.imgHint}
+                  aspect="aspect-[4/3]"
+                />
+              </div>
             </motion.div>
           ))}
-        </div>
-
-        {/* Toolbar screenshots */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <ProcessImage
-              src={null}
-              label="DeckUp toolbar — plugin panel in PowerPoint"
-              hint="Screenshot of the DeckUp toolbar as it appears inside PowerPoint — showing the plugin panel with: Record, Present in Teams, Share buttons at top; Slide Elements section with On Page Tracker; Quick Tools section. Use the toolbar screenshots from the Toolbar folder (Screenshot 2026-04-17 files)."
-              aspect="aspect-[4/3]"
-            />
-            <ImageCaption>The DeckUp toolbar panel — lives inside PowerPoint, always accessible without disrupting the workflow.</ImageCaption>
-          </div>
-          <div>
-            <ProcessImage
-              src={null}
-              label="Labels feature — classification across all slides"
-              hint="Toolbar panel showing the Labels feature: Confidential, Draft, Example, Illustrative, Sample options with Current Slide / All Slides / Slide Range selector. Shows application scope controls. From toolbar screenshots in the Toolbar folder."
-              aspect="aspect-[4/3]"
-            />
-            <ImageCaption>Labels feature — classification labels applied across the full deck in one action.</ImageCaption>
-          </div>
         </div>
 
       </motion.div>
@@ -1692,10 +1824,10 @@ export default function DeckUpDetail() {
       <TheIdea />
       <Research />
       <Competitive />
+      <ToolbarFeatures />
       <IA />
       <Flows />
       <DesignSystem />
-      <ToolbarFeatures />
       <Platform />
       <Testing />
       <Chargebee />
