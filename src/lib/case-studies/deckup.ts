@@ -44,7 +44,7 @@ export const deckup: CaseStudy = {
       body: 'SlideXpress had spent years developing techniques, shortcuts, and tools for faster, higher-quality deck delivery. That knowledge lived in training sessions and internal workshops. The team questioned: why not package this as a product for the world? DeckUp was the answer. Development was scoped into two phases — Phase I focusing on the core plugin and subscription platform, Phase II planned to layer in AI for personalisation, smart deck generation from a library, and data-driven content creation.',
       tags: ['Product vision', 'Phase I: Core plugin + platform', 'Phase II: AI personalisation', 'Internal → commercial'],
       image: {
-        src: null,
+        src: '/case-studies/deck-up/01_intro.png',
         alt: 'DeckUp product vision — Phase I and Phase II roadmap',
         hint: 'Roadmap visual: Phase I (Core Plugin + Platform) and Phase II (AI personalisation, deck generation from library, data-driven content). Could show a simple two-phase timeline or product vision diagram.',
         aspect: 'aspect-[4/3]',
