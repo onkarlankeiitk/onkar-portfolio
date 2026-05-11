@@ -57,7 +57,7 @@ export const deckup: CaseStudy = {
       body: 'Studied the real pain points of power PowerPoint users across 5 segments: Consultants, Corporate Managers, Presentation Specialists, Educators, and IT Admins. Identified the top recurring tasks eating the most time. Ran a full competitor study across 7 tools for features, onboarding, and pricing. Developed a pricing model with a critical financial planning lens — balancing product sustainability with competitive positioning. Personas and user journeys were mapped to anchor design decisions in real user goals.',
       tags: ['5 user segments', '7 competitors analysed', 'Pricing model & financial planning', 'Personas & journey maps'],
       image: {
-        src: null,
+        src: '/case-studies/deck-up/02_research.png',
         alt: 'User segments, personas, and competitor benchmarking overview',
         hint: 'Show the two user tracks: Product users (Consultants, Corporate Managers, Individual Professionals, Presentation Specialists, Educators) vs Platform users (IT Admins). Optionally overlay the competitor matrix.',
         aspect: 'aspect-[4/3]',
@@ -70,7 +70,7 @@ export const deckup: CaseStudy = {
       body: 'Designed the plugin toolbar from the ground up to solve 11 specific problems power users faced daily: organising, positioning & aligning elements; editing size & shape across multiple objects in one click; tracking content flow and annotating slides; creating and formatting tables; showing progressions visually; selecting identical elements and changing their properties across the full deck; arranging content in matrix layouts; generating network diagrams instantly; running global checks for standard errors; creative data visualisation (charts, maps, symbols, visual libraries); and a custom brand element library. Each feature was designed with defined information hierarchy, user behaviours within PowerPoint\'s constrained panel environment, and multiple rounds of testing and reiteration — always focused on maximum value per click.',
       tags: ['Align & position', 'Multi-element size & shape', 'Content tracker & annotations', 'Table creation & formatting', 'Visual progressions', 'Identical Select', 'Matrix layouts', 'Network diagrams', 'Global error checks', 'Charts, maps & visual libraries', 'Custom element library'],
       image: {
-        src: null,
+        src: '/case-studies/deck-up/03_plugindesign.png',
         alt: 'DeckUp toolbar UI — plugin panel inside PowerPoint',
         hint: 'Screenshot of the DeckUp toolbar in PowerPoint showing the plugin panel: Quick Tools, Table Formatting, Agendas, Labels feature. Show the compact, accessible layout.',
         aspect: 'aspect-[4/3]',
@@ -83,7 +83,7 @@ export const deckup: CaseStudy = {
       body: 'While the plugin was being built, the design team worked in parallel on the subscription platform — covering user management for Single, Teams, and Enterprise accounts. Each plan type had distinct flows and admin needs. Both teams ran weekly alignment sessions to sync on goals, match development timelines, and ensure the plugin and platform stayed coherent as one product — not two separate tools.',
       tags: ['Single · Teams · Enterprise flows', 'User management dashboard', 'Weekly cross-team alignment', 'IT Admin experience'],
       image: {
-        src: null,
+        src: '/case-studies/deck-up/04_subscription_platform.png',
         alt: 'Subscription platform — user management dashboard',
         hint: 'Show the subscription dashboard: user list, licence management, plan status, add/remove users. Highlight the three plan types (Single, Teams, Enterprise) in the UI.',
         aspect: 'aspect-[4/3]',
@@ -96,7 +96,7 @@ export const deckup: CaseStudy = {
       body: 'DeckUp is a standalone PC/laptop installer — not a browser extension. This makes onboarding genuinely cross-functional: it starts on the website with account creation and validation, moves through plan selection and payment, then installer download and plugin activation. Four distinct plan flows were designed: Free Trial, Buy Now (Single), Teams, and Enterprise (get-a-quote). Renewal flows covered both automatic and manual paths with 30/15/7-day email reminders for each scenario.',
       tags: ['Free Trial · Buy Now · Teams · Enterprise', 'Installer activation flow', 'Renewal strategies', 'Email trigger design', '6 complete user journeys'],
       image: {
-        src: null,
+        src: '/case-studies/deck-up/onboarding.png',
         alt: 'Cross-functional onboarding flows — website to plugin activation',
         hint: 'Flow diagram showing the full onboarding path: Website → Account creation → Plan selection → Payment → Installer download → Plugin activation → 30-day trial / Paid plan. Show multiple plan paths branching.',
         aspect: 'aspect-[4/3]',
@@ -109,7 +109,7 @@ export const deckup: CaseStudy = {
       body: 'To reduce Phase I development time, Chargebee was adopted as the subscription engine — handling billing, licence management, and renewals. Its dashboard also served as the internal analytics and growth metrics platform, providing data visualisation, reports, and user management in one place without building custom analytics from scratch. Testing ran across 4 structured rounds: plugin core flows, onboarding, dashboard and enterprise, and visual QA. The prelaunch strategy launched with a limited cohort of existing SlideXpress customers — gaining an outside perspective and catching early issues before a wider rollout.',
       tags: ['Chargebee subscription engine', 'Growth analytics & reporting', '4 QA rounds', 'Limited prelaunch with existing customers'],
       image: {
-        src: null,
+        src: '/case-studies/deck-up/05_Chargebee.png',
         alt: 'QA tracking and prelaunch framework',
         hint: 'Could show the QA tracking sheet (Deckup_testing.xlsx) with columns for issue type, status (Done/Verified/Pending), or a prelaunch rollout framework diagram.',
         aspect: 'aspect-[4/3]',
@@ -117,6 +117,16 @@ export const deckup: CaseStudy = {
       imagePosition: 'left',
     },
   ],
+
+  processMidBanner: {
+    src: '/case-studies/deck-up/process_mid_banner.png',
+    alt: 'DeckUp process mid-point overview',
+  },
+
+  preFindingsBanner: {
+    src: '/case-studies/deck-up/Key_findings.png',
+    alt: 'DeckUp key findings banner',
+  },
 
   findings: [
     {

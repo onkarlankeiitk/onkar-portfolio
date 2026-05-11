@@ -268,8 +268,8 @@ function TheIdea() {
             {
               phase: 'Phase I',
               label: 'Core plugin & platform',
-              status: 'Shipped',
-              statusStyle: 'bg-green-100 text-green-700',
+              status: 'Prelaunch',
+              statusStyle: 'bg-amber-100 text-amber-700',
               items: [
                 'PowerPoint toolbar plugin — 5 core feature groups',
                 'Subscription & user management dashboard',
@@ -339,13 +339,52 @@ function TheIdea() {
         <p className="text-zinc-400 text-xs uppercase tracking-widest mb-6">The 4-platform ecosystem</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
           {[
-            { platform: 'Website',   role: 'Market product, provide info, resources, order, support', icon: '🌐' },
-            { platform: 'Dashboard', role: 'Subscription management, user add/delete, renewals',       icon: '📊' },
-            { platform: 'Plugin',    role: 'Productivity features, licence validation, account sync',  icon: '🔌' },
-            { platform: 'Installer', role: 'Installation, activation, account sync',                  icon: '⚙️' },
+            {
+              platform: 'Website',
+              role: 'Market product, provide info, resources, order, support',
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+              ),
+            },
+            {
+              platform: 'Dashboard',
+              role: 'Subscription management, user add/delete, renewals',
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" />
+                </svg>
+              ),
+            },
+            {
+              platform: 'Plugin',
+              role: 'Productivity features, licence validation, account sync',
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                  <path d="M2 17l10 5 10-5" />
+                  <path d="M2 12l10 5 10-5" />
+                </svg>
+              ),
+            },
+            {
+              platform: 'Installer',
+              role: 'Installation, activation, account sync',
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2v13M8 11l4 4 4-4" />
+                  <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+                </svg>
+              ),
+            },
           ].map(p => (
             <div key={p.platform} className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6">
-              <div className="text-2xl mb-3">{p.icon}</div>
+              <div className="text-blue-500 mb-3">{p.icon}</div>
               <p className="text-zinc-800 text-sm font-semibold mb-2">{p.platform}</p>
               <p className="text-zinc-400 text-xs leading-relaxed">{p.role}</p>
             </div>
