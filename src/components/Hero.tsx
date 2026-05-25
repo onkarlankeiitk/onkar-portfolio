@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, Variants, useMotionValue, useSpring } from 'framer-motion'
+import { motion, Variants, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 import {
   siFigma, siWebflow, siFramer, siHotjar,
@@ -35,15 +35,18 @@ const tools = [
 
 // ─── MOUSE GRADIENT ───────────────────────────────────────────────────────────
 function MouseGradient() {
+  const shouldReduce = useReducedMotion()
   const x = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 400)
   const y = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 400)
   const sx = useSpring(x, { stiffness: 60, damping: 20 })
   const sy = useSpring(y, { stiffness: 60, damping: 20 })
   useEffect(() => {
+    if (shouldReduce) return
     const h = (e: MouseEvent) => { x.set(e.clientX); y.set(e.clientY) }
     window.addEventListener('mousemove', h)
     return () => window.removeEventListener('mousemove', h)
-  }, [x, y])
+  }, [x, y, shouldReduce])
+  if (shouldReduce) return null
   return (
     <motion.div className="pointer-events-none fixed inset-0 z-0" aria-hidden>
       <motion.div className="absolute rounded-full"
@@ -57,19 +60,23 @@ function MouseGradient() {
 
 // ─── BLOBS ────────────────────────────────────────────────────────────────────
 function Blobs() {
+  const shouldReduce = useReducedMotion()
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
       <motion.div className="absolute rounded-full"
         style={{ width: 700, height: 700, top: '-20%', left: '-15%', background: 'radial-gradient(circle, rgba(99,102,241,0.20) 0%, transparent 70%)', filter: 'blur(50px)' }}
-        animate={{ x: [0, 40, 0], y: [0, -30, 0] }} transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        animate={shouldReduce ? {} : { x: [0, 40, 0], y: [0, -30, 0] }}
+        transition={shouldReduce ? {} : { duration: 14, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div className="absolute rounded-full"
         style={{ width: 500, height: 500, top: '-5%', right: '-10%', background: 'radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%)', filter: 'blur(50px)' }}
-        animate={{ x: [0, -30, 0], y: [0, 40, 0] }} transition={{ duration: 17, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+        animate={shouldReduce ? {} : { x: [0, -30, 0], y: [0, 40, 0] }}
+        transition={shouldReduce ? {} : { duration: 17, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
       />
       <motion.div className="absolute rounded-full"
         style={{ width: 600, height: 400, bottom: '5%', left: '25%', background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%)', filter: 'blur(60px)' }}
-        animate={{ x: [0, 50, 0] }} transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 6 }}
+        animate={shouldReduce ? {} : { x: [0, 50, 0] }}
+        transition={shouldReduce ? {} : { duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 6 }}
       />
     </div>
   )
@@ -95,6 +102,7 @@ function OrigamiCanvas() {
   const mouse = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const canvasEl = canvasRef.current
     if (!canvasEl) return
     const canvas: HTMLCanvasElement = canvasEl
@@ -102,7 +110,8 @@ function OrigamiCanvas() {
     if (!rawCtx) return
     const ctx: CanvasRenderingContext2D = rawCtx
     let animId: number
-    let t = 0
+    // Start at the fully-rendered phase when reduced motion is preferred
+    let t = prefersReduced ? 9 : 0
 
     function resize() {
       if (!canvas) return
@@ -376,7 +385,9 @@ function OrigamiCanvas() {
         ctx.textAlign = 'left'
       }
 
-      animId = requestAnimationFrame(draw)
+      if (!prefersReduced) {
+        animId = requestAnimationFrame(draw)
+      }
     }
 
     draw()
@@ -403,43 +414,63 @@ const fallbackImgSrc: Record<string, string> = {
   'VS Code':    '/icons/vscode.svg',
 }
 
+// Squircle clip-path for 96×96 — r≈31 (+40%), fully-rounded iOS app-icon style superellipse
+// Corners meet at edge midpoints (48,0),(96,48),(48,96),(0,48) — no straight segments
+const SQUIRCLE_PATH =
+  'M 48 0 C 68 0 79 0 85 7 C 92 13 96 24 96 48 C 96 68 96 79 89 85 C 83 92 72 96 48 96 C 28 96 17 96 11 89 C 4 83 0 72 0 48 C 0 28 0 17 7 11 C 13 4 24 0 48 0 Z'
+
 function ToolCard({ tool }: { tool: typeof tools[0] }) {
   return (
+    // Outer wrapper: drives animation + group hover; no clip-path so tooltip escapes
     <motion.div
-      whileHover={{ scale: 1.06, y: -3, borderColor: tool.borderColor }}
+      whileHover={{ scale: 1.06, y: -3 }}
       transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-      className="shrink-0 flex items-center gap-3 bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 px-5 py-3 rounded-xl cursor-default"
+      className="group relative shrink-0 cursor-default"
+      style={{ width: 96, height: 96 }}
     >
-      {tool.svgPath ? (
-        // Inline SVG — guaranteed brand color, no network request
-        <svg role="img" viewBox="0 0 24 24" width={20} height={20} fill={tool.iconFill} className="shrink-0">
-          <path d={tool.svgPath} />
-        </svg>
-      ) : (
-        // Local SVG file fallback (Amplitude, MS Clarity, VS Code)
-        <img
-          src={fallbackImgSrc[tool.name]}
-          alt={tool.name}
-          width={20} height={20}
-          className="shrink-0"
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-        />
-      )}
-      <span className="text-zinc-300 text-sm font-medium whitespace-nowrap">{tool.name}</span>
-      <span className="text-zinc-600 text-xs whitespace-nowrap">{tool.category}</span>
+      {/* Squircle card — clip-path kept here so it doesn't clip the tooltip */}
+      <div
+        className="w-full h-full flex items-center justify-center"
+        style={{ clipPath: `path("${SQUIRCLE_PATH}")`, background: 'rgb(24,24,27)' }}
+      >
+        {tool.svgPath ? (
+          <svg role="img" viewBox="0 0 24 24" width={32} height={32} fill={tool.iconFill} className="shrink-0">
+            <path d={tool.svgPath} />
+          </svg>
+        ) : (
+          <img
+            src={fallbackImgSrc[tool.name]}
+            alt={tool.name}
+            width={32} height={32}
+            className="shrink-0"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+          />
+        )}
+      </div>
+
+      {/* Tooltip — outside the clip-path div so it renders uncropped */}
+      <div className="pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-30">
+        <div className="bg-zinc-800 border border-zinc-700 rounded-xl px-3.5 py-2 text-center whitespace-nowrap shadow-xl">
+          <p className="text-white text-sm font-semibold">{tool.name}</p>
+          <p className="text-zinc-400 text-xs mt-0.5">{tool.category}</p>
+        </div>
+        <div className="w-2.5 h-2.5 bg-zinc-800 border-b border-r border-zinc-700 rotate-45 mx-auto -mt-[5px]" />
+      </div>
     </motion.div>
   )
 }
 
 // ─── MARQUEE ──────────────────────────────────────────────────────────────────
 function MarqueeRow() {
+  const shouldReduce = useReducedMotion()
   const tripled = [...tools, ...tools, ...tools]
   return (
-    <div className="overflow-hidden relative">
+    <div className="relative" style={{ overflowX: 'clip', overflowY: 'visible' }}>
       <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-[#0a0a0a] to-transparent pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-[#0a0a0a] to-transparent pointer-events-none" />
       <motion.div className="flex gap-5 py-2 w-max"
-        animate={{ x: ['0%', '-33.33%'] }} transition={{ duration: 30, ease: 'linear', repeat: Infinity }}
+        animate={shouldReduce ? {} : { x: ['0%', '-33.33%'] }}
+        transition={shouldReduce ? {} : { duration: 30, ease: 'linear', repeat: Infinity }}
       >
         {tripled.map((tool, i) => <ToolCard key={`${tool.name}-${i}`} tool={tool} />)}
       </motion.div>
@@ -461,12 +492,25 @@ export default function Hero() {
         {/* LEFT */}
         <motion.div variants={container} initial="hidden" animate="show" className="flex-1 max-w-xl pr-0 lg:pr-12">
 
-          <motion.div variants={item} className="flex items-center gap-3 mb-8">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
-            </span>
-            <p className="text-zinc-400 text-sm tracking-widest uppercase">Available for opportunities</p>
+          <motion.div variants={item} className="mb-8">
+            <div className="inline-flex items-center gap-3 rounded-full px-4 py-2" style={{ border: '1px solid rgba(34,197,94,0.45)', background: 'rgba(34,197,94,0.07)' }}>
+              <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 10, height: 10, overflow: 'visible' }}>
+                {[0, 1, 2].map((i) => (
+                  <span
+                    key={i}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      borderRadius: '9999px',
+                      background: '#4ade80',
+                      animation: `ripple 2.4s ease-out ${i * 0.8}s infinite`,
+                    }}
+                  />
+                ))}
+                <span style={{ position: 'relative', zIndex: 1, display: 'inline-flex', borderRadius: '9999px', width: 10, height: 10, background: '#22c55e', flexShrink: 0 }} />
+              </span>
+              <p className="text-sm tracking-widest uppercase" style={{ color: '#4ade80' }}>Available for opportunities</p>
+            </div>
           </motion.div>
 
           <motion.h1 variants={item} className="text-white text-[2.73rem] md:text-[3.41rem] lg:text-[4.1rem] font-black tracking-tight leading-none mb-6">

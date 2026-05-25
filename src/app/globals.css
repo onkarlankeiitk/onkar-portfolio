@@ -5,12 +5,34 @@
   --foreground: #171717;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes ripple {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(4.5); opacity: 0; }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-quicksand);
+
+  /* DIL brand green — #0fa475 */
+  --color-green-50:  #f0fdf8;
+  --color-green-100: #d9faf0;
+  --color-green-200: #b3f5e1;
+  --color-green-300: #6de9c6;
+  --color-green-400: #35cfa4;
+  --color-green-500: #0fa475;
+  --color-green-600: #0b8a62;
+  --color-green-700: #08704f;
+  --color-green-800: #065740;
+  --color-green-900: #044533;
+  --color-green-950: #022b20;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,5 +50,12 @@ h1, h2, h3, h4, h5, h6 {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Keyboard focus visible on interactive elements */
+:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 3px;
+  border-radius: 4px;
 }

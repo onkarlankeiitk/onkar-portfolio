@@ -2,16 +2,16 @@
 
 // app/work/dil-kyc-detail/page.tsx
 // Full custom detail page — Diamond India Limited · KYC & Onboarding Platform
-// Brand: dark navy (#0D1B2A) + amber (#F5A623) + white
+// Brand: dark navy (#0D1B2A) + green (#0fa475) + white
 
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useRef, useState } from 'react'
+import { useState, useEffect } from 'react'
 import Nav from '@/components/Nav'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const NAVY  = '#0D1B2A'
-const AMBER = '#F5A623'
+const AMBER = '#0fa475'
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 function Pill({ children, amber }: { children: React.ReactNode; amber?: boolean }) {
@@ -39,7 +39,6 @@ function Divider() {
 }
 
 // ProcessImage — shows real image when src is set, placeholder otherwise
-// To activate: copy image into public/case-studies/dil-kyc/ and set src="/case-studies/dil-kyc/filename.png"
 function ProcessImage({ src, label, hint, aspect = 'aspect-video', dark = false }: {
   src?: string | null; label: string; hint: string; aspect?: string; dark?: boolean
 }) {
@@ -72,7 +71,6 @@ function ProcessImage({ src, label, hint, aspect = 'aspect-video', dark = false 
   )
 }
 
-// ImageCaption — label shown below an image slot
 function ImageCaption({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
   return (
     <p className={`text-xs mt-3 text-center ${dark ? 'text-zinc-600' : 'text-zinc-400'}`}>{children}</p>
@@ -81,9 +79,12 @@ function ImageCaption({ children, dark = false }: { children: React.ReactNode; d
 
 // ─── STICKY NAV ───────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
+  { id: 'moment',    label: 'The Moment' },
   { id: 'brief',     label: 'Brief' },
   { id: 'strategy',  label: 'Strategy' },
   { id: 'research',  label: 'Research' },
+  { id: 'personas',  label: 'Personas' },
+  { id: 'journey',   label: 'Journey' },
   { id: 'ia',        label: 'IA' },
   { id: 'kyc',       label: 'KYC Flow' },
   { id: 'dashboard', label: 'Dashboard' },
@@ -95,11 +96,29 @@ const NAV_ITEMS = [
 ]
 
 function StickyNav() {
-  const [active, setActive] = useState('brief')
+  const [active, setActive] = useState(NAV_ITEMS[0].id)
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        })
+      },
+      { rootMargin: '-15% 0px -70% 0px', threshold: 0 }
+    )
+    NAV_ITEMS.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (el) obs.observe(el)
+    })
+    return () => obs.disconnect()
+  }, [])
+
   function scrollTo(id: string) {
     setActive(id)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
+
   return (
     <nav className="fixed left-6 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-2">
       {NAV_ITEMS.map(item => (
@@ -108,7 +127,7 @@ function StickyNav() {
           onClick={() => scrollTo(item.id)}
           className={`text-left text-xs font-medium transition-all duration-200 ${
             active === item.id
-              ? 'text-amber-500 translate-x-1'
+              ? 'text-green-400 translate-x-1'
               : 'text-zinc-400 hover:text-zinc-600'
           }`}
         >
@@ -122,25 +141,19 @@ function StickyNav() {
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 function Hero() {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
-
   return (
-    <section ref={ref} className="relative min-h-screen flex flex-col justify-between overflow-hidden"
-      style={{ backgroundColor: NAVY }}>
+    <section className="overflow-hidden" style={{ backgroundColor: NAVY }}>
 
-      {/* Subtle grid texture */}
-      <div className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: 'linear-gradient(#F5A623 1px, transparent 1px), linear-gradient(90deg, #F5A623 1px, transparent 1px)',
-          backgroundSize: '80px 80px'
-        }}
-      />
+      {/* Grid texture */}
+      <div className="absolute inset-x-0 top-0 pointer-events-none opacity-[0.04]" style={{
+        backgroundImage: 'linear-gradient(#0fa475 1px, transparent 1px), linear-gradient(90deg, #0fa475 1px, transparent 1px)',
+        backgroundSize: '80px 80px',
+        height: '100%',
+      }} />
 
-      {/* Top bar */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-8">
-        <Link href="/#work" className="flex items-center gap-2 text-zinc-400 text-xs hover:text-amber-400 transition-colors">
+      {/* Row 1: Back + Tags */}
+      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-8 pb-5">
+        <Link href="/#work" className="flex items-center gap-2 text-zinc-400 text-xs hover:text-green-400 transition-colors">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
@@ -148,53 +161,46 @@ function Hero() {
         </Link>
         <div className="flex gap-2">
           {['UX Design', 'Enterprise', 'Bullion'].map(t => (
-            <Pill key={t} amber>{t}</Pill>
+            <span key={t} className="inline-block text-xs px-3 py-1 rounded-full border border-green-500/30 bg-green-500/10 text-green-300 font-medium">{t}</span>
           ))}
         </div>
       </div>
 
-      {/* Centre content */}
-      <motion.div style={{ y }} className="relative z-10 px-8 md:px-16 lg:px-24 py-16 flex-1 flex flex-col justify-center">
+      {/* Row 2: Headline + description */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+        className="relative z-10 px-8 md:px-16 lg:px-24 pb-5"
+      >
+        <p className="text-green-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">Diamond India Limited · 2023</p>
+        <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
+          KYC & <span style={{ color: '#0fa475' }}>Onboarding</span>
+        </h1>
+        <p className="text-zinc-400 text-sm max-w-2xl leading-relaxed">
+          India's only government-nominated bullion supplier was running a 100% paper-based KYC. Two weeks per customer. Six handoffs. No status visibility. We designed the platform that closed that gap.
+        </p>
+      </motion.div>
 
-        {/* DIL wordmark area */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
-          className="mb-8"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            {/* DIL diamond-ish mark */}
-            <div className="w-10 h-10 border-2 flex items-center justify-center" style={{ borderColor: AMBER }}>
-              <span className="text-amber-400 font-bold text-sm tracking-widest">DIL</span>
-            </div>
-            <div className="h-px flex-1 max-w-xs" style={{ backgroundColor: AMBER, opacity: 0.3 }} />
+      {/* Row 3: Banner */}
+      <div className="relative overflow-hidden aspect-video" style={{ backgroundColor: '#071a07' }}>
+        <div className="absolute inset-0 opacity-[0.07]" style={{
+          backgroundImage: 'linear-gradient(#0fa475 1px, transparent 1px), linear-gradient(90deg, #0fa475 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+        }} />
+        <div className="relative flex items-center justify-center gap-8 opacity-15">
+          <div className="w-16 h-16 border-2 border-green-400 flex items-center justify-center">
+            <span className="text-green-400 font-bold text-sm tracking-widest">DIL</span>
           </div>
+          <div className="h-px w-32 bg-green-400 opacity-40" />
+          <span className="text-green-400 text-3xl font-bold tracking-tight">KYC & Onboarding Platform</span>
+        </div>
+      </div>
 
-          <p className="text-amber-400 text-xs tracking-[0.25em] uppercase mb-4 font-medium">
-            Diamond India Limited · 2023
-          </p>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-white text-6xl md:text-8xl lg:text-[9rem] font-bold tracking-tight leading-none mb-6"
-        >
-          KYC &<br />
-          <span style={{ color: AMBER }}>Onboarding</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
-          className="text-zinc-400 text-xl md:text-2xl font-light max-w-2xl mb-12 leading-relaxed"
-        >
-          Digitising India's only government-nominated bullion supplier —
-          turning a 2-week paper process into a week-long digital one.
-        </motion.p>
-
-        {/* Meta row */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-wrap gap-6"
-        >
+      {/* Row 4: Meta */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
+        className="relative z-10 flex flex-wrap items-center justify-between gap-6 px-8 md:px-16 lg:px-24 py-5 border-t border-zinc-800"
+      >
+        <div className="flex flex-wrap gap-8">
           {[
             { label: 'Client',    value: 'Diamond India Limited' },
             { label: 'Role',      value: 'Senior UX Designer' },
@@ -206,21 +212,65 @@ function Hero() {
               <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
             </div>
           ))}
-        </motion.div>
-      </motion.div>
-
-      {/* Bottom quote */}
-      <motion.div
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
-        className="relative z-10 px-8 md:px-16 pb-10 flex items-center justify-between"
-      >
-        <p className="text-zinc-600 text-xs italic max-w-xs">
+        </div>
+        <p className="text-zinc-600 text-xs italic max-w-xs hidden md:block">
           "For banks, KYC is a filtering-out process. For DIL, KYC is a welcoming-in process."
         </p>
-        <motion.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.8 }}
-          className="text-zinc-500 text-xs flex items-center gap-2">
-          Scroll ↓
-        </motion.div>
+      </motion.div>
+    </section>
+  )
+}
+
+// ─── SECTION: THE MOMENT ──────────────────────────────────────────────────────
+function TheMoment() {
+  return (
+    <section id="moment" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+
+        <SectionLabel>00 — The Moment</SectionLabel>
+
+        <div className="max-w-3xl">
+          <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-10 leading-tight">
+            A stack of paper forms on a desk in Mumbai
+          </h2>
+
+          <p className="text-zinc-700 text-xl leading-relaxed mb-8">
+            There was a desk in DIL's Mumbai office with a literal stack of physical KYC applications on it. Each one represented a small jewellery exporter — somewhere in Surat, Jaipur, Kolkata — waiting to find out if they were approved. Waiting to find out anything, actually. No one had told them the application had even arrived.
+          </p>
+
+          <p className="text-zinc-500 text-base leading-relaxed mb-6">
+            The stack moved slowly. Each application went through 6+ manual handoffs. A reviewer would look at it, write a query on a sticky note, pass it to someone else who would call the customer. The customer would courier new documents. The documents would arrive and join the bottom of a different pile. Two weeks, minimum. Often three.
+          </p>
+
+          <p className="text-zinc-500 text-base leading-relaxed mb-6">
+            The thing that made this strange: DIL's entire competitive pitch against the banks was speed, access, and a welcoming KYC. They would say this to prospective customers at trade events. GJEPC conferences. Industry dinners. "We get you onboarded fast. We don't make it hard." And then send someone a paper form.
+          </p>
+
+          <p className="text-zinc-800 text-lg font-medium leading-relaxed mb-6">
+            The process was contradicting the brand. Every week it ran like that, it was eroding exactly the trust DIL was trying to build.
+          </p>
+
+          <p className="text-zinc-500 text-base leading-relaxed">
+            That desk — and what it represented — was where this project started. Not from a product roadmap. From a real observation about a real gap between what a company promised and what it delivered.
+          </p>
+        </div>
+
+        <div className="mt-16 border-l-4 border-green-400 pl-8 max-w-2xl">
+          <p className="text-zinc-400 text-xs uppercase tracking-widest mb-4">What the data showed</p>
+          <div className="grid grid-cols-3 gap-8">
+            {[
+              { v: '2 weeks', l: 'Average onboarding time' },
+              { v: '6+',      l: 'Manual handoffs per application' },
+              { v: '0',       l: 'Status updates a customer received' },
+            ].map(m => (
+              <div key={m.l}>
+                <div className="text-3xl font-bold text-green-500 mb-1">{m.v}</div>
+                <div className="text-zinc-500 text-xs leading-snug">{m.l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </motion.div>
     </section>
   )
@@ -229,7 +279,7 @@ function Hero() {
 // ─── SECTION: BRIEF ───────────────────────────────────────────────────────────
 function Brief() {
   return (
-    <section id="brief" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="brief" className="px-8 md:px-16 lg:px-24 py-28 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>01 — The Brief</SectionLabel>
@@ -241,15 +291,15 @@ function Brief() {
           {[
             {
               head: 'Who is DIL?',
-              body: 'Diamond India Limited is the only private-sector company in India with a Central Government nomination and licence to procure bullion — a distinction held since 2009. With 800 customers and the largest base of any private agency, 98% of whom are small jewellery exporters, DIL\'s mission is to be the trusted, transparent, service-first trade body for India\'s gem and jewellery industry.',
+              body: 'Diamond India Limited has been India\'s only Central Government-nominated private-sector bullion supplier since 2009. 800+ customers — 98% small jewellery exporters. The biggest private agency base in the country. Their mission, stated directly: "We are here to help you grow." The banks are their competitors. The banks have ₹5 crore minimums and KYC timelines measured in years. DIL operates at any quantity, any size.',
             },
             {
-              head: 'The problem',
-              body: 'Every new customer went through a fully paper-based KYC process — 6+ manual handoffs, no status visibility, no audit trail, no online submission. It took 2 weeks per customer. Internal staff spent hours on data re-entry and chasing physical signatures. The process directly contradicted the brand\'s core promise of speed, access, and transparency.',
+              head: 'The situation',
+              body: 'Every new customer went through a fully paper-based KYC — 6+ manual handoffs, no status updates, no audit trail, no online path of any kind. Staff spent hours re-entering data and chasing physical signatures. Query resolution halted the entire process. A customer in Surat who sent a document by courier and got a sticky-note query back would wait another week. The average was two weeks. Often more.',
             },
             {
               head: 'The ask',
-              body: 'Design a two-sided digital platform: a customer-facing KYC portal for online application and a staff-facing dashboard for review and approval. Also design the KYC renewal flow for existing customers and a full website IA to close the discovery-to-onboarding gap.',
+              body: 'Design a two-sided digital platform: a customer-facing KYC portal for online application, and a staff-facing dashboard for section-level review and approval. Design the KYC renewal flow for returning customers. And design a full website information architecture — because most potential customers didn\'t even know what DIL was before showing up to apply.',
             },
           ].map(col => (
             <div key={col.head}>
@@ -264,11 +314,11 @@ function Brief() {
           {[
             { v: '55%',  l: 'Onboarding time cut',  s: '2 weeks → 5–7 days' },
             { v: '800+', l: 'Customers served',      s: 'Largest private agency base' },
-            { v: '3',    l: 'KYC form types',        s: 'Proprietor, corporate, bullion' },
+            { v: '3',    l: 'KYC form types',        s: 'Proprietor, Corporate, Bullion' },
             { v: '7',    l: 'Site sections',         s: 'Home to Resources' },
           ].map(m => (
             <div key={m.l} className="bg-white px-6 py-8">
-              <div className="text-4xl font-bold text-amber-500 mb-1">{m.v}</div>
+              <div className="text-4xl font-bold mb-1" style={{ color: AMBER }}>{m.v}</div>
               <div className="text-zinc-700 text-sm font-medium mb-0.5">{m.l}</div>
               <div className="text-zinc-400 text-xs">{m.s}</div>
             </div>
@@ -307,11 +357,10 @@ function Strategy() {
 
         <SectionLabel>02 — Brand Strategy</SectionLabel>
         <h2 className="text-white text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
-          Crafting the DIL differential
+          Before designing any screen, we mapped who DIL was competing against — and why they were better
         </h2>
         <p className="text-zinc-400 text-base max-w-2xl mb-16 leading-relaxed">
-          Before designing any screen, we ran a full brand strategy session to understand exactly why DIL was better than banks —
-          and how to make that tangible in every interaction.
+          The brand strategy session was not a design exercise. It was a positioning exercise. We needed to understand exactly what made DIL different from the banks — not just to write it on a website, but to make it felt in every interaction the platform created. Eight words emerged. Everything else flowed from those.
         </p>
 
         {/* Banks vs DIL comparison */}
@@ -341,7 +390,7 @@ function Strategy() {
           <p className="text-zinc-500 text-xs tracking-widest uppercase mb-6">8 brand value keywords</p>
           <div className="flex flex-wrap gap-3">
             {keywords.map(k => (
-              <span key={k} className="border text-sm px-5 py-3 rounded-xl font-medium text-zinc-300 border-zinc-700 hover:border-amber-500 hover:text-amber-400 transition-colors">
+              <span key={k} className="border text-sm px-5 py-3 rounded-xl font-medium text-zinc-300 border-zinc-700 hover:border-green-500 hover:text-green-400 transition-colors">
                 {k}
               </span>
             ))}
@@ -355,20 +404,27 @@ function Strategy() {
             <p className="text-white text-3xl font-bold leading-tight">One in a million.<br />One in a bullion.</p>
           </div>
           <div className="p-10" style={{ backgroundColor: AMBER }}>
-            <p className="text-amber-900 text-xs uppercase tracking-widest mb-4">We are the Perfect Match</p>
+            <p className="text-zinc-900 text-xs uppercase tracking-widest mb-4 font-semibold">We are the Perfect Match</p>
             <p className="text-zinc-900 text-3xl font-bold leading-tight">What you need is what we offer.<br />Faster. Better. Safer.</p>
           </div>
         </div>
 
-        {/* Brand strategy workshop output */}
-        <ProcessImage
-          src={null}
-          label="Brand strategy session output — keyword mapping & positioning"
-          hint="Workshop whiteboard or slide showing the 8 brand keywords radiating from the DIL brand core. Alternatively: the brand positioning map (X axis: accessibility, Y axis: speed) showing DIL vs competitor banks. From the DIL Brand Strategy PDF."
-          aspect="aspect-[16/8]"
-          dark
-        />
-        <ImageCaption dark>Brand strategy output — mapping DIL's 8 core values against the competitive landscape.</ImageCaption>
+        {/* Design constraint acknowledgement */}
+        <div className="border border-zinc-800 rounded-2xl p-8">
+          <p className="text-zinc-400 text-xs uppercase tracking-widest mb-4 font-semibold">Design constraints — stated upfront</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { head: 'No decoration', body: 'Minimal colours — only functional. No visual complexity that would create friction with less tech-savvy customers.' },
+              { head: 'Internal tech team in the loop', body: 'Every technical decision reviewed jointly. No surprise handoffs. No specs that couldn\'t be built by the team that existed.' },
+              { head: 'Design limits acknowledged', body: 'AI-powered onboarding was discussed and deliberately deprioritised for v1. Constraints are real, and that\'s what makes design truthful.' },
+            ].map(c => (
+              <div key={c.head}>
+                <p className="text-zinc-200 text-sm font-medium mb-2">{c.head}</p>
+                <p className="text-zinc-500 text-sm leading-relaxed">{c.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
 
       </motion.div>
     </section>
@@ -377,119 +433,444 @@ function Strategy() {
 
 // ─── SECTION: RESEARCH ────────────────────────────────────────────────────────
 function Research() {
+  const painPoints = [
+    {
+      n: 'P1',
+      title: 'Zero discoverability',
+      body: 'Harish heard about DIL from a peer at a GJEPC trade event. The website barely explained what DIL was. Discovery was entirely word-of-mouth.',
+    },
+    {
+      n: 'P2',
+      title: 'No document checklist before starting',
+      body: 'Customers were told (verbally) what to gather. No written reference. People started the form, hit an unfamiliar field, and stopped — sometimes for days.',
+    },
+    {
+      n: 'P3',
+      title: 'Six-plus manual handoffs, no visibility',
+      body: 'An application moved through 6+ internal stations. Each transfer was untracked. No one — inside or outside DIL — knew where it was at any moment.',
+    },
+    {
+      n: 'P4',
+      title: 'Physical signature required',
+      body: 'The agreement required a wet signature. Travel to Mumbai or courier — both adding days and cost for exporters in Surat, Jaipur, Kolkata.',
+    },
+    {
+      n: 'P5',
+      title: 'No status for 2 weeks',
+      body: 'Once submitted, Harish had no way to check status except by calling. Staff received 5–10 status calls daily that they couldn\'t meaningfully action.',
+    },
+    {
+      n: 'P6',
+      title: 'All-or-nothing query resolution',
+      body: 'One problem in bank details froze the entire application. A minor query about a single field stopped everything else. Average delay per query: 3–5 days.',
+    },
+    {
+      n: 'P7',
+      title: 'Data re-entry between systems',
+      body: 'Approved applications required 1–2 hours of manual data re-entry into DIL\'s internal CRM. Entry errors and time waste, every application.',
+    },
+    {
+      n: 'P8',
+      title: 'No entity-type differentiation',
+      body: 'A Sole Proprietor and a Corporate Director have different requirements. The paper form showed all fields to everyone. Confusion in every direction.',
+    },
+  ]
+
+  const hmwQuestions = [
+    'How might we give customers real-time status visibility without adding load to the compliance team?',
+    'How might we enable reviewers to query one section without blocking the rest of the application?',
+    'How might we show each customer only the fields relevant to their entity type?',
+    'How might we let customers complete the entire KYC from anywhere in India — no travel, no courier?',
+    'How might we give customers a complete document checklist before they fill a single field?',
+    'How might we design KYC renewal as a relationship moment rather than an annual compliance chore?',
+    'How might we make the 3-step KYC feel like three completable tasks, not one overwhelming form?',
+    'How might we turn a rejection into a specific, actionable communication instead of a closed door?',
+    'How might we eliminate every paper handoff without changing DIL\'s internal approval authority?',
+    'How might we make DIL discoverable to small exporters before they hear about it from a peer?',
+  ]
+
   return (
     <section id="research" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>03 — User Research</SectionLabel>
-        <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-16 max-w-3xl leading-tight">
-          Understanding who we were actually designing for
+        <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
+          What we found when we looked at both sides of the process
         </h2>
+        <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
+          Research ran on both sides simultaneously — the customer applying and the compliance reviewer reviewing. The problems on each side turned out to be mirror images of each other. What the customer couldn't see, the staff couldn't communicate. What the staff needed to do partially, the system forced them to do entirely.
+        </p>
 
-        {/* Persona */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-0 rounded-2xl overflow-hidden border border-zinc-200 mb-16">
-
-          {/* Left — identity */}
-          <div className="md:col-span-2 p-10 flex flex-col justify-between" style={{ backgroundColor: NAVY }}>
-            <div>
-              <div className="w-16 h-16 rounded-full bg-zinc-700 flex items-center justify-center text-2xl mb-6">👤</div>
-              <h3 className="text-white text-2xl font-bold mb-1">Harish Gupta</h3>
-              <p className="text-amber-400 text-sm mb-6">Age 38 · Export Division, Family Jewellery Business</p>
-              <blockquote className="border-l-2 border-amber-400 pl-4 text-zinc-300 text-sm italic leading-relaxed">
-                "I need bullions as and when required, as per my export orders in minimum time and hassle-free process."
-              </blockquote>
-            </div>
-            <div className="mt-8 pt-6 border-t border-zinc-700">
-              <p className="text-zinc-500 text-xs">Fourth-generation jeweller. Tech-comfortable. Growth-oriented.</p>
-            </div>
-          </div>
-
-          {/* Right — goals + frustrations */}
-          <div className="md:col-span-3 grid grid-cols-1 divide-y divide-zinc-100">
-            <div className="p-8">
-              <p className="text-amber-500 text-xs uppercase tracking-widest font-semibold mb-4">Goals</p>
-              <ul className="space-y-3">
-                {[
-                  'Increase exports 2× in next 2–3 years',
-                  'Use technology in logistics for better reach and tracking',
-                  'Connect with top suppliers for continuous, assured supply',
-                ].map(g => (
-                  <li key={g} className="flex items-start gap-3 text-zinc-600 text-sm">
-                    <span className="text-amber-400 mt-0.5">→</span> {g}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="p-8">
-              <p className="text-red-400 text-xs uppercase tracking-widest font-semibold mb-4">Frustrations</p>
-              <ul className="space-y-3">
-                {[
-                  'Lag in deliveries causing harm to reputation and business',
-                  'Supply agencies insisting on large orders — small requirements ignored',
-                  'Low working capital limits flexibility',
-                  'No knowledge-base for navigating bullion procurement',
-                ].map(f => (
-                  <li key={f} className="flex items-start gap-3 text-zinc-600 text-sm">
-                    <span className="text-red-400 mt-0.5">✕</span> {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Persona image */}
-        <div className="mb-16">
-          <ProcessImage
-            src={null}
-            label="User persona — Harish Gupta (full card)"
-            hint="Persona card from the DIL research phase: photo/avatar, demographics, goals, frustrations, a quote. Rough sketch, PDF export, or Figma screenshot are all fine. Shows the small jewellery exporter archetype."
-            aspect="aspect-[16/7]"
-          />
-          <ImageCaption>Primary persona — Harish Gupta, 38, fourth-generation jeweller and DIL's core customer archetype.</ImageCaption>
-        </div>
-
-        {/* Customer journeys */}
-        <div className="space-y-12 mb-16">
+        {/* Research methods */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
           {[
-            {
-              title: 'Onboarding journey',
-              steps: ['Website Portal', 'KYC Application', 'Preliminary Verification', 'Successful Verification', 'Agreement for Purchase'],
-            },
-            {
-              title: 'Gold buying journey',
-              steps: ['Order by Customer', 'DIL Confirms Order', 'DIL Places to Int. Suppliers', 'Bullion to Secure Vault', 'DIL Communicates', 'Release Order', 'Customer Receives'],
-            },
-          ].map(journey => (
-            <div key={journey.title}>
-              <p className="text-zinc-400 text-xs uppercase tracking-widest mb-5">{journey.title}</p>
-              <div className="flex items-center gap-0 overflow-x-auto pb-2">
-                {journey.steps.map((step, i) => (
-                  <div key={step} className="flex items-center shrink-0">
-                    <div className="flex flex-col items-center">
-                      <div className="w-2.5 h-2.5 rounded-full border-2 border-amber-400 bg-white mb-2" />
-                      <div className="bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium px-4 py-2.5 rounded-xl text-center max-w-[120px] leading-tight">
-                        {step}
-                      </div>
-                    </div>
-                    {i < journey.steps.length - 1 && (
-                      <div className="w-8 h-px bg-amber-200 mx-1 shrink-0 -mt-6" />
-                    )}
-                  </div>
-                ))}
-              </div>
+            { method: 'Stakeholder sessions', detail: 'DIL management, admin, director — internal workflow mapping' },
+            { method: 'Contextual inquiry', detail: 'Observed the paper review process as-is — where it stalled' },
+            { method: 'User interviews', detail: 'Jewellery exporter archetype — goals, fears, digital comfort' },
+            { method: 'Concept testing', detail: 'Wireframes tested with staff and customers before high-fidelity' },
+          ].map(m => (
+            <div key={m.method} className="bg-zinc-50 border border-zinc-200 rounded-xl p-5">
+              <p className="text-zinc-800 text-sm font-semibold mb-2">{m.method}</p>
+              <p className="text-zinc-400 text-xs leading-relaxed">{m.detail}</p>
             </div>
           ))}
+        </div>
+
+        {/* Pain points grid */}
+        <div className="mb-20">
+          <p className="text-zinc-400 text-xs uppercase tracking-widest mb-8">8 core pain points — evidenced, not assumed</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {painPoints.map((p, i) => (
+              <motion.div
+                key={p.n}
+                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className="bg-white border border-zinc-200 rounded-xl p-5 flex gap-4"
+              >
+                <div className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-red-500 bg-red-50 border border-red-100">
+                  {p.n}
+                </div>
+                <div>
+                  <p className="text-zinc-800 text-sm font-semibold mb-1.5">{p.title}</p>
+                  <p className="text-zinc-500 text-sm leading-relaxed">{p.body}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* HMW */}
+        <div className="mb-20">
+          <p className="text-zinc-400 text-xs uppercase tracking-widest mb-8">How might we questions — 10 of them</p>
+          <div className="space-y-3">
+            {hmwQuestions.map((q, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -8 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.05 }}
+                className="flex items-start gap-4 bg-zinc-50 border border-zinc-100 rounded-xl px-5 py-4"
+              >
+                <span className="shrink-0 text-xs font-bold text-green-500 mt-0.5 w-4">{i + 1}</span>
+                <p className="text-zinc-600 text-sm leading-relaxed">{q}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Research image placeholder */}
+        <ProcessImage
+          src={null}
+          label="Research synthesis — pain points mapped to HMW questions"
+          hint="Affinity map or synthesis board showing pain points clustered into themes: Status Visibility, Query Resolution, Entity Branching, Discoverability. Can be a whiteboard photo, FigJam screenshot, or a clean diagram. Shows the bridge from observations to design decisions."
+          aspect="aspect-[16/8]"
+        />
+        <ImageCaption>Research synthesis — observations from both sides of the process mapped to design opportunities.</ImageCaption>
+
+      </motion.div>
+    </section>
+  )
+}
+
+// ─── SECTION: PERSONAS ────────────────────────────────────────────────────────
+function Personas() {
+  return (
+    <section id="personas" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-28">
+      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+
+        <SectionLabel>04 — Personas & Empathy Maps</SectionLabel>
+        <h2 className="text-white text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
+          Two people. One process. Completely different problems.
+        </h2>
+        <p className="text-zinc-400 text-base max-w-2xl mb-16 leading-relaxed">
+          Designing a two-sided platform means sitting with both sides seriously. Harish is trying to get approved. Priya is trying to approve correctly. Their problems look different on the surface. Underneath, they're caused by the same thing: a process that doesn't communicate.
+        </p>
+
+        {/* Harish */}
+        <div className="rounded-2xl overflow-hidden border border-zinc-800 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-5">
+
+            {/* Left — identity */}
+            <div className="md:col-span-2 p-10 flex flex-col justify-between border-b md:border-b-0 md:border-r border-zinc-800">
+              <div>
+                <div className="w-14 h-14 rounded-full bg-zinc-800 flex items-center justify-center text-sm font-bold mb-6" style={{ color: AMBER }}>
+                  HG
+                </div>
+                <h3 className="text-white text-2xl font-bold mb-1">Harish Gupta</h3>
+                <p className="text-green-400 text-sm mb-2">Age 38 · Export Division Head</p>
+                <p className="text-zinc-500 text-xs mb-6">Fourth-generation jeweller, Surat. Tech-comfortable. Growth-oriented.</p>
+                <blockquote className="border-l-2 border-green-400 pl-4 text-zinc-300 text-sm italic leading-relaxed">
+                  "I need bullions as and when required, as per my export orders in minimum time and hassle-free process."
+                </blockquote>
+              </div>
+              <div className="mt-8 pt-6 border-t border-zinc-800">
+                <p className="text-zinc-500 text-xs leading-relaxed">Devices: Android + Windows laptop. Uses WhatsApp Business, Tally, GJEPC portal. Submits forms in evenings after the office quiets down.</p>
+              </div>
+            </div>
+
+            {/* Right — empathy map */}
+            <div className="md:col-span-3 grid grid-cols-2 divide-x divide-y divide-zinc-800">
+              {[
+                {
+                  label: 'Says',
+                  items: [
+                    '"Just tell me what documents I need upfront."',
+                    '"Do I need to come to Mumbai for this?"',
+                    '"I already sent everything. Why is there still a problem?"',
+                  ],
+                },
+                {
+                  label: 'Thinks',
+                  items: [
+                    'What if I fill something wrong and they reject everything?',
+                    'Is this company real? Government-nominated sounds legitimate but I\'ve never heard of them.',
+                    'The bank KYC took 2 years. Please don\'t be like that.',
+                  ],
+                },
+                {
+                  label: 'Does',
+                  items: [
+                    'Screenshots every confirmation screen on his phone.',
+                    'Calls a contact before starting — "Is this how it works?"',
+                    'Completes forms in 2–3 sittings, not one continuous session.',
+                  ],
+                },
+                {
+                  label: 'Feels',
+                  items: [
+                    'Anxious when there\'s no acknowledgement after submission.',
+                    'Relieved when a step says "completed" visually and clearly.',
+                    'Embarrassed about having to ask what a field means.',
+                  ],
+                },
+              ].map(quad => (
+                <div key={quad.label} className="p-6">
+                  <p className="text-zinc-500 text-xs uppercase tracking-widest font-semibold mb-4">{quad.label}</p>
+                  <ul className="space-y-3">
+                    {quad.items.map(item => (
+                      <li key={item} className="text-zinc-400 text-xs leading-relaxed flex gap-2">
+                        <span className="text-green-500 shrink-0 mt-0.5">›</span>{item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Priya */}
+        <div className="rounded-2xl overflow-hidden border border-zinc-800">
+          <div className="grid grid-cols-1 md:grid-cols-5">
+
+            {/* Left — identity */}
+            <div className="md:col-span-2 p-10 flex flex-col justify-between border-b md:border-b-0 md:border-r border-zinc-800">
+              <div>
+                <div className="w-14 h-14 rounded-full bg-zinc-800 flex items-center justify-center text-sm font-bold mb-6" style={{ color: AMBER }}>
+                  PN
+                </div>
+                <h3 className="text-white text-2xl font-bold mb-1">Priya Nair</h3>
+                <p className="text-green-400 text-sm mb-2">Age 31 · DIL Compliance Reviewer</p>
+                <p className="text-zinc-500 text-xs mb-6">4 years at DIL. Ex-banking compliance. Methodical, precise, accountable.</p>
+                <blockquote className="border-l-2 border-green-400 pl-4 text-zinc-300 text-sm italic leading-relaxed">
+                  "If I approve something I shouldn't have, the director asks me. If I hold things up, the sales team asks me. There's no good side to get it wrong."
+                </blockquote>
+              </div>
+              <div className="mt-8 pt-6 border-t border-zinc-800">
+                <p className="text-zinc-500 text-xs leading-relaxed">Reviews 8–12 applications simultaneously. Keeps a personal notebook of queries before raising them — she wants to be specific before she types anything official.</p>
+              </div>
+            </div>
+
+            {/* Right — empathy map */}
+            <div className="md:col-span-3 grid grid-cols-2 divide-x divide-y divide-zinc-800">
+              {[
+                {
+                  label: 'Says',
+                  items: [
+                    '"I need to flag one section, not reject the whole thing."',
+                    '"The query has to be specific. Vague queries get wrong resubmissions."',
+                    '"How many applications came in this week? I\'ve lost track."',
+                  ],
+                },
+                {
+                  label: 'Thinks',
+                  items: [
+                    'If I reject a whole app for one bad section, the customer has to redo everything. That\'s not fair or efficient.',
+                    'I need to see the document date, not just the name. The date is what matters for compliance.',
+                    'Why is a Proprietor showing Director fields? The form logic is wrong.',
+                  ],
+                },
+                {
+                  label: 'Does',
+                  items: [
+                    'Reads every PDF carefully — looks for dates and signatures, not just presence.',
+                    'Sorts applications by submission date and works oldest-first.',
+                    'Escalates unusual entity types to manager before approving.',
+                  ],
+                },
+                {
+                  label: 'Feels',
+                  items: [
+                    'Accountable — if she misses a compliance gap, it\'s on her.',
+                    'Overwhelmed on high-volume weeks when 5+ applications arrive at once.',
+                    'Satisfied when a clean application moves to Approved with no back-and-forth.',
+                  ],
+                },
+              ].map(quad => (
+                <div key={quad.label} className="p-6">
+                  <p className="text-zinc-500 text-xs uppercase tracking-widest font-semibold mb-4">{quad.label}</p>
+                  <ul className="space-y-3">
+                    {quad.items.map(item => (
+                      <li key={item} className="text-zinc-400 text-xs leading-relaxed flex gap-2">
+                        <span className="text-green-500 shrink-0 mt-0.5">›</span>{item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <ProcessImage
+          src={null}
+          label="Persona cards — Harish Gupta and Priya Nair"
+          hint="Full persona card pages from the DIL research phase: photo/avatar, demographics, quote, goals, frustrations, empathy map. Can be Figma exports, PDF pages, or whiteboard sketches. Shows both personas side by side."
+          aspect="aspect-[16/7]"
+          dark
+        />
+        <ImageCaption dark>Primary and secondary personas — the exporter applying and the reviewer approving. Both shaped every design decision.</ImageCaption>
+
+      </motion.div>
+    </section>
+  )
+}
+
+// ─── SECTION: JOURNEY MAPS ─────────────────────────────────────────────────────
+function JourneyMaps() {
+  const currentStateSteps = [
+    { stage: 'Inquiry', emotion: 'Curious', pain: 'No digital discovery. Word-of-mouth only.' },
+    { stage: 'Form collection', emotion: 'Uncertain', pain: 'Verbal instructions only. No written checklist.' },
+    { stage: 'Document gathering', emotion: 'Mild stress', pain: 'Takes days. No single reference.' },
+    { stage: '6 manual handoffs', emotion: 'Helpless', pain: 'No visibility. Applications sit on desks.' },
+    { stage: 'Physical signature', emotion: 'Effort + cost', pain: 'Travel to Mumbai or courier required.' },
+    { stage: 'Filing', emotion: 'Limbo', pain: 'Physical file. No audit trail.' },
+    { stage: 'Status tracking', emotion: 'Anxious', pain: 'Calls to DIL staff. 5–10 per day answered.' },
+    { stage: 'Query resolution', emotion: 'Frustrated', pain: 'One query stops entire application.' },
+    { stage: 'Approval/Rejection', emotion: 'Relief or defeat', pain: 'No reason given. No clear next step.' },
+  ]
+
+  const futureStateSteps = [
+    { stage: 'Website discovery', emotion: 'Informed', improvement: 'Site IA educates before form starts.' },
+    { stage: 'Checklist download', emotion: 'Prepared', improvement: 'Document list available before Step 1.' },
+    { stage: 'Step 1: Basic Info', emotion: 'Fast + clear', improvement: 'Progress stepper. 7 fields. Contextual help.' },
+    { stage: 'Step 2: Application', emotion: 'Guided', improvement: 'Entity branching. Only relevant fields shown.' },
+    { stage: 'Preview + submit', emotion: 'In control', improvement: 'Review all entries before final submission.' },
+    { stage: 'Staff review', emotion: '[Staff: calm]', improvement: 'Section-level dashboard. Partial progress possible.' },
+    { stage: 'Query (if needed)', emotion: 'Directed', improvement: 'Specific field flagged. Targeted resubmission.' },
+    { stage: 'Step 3: Agreement', emotion: 'Accomplished', improvement: 'All steps green. Agreement to download. Done.' },
+    { stage: 'Account activated', emotion: 'Trusted', improvement: 'Portal: orders, status, tracking, renewal.' },
+  ]
+
+  return (
+    <section id="journey" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+
+        <SectionLabel>05 — Journey Maps</SectionLabel>
+        <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
+          The same process. Before and after.
+        </h2>
+        <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
+          Mapping both states side by side made visible what the numbers alone couldn't: the emotional curve of the experience. The paper process had two frustration peaks — the handoffs, and the query resolution. Both were caused by the same thing: a process that couldn't communicate its own status.
+        </p>
+
+        {/* Current state */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-3 h-3 rounded-full bg-red-400" />
+            <p className="text-zinc-700 text-sm font-semibold">Current state — paper-based KYC</p>
+            <span className="text-zinc-400 text-xs ml-auto">Average: 2 weeks minimum</span>
+          </div>
+          <div className="overflow-x-auto pb-4">
+            <div className="flex gap-0 min-w-max">
+              {currentStateSteps.map((step, i) => (
+                <div key={step.stage} className="flex items-stretch">
+                  <div className="w-32 flex flex-col">
+                    {/* Stage name */}
+                    <div className="bg-zinc-900 text-zinc-300 text-xs font-medium px-3 py-2.5 text-center leading-tight min-h-[44px] flex items-center justify-center">
+                      {step.stage}
+                    </div>
+                    {/* Emotion */}
+                    <div className="bg-red-50 border-t border-red-100 text-red-600 text-xs px-3 py-2 text-center">
+                      {step.emotion}
+                    </div>
+                    {/* Pain point */}
+                    <div className="bg-zinc-50 border-t border-zinc-100 text-zinc-400 text-xs px-3 py-3 leading-snug flex-1">
+                      {step.pain}
+                    </div>
+                  </div>
+                  {i < currentStateSteps.length - 1 && (
+                    <div className="flex items-start pt-[22px]">
+                      <div className="w-4 h-px bg-zinc-300 mt-2.5" />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Future state */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-3 h-3 rounded-full bg-green-400" />
+            <p className="text-zinc-700 text-sm font-semibold">Future state — digital KYC platform</p>
+            <span className="text-zinc-400 text-xs ml-auto">Target: 5–7 days</span>
+          </div>
+          <div className="overflow-x-auto pb-4">
+            <div className="flex gap-0 min-w-max">
+              {futureStateSteps.map((step, i) => (
+                <div key={step.stage} className="flex items-stretch">
+                  <div className="w-32 flex flex-col">
+                    {/* Stage name */}
+                    <div className="text-zinc-200 text-xs font-medium px-3 py-2.5 text-center leading-tight min-h-[44px] flex items-center justify-center" style={{ backgroundColor: NAVY }}>
+                      {step.stage}
+                    </div>
+                    {/* Emotion */}
+                    <div className="bg-green-50 border-t border-green-100 text-green-700 text-xs px-3 py-2 text-center">
+                      {step.emotion}
+                    </div>
+                    {/* Improvement */}
+                    <div className="bg-zinc-50 border-t border-zinc-100 text-zinc-400 text-xs px-3 py-3 leading-snug flex-1">
+                      {step.improvement}
+                    </div>
+                  </div>
+                  {i < futureStateSteps.length - 1 && (
+                    <div className="flex items-start pt-[22px]">
+                      <div className="w-4 h-px bg-green-200 mt-2.5" />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Key insight callout */}
+        <div className="bg-zinc-900 rounded-2xl p-8 mb-16">
+          <p className="text-zinc-400 text-xs uppercase tracking-widest font-semibold mb-4">The insight that changed the design</p>
+          <p className="text-white text-xl font-medium leading-relaxed max-w-2xl">
+            Customers weren't abandoning because the process was hard. They were abandoning because they didn't know if anything was happening. Status visibility wasn't a nice-to-have — it was the trust mechanism.
+          </p>
         </div>
 
         {/* Journey map image */}
         <ProcessImage
           src={null}
-          label="Customer journey map — onboarding + gold buying (full diagram)"
-          hint="Full journey map showing both journeys with emotions, touchpoints, and pain points annotated. Rough Figma frame, PDF page, or whiteboard photo. Shows where the paper process created friction points."
+          label="Journey map — current state vs future state (full diagram)"
+          hint="Full journey map showing both states: paper-based (red emotion curve with two frustration peaks at Handoffs and Query Resolution) vs digital (green curve with consistent positive arc). Annotated with touchpoints and pain points. Figma frame, whiteboard, or PDF page."
           aspect="aspect-[16/7]"
         />
-        <ImageCaption>Journey map capturing all touchpoints across onboarding and post-onboarding gold procurement.</ImageCaption>
+        <ImageCaption>Current vs future state journey — the frustration peaks in the paper process were both caused by the same absence: a process that couldn't communicate its own status.</ImageCaption>
 
       </motion.div>
     </section>
@@ -512,14 +893,12 @@ function IA() {
     <section id="ia" className="px-8 md:px-16 lg:px-24 py-28 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>04 — Information Architecture</SectionLabel>
+        <SectionLabel>06 — Information Architecture</SectionLabel>
         <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
-          Bridging the discovery-to-onboarding gap
+          The site's job: close the gap between discovery and trust
         </h2>
         <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
-          Most potential DIL customers either don't know DIL exists, or don't understand what it offers
-          that banks can't. The site's primary job: bridge that information gap. Every section was
-          designed to move a visitor one step closer to submitting a KYC.
+          Harish didn't know DIL existed until someone told him. When he went looking, the site told him almost nothing. The information architecture was built around one insight: a first-time visitor needs to understand why DIL is better than a bank before they'll hand over their business documents. Every section earns the next one.
         </p>
 
         {/* Wireframe sitemap image */}
@@ -527,10 +906,10 @@ function IA() {
           <ProcessImage
             src={null}
             label="Wireframe sitemap — 7-section site structure"
-            hint="Wireframe or annotated diagram showing the full DIL site IA: Home → Services → KYC for Bullion → About → Login → Support → Resources. Use Wireframe-05.png or Wireframe-06.png from the extracted DIL folder. Shows page hierarchy and interlinking."
+            hint="Wireframe or annotated diagram showing the full DIL site IA: Home → Services → KYC for Bullion → About → Login → Support → Resources. Shows page hierarchy and interlinking logic."
             aspect="aspect-[16/8]"
           />
-          <ImageCaption>Site map wireframe — 7 primary sections designed to guide visitors from discovery to KYC submission.</ImageCaption>
+          <ImageCaption>Site map wireframe — 7 primary sections designed to move a visitor from awareness to KYC submission.</ImageCaption>
         </div>
 
         {/* Site map */}
@@ -548,7 +927,7 @@ function IA() {
               <div className="px-4 py-4 bg-white space-y-2">
                 {s.children.map(c => (
                   <p key={c} className="text-zinc-500 text-xs leading-snug flex items-start gap-1.5">
-                    <span className="text-amber-400 mt-0.5 shrink-0">›</span> {c}
+                    <span className="text-green-500 mt-0.5 shrink-0">›</span> {c}
                   </p>
                 ))}
               </div>
@@ -556,10 +935,10 @@ function IA() {
           ))}
         </div>
 
-        {/* KYC as ABC */}
+        {/* IA logic callout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-zinc-200 rounded-2xl overflow-hidden mb-16">
           <div className="bg-white p-10">
-            <p className="text-amber-500 text-xs uppercase tracking-widest font-semibold mb-6">KYC as simple as ABC</p>
+            <p className="text-green-500 text-xs uppercase tracking-widest font-semibold mb-6">KYC as simple as ABC</p>
             <div className="space-y-5">
               {[
                 { l: 'A', t: 'Gather mandatory documents' },
@@ -576,7 +955,7 @@ function IA() {
             </div>
           </div>
           <div className="bg-white p-10">
-            <p className="text-amber-500 text-xs uppercase tracking-widest font-semibold mb-6">Onboarding as easy as 1–2–3</p>
+            <p className="text-green-500 text-xs uppercase tracking-widest font-semibold mb-6">Onboarding as easy as 1–2–3</p>
             <div className="space-y-5">
               {[
                 { l: '1', t: 'Vetting the application' },
@@ -594,14 +973,14 @@ function IA() {
           </div>
         </div>
 
-        {/* Home page wireframe */}
+        {/* Homepage wireframe */}
         <ProcessImage
           src={null}
           label="Homepage wireframe — information architecture in practice"
-          hint="Wireframe of the DIL homepage showing: brand statement header, credibility metrics row, services section (Bullion + Rough Diamonds), and KYC CTA. Use Wireframe-07.png or MacBook Air - 4.png from the extracted DIL folder."
+          hint="Wireframe of the DIL homepage showing: brand statement header, credibility metrics row, services section (Bullion + Rough Diamonds), and KYC CTA. Shows page as a trust-building sequence."
           aspect="aspect-[16/9]"
         />
-        <ImageCaption>Homepage wireframe — brand story first, KYC CTA last, every section building trust incrementally.</ImageCaption>
+        <ImageCaption>Homepage wireframe — brand story first, KYC CTA last. Every section earns the next one.</ImageCaption>
 
       </motion.div>
     </section>
@@ -614,23 +993,23 @@ function KYCFlow() {
     {
       num: '01',
       label: 'Basic Information',
-      desc: 'First contact with the portal. Designed to feel light and fast — only essential fields needed to initiate a KYC. Firm name, owner, contact details, monthly requirement in Kgs, nature of business, and jewellery type (Plain / Studded / Diamond). A guidelines panel sits alongside with contextual help.',
+      desc: 'Designed to feel fast. The first contact with the portal shouldn\'t feel like a form — it should feel like a conversation starting. Seven fields: firm name, owner name, contact details, monthly requirement in Kgs, nature of business, exporter type, jewellery type. A contextual guidelines panel sits alongside with document hints. Submit triggers the Step 2 unlock.',
       fields: ['Firm name', 'Owner name', 'Contact person + Reference', 'Email + Phone', 'Monthly requirement (Kgs)', 'Nature of business', 'Exporter type — New / Existing', 'Type of jewellery — Plain / Studded / Diamond'],
-      decision: '"Submit" → triggers Step 2 based on entity type',
+      decision: 'The guidelines panel on the right was added after concept testing showed customers stopping to call and ask what documents they\'d need before Step 2. Putting it in the same view eliminated that interruption.',
     },
     {
       num: '02',
       label: 'Application Form',
-      desc: 'The substantive section — split by entity type using progressive disclosure. A Sole Proprietor sees their personal details form. A Corporate sees the Director details module with an "Add director" repeat. Both then complete Firm Details, Registration Details (PAN, GST, LOA, GJEPC/FIEO, IEC, Municipal, Customs OTC), Bank Details (with document downloads), and Declarations & Signature.',
-      fields: ['Firm Details — constitution, name, incorporation date, registered office', 'Registration Details — 7 document numbers each with Download', 'Bank Details — bank, branch, account type, MICR, 3-month statements', 'Chief Executive details', 'Declarations — signature with rubber stamp'],
-      decision: '"Preview form" before submitting — catch errors before final submission',
+      desc: 'The substantive section. Entity-type branching happens here — a Sole Proprietor sees personal details, a Corporate sees Director details with an "Add director" repeat. Both complete the shared core: Firm Details, Registration Details (7 document types, each with download), Bank Details (3-month statements), Chief Executive details, and Declarations. A preview state lets the applicant review everything before final submission.',
+      fields: ['Firm Details — constitution, name, incorporation date, registered office', 'Registration Details — PAN, GST, LOA, GJEPC/FIEO, IEC, Municipal, Customs OTC', 'Bank Details — bank, branch, account type, MICR, 3-month statements', 'Chief Executive details', 'Declarations — signature with rubber stamp'],
+      decision: 'The preview state before submission was added after concept testing. Step 2 is long. Users made errors. Catching those errors yourself, before a reviewer sees them, feels better than being queried. It puts the applicant in control of the outcome.',
     },
     {
       num: '03',
       label: 'Agreement',
-      desc: 'All 3 stepper nodes turn green. DIL\'s final agreement is ready to download. No input required at this stage — the customer\'s job is done. The agreement is signed by DIL and returned here for download, completing the digital paper trail.',
+      desc: 'All three stepper nodes turn green. No input required. The agreement is there to download. The customer\'s job is done. DIL countersigns and returns the document via the portal. The visual completion state communicates more than any confirmation copy could — the process ended.',
       fields: ['Final agreement signed by DIL', 'Download button'],
-      decision: 'KYC complete → account activated → agreement stored',
+      decision: 'The decision to require zero input at Step 3 was intentional. The form was already long. The agreement download is a receiving moment, not a filling-in moment. Three green checkmarks do the communicative work.',
     },
   ]
 
@@ -638,26 +1017,25 @@ function KYCFlow() {
     <section id="kyc" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>05 — KYC Portal Design</SectionLabel>
+        <SectionLabel>07 — KYC Portal Design</SectionLabel>
         <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
-          A 3-step application that respects the customer's time
+          Three steps. Each one feels like a distinct, completable task.
         </h2>
         <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
-          The customer-facing KYC portal was built as a strict 3-step linear flow with a persistent progress stepper.
-          Each step was designed to feel like a distinct, completable task — not one long overwhelming form.
+          The customer-facing portal was built as a strict 3-step linear flow with a persistent progress stepper. Not one long form. Not one overwhelming page. Three tasks. You complete one, you move to the next. Simple things are actually difficult to arrive at.
         </p>
 
-        {/* 3-step stepper visual */}
+        {/* 3-step stepper */}
         <div className="flex items-center mb-16">
           {['Basic Information', 'Application Form', 'Agreement'].map((label, i) => (
             <div key={label} className="flex items-center flex-1 last:flex-none">
               <div className="flex flex-col items-center">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 ${
-                  i === 0 ? 'border-amber-400 text-amber-500 bg-amber-50' : 'border-zinc-200 text-zinc-400 bg-white'
+                  i === 0 ? 'border-green-400 text-green-500 bg-green-50' : 'border-zinc-200 text-zinc-400 bg-white'
                 }`}>
                   {i + 1}
                 </div>
-                <p className={`text-xs mt-2 font-medium ${i === 0 ? 'text-amber-600' : 'text-zinc-400'}`}>{label}</p>
+                <p className={`text-xs mt-2 font-medium ${i === 0 ? 'text-green-600' : 'text-zinc-400'}`}>{label}</p>
               </div>
               {i < 2 && <div className="flex-1 h-px bg-zinc-200 mx-3 mb-5" />}
             </div>
@@ -670,17 +1048,17 @@ function KYCFlow() {
             const stepImages: Record<string, { label: string; hint: string; file: string }> = {
               '01': {
                 label: 'Step 1 — Basic Information screen',
-                hint: 'Form with Firm name, Owner name, Contact, Monthly requirement (Kgs), Nature of business, Jewellery type. Right panel: document guidelines checklist. Top: amber progress stepper showing Step 1 active. Use Online KYC-Basic Information.pdf or Wireframe-09.png / Wireframe-10.png.',
+                hint: 'Form with Firm name, Owner name, Contact, Monthly requirement (Kgs), Nature of business, Jewellery type. Right panel: document guidelines. Top: green progress stepper showing Step 1 active.',
                 file: 'Wireframe-09.png or Wireframe-10.png',
               },
               '02': {
-                label: 'Step 2 — Application Form (Sole Proprietor + Corporate tabs)',
-                hint: 'Accordion form: Firm Details → Registration Details (7 doc numbers) → Bank Details → Chief Executive → Declarations. Show corporate entity with "Add director" repeat. Progress stepper Step 2 active. Use Online KYC-Corporate.pdf or Wireframe-11.png / Wireframe-12.png.',
+                label: 'Step 2 — Application Form (Sole Proprietor + Corporate)',
+                hint: 'Accordion form: Firm Details → Registration Details (7 doc types) → Bank Details → Chief Executive → Declarations. Show corporate entity with "Add director" repeat. Stepper Step 2 active.',
                 file: 'Wireframe-11.png or Wireframe-12.png',
               },
               '03': {
                 label: 'Step 3 — Agreement (all steps green)',
-                hint: 'All 3 stepper nodes are green checkmarks. Agreement document visible with Download button. Clean completion state — no input needed. Use Wireframe-15.png or Wireframe-16.png from extracted DIL folder.',
+                hint: 'All 3 stepper nodes are green checkmarks. Agreement document visible with Download button. Clean completion state.',
                 file: 'Wireframe-15.png or Wireframe-16.png',
               },
             }
@@ -700,9 +1078,9 @@ function KYCFlow() {
                       <h3 className="text-zinc-900 text-2xl font-bold">{step.label}</h3>
                     </div>
                     <p className="text-zinc-500 text-sm leading-relaxed mb-6">{step.desc}</p>
-                    <div className="bg-amber-50 border border-amber-100 rounded-xl p-4">
-                      <p className="text-amber-700 text-xs font-medium uppercase tracking-wide mb-2">Design decision</p>
-                      <p className="text-amber-800 text-xs leading-relaxed">{step.decision}</p>
+                    <div className="bg-zinc-900 rounded-xl p-4">
+                      <p className="text-green-400 text-xs font-medium uppercase tracking-wide mb-2">Why this decision</p>
+                      <p className="text-zinc-400 text-xs leading-relaxed">{step.decision}</p>
                     </div>
                   </div>
                   <div>
@@ -710,13 +1088,12 @@ function KYCFlow() {
                     <ul className="space-y-2">
                       {step.fields.map(f => (
                         <li key={f} className="flex items-start gap-3 text-zinc-600 text-sm">
-                          <span className="text-amber-400 mt-0.5 shrink-0">—</span> {f}
+                          <span className="text-green-400 mt-0.5 shrink-0">—</span> {f}
                         </li>
                       ))}
                     </ul>
                   </div>
                 </motion.div>
-                {/* Per-step screen */}
                 <div className="pb-12">
                   <ProcessImage
                     src={null}
@@ -724,19 +1101,19 @@ function KYCFlow() {
                     hint={img.hint}
                     aspect="aspect-[16/9]"
                   />
-                  <ImageCaption>{img.label} — use {img.file}</ImageCaption>
+                  <ImageCaption>{img.label}</ImageCaption>
                 </div>
               </div>
             )
           })}
         </div>
 
-        {/* 3-step composite overview */}
+        {/* 3-step composite */}
         <div className="mt-4">
           <ProcessImage
             src={null}
             label="KYC portal — 3-step composite overview"
-            hint="Single wide image showing all 3 steps side-by-side: Basic Info → Application Form → Agreement complete. Optionally shown on a MacBook Air mockup. Use MacBook Air - 7.png or MacBook Air - 8.png from the extracted DIL folder."
+            hint="Single wide image showing all 3 steps side-by-side: Basic Info → Application Form → Agreement complete. Optionally on a MacBook Air mockup."
             aspect="aspect-[16/7]"
           />
           <ImageCaption>The complete 3-step KYC portal — from first contact to signed agreement.</ImageCaption>
@@ -750,41 +1127,40 @@ function KYCFlow() {
 // ─── SECTION: DASHBOARD ───────────────────────────────────────────────────────
 function Dashboard() {
   const actions = [
-    { label: 'Approve', style: 'bg-amber-400 text-zinc-900', desc: 'Section complete — all documents verified' },
-    { label: 'Reject',  style: 'border border-red-300 text-red-600 bg-white', desc: 'Section fails — customer must resubmit' },
-    { label: 'Query',   style: 'text-zinc-500 underline bg-white', desc: 'Clarification needed — sends message to customer' },
+    { label: 'Approve', style: 'bg-green-400 text-zinc-900', desc: 'Section complete — all documents verified' },
+    { label: 'Reject',  style: 'border border-red-300 text-red-600 bg-white', desc: 'Section fails — customer must resubmit this section' },
+    { label: 'Query',   style: 'text-zinc-500 underline bg-white', desc: 'Clarification needed — reviewer types specific query, email sent automatically' },
   ]
 
   const sections = [
     { label: 'Basic Information', sub: 'Firm name, contact details, business type, jewellery category' },
     { label: 'Application Form A', sub: 'Firm Details + Registration Details (7 document types) + Bank Details + Chief Executive + Declarations' },
     { label: 'Application Form B', sub: 'Sole Proprietor personal details OR Director details (per entity type)' },
-    { label: 'Agreement',          sub: 'Final DIL-signed agreement — available for download once all sections approved' },
+    { label: 'Agreement',          sub: 'Final DIL-signed agreement — available once all prior sections approved' },
   ]
 
   return (
     <section id="dashboard" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-28">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>06 — Staff Dashboard</SectionLabel>
+        <SectionLabel>08 — Staff Dashboard</SectionLabel>
         <h2 className="text-white text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
-          The other side of the platform — built for reviewers
+          Built for Priya. Section by section.
         </h2>
         <p className="text-zinc-400 text-base max-w-2xl mb-16 leading-relaxed">
-          The internal staff dashboard lets DIL's compliance team review, query, approve, or reject each incoming
-          KYC application — section by section, without leaving the screen.
+          The internal dashboard lets DIL's compliance team review, query, approve, or reject each KYC section independently. This was the non-obvious design decision. Early drafts used application-level approve/reject. Testing revealed that applications rarely fail entirely. One section needs a query while the rest is clean. Section-level actions let reviewers progress applications partially — and that changed everything.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16">
 
           {/* Section navigator */}
           <div>
-            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-6">Application sections (collapsible)</p>
+            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-6">4 application sections — each independently reviewable</p>
             <div className="space-y-3">
               {sections.map((s, i) => (
-                <div key={s.label} className={`rounded-xl border p-5 ${i === 0 ? 'border-amber-400/40 bg-zinc-900' : 'border-zinc-800 bg-zinc-900/50'}`}>
+                <div key={s.label} className={`rounded-xl border p-5 ${i === 0 ? 'border-green-400/40 bg-zinc-900' : 'border-zinc-800 bg-zinc-900/50'}`}>
                   <div className="flex items-center gap-3 mb-2">
-                    <div className={`w-2 h-2 rounded-full ${i === 0 ? 'bg-amber-400' : 'bg-zinc-700'}`} />
+                    <div className={`w-2 h-2 rounded-full ${i === 0 ? 'bg-green-400' : 'bg-zinc-700'}`} />
                     <p className={`text-sm font-medium ${i === 0 ? 'text-white' : 'text-zinc-500'}`}>{s.label}</p>
                     <span className="ml-auto text-zinc-600 text-xs">{i === 0 ? '▲' : '▼'}</span>
                   </div>
@@ -794,9 +1170,9 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* Action buttons */}
+          {/* Action buttons + rationale */}
           <div>
-            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-6">Section-level actions (per section, not per application)</p>
+            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-6">3 actions per section — not per application</p>
             <div className="space-y-5 mb-10">
               {actions.map(a => (
                 <div key={a.label} className="flex items-center gap-5">
@@ -809,12 +1185,9 @@ function Dashboard() {
             </div>
 
             <div className="border border-zinc-800 rounded-xl p-6">
-              <p className="text-amber-400 text-xs font-semibold uppercase tracking-widest mb-3">Why section-level?</p>
+              <p className="text-green-400 text-xs font-semibold uppercase tracking-widest mb-3">The specific insight</p>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                Early drafts used a single Approve/Reject per application. Testing revealed that
-                applications rarely fail entirely — typically one section (e.g. bank details) needs
-                a query while the rest is fine. Section-level actions let reviewers progress
-                applications partially, dramatically reducing back-and-forth with customers.
+                When Priya raises a Query, she types the specific section and field in the dashboard. That text goes directly into the automated email to the customer. The customer receives: "Your IEC certificate has expired — please upload a valid certificate dated within the last 12 months." Not "updates needed." The specificity is what makes resubmissions work the first time.
               </p>
             </div>
           </div>
@@ -824,8 +1197,8 @@ function Dashboard() {
         <div className="mb-8">
           <ProcessImage
             src={null}
-            label="Staff approval dashboard — overview screen"
-            hint="Pending applications list view: table with Applicant name, KYC type, Submission date, Status badge (Pending / In Review / Queried). Dark navy header, amber action buttons. Use Dashboard-Approval forms 1.pdf screenshots or Wireframe-17.png / Wireframe-19.png from extracted DIL folder."
+            label="Staff approval dashboard — application queue"
+            hint="Pending applications list: table with Applicant name, KYC type, Submission date, Status badge (Pending / In Review / Queried / Approved). Dark navy header, green accent. Status badges colour-coded."
             aspect="aspect-[16/9]"
             dark
           />
@@ -836,11 +1209,11 @@ function Dashboard() {
         <ProcessImage
           src={null}
           label="Staff dashboard — section-level review (application open)"
-          hint="Individual application expanded: left panel = section navigator (Basic Info, Application Form A, Form B, Agreement — 4 accordion items). Right panel = field grid with submitted values + Approve / Reject / Query buttons per section. Registration fields each have Download doc button inline. Use MacBook Air - 9.png or Wireframe-19.png."
+          hint="Individual application expanded: left panel = 4 section accordion. Right panel = field grid with submitted values + Approve / Reject / Query buttons per section. Each registration document has an inline download button."
           aspect="aspect-[16/9]"
           dark
         />
-        <ImageCaption dark>Section-level review interface — approve, reject, or query each form section independently.</ImageCaption>
+        <ImageCaption dark>Section-level review — approve, reject, or query each form section independently. Progress doesn't require unanimity.</ImageCaption>
 
       </motion.div>
     </section>
@@ -853,14 +1226,12 @@ function Renewal() {
     <section id="renewal" className="px-8 md:px-16 lg:px-24 py-28 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>07 — KYC Renewal & Post-Onboarding</SectionLabel>
+        <SectionLabel>09 — KYC Renewal</SectionLabel>
         <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
-          Turning an annual compliance task into a relationship moment
+          An annual compliance task reframed as a relationship moment
         </h2>
         <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
-          KYC renewal was treated internally as a compliance formality — a mandatory annual update with no
-          UX consideration. Designing it as a first-class, status-visible touchpoint reframed it
-          as a signal that DIL valued the customer's time.
+          Internally, KYC renewal was treated as admin — a mandatory annual update handled entirely by phone. Staff called customers to prompt renewal. Some customers missed the call. Some were confused about what they were confirming. The renewal experience had no UX consideration whatsoever. We designed it as a first-class touchpoint, because it is one. An existing customer being asked to renew is a retention moment. It deserved to look like one.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
@@ -888,7 +1259,7 @@ function Renewal() {
               </div>
 
               {/* Alert banner */}
-              <div className="mx-6 mt-6 rounded-xl flex items-center gap-3 px-5 py-4" style={{ backgroundColor: '#FFF8E7', border: `1px solid ${AMBER}` }}>
+              <div className="mx-6 mt-6 rounded-xl flex items-center gap-3 px-5 py-4 bg-amber-50 border border-amber-200">
                 <span className="text-lg">📋</span>
                 <p className="text-amber-800 text-sm font-medium">KYC is due for update!</p>
               </div>
@@ -915,23 +1286,23 @@ function Renewal() {
 
           {/* Design decisions */}
           <div className="space-y-5">
-            <p className="text-zinc-400 text-xs uppercase tracking-widest mb-2">Design decisions in the renewal flow</p>
+            <p className="text-zinc-400 text-xs uppercase tracking-widest mb-2">Four decisions that made this work</p>
             {[
               {
                 title: 'All 3 steps shown as complete',
-                body: 'Visually acknowledges the customer\'s existing relationship — they\'re not starting over. Context before action.',
+                body: 'The renewal screen opens with three green checkmarks — not a blank form. It acknowledges the customer\'s existing relationship. They\'re not starting over. Context before action.',
               },
               {
                 title: 'Two equally prominent paths',
-                body: '"Update" and "No changes" are given equal visual weight. No dark pattern — most returning customers genuinely don\'t have changes.',
+                body: '"Update" and "No changes" have equal visual weight. No dark pattern. Most returning customers genuinely don\'t have changes. They deserve the easy path as much as the update path.',
               },
               {
                 title: 'Onboarding date visible',
-                body: 'Showing the original onboarding date grounds the renewal in the customer\'s history with DIL. Personal, not transactional.',
+                body: 'The customer\'s original onboarding date grounds the screen in history. "You\'ve been with us since January 2023" — personal, not transactional. A number that means something.',
               },
               {
                 title: 'Zero phone calls required',
-                body: 'The renewal was previously handled entirely by phone or email. This screen eliminated that touchpoint entirely for the majority of customers.',
+                body: 'Renewal was previously 100% phone-based. This screen eliminated that touchpoint for the majority of customers who have no changes. Staff time freed up. Customer time respected.',
               },
             ].map(d => (
               <div key={d.title} className="bg-white border border-zinc-200 rounded-xl p-5">
@@ -947,10 +1318,10 @@ function Renewal() {
           <ProcessImage
             src={null}
             label="KYC renewal screen — returning customer view"
-            hint="All 3 stepper nodes shown as green checkmarks (completed state). Amber alert banner: 'KYC is due for update!' Below: onboarding date, body copy, two equal-weight CTAs — 'Update details' (amber fill) and 'I confirm, no changes' (outline). Use KYC renewal.pdf screenshots or Wireframe-16.png from extracted DIL folder."
+            hint="All 3 stepper nodes shown as green checkmarks. Amber alert banner: 'KYC is due for update!' Below: onboarding date, body copy, two equal-weight CTAs — 'Update details' (green fill) and 'I confirm, no changes' (outline)."
             aspect="aspect-[4/3]"
           />
-          <ImageCaption>Renewal screen — positioned as a relationship moment, not a compliance form. Two equally prominent paths.</ImageCaption>
+          <ImageCaption>Renewal screen — a compliance obligation reframed as a relationship moment.</ImageCaption>
         </div>
 
         {/* Account section */}
@@ -958,10 +1329,10 @@ function Renewal() {
           <p className="text-zinc-400 text-xs uppercase tracking-widest mb-6">Post-onboarding account section</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             {[
-              { icon: '👤', label: 'Account Info',          desc: 'Profile details, business info, contact' },
-              { icon: '📦', label: 'Your Orders',           desc: 'Active orders with status badges' },
-              { icon: '📍', label: 'Order Status & Tracking', desc: 'Live timeline for active order' },
-              { icon: '📋', label: 'Order History',         desc: 'Completed orders, sortable table' },
+              { icon: '👤', label: 'Account Info',             desc: 'Profile, business details, contact' },
+              { icon: '📦', label: 'Your Orders',              desc: 'Active orders with status badges' },
+              { icon: '📍', label: 'Order Status & Tracking',  desc: 'Live timeline for active order' },
+              { icon: '📋', label: 'Order History',            desc: 'Completed orders, sortable table' },
             ].map(item => (
               <div key={item.label} className="bg-white border border-zinc-200 rounded-2xl p-6">
                 <div className="text-2xl mb-3">{item.icon}</div>
@@ -971,11 +1342,10 @@ function Renewal() {
             ))}
           </div>
 
-          {/* Account / order tracking screen image */}
           <ProcessImage
             src={null}
             label="Post-onboarding account — order status & tracking"
-            hint="Account dashboard screen: left nav with Account Info, Your Orders, Order Status, Order History tabs. Main panel: active order card with progress timeline (Order Placed → Confirmed → Dispatched → Delivered). Use MacBook Air - 4.png or Wireframe-05.png from extracted DIL folder."
+            hint="Account dashboard: left nav with Account Info, Your Orders, Order Status, Order History tabs. Main panel: active order card with progress timeline (Order Placed → Confirmed → Dispatched → Delivered)."
             aspect="aspect-[16/9]"
           />
           <ImageCaption>Customer account — order tracking section, giving full visibility into active bullion orders.</ImageCaption>
@@ -986,136 +1356,15 @@ function Renewal() {
   )
 }
 
-// ─── SECTION: REFLECTION ─────────────────────────────────────────────────────
-function Reflection() {
-  const findings = [
-    {
-      n: '01',
-      title: 'The brand promise was the design brief',
-      body: 'DIL\'s entire competitive advantage over banks rested on speed, access, and a welcoming KYC. Every design decision — from the 3-step flow to the "Preview before submit" option — was evaluated against this brief. The interface had to deliver what the brand was promising.',
-    },
-    {
-      n: '02',
-      title: 'Section-level approval beats all-or-nothing',
-      body: 'Applications rarely fail entirely. One section needs a query while the rest is fine. Section-level Approve/Reject/Query let reviewers progress applications partially, cutting back-and-forth significantly.',
-    },
-    {
-      n: '03',
-      title: 'Entity type branching is the hardest UX problem in compliance forms',
-      body: 'A sole proprietor, a corporate with 3 directors, and a bullion dealer have substantially different requirements. Progressive disclosure by entity type cut perceived form length by ~40% without removing any required fields.',
-    },
-    {
-      n: '04',
-      title: 'KYC renewal is a retention moment, not an admin task',
-      body: 'Designing it as a prominent, status-visible touchpoint — with a clear "no changes" path — made renewals frictionless and signalled to customers that DIL valued their time. An obligation reframed as a relationship moment.',
-    },
-  ]
-
-  return (
-    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
-      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-
-        <SectionLabel>10 — Findings & Reflection</SectionLabel>
-        <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-16 max-w-3xl leading-tight">
-          What this project taught me about enterprise UX
-        </h2>
-
-        {/* Findings */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-20">
-          {findings.map((f, i) => (
-            <motion.div
-              key={f.n}
-              initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="border border-zinc-200 rounded-2xl p-7 border-l-4"
-              style={{ borderLeftColor: AMBER }}
-            >
-              <p className="text-amber-500 text-xs uppercase tracking-widest font-semibold mb-3">Finding {f.n}</p>
-              <h4 className="text-zinc-900 font-semibold text-base mb-3">{f.title}</h4>
-              <p className="text-zinc-500 text-sm leading-relaxed">{f.body}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        <Divider />
-
-        {/* What I learnt */}
-        <div className="max-w-3xl">
-          <p className="text-amber-500 text-xs uppercase tracking-widest font-semibold mb-8">What I learnt</p>
-          {[
-            'The most important insight was that DIL\'s competitive advantage — speed, access, transparency — was being actively undermined by the paper-based process. The design work wasn\'t about making a form look good. It was about making the brand credible.',
-            'Designing for a document-heavy regulated domain taught me that form design is a discipline of its own. Field order, conditional visibility, progressive disclosure, inline guidance, and clear error states each carry real consequences when the information is legally required and users are small business owners who can\'t afford mistakes.',
-            'Building a two-sided platform revealed a tension between customer experience and internal process. What felt simplest for the customer (one submit, all decisions at the end) was hardest for staff. What felt most efficient for staff (section-level actions, query per field) required careful design to avoid surfacing internal complexity to the applicant. Resolving that tension — cleanly, on both sides — was the central challenge.',
-          ].map((p, i) => (
-            <p key={i} className={`leading-relaxed mb-6 last:mb-0 ${i === 0 ? 'text-zinc-700 text-lg' : 'text-zinc-500 text-base'}`}>
-              {p}
-            </p>
-          ))}
-        </div>
-
-      </motion.div>
-    </section>
-  )
-}
-
 // ─── SECTION: COMMUNICATIONS DESIGN ──────────────────────────────────────────
 const EMAILS = [
-  {
-    trigger: 'After 1st approval (Basic Info)',
-    subject: 'Welcome to DIL! Your Account is Now Approved',
-    body: 'Login credentials delivered — email + temporary password. CTA to portal login.',
-    tone: 'Warm welcome',
-    state: 'approved',
-    icon: '✉',
-  },
-  {
-    trigger: 'Application queried by staff',
-    subject: 'Update needed in your DIL application',
-    body: 'Specific query listed inline (e.g. "Financial statements are old — need latest 3 months"). Direct link back to portal.',
-    tone: 'Actionable & specific',
-    state: 'query',
-    icon: '❓',
-  },
-  {
-    trigger: 'Application rejected',
-    subject: 'Status of your DIL application',
-    body: 'Rejection reasons listed explicitly. Empathetic tone. Support contact offered. Door left open for future.',
-    tone: 'Empathetic & clear',
-    state: 'rejected',
-    icon: '✕',
-  },
-  {
-    trigger: 'Full application approved',
-    subject: 'DIL application approved',
-    body: 'Application approved — Zoom call next. Team will reach out to schedule. Support contact included.',
-    tone: 'Celebratory + next step',
-    state: 'approved',
-    icon: '✔',
-  },
-  {
-    trigger: 'Zoom call scheduled',
-    subject: 'DIL application Zoom call',
-    body: 'Full meeting details: date, time, timezone, meeting link, ID, passcode. No ambiguity in joining.',
-    tone: 'Structured & precise',
-    state: 'neutral',
-    icon: '📹',
-  },
-  {
-    trigger: 'Agreement stage reached',
-    subject: 'Action Required: Sign and Submit DIL Agreement',
-    body: 'Download agreement → sign → courier to DIL Mumbai address. DIL countersigns and uploads to portal.',
-    tone: 'Action-oriented',
-    state: 'neutral',
-    icon: '📋',
-  },
-  {
-    trigger: 'Onboarding complete',
-    subject: 'Congratulations, you are onboard with DIL!',
-    body: 'Final agreement download link. Ready to transact. Commitment to best service.',
-    tone: 'Celebratory milestone',
-    state: 'approved',
-    icon: '🎉',
-  },
+  { trigger: 'After 1st approval (Basic Info)', subject: 'Welcome to DIL! Your Account is Now Approved', body: 'Login credentials delivered — email + temporary password. CTA to portal login.', tone: 'Warm welcome', state: 'approved', icon: '✉' },
+  { trigger: 'Application queried by staff', subject: 'Update needed in your DIL application', body: 'Specific query listed inline (e.g. "Financial statements are old — need latest 3 months"). Direct link back to portal.', tone: 'Actionable & specific', state: 'query', icon: '?' },
+  { trigger: 'Application rejected', subject: 'Status of your DIL application', body: 'Rejection reasons listed explicitly. Empathetic tone. Support contact offered. Door left open for future applications.', tone: 'Empathetic & clear', state: 'rejected', icon: '✕' },
+  { trigger: 'Full application approved', subject: 'DIL application approved', body: 'Application approved — Zoom call next. Team will reach out to schedule. Support contact included.', tone: 'Celebratory + next step', state: 'approved', icon: '✔' },
+  { trigger: 'Zoom call scheduled', subject: 'DIL application Zoom call', body: 'Full meeting details: date, time, timezone, meeting link, ID, passcode. No ambiguity in joining.', tone: 'Structured & precise', state: 'neutral', icon: '📹' },
+  { trigger: 'Agreement stage reached', subject: 'Action Required: Sign and Submit DIL Agreement', body: 'Download agreement → sign → courier to DIL Mumbai address. DIL countersigns and uploads to portal.', tone: 'Action-oriented', state: 'neutral', icon: '📋' },
+  { trigger: 'Onboarding complete', subject: 'Congratulations, you are onboard with DIL!', body: 'Final agreement download link. Ready to transact. Commitment to best service.', tone: 'Celebratory milestone', state: 'approved', icon: '★' },
 ]
 
 function Communications() {
@@ -1136,14 +1385,12 @@ function Communications() {
     <section id="comms" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>08 — Communications Design</SectionLabel>
+        <SectionLabel>10 — Communications Design</SectionLabel>
         <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
           7 emails that make the process feel human
         </h2>
         <p className="text-zinc-500 text-base max-w-2xl mb-6 leading-relaxed">
-          Every status change in the KYC flow triggers an automated email to the customer. Designed from scratch —
-          subject lines, body copy, tone, and CTA — to match DIL's brand voice: professional, transparent, and welcoming.
-          No system-generated boilerplate; every message reads like it came from a person.
+          Every status change in the KYC flow triggers an automated email. Before the platform, this was done manually — or not at all. We wrote every email from scratch: subject line, body, tone, CTA. No system-generated boilerplate. No generic "your application is being processed." Every message reads like it came from a person who understands what the customer is waiting for.
         </p>
         <div className="flex flex-wrap gap-3 mb-16">
           {['Problem briefing', 'Copy direction', 'Tone design', 'Dev integration'].map(tag => (
@@ -1153,9 +1400,7 @@ function Communications() {
 
         {/* Timeline + email cards */}
         <div className="relative">
-          {/* Vertical connector line */}
           <div className="absolute left-5 top-6 bottom-6 w-px bg-zinc-100 hidden md:block" />
-
           <div className="space-y-5">
             {EMAILS.map((email, i) => (
               <motion.div
@@ -1164,11 +1409,9 @@ function Communications() {
                 transition={{ duration: 0.4, delay: i * 0.07 }}
                 className={`relative md:ml-16 border rounded-2xl p-6 ${stateColors[email.state]}`}
               >
-                {/* Step dot on timeline */}
                 <div className="absolute -left-[3.25rem] top-6 hidden md:flex w-6 h-6 rounded-full border-2 border-zinc-200 bg-white items-center justify-center text-xs">
                   {i + 1}
                 </div>
-
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-3">
                   <div>
                     <p className="text-zinc-400 text-xs uppercase tracking-widest mb-1">{email.trigger}</p>
@@ -1181,22 +1424,20 @@ function Communications() {
                     {email.tone}
                   </span>
                 </div>
-
                 <p className="text-zinc-500 text-sm leading-relaxed">{email.body}</p>
               </motion.div>
             ))}
           </div>
         </div>
 
-        {/* Email design image slot */}
         <div className="mt-16">
           <ProcessImage
             src={null}
             label="Automated email designs — full set of 7 templates"
-            hint="Show all 7 email templates side by side or stacked. Each email: DIL header branding, subject, body, CTA button. Can be screenshots from the docx, Figma email mockups, or rendered in a browser. Arrange as a 2-column grid or vertical strip."
+            hint="All 7 email templates side by side or stacked. Each: DIL header branding, subject, body, CTA button. Arranged as 2-column grid or vertical strip."
             aspect="aspect-[16/9]"
           />
-          <ImageCaption>Full set of 7 transactional emails — each triggered by a KYC stage change, each maintaining DIL's brand voice.</ImageCaption>
+          <ImageCaption>Full set of 7 transactional emails — each triggered by a KYC stage change. Each carrying DIL's voice.</ImageCaption>
         </div>
 
       </motion.div>
@@ -1242,24 +1483,22 @@ function QADelivery() {
     <section id="qa" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-28">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
-        <SectionLabel>09 — QA & Delivery</SectionLabel>
+        <SectionLabel>11 — QA & Delivery</SectionLabel>
         <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
-          From design file to delivered product
+          End-to-end. Problem briefing to signed-off product.
         </h2>
         <p className="text-zinc-500 text-base max-w-2xl mb-6 leading-relaxed">
-          This project ran end-to-end — problem briefing, design direction, Figma delivery, dev collaboration,
-          and structured QA with the DIL team using a shared tracker. Every issue was documented, assigned, and
-          resolved before sign-off. No siloing, no handoff gap.
+          This project ran the full distance — problem briefing, brand strategy, IA, wireframes, high-fidelity, email copy, dev collaboration, and structured QA with a shared tracker. Every issue was documented, assigned, and resolved before sign-off. The internal DIL tech team was in the loop on every technical decision. No siloing. No handoff gap.
         </p>
 
         {/* Delivery ownership */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-16">
           {[
-            { step: '01', label: 'Problem Briefing', desc: 'Scoped the platform from DIL discovery sessions' },
-            { step: '02', label: 'Design Direction', desc: 'Brand strategy → IA → wireframes → high-fi' },
+            { step: '01', label: 'Problem Briefing', desc: 'Scoped from DIL discovery sessions and stakeholder interviews' },
+            { step: '02', label: 'Design Direction', desc: 'Brand strategy → IA → wireframes → high-fidelity' },
             { step: '03', label: 'Solution Delivery', desc: 'Figma files, email copy, annotation specs' },
-            { step: '04', label: 'Dev Collaboration', desc: 'Daily handoff reviews with development team' },
-            { step: '05', label: 'QA & Sign-off', desc: 'Shared tracker with DIL, all issues closed' },
+            { step: '04', label: 'Dev Collaboration', desc: 'Daily handoff reviews with the internal DIL tech team' },
+            { step: '05', label: 'QA & Sign-off', desc: 'Shared tracker with DIL, all issues closed before delivery' },
           ].map((item, i) => (
             <motion.div
               key={item.step}
@@ -1267,7 +1506,7 @@ function QADelivery() {
               transition={{ duration: 0.4, delay: i * 0.08 }}
               className="bg-white border border-zinc-200 rounded-2xl p-5"
             >
-              <div className="text-amber-400 text-xs font-bold tracking-widest mb-3">{item.step}</div>
+              <div className="text-green-500 text-xs font-bold tracking-widest mb-3">{item.step}</div>
               <p className="text-zinc-800 text-sm font-semibold mb-2">{item.label}</p>
               <p className="text-zinc-400 text-xs leading-relaxed">{item.desc}</p>
             </motion.div>
@@ -1276,11 +1515,9 @@ function QADelivery() {
 
         {/* Issue tracker — two columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
-
-          {/* Functional */}
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-2 h-2 rounded-full bg-amber-400" />
+              <div className="w-2 h-2 rounded-full bg-green-400" />
               <p className="text-zinc-700 text-sm font-semibold">Functional issues</p>
               <span className="text-zinc-400 text-xs ml-auto">Customer form + Dashboard</span>
             </div>
@@ -1296,7 +1533,6 @@ function QADelivery() {
             </div>
           </div>
 
-          {/* Visual */}
           <div>
             <div className="flex items-center gap-3 mb-5">
               <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#4B4ACF' }} />
@@ -1316,14 +1552,90 @@ function QADelivery() {
           </div>
         </div>
 
-        {/* QA tracker image slot */}
         <ProcessImage
           src={null}
           label="QA tracking sheet — collaborative bug tracker with DIL team"
-          hint="Screenshot of the DIL_testing.xlsx spreadsheet: columns for Date, Customer form issues, Dashboard issues, status (Done / Verified / Pending). Shows the live tracker maintained with the client through dev. Crop to show a representative set of rows."
+          hint="Screenshot of the DIL_testing.xlsx spreadsheet: columns for Date, Customer form issues, Dashboard issues, status (Done / Verified / Pending). Shows the live tracker maintained with the client through dev."
           aspect="aspect-[16/7]"
         />
-        <ImageCaption>Shared QA tracker maintained with the DIL team — functional and visual issues logged, resolved, and signed off before delivery.</ImageCaption>
+        <ImageCaption>Shared QA tracker maintained with the DIL team — functional and visual issues logged, resolved, and signed off.</ImageCaption>
+
+      </motion.div>
+    </section>
+  )
+}
+
+// ─── SECTION: REFLECTION ─────────────────────────────────────────────────────
+function Reflection() {
+  const findings = [
+    {
+      n: '01',
+      title: 'The brand promise was the design brief',
+      body: 'DIL\'s entire competitive advantage over banks was speed, access, and a welcoming KYC. The paper process delivered none of that. Every design decision — the 3-step flow, the preview state, the section-level query — was evaluated against this brief. The interface had to deliver what the brand was claiming. Not just look like it did.',
+    },
+    {
+      n: '02',
+      title: 'Section-level approval was the key unlock on both sides',
+      body: 'Applications rarely fail entirely. One section needs a query while the rest is clean. Application-level approval meant one sticky-note halted everything. Section-level approval meant partial progress was possible. That single structural decision changed the reviewer\'s experience more than anything visual.',
+    },
+    {
+      n: '03',
+      title: 'Entity-type branching solved the perceived complexity problem',
+      body: 'A sole proprietor, a corporate with 3 directors, and a bullion dealer have different compliance requirements. The paper form showed everyone everything. Progressive disclosure by entity type cut perceived form length by ~40% without removing a single required field.',
+    },
+    {
+      n: '04',
+      title: 'KYC renewal is a retention moment, not an admin task',
+      body: 'Designing it as a prominent, status-visible touchpoint — with a clear "no changes" path and an onboarding date — reframed an annual obligation into a signal that DIL valued the customer\'s time. An obligation isn\'t always just an obligation. Sometimes it\'s an opportunity to remind someone they matter.',
+    },
+    {
+      n: '05',
+      title: 'The specific query email made resubmissions work the first time',
+      body: 'Vague queries get vague resubmissions. When the query email carried the exact section name, field, and issue, customers knew exactly what to fix. The circularity of bad queries — which had been consuming weeks — broke almost entirely.',
+    },
+  ]
+
+  return (
+    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+
+        <SectionLabel>12 — Findings & Reflection</SectionLabel>
+        <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-16 max-w-3xl leading-tight">
+          What this project taught me about compliance UX
+        </h2>
+
+        {/* Findings */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-20">
+          {findings.map((f, i) => (
+            <motion.div
+              key={f.n}
+              initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              className="border border-zinc-200 rounded-2xl p-7 border-l-4"
+              style={{ borderLeftColor: AMBER }}
+            >
+              <p className="text-green-500 text-xs uppercase tracking-widest font-semibold mb-3">Finding {f.n}</p>
+              <h4 className="text-zinc-900 font-semibold text-base mb-3">{f.title}</h4>
+              <p className="text-zinc-500 text-sm leading-relaxed">{f.body}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        <Divider />
+
+        {/* What I learnt */}
+        <div className="max-w-3xl">
+          <p className="text-green-500 text-xs uppercase tracking-widest font-semibold mb-8">What I learnt</p>
+          {[
+            'The most important realisation was that DIL\'s competitive advantage — speed, access, transparency — was being actively contradicted by the paper-based process. The design work wasn\'t about making a form look good. It was about making the brand credible.',
+            'Designing for a document-heavy regulated domain taught me that form design is a discipline on its own. Field order, conditional visibility, progressive disclosure, inline guidance, and clear error states each carry real consequences when the information is legally required and users are small business owners who can\'t afford to get it wrong.',
+            'Building a two-sided platform revealed a specific tension: what felt simplest for the customer — one submit, all decisions at the end — was hardest for staff. What felt most efficient for staff — section-level actions, query per field — required careful design to avoid surfacing internal complexity to the applicant. Resolving that tension, cleanly, on both sides, was the central challenge. That\'s the work that doesn\'t show up in the portfolio screenshots. But it\'s the work that made the screenshots mean something.',
+          ].map((p, i) => (
+            <p key={i} className={`leading-relaxed mb-6 last:mb-0 ${i === 0 ? 'text-zinc-700 text-lg' : 'text-zinc-500 text-base'}`}>
+              {p}
+            </p>
+          ))}
+        </div>
 
       </motion.div>
     </section>
@@ -1360,24 +1672,19 @@ function Team() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="group flex flex-col items-center text-center p-6 rounded-2xl border border-zinc-800 hover:border-amber-500/50 hover:bg-zinc-900 transition-all duration-200"
+              className="group flex flex-col items-center text-center p-6 rounded-2xl border border-zinc-800 hover:border-green-500/50 hover:bg-zinc-900 transition-all duration-200"
             >
-              {/* Avatar */}
               <div
-                className="w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold mb-4 border-2 border-zinc-700 group-hover:border-amber-400 transition-colors"
+                className="w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold mb-4 border-2 border-zinc-700 group-hover:border-green-400 transition-colors"
                 style={{ backgroundColor: '#1a2a3a', color: AMBER }}
               >
                 {member.initials}
               </div>
-
-              {/* Name + role */}
-              <p className="text-white text-sm font-semibold mb-1 group-hover:text-amber-400 transition-colors">
+              <p className="text-white text-sm font-semibold mb-1 group-hover:text-green-400 transition-colors">
                 {member.name}
               </p>
               <p className="text-zinc-500 text-xs mb-4">{member.role}</p>
-
-              {/* LinkedIn chip */}
-              <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500 border border-zinc-700 rounded-full px-3 py-1 group-hover:border-amber-500/50 group-hover:text-amber-400 transition-colors">
+              <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500 border border-zinc-700 rounded-full px-3 py-1 group-hover:border-green-500/50 group-hover:text-green-400 transition-colors">
                 <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" />
                 </svg>
@@ -1394,13 +1701,13 @@ function Team() {
 // ─── FOOTER / CTA ─────────────────────────────────────────────────────────────
 function FooterCTA() {
   return (
-    <section style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-32">
+    <section style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-32 border-t border-zinc-800">
       <motion.div
         initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
         className="flex flex-col md:flex-row items-start md:items-center justify-between gap-12"
       >
         <div>
-          <p className="text-amber-400 text-xs uppercase tracking-[0.2em] font-medium mb-4">Diamond India Limited · 2023</p>
+          <p className="text-green-400 text-xs uppercase tracking-[0.2em] font-medium mb-4">Diamond India Limited · 2023</p>
           <h2 className="text-white text-4xl md:text-5xl font-bold leading-tight">
             Onkar Lanke<br />
             <span style={{ color: AMBER }}>Senior UX Designer</span>
@@ -1409,7 +1716,7 @@ function FooterCTA() {
         <div className="flex flex-col gap-4">
           <Link
             href="/#work"
-            className="inline-flex items-center gap-3 border border-zinc-700 text-zinc-300 px-8 py-4 rounded-full text-sm font-medium hover:border-amber-400 hover:text-amber-400 transition-all"
+            className="inline-flex items-center gap-3 border border-zinc-700 text-zinc-300 px-8 py-4 rounded-full text-sm font-medium hover:border-green-400 hover:text-green-400 transition-all"
           >
             ← Back to all work
           </Link>
@@ -1417,8 +1724,8 @@ function FooterCTA() {
             href="https://www.linkedin.com/in/onkarlanke/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-3 text-white px-8 py-4 rounded-full text-sm font-semibold transition-all"
-            style={{ backgroundColor: AMBER, color: NAVY }}
+            className="inline-flex items-center gap-3 text-zinc-900 px-8 py-4 rounded-full text-sm font-semibold transition-all"
+            style={{ backgroundColor: AMBER }}
           >
             Connect on LinkedIn →
           </a>
@@ -1435,9 +1742,12 @@ export default function DILKYCDetail() {
       <Nav />
       <StickyNav />
       <Hero />
+      <TheMoment />
       <Brief />
       <Strategy />
       <Research />
+      <Personas />
+      <JourneyMaps />
       <IA />
       <KYCFlow />
       <Dashboard />

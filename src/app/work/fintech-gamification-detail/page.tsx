@@ -4,22 +4,22 @@
 // Full custom detail page — frankieOne · No-Code KYC Rule Builder
 // Brand: near-black (#0F0F12) + frankieOne purple (#4B4ACF) + white
 
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useRef, useState } from 'react'
+import { useState, useEffect } from 'react'
 import Nav from '@/components/Nav'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const DARK   = '#0F0F12'
-const PURPLE = '#4B4ACF'
-const PURPLE_MUTED = '#7B7BE0'
+const PURPLE = '#6D28D9'
+const PURPLE_MUTED = '#C4B5FD'
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 function Pill({ children, purple }: { children: React.ReactNode; purple?: boolean }) {
   return (
     <span className={`inline-block text-xs px-3 py-1 rounded-full border font-medium ${
       purple
-        ? 'bg-indigo-50 text-indigo-700 border-indigo-200'
+        ? 'bg-purple-50 text-purple-800 border-purple-200'
         : 'bg-zinc-100 text-zinc-500 border-zinc-200'
     }`}>
       {children}
@@ -29,7 +29,7 @@ function Pill({ children, purple }: { children: React.ReactNode; purple?: boolea
 
 function SectionLabel({ children, light }: { children: React.ReactNode; light?: boolean }) {
   return (
-    <p className={`text-xs tracking-[0.2em] uppercase font-semibold mb-4 ${light ? 'text-indigo-400' : 'text-indigo-500'}`}>
+    <p className={`text-xs tracking-[0.2em] uppercase font-semibold mb-4 ${light ? 'text-purple-400' : 'text-purple-500'}`}>
       {children}
     </p>
   )
@@ -93,11 +93,29 @@ const NAV_ITEMS = [
 ]
 
 function StickyNav() {
-  const [active, setActive] = useState('brief')
+  const [active, setActive] = useState(NAV_ITEMS[0].id)
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        })
+      },
+      { rootMargin: '-15% 0px -70% 0px', threshold: 0 }
+    )
+    NAV_ITEMS.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (el) obs.observe(el)
+    })
+    return () => obs.disconnect()
+  }, [])
+
   function scrollTo(id: string) {
     setActive(id)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
+
   return (
     <nav className="fixed left-6 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-2">
       {NAV_ITEMS.map(item => (
@@ -105,7 +123,7 @@ function StickyNav() {
           key={item.id}
           onClick={() => scrollTo(item.id)}
           className={`text-left text-xs font-medium transition-all duration-200 ${
-            active === item.id ? 'text-indigo-400 translate-x-1' : 'text-zinc-600 hover:text-zinc-400'
+            active === item.id ? 'text-purple-400 translate-x-1' : 'text-zinc-600 hover:text-zinc-400'
           }`}
         >
           {active === item.id && <span className="mr-1.5">—</span>}
@@ -118,30 +136,19 @@ function StickyNav() {
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 function Hero() {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
-
   return (
-    <section ref={ref} className="relative min-h-screen flex flex-col justify-between overflow-hidden"
-      style={{ backgroundColor: DARK }}>
+    <section className="overflow-hidden" style={{ backgroundColor: DARK }}>
 
       {/* Grid texture */}
-      <div className="absolute inset-0 opacity-[0.035]"
-        style={{
-          backgroundImage: `linear-gradient(${PURPLE} 1px, transparent 1px), linear-gradient(90deg, ${PURPLE} 1px, transparent 1px)`,
-          backgroundSize: '64px 64px',
-        }}
-      />
+      <div className="absolute inset-x-0 top-0 pointer-events-none opacity-[0.035]" style={{
+        backgroundImage: `linear-gradient(${PURPLE} 1px, transparent 1px), linear-gradient(90deg, ${PURPLE} 1px, transparent 1px)`,
+        backgroundSize: '64px 64px',
+        height: '100%',
+      }} />
 
-      {/* Purple radial glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10 pointer-events-none"
-        style={{ background: `radial-gradient(circle, ${PURPLE} 0%, transparent 70%)` }}
-      />
-
-      {/* Top bar */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-8">
-        <Link href="/#work" className="flex items-center gap-2 text-zinc-500 text-xs hover:text-indigo-400 transition-colors">
+      {/* Row 1: Back + Tags */}
+      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-8 pb-5">
+        <Link href="/#work" className="flex items-center gap-2 text-zinc-500 text-xs hover:text-purple-400 transition-colors">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
@@ -154,74 +161,50 @@ function Hero() {
         </div>
       </div>
 
-      {/* Centre content */}
-      <motion.div style={{ y }} className="relative z-10 px-8 md:px-16 lg:px-24 py-16 flex-1 flex flex-col justify-center">
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
-          className="mb-8"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            {/* frankieOne mark */}
-            <div className="px-3 py-1.5 rounded-lg text-white text-xs font-bold tracking-wider"
-              style={{ backgroundColor: PURPLE }}>
-              f1
-            </div>
-            <div className="h-px flex-1 max-w-xs" style={{ backgroundColor: PURPLE, opacity: 0.3 }} />
-          </div>
-          <p className="text-indigo-400 text-xs tracking-[0.25em] uppercase mb-4 font-medium">
-            frankieOne · 2024
-          </p>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-white text-6xl md:text-8xl lg:text-[8rem] font-bold tracking-tight leading-none mb-6"
-        >
-          No-Code<br />
-          <span style={{ color: PURPLE_MUTED }}>KYC Builder</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
-          className="text-zinc-400 text-xl md:text-2xl font-light max-w-2xl mb-12 leading-relaxed"
-        >
-          A gamified, no-code rule builder that turns compliance configuration into an
-          engaging puzzle-solving experience — giving teams full ownership of KYC flows
-          without writing a line of code.
-        </motion.p>
-
-        {/* Meta row */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-wrap gap-8"
-        >
-          {[
-            { label: 'Client',    value: 'frankieOne' },
-            { label: 'Role',      value: 'Senior Product Designer' },
-            { label: 'Timeline',  value: '3 Months' },
-            { label: 'Year',      value: '2024' },
-          ].map(m => (
-            <div key={m.label}>
-              <p className="text-zinc-600 text-xs uppercase tracking-widest mb-1">{m.label}</p>
-              <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
-            </div>
-          ))}
-        </motion.div>
+      {/* Row 2: Headline + description — ABOVE banner */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+        className="relative z-10 px-8 md:px-16 lg:px-24 pb-5"
+      >
+        <p className="text-purple-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">frankieOne · 2024</p>
+        <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
+          No-Code<br /><span style={{ color: PURPLE_MUTED }}>KYC Builder</span>
+        </h1>
+        <p className="text-zinc-400 text-sm max-w-2xl leading-relaxed">
+          A gamified, no-code rule builder that turns compliance configuration into an engaging puzzle-solving experience — giving teams full ownership of KYC flows without writing a line of code.
+        </p>
       </motion.div>
 
-      {/* Bottom */}
+      {/* Row 3: Banner — styled block (no video for this page) */}
+      <div className="relative overflow-hidden aspect-video" style={{ backgroundColor: '#0a0614' }}>
+        <div className="absolute inset-0 opacity-[0.06]" style={{
+          backgroundImage: `linear-gradient(${PURPLE} 1px, transparent 1px), linear-gradient(90deg, ${PURPLE} 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+        }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full opacity-10 blur-3xl" style={{ backgroundColor: PURPLE }} />
+        <div className="relative flex items-center justify-center gap-4 opacity-20">
+          <div className="px-3 py-1.5 rounded-lg text-white text-sm font-bold tracking-wider" style={{ backgroundColor: PURPLE }}>f1</div>
+          <div className="h-px w-24 opacity-40" style={{ backgroundColor: PURPLE_MUTED }} />
+          <span className="text-3xl font-bold tracking-tight" style={{ color: PURPLE_MUTED }}>No-Code KYC Rule Builder</span>
+        </div>
+      </div>
+
+      {/* Row 4: Meta — BELOW banner */}
       <motion.div
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
-        className="relative z-10 px-8 md:px-16 pb-10 flex items-center justify-between"
+        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
+        className="relative z-10 flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-5 border-t border-zinc-800"
       >
-        <p className="text-zinc-700 text-xs italic max-w-xs">
-          "This is like going from writing code to playing with Lego — I can finally experiment without waiting on developers."
-        </p>
-        <motion.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.8 }}
-          className="text-zinc-600 text-xs">
-          Scroll ↓
-        </motion.div>
+        {[
+          { label: 'Client',    value: 'frankieOne' },
+          { label: 'Role',      value: 'Senior Product Designer' },
+          { label: 'Timeline',  value: '3 Months' },
+          { label: 'Year',      value: '2024' },
+        ].map(m => (
+          <div key={m.label}>
+            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-1">{m.label}</p>
+            <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
+          </div>
+        ))}
       </motion.div>
     </section>
   )

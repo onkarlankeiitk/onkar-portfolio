@@ -73,7 +73,7 @@ function parseItems(rssXml: string) {
   const itemRe = /<item>([\s\S]*?)<\/item>/gi
   const items: Array<{
     title: string
-    url: string
+    link: string
     publication: string
     tags: string[]
     pubDate: string
@@ -86,10 +86,10 @@ function parseItems(rssXml: string) {
     const title = extractCdata(block, 'title')
     const linkMatch = block.match(/<link>([^<]+)<\/link>/) ??
                       block.match(/<guid[^>]*isPermaLink="true"[^>]*>([^<]+)<\/guid>/)
-    const url = cleanUrl(linkMatch?.[1]?.trim() ?? '')
+    const link = cleanUrl(linkMatch?.[1]?.trim() ?? '')
 
     // Publication: from the URL path (e.g. medium.com/design-bootcamp/...)
-    const pubMatch = url.match(/medium\.com\/([^/@][^/]*)\//)
+    const pubMatch = link.match(/medium\.com\/([^/@][^/]*)\//)
     const publication = pubMatch
       ? pubMatch[1].split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
       : 'Medium'
@@ -101,8 +101,8 @@ function parseItems(rssXml: string) {
 
     const pubDateRaw = block.match(/<pubDate>([^<]+)<\/pubDate>/)?.[1]?.trim() ?? ''
 
-    if (title && url) {
-      items.push({ title, url, publication, tags, pubDate: pubDateRaw })
+    if (title && link) {
+      items.push({ title, link, publication, tags, pubDate: pubDateRaw })
     }
   }
   return items
@@ -120,9 +120,9 @@ export async function GET() {
     }
 
     const xml = await res.text()
-    const items = parseItems(xml).slice(0, 3)
+    const items = parseItems(xml).slice(0, 6)
 
-    return NextResponse.json({ articles: items }, {
+    return NextResponse.json(items, {
       headers: { 'Cache-Control': 's-maxage=3600, stale-while-revalidate=300' },
     })
   } catch (err) {

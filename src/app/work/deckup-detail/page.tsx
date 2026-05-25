@@ -4,22 +4,22 @@
 // Full custom detail page — DeckUp · PowerPoint Productivity SaaS
 // Brand: dark navy (#0B1628) + blue (#2563EB) + white
 
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useRef, useState } from 'react'
+import { useState, useEffect } from 'react'
 import Nav from '@/components/Nav'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const DARK  = '#0B1628'
-const BLUE  = '#2563EB'
-const BLUE_MUTED = '#93C5FD'
+const BLUE  = '#F97316'
+const BLUE_MUTED = '#FDBA74'
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 function Pill({ children, blue }: { children: React.ReactNode; blue?: boolean }) {
   return (
     <span className={`inline-block text-xs px-3 py-1 rounded-full border font-medium ${
       blue
-        ? 'bg-blue-50 text-blue-700 border-blue-200'
+        ? 'bg-orange-50 text-orange-700 border-orange-200'
         : 'bg-zinc-100 text-zinc-500 border-zinc-200'
     }`}>
       {children}
@@ -29,7 +29,7 @@ function Pill({ children, blue }: { children: React.ReactNode; blue?: boolean })
 
 function SectionLabel({ children, light }: { children: React.ReactNode; light?: boolean }) {
   return (
-    <p className={`text-xs tracking-[0.2em] uppercase font-semibold mb-4 ${light ? 'text-blue-400' : 'text-blue-500'}`}>
+    <p className={`text-xs tracking-[0.2em] uppercase font-semibold mb-4 ${light ? 'text-orange-400' : 'text-orange-500'}`}>
       {children}
     </p>
   )
@@ -83,7 +83,6 @@ const NAV_ITEMS = [
   { id: 'toolbar',   label: 'Plugin Design' },
   { id: 'ia',        label: 'Architecture' },
   { id: 'flows',     label: 'Flows' },
-  { id: 'system',    label: 'Design System' },
   { id: 'platform',  label: 'Platform' },
   { id: 'qa',        label: 'Testing' },
   { id: 'chargebee', label: 'Tech Stack' },
@@ -93,11 +92,29 @@ const NAV_ITEMS = [
 ]
 
 function StickyNav() {
-  const [active, setActive] = useState('brief')
+  const [active, setActive] = useState(NAV_ITEMS[0].id)
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        })
+      },
+      { rootMargin: '-15% 0px -70% 0px', threshold: 0 }
+    )
+    NAV_ITEMS.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (el) obs.observe(el)
+    })
+    return () => obs.disconnect()
+  }, [])
+
   function scrollTo(id: string) {
     setActive(id)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
+
   return (
     <nav className="fixed left-6 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-2">
       {NAV_ITEMS.map(item => (
@@ -105,7 +122,7 @@ function StickyNav() {
           key={item.id}
           onClick={() => scrollTo(item.id)}
           className={`text-left text-xs font-medium transition-all duration-200 ${
-            active === item.id ? 'text-blue-400 translate-x-1' : 'text-zinc-500 hover:text-zinc-300'
+            active === item.id ? 'text-orange-400 translate-x-1' : 'text-zinc-500 hover:text-zinc-300'
           }`}
         >
           {active === item.id && <span className="mr-1.5">—</span>}
@@ -118,29 +135,19 @@ function StickyNav() {
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 function Hero() {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
-
   return (
-    <section ref={ref} className="relative min-h-screen flex flex-col justify-between overflow-hidden"
-      style={{ backgroundColor: DARK }}>
+    <section className="overflow-hidden" style={{ backgroundColor: DARK }}>
 
       {/* Grid texture */}
-      <div className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: `linear-gradient(${BLUE} 1px, transparent 1px), linear-gradient(90deg, ${BLUE} 1px, transparent 1px)`,
-          backgroundSize: '64px 64px',
-        }}
-      />
-      {/* Blue radial glow */}
-      <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none"
-        style={{ background: `radial-gradient(circle, ${BLUE} 0%, transparent 70%)` }}
-      />
+      <div className="absolute inset-x-0 top-0 pointer-events-none opacity-[0.04]" style={{
+        backgroundImage: `linear-gradient(${BLUE} 1px, transparent 1px), linear-gradient(90deg, ${BLUE} 1px, transparent 1px)`,
+        backgroundSize: '64px 64px',
+        height: '100%',
+      }} />
 
-      {/* Top bar */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-8">
-        <Link href="/#work" className="flex items-center gap-2 text-zinc-400 text-xs hover:text-blue-400 transition-colors">
+      {/* Row 1: Back + Tags */}
+      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-8 pb-5">
+        <Link href="/#work" className="flex items-center gap-2 text-zinc-400 text-xs hover:text-orange-400 transition-colors">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
@@ -153,71 +160,43 @@ function Hero() {
         </div>
       </div>
 
-      {/* Centre content */}
-      <motion.div style={{ y }} className="relative z-10 px-8 md:px-16 lg:px-24 py-16 flex-1 flex flex-col justify-center">
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
-          className="mb-8"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <div className="px-3 py-1.5 rounded-lg text-white text-xs font-bold tracking-wider"
-              style={{ backgroundColor: BLUE }}>
-              DU
-            </div>
-            <div className="h-px flex-1 max-w-xs" style={{ backgroundColor: BLUE, opacity: 0.3 }} />
-          </div>
-          <p className="text-blue-400 text-xs tracking-[0.25em] uppercase mb-4 font-medium">
-            SlideXpress · DeckUp · 2024
-          </p>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-white text-6xl md:text-8xl lg:text-[8.5rem] font-bold tracking-tight leading-none mb-6"
-        >
+      {/* Row 2: Headline + description — ABOVE banner */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+        className="relative z-10 px-8 md:px-16 lg:px-24 pb-5"
+      >
+        <p className="text-orange-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">SlideXpress · DeckUp · 2024</p>
+        <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
           Deck<span style={{ color: BLUE_MUTED }}>Up</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
-          className="text-zinc-400 text-xl md:text-2xl font-light max-w-2xl mb-12 leading-relaxed"
-        >
-          A PowerPoint productivity plugin that reduces repetitive formatting, data visualisation,
-          and consistency work by up to 60% — built end-to-end for consultants and strategy teams.
-        </motion.p>
-
-        {/* Meta row */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-wrap gap-8"
-        >
-          {[
-            { label: 'Client',   value: 'SlideXpress' },
-            { label: 'Role',     value: 'Product Design Specialist' },
-            { label: 'Timeline', value: 'Ongoing' },
-            { label: 'Year',     value: '2024' },
-          ].map(m => (
-            <div key={m.label}>
-              <p className="text-zinc-600 text-xs uppercase tracking-widest mb-1">{m.label}</p>
-              <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
-            </div>
-          ))}
-        </motion.div>
+        </h1>
+        <p className="text-zinc-400 text-sm max-w-2xl leading-relaxed">
+          A PowerPoint productivity plugin that reduces repetitive formatting, data visualisation, and consistency work by up to 60% — built end-to-end for consultants and strategy teams.
+        </p>
       </motion.div>
 
-      {/* Bottom */}
+      {/* Row 3: Banner video — 16:9 */}
+      <div className="overflow-hidden aspect-video">
+        <video autoPlay muted loop playsInline className="w-full h-full object-cover block">
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+      {/* Row 4: Meta — BELOW banner */}
       <motion.div
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
-        className="relative z-10 px-8 md:px-16 pb-10 flex items-center justify-between"
+        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
+        className="relative z-10 flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-5 border-t border-zinc-800"
       >
-        <p className="text-zinc-700 text-xs italic max-w-xs">
-          "Consultants live in PowerPoint. Every click saved is time given back."
-        </p>
-        <motion.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.8 }}
-          className="text-zinc-600 text-xs">
-          Scroll ↓
-        </motion.div>
+        {[
+          { label: 'Client',   value: 'SlideXpress' },
+          { label: 'Role',     value: 'Product Design Specialist' },
+          { label: 'Timeline', value: 'Ongoing' },
+          { label: 'Year',     value: '2024' },
+        ].map(m => (
+          <div key={m.label}>
+            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-1">{m.label}</p>
+            <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
+          </div>
+        ))}
       </motion.div>
     </section>
   )
@@ -392,10 +371,10 @@ function TheIdea() {
         </div>
 
         <ProcessImage
-          src={null}
+          src="/case-studies/deck-up/100_service_map.png"
           label="DeckUp service map — 4-platform ecosystem"
           hint="Service map showing the full DeckUp ecosystem: Website (marketing, order, support) → Dashboard (subscriptions, user management) → Plugin (productivity features, licence) → Installer (install, activate, sync). Show relationships and data flows between platforms. From Service map.pdf."
-          aspect="aspect-[16/7]"
+          aspect="aspect-[16/9]"
         />
         <ImageCaption>The DeckUp service map — four interconnected platforms serving consultants, corporate users, and IT admins.</ImageCaption>
 
@@ -569,14 +548,6 @@ function Research() {
               </div>
             </div>
 
-            <div className="mt-6">
-              <ProcessImage
-                src={null}
-                label="User segment map — Product users vs Platform users"
-                hint="Diagram showing the two user tracks: Product users (Consultants, Corporate, Individual, Presentation specialists, Educators) and Platform users (IT Admins). Show which platforms each uses. From files 2.pdf and 4.pdf in the UX Work folder."
-                aspect="aspect-[4/3]"
-              />
-            </div>
           </div>
         </div>
 
@@ -703,10 +674,10 @@ function Competitive() {
         </div>
 
         <ProcessImage
-          src={null}
+          src="/case-studies/deck-up/100_Competitive_Benchmarking.png"
           label="Competitive benchmarking — onboarding flow comparison across 5 platforms"
           hint="Side-by-side comparison of onboarding flows: DeckUp vs Microsoft vs Grammarly vs think-cell vs Powtoon. Show step counts, friction points, trial access patterns, and pricing presentation for each. From 'Onboarding flows comparison between Deckup, Microsoft, Grammarly, Thinkcell, POwtoon.pdf'."
-          aspect="aspect-[16/8]"
+          aspect="aspect-[16/9]"
         />
         <ImageCaption>Onboarding flow comparison — DeckUp benchmarked against 4 direct and adjacent competitors.</ImageCaption>
 
@@ -767,10 +738,10 @@ function IA() {
         {/* Website IA wireframe */}
         <div className="mb-16">
           <ProcessImage
-            src={null}
+            src="/case-studies/deck-up/100_Architecture.png"
             label="Website sitemap wireframe — 8-section structure"
             hint="Annotated sitemap diagram showing all 8 website sections with page hierarchy. Show: Home → Features → Order → Support → Resources → Pricing → Login → About. From Architecture.pdf or A4 - 2.pdf in the UX Work folder."
-            aspect="aspect-[16/8]"
+            aspect="aspect-[16/9]"
           />
           <ImageCaption>Website IA — 8 sections designed to guide visitors from product discovery to free trial conversion.</ImageCaption>
         </div>
@@ -919,7 +890,7 @@ function Flows() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <ProcessImage
-              src={null}
+              src="/case-studies/deck-up/100_Free trial_buy_now.png"
               label="Onboarding flows — Free Trial & Buy Now paths"
               hint="Side-by-side flow diagrams showing: (1) Free Trial: Form → Email verification → Payment info → Installer → 30-day activation → Expiry. (2) Buy Now: Sign up → Email → Set password → Plan selection (Personal/Teams/Enterprise) → Payment → Installer. From 'onboarding flows_ BUy now.pdf' and 'onboarding flows_ Free trial.pdf'."
               aspect="aspect-[4/3]"
@@ -929,7 +900,7 @@ function Flows() {
           </div>
           <div>
             <ProcessImage
-              src={null}
+              src="/case-studies/deck-up/100_renewal & enterprise flow.png"
               label="Renewal & Enterprise flows"
               hint="Renewal flow: Manual vs Automatic paths with 30/15/7 day email reminders. Enterprise flow: Get a quote → Contact → Dashboard → Bulk provisioning → Pro-rata additions. From 'Renew flows.pdf' and 'Enterprise flow.pdf'."
               aspect="aspect-[4/3]"
@@ -945,114 +916,6 @@ function Flows() {
 }
 
 // ─── SECTION: DESIGN SYSTEM ───────────────────────────────────────────────────
-function DesignSystem() {
-  const componentGroups = [
-    {
-      group: 'Buttons',
-      components: ['Primary button', 'Secondary button'],
-      states: ['Default', 'Hover', 'Active', 'Disabled'],
-      desc: 'Two button types for all CTAs across plugin, dashboard, and website. State management ensures consistent interaction feedback.',
-    },
-    {
-      group: 'Form Controls',
-      components: ['Text box', 'Radio button', 'Tick box / Checkbox'],
-      states: ['Default', 'Hover', 'Active', 'Error'],
-      desc: 'Form components used across onboarding flows, payment screens, and dashboard settings. Error states designed for all input validation cases.',
-    },
-    {
-      group: 'Labels & Links',
-      components: ['Inline labels', 'Navigation links', 'Action links'],
-      states: ['Default', 'Hover', 'Active', 'Visited'],
-      desc: 'Text-based interactive elements for all navigation and content linking. Hover states ensure clear affordance for clickable text.',
-    },
-    {
-      group: 'Toolbar Components',
-      components: ['Tool button', 'Panel header', 'Section divider', 'Status indicator'],
-      states: ['Default', 'Hover', 'Active', 'Locked'],
-      desc: 'Plugin-specific components designed for the compact toolbar environment — optimised for small surface area and frequent interaction.',
-    },
-  ]
-
-  return (
-    <section id="system" className="px-8 md:px-16 lg:px-24 py-28 bg-[#f9f9f7]">
-      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-
-        <SectionLabel>07 — Design System</SectionLabel>
-        <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
-          One design system. Four platforms. Zero visual inconsistency.
-        </h2>
-        <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
-          With four interconnected platforms — each serving different users in different contexts — a shared design
-          system wasn't optional. Every component was built with all three interaction states (Default, Hover, Active)
-          and documented for development handoff.
-        </p>
-
-        {/* Component groups */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-16">
-          {componentGroups.map((g, i) => (
-            <motion.div
-              key={g.group}
-              initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="bg-white border border-zinc-200 rounded-2xl overflow-hidden"
-            >
-              <div className="px-7 py-5 border-b border-zinc-100">
-                <p className="text-zinc-800 font-semibold text-base">{g.group}</p>
-              </div>
-              <div className="px-7 py-5">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {g.components.map(c => (
-                    <span key={c} className="text-xs px-3 py-1 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 font-medium">{c}</span>
-                  ))}
-                </div>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {g.states.map(s => (
-                    <span key={s} className="text-xs px-3 py-1 rounded-full bg-zinc-100 text-zinc-500 border border-zinc-200">{s}</span>
-                  ))}
-                </div>
-                <p className="text-zinc-500 text-xs leading-relaxed">{g.desc}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* State demo visual */}
-        <div className="bg-white border border-zinc-200 rounded-2xl p-8 mb-12">
-          <p className="text-blue-500 text-xs font-semibold uppercase tracking-widest mb-6">Component state system — every component has all 3 states</p>
-          <div className="grid grid-cols-3 gap-4">
-            {[
-              { state: 'Default', desc: 'Rest state — visible, accessible, not interacted with', style: 'border-zinc-300 text-zinc-600 bg-white' },
-              { state: 'Hover',   desc: 'Mouse-over — clear affordance signal before click',    style: 'border-blue-400 text-blue-600 bg-blue-50' },
-              { state: 'Active',  desc: 'Clicked / selected — confirms action, shows current state', style: 'border-blue-600 text-white', bgStyle: BLUE },
-            ].map(item => (
-              <div key={item.state} className="text-center">
-                <div
-                  className={`inline-flex items-center justify-center px-6 py-3 rounded-xl border-2 text-sm font-semibold mb-3 ${item.style}`}
-                  style={item.bgStyle ? { backgroundColor: item.bgStyle } : undefined}
-                >
-                  Button
-                </div>
-                <p className="text-zinc-700 text-xs font-semibold mb-1">{item.state}</p>
-                <p className="text-zinc-400 text-xs leading-tight">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Design system screenshot */}
-        <ProcessImage
-          src={null}
-          label="Design system sheet — buttons, form controls, labels, toolbar components with all states"
-          hint="Figma design system overview: show Primary and Secondary buttons with Default/Hover/Active states, Text box states, Radio buttons, Tick boxes, and Links. All laid out on a clean white background with blue accent (#2563EB). From 'Toolbar_ Default, Hover & Active state.pdf' in the Toolbar folder."
-          aspect="aspect-[16/8]"
-        />
-        <ImageCaption>The DeckUp design system — 60+ components, all interaction states documented for a 4-platform product.</ImageCaption>
-
-      </motion.div>
-    </section>
-  )
-}
-
 // ─── SECTION: PLUGIN DESIGN & TOOLBAR FEATURES ───────────────────────────────
 function ToolbarFeatures() {
   const features = [
@@ -1195,10 +1058,10 @@ function ToolbarFeatures() {
 
         {/* Process image: full panel overview */}
         <ProcessImage
-          src={null}
+          src="/case-studies/deck-up/100_Deckup_Toolbar.png"
           label="DeckUp toolbar — full plugin panel in PowerPoint"
           hint="Screenshot of the DeckUp toolbar as it appears inside PowerPoint — showing the full panel with: Record, Present in Teams, Share buttons at top; Slide Elements section with On Page Tracker; all 5 feature group sections visible. Use the toolbar screenshots from the Toolbar folder (Screenshot 2026-04-17 files)."
-          aspect="aspect-[16/7]"
+          aspect="aspect-[16/9]"
         />
         <ImageCaption>The DeckUp toolbar — full panel layout showing all 5 feature groups as they appear inside PowerPoint.</ImageCaption>
 
@@ -1208,7 +1071,7 @@ function ToolbarFeatures() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           <div>
             <ProcessImage
-              src={null}
+              src="/case-studies/deck-up/100_Plugin_information_Hierarchy.png"
               label="Plugin information hierarchy — panel structure wireframes"
               hint="Wireframe or Figma layout showing the plugin panel hierarchy: top-level feature groups, nested sub-controls, section headers. Shows how the panel structure was defined before visual design. From UX Work folder or Toolbar design files."
               aspect="aspect-[4/3]"
@@ -1217,7 +1080,7 @@ function ToolbarFeatures() {
           </div>
           <div>
             <ProcessImage
-              src={null}
+              src="/case-studies/deck-up/100_Iteration_comparison.png"
               label="Iteration comparison — early vs refined toolbar design"
               hint="Side-by-side showing an early iteration of the toolbar panel vs the refined final version. Highlights changes in feature ordering, label clarity, and interaction patterns that came from testing rounds. From Toolbar design/iteration files."
               aspect="aspect-[4/3]"
@@ -1235,30 +1098,20 @@ function ToolbarFeatures() {
               key={feature.num}
               initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.07 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-12 py-14"
+              className="py-14"
             >
-              <div>
-                <div className="flex items-center gap-4 mb-5">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold text-white"
-                    style={{ backgroundColor: BLUE }}>
-                    {feature.num}
-                  </div>
-                  <h3 className="text-zinc-900 text-xl font-bold">{feature.name}</h3>
+              <div className="flex items-center gap-4 mb-5">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold text-white"
+                  style={{ backgroundColor: BLUE }}>
+                  {feature.num}
                 </div>
-                <p className="text-zinc-500 text-sm leading-relaxed mb-5">{feature.desc}</p>
-                <div className="flex flex-wrap gap-2">
-                  {feature.tags.map(t => (
-                    <span key={t} className="text-xs px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 font-medium">{t}</span>
-                  ))}
-                </div>
+                <h3 className="text-zinc-900 text-xl font-bold">{feature.name}</h3>
               </div>
-              <div>
-                <ProcessImage
-                  src={null}
-                  label={feature.imgLabel}
-                  hint={feature.imgHint}
-                  aspect="aspect-[4/3]"
-                />
+              <p className="text-zinc-500 text-sm leading-relaxed mb-5">{feature.desc}</p>
+              <div className="flex flex-wrap gap-2">
+                {feature.tags.map(t => (
+                  <span key={t} className="text-xs px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 font-medium">{t}</span>
+                ))}
               </div>
             </motion.div>
           ))}
@@ -1378,10 +1231,10 @@ function Platform() {
         </div>
 
         <ProcessImage
-          src={null}
+          src="/case-studies/deck-up/100_user_management&plan_controls.png"
           label="Subscription dashboard — user management and plan controls"
           hint="Screenshot of the DeckUp subscription dashboard showing user list, licence status, plan type indicator (Single/Teams/Enterprise), add/remove user controls, renewal date, and billing section."
-          aspect="aspect-[16/8]"
+          aspect="aspect-[16/9]"
         />
         <ImageCaption>The DeckUp subscription platform — three plan types, each with a distinct user management experience.</ImageCaption>
 
@@ -1493,10 +1346,10 @@ function Testing() {
 
         {/* QA tracker image */}
         <ProcessImage
-          src={null}
+          src="/case-studies/deck-up/100_QA_tracking.png"
           label="QA tracking sheet — collaborative bug tracker with dev team"
           hint="Screenshot of the Deckup_testing.xlsx spreadsheet: columns for Date, Plugin issues, Dashboard issues, Visual issues, Status (Done/Verified/Pending). Shows the live tracker maintained across all 4 testing rounds. From 'Deckup_testing.xlsx' in Dev Communication & Management folder."
-          aspect="aspect-[16/7]"
+          aspect="aspect-[16/9]"
         />
         <ImageCaption>Shared QA tracker — functional and visual issues logged across 4 rounds, all tracked to closure before sign-off.</ImageCaption>
 
@@ -1866,7 +1719,6 @@ export default function DeckUpDetail() {
       <ToolbarFeatures />
       <IA />
       <Flows />
-      <DesignSystem />
       <Platform />
       <Testing />
       <Chargebee />

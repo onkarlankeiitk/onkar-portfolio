@@ -119,8 +119,7 @@ export default function Sketches() {
         transition={{ duration: 0.6 }}
         className="px-8 md:px-16 lg:px-24 mb-12"
       >
-        <p className="text-zinc-600 text-sm tracking-widest uppercase mb-3">Thinking out loud</p>
-        <h2 className="text-white text-2xl font-semibold">Design breaks: pen strokes in between design sprints</h2>
+        <h2 style={{ color: '#ffffff', fontSize: '40px', fontWeight: 500, fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', letterSpacing: '-0.02em', margin: 0 }}>Design breaks</h2>
         <p className="text-zinc-500 mt-2 text-sm max-w-md">
           Raw sketches and explorations — My love for sketching & early concepts keep me going.
         </p>

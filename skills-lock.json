@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "ux-research": {
+      "source": "absolutelyskilled/absolutelyskilled",
+      "sourceType": "github",
+      "skillPath": "skills/ux-research/SKILL.md",
+      "computedHash": "3c0839d44f983b36db2f44caf9e585f3aca12b6ac9546d829840d74f6d4744da"
+    }
+  }
+}

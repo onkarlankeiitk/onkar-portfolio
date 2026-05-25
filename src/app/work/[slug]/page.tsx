@@ -93,6 +93,9 @@ function PasswordModal({ slug, onClose, onSuccess }: {
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm px-6"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -100,11 +103,12 @@ function PasswordModal({ slug, onClose, onSuccess }: {
         transition={{ duration: 0.25, ease: 'easeOut' }}
         className="bg-white border border-zinc-200 rounded-2xl p-8 w-full max-w-md shadow-2xl shadow-zinc-200/80"
       >
-        <div className="text-2xl mb-4">🔒</div>
-        <h3 className="text-zinc-900 text-xl font-semibold mb-1">Full Case Study</h3>
+        <div className="text-2xl mb-4" aria-hidden>🔒</div>
+        <h3 id="modal-title" className="text-zinc-900 text-xl font-semibold mb-1">Full Case Study</h3>
         <p className="text-zinc-500 text-sm mb-6">Enter the access code to view the detailed breakdown — process, artifacts, and all deliverables.</p>
-        <p className="text-zinc-400 text-xs tracking-widest uppercase mb-2">Password</p>
+        <label htmlFor="case-study-password" className="text-zinc-400 text-xs tracking-widest uppercase mb-2 block">Password</label>
         <motion.input
+          id="case-study-password"
           animate={shake ? { x: [-8, 8, -8, 8, 0] } : {}}
           transition={{ duration: 0.3 }}
           type="password"
@@ -112,17 +116,20 @@ function PasswordModal({ slug, onClose, onSuccess }: {
           onChange={(e) => { setValue(e.target.value); setError(false) }}
           onKeyDown={(e) => e.key === 'Enter' && attempt()}
           placeholder="Enter password"
+          aria-describedby={error ? 'password-error' : undefined}
+          aria-invalid={error}
+          autoFocus
           className={`w-full bg-zinc-50 border rounded-xl px-4 py-3 text-zinc-900 text-sm outline-none mb-2 transition-colors ${
             error ? 'border-red-400' : 'border-zinc-200 focus:border-zinc-400'
           }`}
         />
-        {error && <p className="text-red-500 text-xs mb-4">Incorrect password. Try again.</p>}
+        {error && <p id="password-error" role="alert" className="text-red-500 text-xs mb-4">Incorrect password. Try again.</p>}
         {!error && <div className="mb-4" />}
         <div className="flex gap-3">
-          <button onClick={attempt} className="flex-1 bg-zinc-900 text-white text-sm font-medium py-3 rounded-full hover:bg-zinc-700 transition-colors">
+          <button onClick={attempt} className="flex-1 bg-zinc-900 text-white text-sm font-medium py-3 rounded-full hover:bg-zinc-700 transition-colors cursor-pointer">
             Unlock →
           </button>
-          <button onClick={onClose} className="px-5 py-3 border border-zinc-200 text-zinc-500 text-sm rounded-full hover:border-zinc-400 transition-colors">
+          <button onClick={onClose} className="px-5 py-3 border border-zinc-200 text-zinc-500 text-sm rounded-full hover:border-zinc-400 transition-colors cursor-pointer">
             Cancel
           </button>
         </div>
