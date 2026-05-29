@@ -211,7 +211,6 @@ export default function CaseStudySummary() {
   const pathname = usePathname()
   const slug = pathname?.split("/").pop() ?? ""
   const cs: CaseStudy | undefined = getCaseStudy(slug)
-  const [modalOpen, setModalOpen] = useState(false)
   const accent = accentMap[slug] ?? defaultAccent
 
   if (!cs) {
@@ -220,11 +219,6 @@ export default function CaseStudySummary() {
         <p className="text-zinc-400">Case study not found.</p>
       </main>
     )
-  }
-
-  function handleUnlock() {
-    setModalOpen(false)
-    window.location.href = cs!.detailPath
   }
 
   // Optional full-width images — add to data file as:
@@ -510,35 +504,21 @@ export default function CaseStudySummary() {
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
           className="text-center max-w-2xl mx-auto"
         >
-          <div className={`inline-flex items-center gap-2 border px-4 py-2 rounded-full mb-8 ${accent.tag}`}>
-            <span className="text-xs">🔒</span>
-            <span className={`text-xs tracking-widest uppercase font-semibold`}>Protected</span>
-          </div>
-
           <h2 className="text-zinc-900 text-4xl md:text-6xl font-bold tracking-tight leading-none mb-10 whitespace-pre-line">
             {cs.cta.heading}
           </h2>
 
-          <motion.button
-            whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-            onClick={() => setModalOpen(true)}
+          <Link
+            href={cs.detailPath}
             className="bg-zinc-900 text-white px-10 py-5 rounded-full text-base font-semibold hover:bg-zinc-700 transition-colors inline-flex items-center gap-3"
           >
             View Full Case Study
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>
-          </motion.button>
+          </Link>
         </motion.div>
       </section>
-
-      {modalOpen && (
-        <PasswordModal
-          slug={slug}
-          onClose={() => setModalOpen(false)}
-          onSuccess={handleUnlock}
-        />
-      )}
 
     </main>
   )

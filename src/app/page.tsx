@@ -29,6 +29,8 @@ const ease = [0.22, 1, 0.36, 1] as const
 const projects = [
   {
     slug: 'deckup',
+    directPath: '/work/deckup-detail',
+    banner: '/case-studies/deck-up/hero-banner.png',
     company: 'SlideXpress',
     year: '2024',
     title: 'Deck-Up — SaaS for Consultants',
@@ -42,6 +44,8 @@ const projects = [
   },
   {
     slug: 'dil-kyc',
+    directPath: '/work/dil-kyc-detail',
+    banner: '/case-studies/dil-kyc/hero-banner.png',
     company: 'Diamond India Ltd.',
     year: '2024',
     title: 'KYC & Customer Management',
@@ -55,6 +59,8 @@ const projects = [
   },
   {
     slug: 'research-strategy',
+    directPath: '/work/research-strategy',
+    banner: '/case-studies/research-strategy/hero-banner.png',
     company: 'Commongood, USA',
     year: '2023',
     title: 'Research & Strategy for Growth',
@@ -68,6 +74,8 @@ const projects = [
   },
   {
     slug: 'fintech-gamification',
+    directPath: '/work/fintech-gamification-detail',
+    banner: '/case-studies/fintech-gamification/hero-banner.png',
     company: 'Mindseye Creative',
     year: '2023',
     title: 'Gamification in Fintech',
@@ -189,7 +197,7 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
 
   return (
     <Link
-      href={`/work/${project.slug}`}
+      href={project.directPath}
       style={{ display: 'block', position: 'relative', perspective: '1000px', cursor: 'pointer', textDecoration: 'none' }}
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
@@ -216,7 +224,12 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
           }}
         >
           {/* Banner — 16:9 */}
-          <div style={{ width: '100%', aspectRatio: '16/9', flexShrink: 0, ...stripedDark, borderBottom: '1px solid #1a1a1a' }} />
+          <div style={{ width: '100%', aspectRatio: '16/9', flexShrink: 0, overflow: 'hidden', borderBottom: '1px solid #1a1a1a', background: '#111' }}>
+            {project.banner
+              ? <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.9 }} />
+              : <div style={{ width: '100%', height: '100%', ...stripedDark }} />
+            }
+          </div>
           {/* Content strip */}
           <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div>
@@ -484,7 +497,7 @@ function ArticlesColumn({ headingColor }: { headingColor: string }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <p style={{ fontFamily: T.mono, fontSize: '11px', color: headingColor, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px', transition: 'color 0.2s' }}>
-        Writing
+        Medium Articles
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
         {loading ? (
@@ -784,6 +797,165 @@ function ArchCard({ project, index }: { project: { title: string; label: string 
         </p>
       </div>
     </motion.div>
+  )
+}
+
+// ─── Behance Section ──────────────────────────────────────────────────────────
+const behanceProjects = [
+  {
+    title: 'IndiGo Go Next Experience Design',
+    url: 'https://www.behance.net/gallery/149525913/IndiGo-Go-Next-Experience-Design',
+    cover: '/behance/behance-01.png',
+    year: '2020',
+  },
+  {
+    title: 'Designing for Last Mile Reach — Financial Inclusion',
+    url: 'https://www.behance.net/gallery/153941575/Designing-for-last-mile-reach-financial-inclusion',
+    cover: '/behance/behance-02.png',
+    year: '2020',
+  },
+  {
+    title: 'Delivering Better Experience — A Redesign',
+    url: 'https://www.behance.net/gallery/88634913/Delivering-Better-Experience-A-REDESIGN',
+    cover: '/behance/behance-03.png',
+    year: '2020',
+  },
+  {
+    title: 'Icons Design Planner',
+    url: 'https://www.behance.net/gallery/72384035/Icons-Design-Planner',
+    cover: '/behance/behance-04.png',
+    year: '2019',
+  },
+]
+
+function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; index: number }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <motion.a
+      href={project.url}
+      target="_blank"
+      rel="noreferrer"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -4 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.08, ease }}
+      style={{
+        display: 'block',
+        background: '#0A0A0A',
+        border: `1px solid ${hovered ? '#2a2a2a' : '#1a1a1a'}`,
+        borderRadius: '12px',
+        overflow: 'hidden',
+        textDecoration: 'none',
+        transition: 'border-color 0.25s',
+        cursor: 'pointer',
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Cover image — aspect ratio ~18.4/9 (16/9 + 15%) */}
+      <div style={{ position: 'relative', aspectRatio: '18.4 / 9', overflow: 'hidden', background: '#111' }}>
+        <img
+          src={project.cover}
+          alt={project.title}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: hovered ? 1 : 0.75,
+            transition: 'opacity 0.3s',
+            display: 'block',
+          }}
+          onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+        />
+      </div>
+      {/* Title + meta below image */}
+      <div style={{ padding: '14px 16px 16px' }}>
+        <p style={{
+          fontFamily: T.sans,
+          fontSize: '13px',
+          fontWeight: 500,
+          color: hovered ? '#ffffff' : '#a1a1aa',
+          margin: '0 0 8px',
+          lineHeight: 1.4,
+          letterSpacing: '-0.01em',
+          transition: 'color 0.2s',
+        }}>
+          {project.title}
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontFamily: T.mono, fontSize: '10px', color: '#3f3f46', letterSpacing: '0.04em' }}>{project.year}</span>
+          <span style={{ fontFamily: T.mono, fontSize: '9px', color: '#3f3f46', border: '1px solid #27272a', padding: '1px 6px', borderRadius: '4px', letterSpacing: '0.06em' }}>
+            Be
+          </span>
+        </div>
+      </div>
+    </motion.a>
+  )
+}
+
+function BehanceSection() {
+  return (
+    <section
+      style={{
+        position: 'relative',
+        zIndex: 2,
+        background: '#0A0A0A',
+        padding: '56px 48px',
+        borderTop: '1px solid #1a1a1a',
+        fontFamily: T.sans,
+      }}
+      className="behance-section"
+    >
+      {/* Header — mirrors work panel header style */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderBottom: '1px solid #1a1a1a',
+        paddingBottom: '24px',
+        marginBottom: '32px',
+      }}>
+        <h2 style={{
+          color: '#ffffff',
+          fontFamily: T.sans,
+          fontSize: '28px',
+          fontWeight: 500,
+          margin: 0,
+          letterSpacing: '-0.02em',
+        }}>
+          Behance old work: 2020
+        </h2>
+        <a
+          href="https://www.behance.net/lankeonkar"
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            fontFamily: T.mono,
+            fontSize: '11px',
+            color: '#52525b',
+            textDecoration: 'none',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#ffffff')}
+          onMouseLeave={e => (e.currentTarget.style.color = '#52525b')}
+        >
+          View on Behance →
+        </a>
+      </div>
+
+      {/* 4-col grid */}
+      <div
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}
+        className="behance-grid"
+      >
+        {behanceProjects.map((project, i) => (
+          <BehanceCard key={project.url} project={project} index={i} />
+        ))}
+      </div>
+    </section>
   )
 }
 
@@ -1347,13 +1519,13 @@ export default function Home() {
               style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}
             >
               <HeroCTA
-                href="https://www.linkedin.com/in/onkarlanke/"
-                label="Connect on LinkedIn"
+                href="/#work"
+                label="View work"
                 filled
               />
               <HeroCTA
-                href="https://drive.google.com/file/d/1PNn9pC0hjqr5yJNAO6Donal4jPbvpnWo/view?usp=sharing"
-                label="View Resume"
+                href="https://www.linkedin.com/in/onkarlanke/"
+                label="Connect on LinkedIn"
                 filled={false}
               />
             </motion.div>
@@ -1401,7 +1573,7 @@ export default function Home() {
                 letterSpacing: '-0.02em',
               }}
             >
-              My Work
+              Digital Design
             </h2>
             <Link
               href="/projects"
@@ -1492,6 +1664,11 @@ export default function Home() {
         </div>{/* end work wrapper */}
 
         {/* ═══════════════════════════════════════════════════════════════════
+            BEHANCE ARCHIVE — normal scroll
+        ═══════════════════════════════════════════════════════════════════ */}
+        <BehanceSection />
+
+        {/* ═══════════════════════════════════════════════════════════════════
             ARCH + INDUSTRIAL — normal scroll
         ═══════════════════════════════════════════════════════════════════ */}
         <ArchSection />
@@ -1530,6 +1707,12 @@ export default function Home() {
           .work-columns > div {
             border-right: none !important;
             border-bottom: 1px solid #1a1a1a;
+          }
+          .behance-section {
+            padding: 64px 24px !important;
+          }
+          .behance-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
           }
           #arch {
             padding: 64px 24px !important;

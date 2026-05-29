@@ -46,29 +46,13 @@ function ProcessImage({
 }: {
   src?: string | null; label: string; hint: string; aspect?: string; dark?: boolean
 }) {
-  if (src) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-        className={`${aspect} w-full rounded-2xl overflow-hidden shadow-sm`}
-      >
-        <img src={src} alt={label} className="w-full h-full object-cover" />
-      </motion.div>
-    )
-  }
+  if (!src) return null
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-      className={`${aspect} w-full rounded-2xl border-2 border-dashed flex flex-col items-center justify-center gap-3 p-8 text-center ${
-        dark ? 'border-zinc-700 bg-zinc-900/40' : 'border-zinc-200 bg-zinc-50'
-      }`}
+      className={`${aspect} w-full rounded-2xl overflow-hidden shadow-sm`}
     >
-      <div className="text-3xl opacity-20">🖼</div>
-      <p className={`text-sm font-medium ${dark ? 'text-zinc-400' : 'text-zinc-500'}`}>{label}</p>
-      <p className={`text-xs max-w-sm leading-relaxed ${dark ? 'text-zinc-600' : 'text-zinc-400'}`}>{hint}</p>
-      <p className={`text-xs mt-1 font-mono ${dark ? 'text-zinc-700' : 'text-zinc-300'}`}>
-        → public/case-studies/fintech-gamification/
-      </p>
+      <img src={src} alt={label} className="w-full h-full object-cover" />
     </motion.div>
   )
 }

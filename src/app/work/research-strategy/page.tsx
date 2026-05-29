@@ -1,52 +1,91 @@
 'use client'
 
-// app/work/research-strategy/page.tsx
-// Munk Pack — Research & Strategy — all data from research-strategy.ts, unique layout
-// Palette: warm off-white (#F7F5F0) + forest green (#16A34A) + stone (#78716C)
-
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
 import { researchStrategy as cs } from '@/lib/case-studies/research-strategy'
+import Nav from '@/components/Nav'
 
-const GREEN = '#0D9488'
-
-// ─── SHARED ATOMS ─────────────────────────────────────────────────────────────
-
-function Label({ children }: { children: React.ReactNode }) {
-  return <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-4" style={{ color: GREEN }}>{children}</p>
+// ─── Design tokens (mirrors landing page) ─────────────────────────────────────
+const T = {
+  paper:    '#F4F2EC',
+  ink:      '#0B0B0B',
+  inkMute:  '#8A8A85',
+  rule:     '#D9D6CE',
+  ruleSoft: '#E8E5DD',
+  dark:     '#0A0A0A',
+  sans:     '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
+  mono:     '"JetBrains Mono", ui-monospace, monospace',
 }
 
-function Tag({ children }: { children: React.ReactNode }) {
+const ease = [0.22, 1, 0.36, 1] as const
+
+const stripedDark = {
+  background: 'repeating-linear-gradient(135deg, #1a1a1a 0 8px, transparent 8px 16px)',
+}
+
+const stripedLight = {
+  background: `repeating-linear-gradient(135deg, #E8E5DD 0 12px, transparent 12px 24px), ${T.paper}`,
+}
+
+// ─── Registration mark ─────────────────────────────────────────────────────────
+function RegMark({ style }: { style: React.CSSProperties }) {
   return (
-    <span className="inline-block text-xs px-3 py-1 rounded-full border border-teal-200 bg-teal-50 text-teal-700 font-medium">
-      {children}
-    </span>
+    <div style={{ position: 'absolute', ...style }}>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <line x1="10" y1="0" x2="10" y2="20" stroke={T.rule} strokeWidth="1" />
+        <line x1="0" y1="10" x2="20" y2="10" stroke={T.rule} strokeWidth="1" />
+        <circle cx="10" cy="10" r="3" stroke={T.rule} strokeWidth="1" fill="none" />
+      </svg>
+    </div>
   )
 }
 
-// Renders either a real image or a placeholder — mirrors what [slug] did
-function StepImage({ src, alt, hint, aspect = 'aspect-video' }: {
-  src: string | null; alt: string; hint: string; aspect?: string
+// ─── Mono label ────────────────────────────────────────────────────────────────
+function MonoLabel({ children, light }: { children: React.ReactNode; light?: boolean }) {
+  return (
+    <p style={{
+      fontFamily: T.mono,
+      fontSize: '11px',
+      color: light ? '#52525b' : T.inkMute,
+      letterSpacing: '0.12em',
+      textTransform: 'uppercase',
+      margin: '0 0 12px',
+    }}>
+      {children}
+    </p>
+  )
+}
+
+// ─── Image / placeholder ───────────────────────────────────────────────────────
+function StepImage({ src, alt, aspect = '16/9', dark = false }: {
+  src: string | null; alt: string; aspect?: string; dark?: boolean
 }) {
   if (src) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-        className={`${aspect} w-full rounded-2xl overflow-hidden shadow-sm`}
+        initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }} transition={{ duration: 0.6, ease }}
+        style={{ aspectRatio: aspect, width: '100%', borderRadius: '10px', overflow: 'hidden', border: `1px solid ${dark ? '#1a1a1a' : T.rule}` }}
       >
-        <img src={src} alt={alt} className="w-full h-full object-cover" />
+        <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
       </motion.div>
     )
   }
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-      className={`${aspect} w-full rounded-2xl border-2 border-dashed border-zinc-200 bg-zinc-50 flex flex-col items-center justify-center gap-3 p-8 text-center`}
+      initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }} transition={{ duration: 0.6, ease }}
+      style={{
+        aspectRatio: aspect, width: '100%', borderRadius: '10px',
+        border: `1px solid ${dark ? '#1a1a1a' : T.rule}`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        ...(dark ? stripedDark : stripedLight),
+      }}
     >
-      <div className="text-3xl opacity-20">🖼</div>
-      <p className="text-zinc-500 text-sm font-medium">{alt}</p>
-      <p className="text-zinc-400 text-xs max-w-sm leading-relaxed">{hint}</p>
+      <p style={{ fontFamily: T.mono, fontSize: '10px', color: dark ? '#3f3f46' : T.inkMute, letterSpacing: '0.05em', margin: 0 }}>
+        {alt}
+      </p>
     </motion.div>
   )
 }
@@ -55,17 +94,16 @@ function BannerImage({ src, alt }: { src: string | null; alt: string }) {
   if (!src) return null
   return (
     <motion.div
-      initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
-      className="w-full overflow-hidden"
-      style={{ height: 'clamp(280px, 40vw, 560px)' }}
+      initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+      viewport={{ once: true }} transition={{ duration: 0.7 }}
+      style={{ width: '100%', overflow: 'hidden', height: 'clamp(240px, 38vw, 520px)' }}
     >
-      <img src={src} alt={alt} className="w-full h-full object-cover" />
+      <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
     </motion.div>
   )
 }
 
-// ─── PASSWORD MODAL ───────────────────────────────────────────────────────────
-
+// ─── Password modal — landing page dark style ──────────────────────────────────
 function PasswordModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
   const [value, setValue] = useState('')
   const [error, setError] = useState(false)
@@ -84,286 +122,583 @@ function PasswordModal({ onClose, onSuccess }: { onClose: () => void; onSuccess:
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center px-6"
-      style={{ backgroundColor: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)' }}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 50,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px',
+        backgroundColor: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)',
+      }}
+      onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <motion.div
-        initial={{ opacity: 0, y: 24, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }}
+        initial={{ opacity: 0, y: 24, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0 }} transition={{ duration: 0.25 }}
-        className="bg-white rounded-2xl p-8 w-full max-w-sm shadow-2xl"
+        style={{
+          background: '#111', border: '1px solid #27272a', borderRadius: '16px',
+          padding: '36px', width: '100%', maxWidth: '380px',
+        }}
       >
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-5 text-white text-sm font-bold" style={{ backgroundColor: GREEN }}>M</div>
-        <h3 className="text-zinc-900 text-lg font-semibold mb-1">Full Case Study</h3>
-        <p className="text-zinc-500 text-sm mb-6">Enter the access code to view the full process, research artifacts, and all deliverables.</p>
+        <div style={{ fontFamily: T.mono, fontSize: '10px', color: '#52525b', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '20px' }}>
+          Full Case Study
+        </div>
+        <h3 style={{ fontFamily: T.sans, fontSize: '20px', fontWeight: 500, color: '#ffffff', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
+          Access required
+        </h3>
+        <p style={{ fontFamily: T.sans, fontSize: '13px', color: '#71717a', margin: '0 0 24px', lineHeight: 1.6 }}>
+          Enter the access code to view the full process, research artifacts, and all deliverables.
+        </p>
         <motion.input
           animate={shake ? { x: [-8, 8, -8, 8, 0] } : {}}
           type="password" value={value}
-          onChange={(e) => { setValue(e.target.value); setError(false) }}
-          onKeyDown={(e) => e.key === 'Enter' && attempt()}
+          onChange={e => { setValue(e.target.value); setError(false) }}
+          onKeyDown={e => e.key === 'Enter' && attempt()}
           placeholder="Enter password" autoFocus
-          className={`w-full border rounded-xl px-4 py-3 text-zinc-900 text-sm outline-none mb-4 transition-colors ${
-            error ? 'border-red-400 bg-red-50' : 'border-zinc-200 bg-zinc-50 focus:border-teal-400'
-          }`}
+          style={{
+            width: '100%', boxSizing: 'border-box',
+            background: '#1a1a1a', border: `1px solid ${error ? '#ef4444' : '#27272a'}`,
+            borderRadius: '8px', padding: '12px 16px',
+            fontFamily: T.sans, fontSize: '13px', color: '#ffffff',
+            outline: 'none', marginBottom: error ? '8px' : '20px',
+          }}
         />
-        {error && <p className="text-red-500 text-xs mb-3 -mt-2">Incorrect password. Try again.</p>}
-        <div className="flex gap-3">
-          <button onClick={attempt} className="flex-1 py-3 rounded-full text-sm font-semibold text-white" style={{ backgroundColor: GREEN }}>Unlock →</button>
-          <button onClick={onClose} className="px-5 py-3 border border-zinc-200 text-zinc-500 text-sm rounded-full hover:border-zinc-400 transition-colors">Cancel</button>
+        {error && (
+          <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#ef4444', margin: '0 0 16px', letterSpacing: '0.05em' }}>
+            Incorrect password — try again
+          </p>
+        )}
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button
+            onClick={attempt}
+            style={{
+              flex: 1, padding: '12px', borderRadius: '9999px',
+              background: T.ink, color: '#fff', border: 'none',
+              fontFamily: T.sans, fontSize: '13px', fontWeight: 500, cursor: 'pointer',
+            }}
+          >
+            Unlock →
+          </button>
+          <button
+            onClick={onClose}
+            style={{
+              padding: '12px 20px', borderRadius: '9999px',
+              background: 'transparent', color: '#71717a',
+              border: '1px solid #27272a',
+              fontFamily: T.sans, fontSize: '13px', cursor: 'pointer',
+            }}
+          >
+            Cancel
+          </button>
         </div>
       </motion.div>
     </motion.div>
   )
 }
 
-// ─── PAGE ─────────────────────────────────────────────────────────────────────
+// ─── Tag pill ──────────────────────────────────────────────────────────────────
+function Tag({ children, dark }: { children: React.ReactNode; dark?: boolean }) {
+  return (
+    <span style={{
+      fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em',
+      color: dark ? '#a1a1aa' : T.inkMute,
+      background: dark ? '#1a1a1a' : T.ruleSoft,
+      border: `1px solid ${dark ? '#27272a' : T.rule}`,
+      padding: '4px 10px', borderRadius: '9999px',
+    }}>
+      {children}
+    </span>
+  )
+}
 
+// ─── Section chrome header (mirrors landing page section headers) ───────────────
+function SectionChrome({ label, heading, index, light }: { label: string; heading: string; index: string; light?: boolean }) {
+  return (
+    <div style={{
+      display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
+      borderBottom: `1px solid ${light ? T.rule : '#1a1a1a'}`,
+      paddingBottom: '24px', marginBottom: '48px',
+    }}>
+      <div>
+        <MonoLabel light={!light}>{label}</MonoLabel>
+        <h2 style={{
+          fontFamily: T.sans,
+          fontSize: 'clamp(24px, 3vw, 40px)',
+          fontWeight: 500,
+          letterSpacing: '-0.025em',
+          lineHeight: 1.05,
+          color: light ? T.ink : '#ffffff',
+          margin: 0,
+        }}>
+          {heading}
+        </h2>
+      </div>
+      <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: light ? T.rule : '#1a1a1a', letterSpacing: '-0.03em', flexShrink: 0 }}>
+        {index}
+      </span>
+    </div>
+  )
+}
+
+// ─── Page ──────────────────────────────────────────────────────────────────────
 export default function ResearchStrategySummary() {
   const [modalOpen, setModalOpen] = useState(false)
   function handleUnlock() { setModalOpen(false); window.location.href = cs.detailPath }
 
   return (
-    <main className="bg-white text-zinc-900 antialiased">
+    <>
+      {/* Fonts */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
       <AnimatePresence>
         {modalOpen && <PasswordModal onClose={() => setModalOpen(false)} onSuccess={handleUnlock} />}
       </AnimatePresence>
 
-      {/* ── HERO ── */}
-      <section className="overflow-hidden" style={{ backgroundColor: '#F7F5F0' }}>
+      <main style={{ background: T.dark, fontFamily: T.sans }}>
+        <Nav />
 
-        {/* Row 1: Back + Tags */}
-        <div className="flex items-center justify-between px-8 md:px-16 pt-8 pb-5">
-          <Link href="/#work" className="flex items-center gap-2 text-stone-500 text-xs hover:text-teal-700 transition-colors">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
-            </svg>
-            Back to work
-          </Link>
-          <div className="flex flex-wrap gap-2 justify-end">
-            {cs.tags.map(t => <Tag key={t}>{t}</Tag>)}
+        {/* ══════════════════════════════════════════════════════
+            HERO — dark, registration marks
+        ══════════════════════════════════════════════════════ */}
+        <section style={{
+          position: 'relative',
+          background: T.dark,
+          padding: '80px 64px 0',
+          overflow: 'hidden',
+          minHeight: '100svh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+        }} className="rs-hero">
+          {/* Ghost word */}
+          <div aria-hidden style={{
+            position: 'absolute', bottom: '-20px', right: '-16px',
+            fontSize: 'clamp(80px, 12vw, 180px)', fontWeight: 500,
+            letterSpacing: '-0.04em', color: '#111', lineHeight: 1,
+            pointerEvents: 'none', userSelect: 'none',
+          }}>
+            Research
           </div>
-        </div>
 
-        {/* Row 2: Headline + description — ABOVE banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-          className="px-8 md:px-16 lg:px-24 pb-5"
-        >
-          <p className="text-teal-600 text-xs tracking-[0.22em] uppercase font-medium mb-3">{cs.client} · {cs.year}</p>
-          <h1 className="text-zinc-900 text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
-            {cs.hero.headline} — <span style={{ color: GREEN }}>Research & Strategy</span>
-          </h1>
-          <p className="text-stone-500 text-sm max-w-2xl leading-relaxed">{cs.hero.subline}</p>
-        </motion.div>
+          {/* Registration marks */}
+          <RegMark style={{ top: '90px', left: '32px' }} />
+          <RegMark style={{ top: '90px', right: '32px' }} />
 
-        {/* Row 3: Banner — 16:9 */}
-        {cs.hero.banner && (
-          <div className="overflow-hidden aspect-video">
-            {cs.hero.banner.type === 'video' ? (
-              <video autoPlay muted loop playsInline className="w-full h-full object-cover block">
-                <source src={cs.hero.banner.src!} type="video/mp4" />
-              </video>
-            ) : (
-              <img src={cs.hero.banner.src!} alt={cs.hero.headline} className="w-full h-full object-cover block" />
-            )}
+          {/* Back link */}
+          <div style={{ position: 'absolute', top: '90px', left: '64px', zIndex: 1 }}>
+            <Link href="/#work" style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              fontFamily: T.mono, fontSize: '11px', color: '#52525b',
+              textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase',
+              transition: 'color 0.2s',
+            }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#ffffff')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#52525b')}
+            >
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
+              </svg>
+              Back to work
+            </Link>
           </div>
-        )}
 
-        {/* Row 4: Meta — BELOW banner */}
-        <div className="flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-5 bg-white border-t border-zinc-100">
+          {/* Tags row */}
+          <div style={{ position: 'absolute', top: '90px', right: '64px', display: 'flex', gap: '6px', flexWrap: 'wrap', justifyContent: 'flex-end', zIndex: 1 }}>
+            {cs.tags.map(t => <Tag key={t} dark>{t}</Tag>)}
+          </div>
+
+          {/* Headline block */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease }}
+            style={{ position: 'relative', zIndex: 1, paddingBottom: '40px' }}
+          >
+            <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 16px' }}>
+              {cs.client} · {cs.year}
+            </p>
+            <h1 style={{
+              fontSize: 'clamp(42px, 7vw, 96px)',
+              fontWeight: 500,
+              letterSpacing: '-0.025em',
+              lineHeight: 0.95,
+              color: '#ffffff',
+              margin: '0 0 24px',
+              maxWidth: '16ch',
+            }}>
+              {cs.hero.headline} —<br />
+              <span style={{ color: T.inkMute }}>Research &amp; Strategy</span>
+            </h1>
+            <p style={{ fontSize: '16px', color: '#71717a', maxWidth: '52ch', lineHeight: 1.6, margin: '0 0 32px' }}>
+              {cs.hero.subline}
+            </p>
+          </motion.div>
+
+          {/* Banner — full width, below headline */}
+          {cs.hero.banner && (
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              style={{ width: 'calc(100% + 128px)', marginLeft: '-64px', aspectRatio: '16/9', overflow: 'hidden', borderTop: '1px solid #1a1a1a', position: 'relative', zIndex: 1 }}
+            >
+              {cs.hero.banner.type === 'video' ? (
+                <video autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}>
+                  <source src={cs.hero.banner.src!} type="video/mp4" />
+                </video>
+              ) : (
+                <img src={cs.hero.banner.src!} alt={cs.hero.headline} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              )}
+            </motion.div>
+          )}
+        </section>
+
+        {/* Meta strip */}
+        <div style={{
+          display: 'flex', flexWrap: 'wrap', gap: '0',
+          borderBottom: '1px solid #1a1a1a',
+          background: T.dark,
+          position: 'relative', zIndex: 1,
+        }} className="rs-meta">
           {[
             { label: 'Client',   value: cs.client },
             { label: 'Role',     value: cs.role },
             { label: 'Timeline', value: cs.timeline },
             { label: 'Year',     value: cs.year },
-          ].map(m => (
-            <div key={m.label}>
-              <p className="text-stone-400 text-xs uppercase tracking-widest mb-1">{m.label}</p>
-              <p className="text-zinc-700 text-sm font-medium">{m.value}</p>
+          ].map((m, i, arr) => (
+            <div key={m.label} style={{
+              flex: '1 1 160px',
+              padding: '20px 32px',
+              borderRight: i < arr.length - 1 ? '1px solid #1a1a1a' : 'none',
+            }}>
+              <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+                {m.label}
+              </p>
+              <p style={{ fontFamily: T.sans, fontSize: '13px', fontWeight: 500, color: '#d4d4d8', margin: 0 }}>
+                {m.value}
+              </p>
             </div>
           ))}
         </div>
-      </section>
 
-      {/* ── OVERVIEW ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-24 bg-white">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+        {/* ══════════════════════════════════════════════════════
+            OVERVIEW — paper bg
+        ══════════════════════════════════════════════════════ */}
+        <section style={{ background: T.paper, padding: '64px 64px', position: 'relative' }} className="rs-section">
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, ease }}>
 
-          <Label>Overview</Label>
-          <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-16 max-w-3xl leading-tight">{cs.title}</h2>
+            <SectionChrome label="Overview" heading={cs.title} index="01/" light />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-20">
-            {[
-              { head: 'Context', body: cs.overview.context },
-              { head: 'Problem', body: cs.overview.problem },
-              { head: cs.overview.directionLabel ?? 'Solution', body: cs.overview.direction },
-            ].map(col => (
-              <div key={col.head}>
-                <h3 className="text-zinc-900 font-semibold text-base mb-3">{col.head}</h3>
-                <p className="text-stone-500 text-sm leading-relaxed">{col.body}</p>
-              </div>
-            ))}
-          </div>
+            {/* 3-col context / problem / solution */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0', marginBottom: '56px', border: `1px solid ${T.rule}`, borderRadius: '12px', overflow: 'hidden' }} className="rs-3col">
+              {[
+                { head: 'Context',  body: cs.overview.context },
+                { head: 'Problem',  body: cs.overview.problem },
+                { head: cs.overview.directionLabel ?? 'Solution', body: cs.overview.direction },
+              ].map((col, i, arr) => (
+                <div key={col.head} style={{
+                  padding: '28px 28px',
+                  borderRight: i < arr.length - 1 ? `1px solid ${T.rule}` : 'none',
+                  background: T.paper,
+                }}>
+                  <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 12px' }}>
+                    {col.head}
+                  </p>
+                  <p style={{ fontFamily: T.sans, fontSize: '13px', color: T.ink, lineHeight: 1.65, margin: 0 }}>
+                    {col.body}
+                  </p>
+                </div>
+              ))}
+            </div>
 
-          {/* Metrics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-100 rounded-2xl overflow-hidden">
-            {cs.metrics.map(m => (
-              <div key={m.label} className="bg-white px-6 py-8">
-                <div className="text-4xl font-bold mb-1" style={{ color: GREEN }}>{m.value}</div>
-                <div className="text-zinc-700 text-sm font-medium mb-0.5">{m.label}</div>
-                {m.sub && <div className="text-zinc-400 text-xs">{m.sub}</div>}
-              </div>
-            ))}
-          </div>
+            {/* Metrics */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1px', background: T.rule, borderRadius: '12px', overflow: 'hidden' }} className="rs-metrics">
+              {cs.metrics.map(m => (
+                <div key={m.label} style={{ background: T.paper, padding: '28px 24px' }}>
+                  <p style={{ fontFamily: T.sans, fontSize: 'clamp(32px, 3vw, 48px)', fontWeight: 500, letterSpacing: '-0.03em', color: T.ink, margin: '0 0 4px', lineHeight: 1 }}>
+                    {m.value}
+                  </p>
+                  <p style={{ fontFamily: T.sans, fontSize: '13px', fontWeight: 500, color: T.ink, margin: '0 0 2px' }}>
+                    {m.label}
+                  </p>
+                  {m.sub && <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, margin: 0, letterSpacing: '0.04em' }}>{m.sub}</p>}
+                </div>
+              ))}
+            </div>
 
-        </motion.div>
-      </section>
+          </motion.div>
+        </section>
 
-      {/* ── PROCESS ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-24" style={{ backgroundColor: '#F7F5F0' }}>
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+        {/* ══════════════════════════════════════════════════════
+            PROCESS — dark
+        ══════════════════════════════════════════════════════ */}
+        <section style={{ background: T.dark, padding: '64px 64px', position: 'relative' }} className="rs-section">
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, ease }}>
 
-          <Label>Process</Label>
-          {cs.processIntro && (
-            <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-20 max-w-3xl leading-tight">{cs.processIntro}</h2>
-          )}
+            <SectionChrome label="Process" heading={cs.processIntro ?? 'How we got there'} index="02/" />
 
-          <div className="space-y-24">
-            {cs.process.map((step, i) => {
-              const isLeft = step.imagePosition === 'left'
-              return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
+              {cs.process.map((step, i) => {
+                const isLeft = step.imagePosition === 'left'
+                return (
+                  <motion.div
+                    key={step.num}
+                    initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }} transition={{ duration: 0.6, ease }}
+                    style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '56px', alignItems: 'center' }}
+                    className="rs-step"
+                  >
+                    <div style={{ order: isLeft ? 2 : 1 }}>
+                      <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 12px' }}>
+                        {step.num}
+                      </p>
+                      <h3 style={{ fontFamily: T.sans, fontSize: 'clamp(20px, 2vw, 28px)', fontWeight: 500, color: '#ffffff', letterSpacing: '-0.02em', margin: '0 0 16px', lineHeight: 1.15 }}>
+                        {step.title}
+                      </h3>
+                      <p style={{ fontFamily: T.sans, fontSize: '14px', color: '#71717a', lineHeight: 1.65, margin: '0 0 20px' }}>
+                        {step.body}
+                      </p>
+                      {step.tags && step.tags.length > 0 && (
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                          {step.tags.map(tag => <Tag key={tag} dark>{tag}</Tag>)}
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ order: isLeft ? 1 : 2 }}>
+                      <StepImage src={step.image.src} alt={step.image.alt} aspect={step.image.aspect?.replace('aspect-[', '').replace(']', '') ?? '16/9'} dark />
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </div>
+
+          </motion.div>
+        </section>
+
+        {/* Mid-process banner */}
+        {cs.processMidBanner && <BannerImage src={cs.processMidBanner.src} alt={cs.processMidBanner.alt} />}
+
+        {/* Pre-findings banner */}
+        {cs.preFindingsBanner && <BannerImage src={cs.preFindingsBanner.src} alt={cs.preFindingsBanner.alt} />}
+
+        {/* ══════════════════════════════════════════════════════
+            FINDINGS — paper bg
+        ══════════════════════════════════════════════════════ */}
+        <section style={{ background: T.paper, padding: '64px 64px', position: 'relative' }} className="rs-section">
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, ease }}>
+
+            <SectionChrome label="Key Findings" heading="What the research surfaced" index="03/" light />
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="rs-3col">
+              {cs.findings.map((f, i) => (
                 <motion.div
-                  key={step.num}
-                  initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+                  key={f.num}
+                  initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1, ease }}
+                  style={{
+                    border: `1px solid ${T.rule}`,
+                    borderLeft: `3px solid ${T.ink}`,
+                    borderRadius: '10px',
+                    padding: '24px',
+                    background: T.paper,
+                  }}
                 >
-                  <div className={isLeft ? 'order-1 md:order-2' : ''}>
-                    <p className="text-xs tracking-widest uppercase mb-3 font-semibold" style={{ color: GREEN }}>{step.num}</p>
-                    <h3 className="text-zinc-900 font-bold text-2xl mb-4">{step.title}</h3>
-                    <p className="text-stone-500 text-sm leading-relaxed mb-5">{step.body}</p>
-                    {step.tags && step.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {step.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
-                      </div>
-                    )}
-                  </div>
-                  <div className={isLeft ? 'order-2 md:order-1' : ''}>
-                    <StepImage src={step.image.src} alt={step.image.alt} hint={step.image.hint} aspect={step.image.aspect} />
-                  </div>
+                  <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>
+                    {f.num}
+                  </p>
+                  <h4 style={{ fontFamily: T.sans, fontSize: '15px', fontWeight: 500, color: T.ink, margin: '0 0 8px', letterSpacing: '-0.01em' }}>
+                    {f.title}
+                  </h4>
+                  <p style={{ fontFamily: T.sans, fontSize: '13px', color: T.inkMute, lineHeight: 1.65, margin: 0 }}>
+                    {f.desc}
+                  </p>
                 </motion.div>
-              )
+              ))}
+            </div>
 
-              // Mid-banner after step index 1 (between step 02 and 03)
-            })}
+          </motion.div>
+        </section>
+
+        {/* Pre-conclusion banner */}
+        {cs.preConclusionBanner && <BannerImage src={cs.preConclusionBanner.src} alt={cs.preConclusionBanner.alt} />}
+
+        {/* ══════════════════════════════════════════════════════
+            CONCLUSION — dark
+        ══════════════════════════════════════════════════════ */}
+        <section style={{ background: T.dark, padding: '64px 64px', position: 'relative' }} className="rs-section">
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, ease }}>
+
+            <SectionChrome label={cs.conclusion.heading} heading="Learnings & Reflections" index="04/" />
+
+            <div style={{ maxWidth: '64ch', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {cs.conclusion.paragraphs.map((p, i) => (
+                <p key={i} style={{
+                  fontFamily: T.sans,
+                  fontSize: i === 0 ? '17px' : '14px',
+                  color: i === 0 ? '#d4d4d8' : '#71717a',
+                  lineHeight: 1.7,
+                  margin: 0,
+                  borderLeft: i === 0 ? '2px solid #27272a' : 'none',
+                  paddingLeft: i === 0 ? '20px' : '0',
+                }}>
+                  {p}
+                </p>
+              ))}
+            </div>
+
+          </motion.div>
+        </section>
+
+        {/* ══════════════════════════════════════════════════════
+            TEAM — paper bg
+        ══════════════════════════════════════════════════════ */}
+        <section style={{ background: T.paper, padding: '48px 64px', borderTop: `1px solid ${T.rule}`, position: 'relative' }} className="rs-section">
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
+            <MonoLabel>Team</MonoLabel>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              {cs.team.map(m => (
+                <TeamCard key={m.name} member={m} />
+              ))}
+            </div>
+          </motion.div>
+        </section>
+
+        {/* ══════════════════════════════════════════════════════
+            CTA — dark, matches landing page footer feel
+        ══════════════════════════════════════════════════════ */}
+        <section style={{
+          background: T.dark, padding: '80px 64px',
+          borderTop: '1px solid #1a1a1a', position: 'relative', overflow: 'hidden',
+        }} className="rs-section">
+          {/* Ghost word */}
+          <div aria-hidden style={{
+            position: 'absolute', bottom: '-16px', right: '-8px',
+            fontSize: 'clamp(80px, 12vw, 160px)', fontWeight: 500,
+            letterSpacing: '-0.04em', color: '#111', lineHeight: 1,
+            pointerEvents: 'none', userSelect: 'none',
+          }}>
+            Full Study
           </div>
 
-        </motion.div>
-      </section>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.7, ease }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '0', position: 'relative', zIndex: 1 }}
+            className="rs-cta-inner"
+          >
+            <div style={{ marginBottom: '40px' }}>
+              <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 16px' }}>
+                {cs.client} · Full Case Study
+              </p>
+              <h2 style={{
+                fontFamily: T.sans,
+                fontSize: 'clamp(36px, 5vw, 72px)',
+                fontWeight: 500,
+                letterSpacing: '-0.025em',
+                lineHeight: 1.0,
+                color: '#ffffff',
+                margin: '0 0 16px',
+                whiteSpace: 'pre-line',
+              }}>
+                {cs.cta.heading}
+              </h2>
+              <p style={{ fontFamily: T.sans, fontSize: '15px', color: '#52525b', maxWidth: '52ch', lineHeight: 1.6, margin: 0 }}>
+                {cs.cta.body}
+              </p>
+            </div>
 
-      {/* Mid-process banner */}
-      {cs.processMidBanner && (
-        <BannerImage src={cs.processMidBanner.src} alt={cs.processMidBanner.alt} />
-      )}
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <CTAButton onClick={() => setModalOpen(true)} filled label="View full case study" />
+              <CTAButton href="/#work" filled={false} label="Back to all work" />
+            </div>
+          </motion.div>
+        </section>
 
-      {/* Pre-findings banner */}
-      {cs.preFindingsBanner && (
-        <BannerImage src={cs.preFindingsBanner.src} alt={cs.preFindingsBanner.alt} />
-      )}
+      </main>
 
-      {/* ── FINDINGS ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-24 bg-white">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .rs-hero { padding: 80px 24px 0 !important; }
+          .rs-section { padding: 48px 24px !important; }
+          .rs-meta > div { border-right: none !important; border-bottom: 1px solid #1a1a1a; }
+          .rs-3col { grid-template-columns: 1fr !important; }
+          .rs-3col > div { border-right: none !important; border-bottom: 1px solid #D9D6CE; }
+          .rs-3col > div:last-child { border-bottom: none; }
+          .rs-metrics { grid-template-columns: repeat(2,1fr) !important; }
+          .rs-step { grid-template-columns: 1fr !important; }
+          .rs-step > div { order: unset !important; }
+          .rs-cta-inner { flex-direction: column !important; }
+        }
+      `}</style>
+    </>
+  )
+}
 
-          <Label>Key Findings</Label>
-          <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-16 max-w-3xl leading-tight">What the research surfaced</h2>
+// ─── Team card ─────────────────────────────────────────────────────────────────
+function TeamCard({ member }: { member: { initials: string; name: string; role: string; url: string } }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <a
+      href={member.url} target="_blank" rel="noreferrer"
+      style={{
+        display: 'flex', alignItems: 'center', gap: '12px',
+        background: hovered ? T.ink : T.paper,
+        border: `1px solid ${hovered ? T.ink : T.rule}`,
+        padding: '12px 20px', borderRadius: '10px',
+        textDecoration: 'none',
+        transition: 'all 0.2s ease',
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{
+        width: '36px', height: '36px', borderRadius: '50%', flexShrink: 0,
+        background: hovered ? '#fff' : T.ink,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: T.mono, fontSize: '11px', fontWeight: 500,
+        color: hovered ? T.ink : '#fff',
+        transition: 'all 0.2s',
+      }}>
+        {member.initials}
+      </div>
+      <div>
+        <p style={{ fontFamily: T.sans, fontSize: '13px', fontWeight: 500, color: hovered ? '#fff' : T.ink, margin: '0 0 2px', transition: 'color 0.2s' }}>
+          {member.name}
+        </p>
+        <p style={{ fontFamily: T.mono, fontSize: '10px', color: hovered ? '#a1a1aa' : T.inkMute, margin: 0, letterSpacing: '0.04em', transition: 'color 0.2s' }}>
+          {member.role}
+        </p>
+      </div>
+    </a>
+  )
+}
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {cs.findings.map((f, i) => (
-              <motion.div
-                key={f.num}
-                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="border border-zinc-200 rounded-2xl p-6 border-l-4 hover:shadow-sm transition-all"
-                style={{ borderLeftColor: GREEN }}
-              >
-                <p className="text-xs uppercase tracking-widest font-semibold mb-3" style={{ color: GREEN }}>{f.num}</p>
-                <h4 className="text-zinc-900 font-semibold text-base mb-2">{f.title}</h4>
-                <p className="text-stone-500 text-sm leading-relaxed">{f.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-
-        </motion.div>
-      </section>
-
-      {/* Pre-conclusion banner */}
-      {cs.preConclusionBanner && (
-        <BannerImage src={cs.preConclusionBanner.src} alt={cs.preConclusionBanner.alt} />
-      )}
-
-      {/* ── CONCLUSION ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-24" style={{ backgroundColor: '#F7F5F0' }}>
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-
-          <Label>{cs.conclusion.heading}</Label>
-          <div className="max-w-3xl space-y-6">
-            {cs.conclusion.paragraphs.map((p, i) => (
-              <p key={i} className={`leading-relaxed ${i === 0 ? 'text-zinc-700 text-lg' : 'text-stone-500 text-base'}`}>{p}</p>
-            ))}
-          </div>
-
-        </motion.div>
-      </section>
-
-      {/* ── TEAM ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-20 bg-white border-t border-zinc-100">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-          <Label>Team</Label>
-          <div className="flex flex-wrap gap-3">
-            {cs.team.map(m => (
-              <a
-                key={m.name} href={m.url} target="_blank" rel="noreferrer"
-                className="group flex items-center gap-3 bg-white border border-zinc-200 px-5 py-3 rounded-xl hover:border-teal-400 hover:bg-teal-50/50 transition-all duration-200"
-              >
-                <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold text-white shrink-0 transition-all duration-200" style={{ backgroundColor: GREEN }}>
-                  {m.initials}
-                </div>
-                <div>
-                  <p className="text-zinc-800 text-sm font-medium">{m.name}</p>
-                  <p className="text-zinc-400 text-xs">{m.role}</p>
-                </div>
-              </a>
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── CTA ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-32" style={{ backgroundColor: '#0D2520' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
-          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-12"
-        >
-          <div>
-            <p className="text-teal-400 text-xs uppercase tracking-[0.2em] font-medium mb-5">{cs.client} · Full Case Study</p>
-            <h2 className="text-white text-4xl md:text-5xl font-bold leading-tight mb-4 whitespace-pre-line">{cs.cta.heading}</h2>
-            <p className="text-teal-200/60 text-base max-w-xl leading-relaxed">{cs.cta.body}</p>
-          </div>
-          <div className="flex flex-col gap-4 shrink-0">
-            <button
-              onClick={() => setModalOpen(true)}
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm font-semibold text-white transition-opacity hover:opacity-80"
-              style={{ backgroundColor: GREEN }}
-            >
-              View full case study →
-            </button>
-            <Link href="/#work" className="inline-flex items-center gap-3 border border-teal-800 text-teal-300 px-8 py-4 rounded-full text-sm font-medium hover:border-teal-400 hover:text-teal-100 transition-all">
-              ← Back to all work
-            </Link>
-          </div>
-        </motion.div>
-      </section>
-
-    </main>
+// ─── CTA button (mirrors landing page HeroCTA) ─────────────────────────────────
+function CTAButton({ onClick, href, filled, label }: { onClick?: () => void; href?: string; filled: boolean; label: string }) {
+  const [hovered, setHovered] = useState(false)
+  const style: React.CSSProperties = {
+    display: 'inline-flex', alignItems: 'center', gap: '10px',
+    background: filled ? '#ffffff' : 'transparent',
+    color: filled ? T.ink : '#71717a',
+    fontFamily: T.sans, fontSize: '15px', fontWeight: 500,
+    padding: filled ? '14px 28px' : '13px 28px',
+    borderRadius: '9999px', textDecoration: 'none', cursor: 'pointer',
+    border: filled ? 'none' : `1.5px solid ${hovered ? '#52525b' : '#27272a'}`,
+    opacity: hovered && filled ? 0.85 : 1,
+    transition: 'opacity 0.2s, border-color 0.2s',
+  }
+  const arrow = (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+      style={{ transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1)', transform: hovered ? 'rotate(0deg)' : 'rotate(-45deg)', flexShrink: 0 }}>
+      <line x1="1" y1="7" x2="13" y2="7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <polyline points="8,2 13,7 8,12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+  if (href) return (
+    <Link href={href} style={style} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+      {label}{arrow}
+    </Link>
+  )
+  return (
+    <button onClick={onClick} style={style} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+      {label}{arrow}
+    </button>
   )
 }
