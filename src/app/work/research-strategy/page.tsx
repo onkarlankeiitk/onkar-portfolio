@@ -45,7 +45,7 @@ function RegMark({ style }: { style: React.CSSProperties }) {
 function MonoLabel({ children, light }: { children: React.ReactNode; light?: boolean }) {
   return (
     <p style={{
-      fontFamily: T.mono,
+      fontFamily: T.sans,
       fontSize: '11px',
       color: light ? '#52525b' : T.inkMute,
       letterSpacing: '0.12em',
@@ -83,7 +83,7 @@ function StepImage({ src, alt, aspect = '16/9', dark = false }: {
         ...(dark ? stripedDark : stripedLight),
       }}
     >
-      <p style={{ fontFamily: T.mono, fontSize: '10px', color: dark ? '#3f3f46' : T.inkMute, letterSpacing: '0.05em', margin: 0 }}>
+      <p style={{ fontFamily: T.sans, fontSize: '10px', color: dark ? '#3f3f46' : T.inkMute, letterSpacing: '0.05em', margin: 0 }}>
         {alt}
       </p>
     </motion.div>
@@ -137,7 +137,7 @@ function PasswordModal({ onClose, onSuccess }: { onClose: () => void; onSuccess:
           padding: '36px', width: '100%', maxWidth: '380px',
         }}
       >
-        <div style={{ fontFamily: T.mono, fontSize: '10px', color: '#52525b', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '20px' }}>
+        <div style={{ fontFamily: T.sans, fontSize: '10px', color: '#52525b', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '20px' }}>
           Full Case Study
         </div>
         <h3 style={{ fontFamily: T.sans, fontSize: '20px', fontWeight: 500, color: '#ffffff', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
@@ -161,7 +161,7 @@ function PasswordModal({ onClose, onSuccess }: { onClose: () => void; onSuccess:
           }}
         />
         {error && (
-          <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#ef4444', margin: '0 0 16px', letterSpacing: '0.05em' }}>
+          <p style={{ fontFamily: T.sans, fontSize: '10px', color: '#ef4444', margin: '0 0 16px', letterSpacing: '0.05em' }}>
             Incorrect password — try again
           </p>
         )}
@@ -197,7 +197,7 @@ function PasswordModal({ onClose, onSuccess }: { onClose: () => void; onSuccess:
 function Tag({ children, dark }: { children: React.ReactNode; dark?: boolean }) {
   return (
     <span style={{
-      fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em',
+      fontFamily: T.sans, fontSize: '9px', letterSpacing: '0.05em',
       color: dark ? '#a1a1aa' : T.inkMute,
       background: dark ? '#1a1a1a' : T.ruleSoft,
       border: `1px solid ${dark ? '#27272a' : T.rule}`,
@@ -230,7 +230,7 @@ function SectionChrome({ label, heading, index, light }: { label: string; headin
           {heading}
         </h2>
       </div>
-      <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: light ? T.rule : '#1a1a1a', letterSpacing: '-0.03em', flexShrink: 0 }}>
+      <span style={{ fontFamily: T.sans, fontSize: '40px', fontWeight: 500, color: light ? T.rule : '#1a1a1a', letterSpacing: '-0.03em', flexShrink: 0 }}>
         {index}
       </span>
     </div>
@@ -287,7 +287,7 @@ export default function ResearchStrategySummary() {
           <div style={{ position: 'absolute', top: '90px', left: '64px', zIndex: 1 }}>
             <Link href="/#work" style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
-              fontFamily: T.mono, fontSize: '11px', color: '#52525b',
+              fontFamily: T.sans, fontSize: '11px', color: '#52525b',
               textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase',
               transition: 'color 0.2s',
             }}
@@ -312,7 +312,7 @@ export default function ResearchStrategySummary() {
             transition={{ duration: 0.7, ease }}
             style={{ position: 'relative', zIndex: 1, paddingBottom: '40px' }}
           >
-            <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 16px' }}>
+            <p style={{ fontFamily: T.sans, fontSize: '11px', color: '#52525b', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 16px' }}>
               {cs.client} · {cs.year}
             </p>
             <h1 style={{
@@ -368,7 +368,7 @@ export default function ResearchStrategySummary() {
               padding: '20px 32px',
               borderRight: i < arr.length - 1 ? '1px solid #1a1a1a' : 'none',
             }}>
-              <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+              <p style={{ fontFamily: T.sans, fontSize: '10px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
                 {m.label}
               </p>
               <p style={{ fontFamily: T.sans, fontSize: '13px', fontWeight: 500, color: '#d4d4d8', margin: 0 }}>
@@ -398,7 +398,7 @@ export default function ResearchStrategySummary() {
                   borderRight: i < arr.length - 1 ? `1px solid ${T.rule}` : 'none',
                   background: T.paper,
                 }}>
-                  <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 12px' }}>
+                  <p style={{ fontFamily: T.sans, fontSize: '10px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 12px' }}>
                     {col.head}
                   </p>
                   <p style={{ fontFamily: T.sans, fontSize: '13px', color: T.ink, lineHeight: 1.65, margin: 0 }}>
@@ -418,7 +418,7 @@ export default function ResearchStrategySummary() {
                   <p style={{ fontFamily: T.sans, fontSize: '13px', fontWeight: 500, color: T.ink, margin: '0 0 2px' }}>
                     {m.label}
                   </p>
-                  {m.sub && <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, margin: 0, letterSpacing: '0.04em' }}>{m.sub}</p>}
+                  {m.sub && <p style={{ fontFamily: T.sans, fontSize: '10px', color: T.inkMute, margin: 0, letterSpacing: '0.04em' }}>{m.sub}</p>}
                 </div>
               ))}
             </div>
@@ -446,7 +446,7 @@ export default function ResearchStrategySummary() {
                     className="rs-step"
                   >
                     <div style={{ order: isLeft ? 2 : 1 }}>
-                      <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 12px' }}>
+                      <p style={{ fontFamily: T.sans, fontSize: '10px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 12px' }}>
                         {step.num}
                       </p>
                       <h3 style={{ fontFamily: T.sans, fontSize: 'clamp(20px, 2vw, 28px)', fontWeight: 500, color: '#ffffff', letterSpacing: '-0.02em', margin: '0 0 16px', lineHeight: 1.15 }}>
@@ -500,7 +500,7 @@ export default function ResearchStrategySummary() {
                     background: T.paper,
                   }}
                 >
-                  <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>
+                  <p style={{ fontFamily: T.sans, fontSize: '10px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>
                     {f.num}
                   </p>
                   <h4 style={{ fontFamily: T.sans, fontSize: '15px', fontWeight: 500, color: T.ink, margin: '0 0 8px', letterSpacing: '-0.01em' }}>
@@ -584,7 +584,7 @@ export default function ResearchStrategySummary() {
             className="rs-cta-inner"
           >
             <div style={{ marginBottom: '40px' }}>
-              <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 16px' }}>
+              <p style={{ fontFamily: T.sans, fontSize: '11px', color: '#52525b', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 16px' }}>
                 {cs.client} · Full Case Study
               </p>
               <h2 style={{
@@ -652,7 +652,7 @@ function TeamCard({ member }: { member: { initials: string; name: string; role: 
         width: '36px', height: '36px', borderRadius: '50%', flexShrink: 0,
         background: hovered ? '#fff' : T.ink,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontFamily: T.mono, fontSize: '11px', fontWeight: 500,
+        fontFamily: T.sans, fontSize: '11px', fontWeight: 500,
         color: hovered ? T.ink : '#fff',
         transition: 'all 0.2s',
       }}>
@@ -662,7 +662,7 @@ function TeamCard({ member }: { member: { initials: string; name: string; role: 
         <p style={{ fontFamily: T.sans, fontSize: '13px', fontWeight: 500, color: hovered ? '#fff' : T.ink, margin: '0 0 2px', transition: 'color 0.2s' }}>
           {member.name}
         </p>
-        <p style={{ fontFamily: T.mono, fontSize: '10px', color: hovered ? '#a1a1aa' : T.inkMute, margin: 0, letterSpacing: '0.04em', transition: 'color 0.2s' }}>
+        <p style={{ fontFamily: T.sans, fontSize: '10px', color: hovered ? '#a1a1aa' : T.inkMute, margin: 0, letterSpacing: '0.04em', transition: 'color 0.2s' }}>
           {member.role}
         </p>
       </div>

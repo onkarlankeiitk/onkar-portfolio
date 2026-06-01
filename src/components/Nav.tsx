@@ -187,19 +187,8 @@ export default function Nav() {
                 Onkar Lanke
               </Link>
 
-              {/* Desktop links + CTA */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '28px' }} className="hidden lg:flex">
-                {navLinks.map(link => (
-                  <NavLink key={link.href} href={link.href} label={link.label} color={g.linkColor} hoverColor={g.linkHover} />
-                ))}
-                {/* Divider */}
-                <span style={{ width: '1px', height: '16px', background: g.divider, flexShrink: 0 }} />
-                <CTAPill isLight={isLight} />
-              </div>
-
-              {/* Hamburger — mobile/tablet */}
+              {/* Hamburger */}
               <button
-                className="lg:hidden"
                 style={{
                   display: 'flex', flexDirection: 'column',
                   justifyContent: 'center', alignItems: 'center',
@@ -243,7 +232,6 @@ export default function Nav() {
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.22, ease: 'easeInOut' }}
                   style={{ overflow: 'hidden' }}
-                  className="lg:hidden"
                 >
                   <div style={{
                     borderTop: `1px solid ${g.divider}`,

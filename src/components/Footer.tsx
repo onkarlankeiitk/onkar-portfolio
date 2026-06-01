@@ -18,19 +18,19 @@ const navLinks = [
   { href: '/#contact', label: 'Contact' },
 ]
 
-const roles = ['Product Innovation', 'Product Lead', 'Product Manager', 'UX Researcher']
+const roles = ['Product Lead', 'Product Manager', 'Innovation Manager']
 
 function RolePill({ label }: { label: string }) {
   const [hovered, setHovered] = useState(false)
   return (
     <span
       style={{
-        border: `1px solid ${hovered ? '#ffffff' : '#27272a'}`,
+        border: `1px solid ${hovered ? '#f97316' : '#27272a'}`,
         borderRadius: '9999px',
-        padding: '6px 16px',
-        fontFamily: '"JetBrains Mono", ui-monospace, monospace',
-        fontSize: '11px',
-        color: hovered ? '#ffffff' : '#52525b',
+        padding: '8px 20px',
+        fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
+        fontSize: '14px',
+        color: hovered ? '#f97316' : '#f97316',
         letterSpacing: '0.04em',
         cursor: 'default',
         transition: 'border-color 0.2s ease, color 0.2s ease',
@@ -130,21 +130,21 @@ function OrigamiFlower({ size, opacity }: { size: number; opacity: number }) {
 
 // ─── Origami piece definitions ─────────────────────────────────────────────────
 const PIECES = [
-  { Component: OrigamiCrane,   size: 180, opacity: 0.42 },
-  { Component: OrigamiFox,     size: 140, opacity: 0.36 },
-  { Component: OrigamiBoat,    size: 160, opacity: 0.36 },
-  { Component: OrigamiDiamond, size: 110, opacity: 0.48 },
-  { Component: OrigamiBird,    size: 200, opacity: 0.34 },
-  { Component: OrigamiStar,    size: 120, opacity: 0.42 },
-  { Component: OrigamiFlower,  size: 130, opacity: 0.36 },
-  { Component: OrigamiCrane,   size: 100, opacity: 0.34 },
-  { Component: OrigamiFox,     size: 170, opacity: 0.36 },
-  { Component: OrigamiBoat,    size: 90,  opacity: 0.46 },
-  { Component: OrigamiStar,    size: 150, opacity: 0.34 },
-  { Component: OrigamiBird,    size: 120, opacity: 0.42 },
-  { Component: OrigamiDiamond, size: 140, opacity: 0.36 },
-  { Component: OrigamiFlower,  size: 100, opacity: 0.46 },
-  { Component: OrigamiCrane,   size: 220, opacity: 0.26 },
+  { Component: OrigamiCrane,   size: 180, opacity: 0.12 },
+  { Component: OrigamiFox,     size: 140, opacity: 0.10 },
+  { Component: OrigamiBoat,    size: 160, opacity: 0.10 },
+  { Component: OrigamiDiamond, size: 110, opacity: 0.14 },
+  { Component: OrigamiBird,    size: 200, opacity: 0.09 },
+  { Component: OrigamiStar,    size: 120, opacity: 0.12 },
+  { Component: OrigamiFlower,  size: 130, opacity: 0.10 },
+  { Component: OrigamiCrane,   size: 100, opacity: 0.09 },
+  { Component: OrigamiFox,     size: 170, opacity: 0.10 },
+  { Component: OrigamiBoat,    size: 90,  opacity: 0.13 },
+  { Component: OrigamiStar,    size: 150, opacity: 0.09 },
+  { Component: OrigamiBird,    size: 120, opacity: 0.12 },
+  { Component: OrigamiDiamond, size: 140, opacity: 0.10 },
+  { Component: OrigamiFlower,  size: 100, opacity: 0.13 },
+  { Component: OrigamiCrane,   size: 220, opacity: 0.07 },
 ]
 
 // ─── Animated origami layer ────────────────────────────────────────────────────
@@ -255,12 +255,68 @@ function AnimatedOrigami() {
 // ─── Footer ────────────────────────────────────────────────────────────────────
 export default function Footer() {
   return (
+    <>
+    <style>{`
+      .footer-root {
+        padding: 80px 80px 48px;
+      }
+      .footer-top {
+        gap: 64px;
+      }
+      .footer-contact-btn {
+        min-width: 280px;
+      }
+      .footer-bottom {
+        padding-top: 48px;
+      }
+      @media (max-width: 768px) {
+        .footer-root {
+          padding: 48px 32px 36px !important;
+          height: auto !important;
+          min-height: 100svh;
+        }
+        .footer-headline {
+          line-height: 1.05 !important;
+        }
+        .footer-top {
+          flex-direction: column !important;
+          gap: 40px !important;
+        }
+        .footer-contact-btn {
+          min-width: 0 !important;
+          width: 100% !important;
+        }
+        .footer-contact-col {
+          width: 100% !important;
+        }
+        .footer-bottom {
+          padding-top: 32px !important;
+          flex-direction: column !important;
+          align-items: flex-start !important;
+          gap: 20px !important;
+        }
+        .footer-nav-links {
+          gap: 16px !important;
+        }
+      }
+      @media (max-width: 480px) {
+        .footer-root {
+          padding: 36px 20px 28px !important;
+        }
+        .footer-top {
+          gap: 32px !important;
+        }
+        .footer-bottom {
+          padding-top: 24px !important;
+        }
+      }
+    `}</style>
     <footer
       id="contact"
+      className="footer-root"
       style={{
         background: '#0A0A0A',
         height: '100svh',
-        padding: '80px 80px 48px',
         fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
         display: 'flex',
         flexDirection: 'column',
@@ -273,7 +329,7 @@ export default function Footer() {
       <AnimatedOrigami />
 
       {/* ── Top half ── */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '64px', flexWrap: 'wrap', position: 'relative', zIndex: 1 }}>
+      <div className="footer-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', position: 'relative', zIndex: 1 }}>
 
         {/* Left — headline + roles */}
         <motion.div
@@ -283,18 +339,14 @@ export default function Footer() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           style={{ flex: '1 1 340px', maxWidth: '520px' }}
         >
-          <h2 style={{ color: '#ffffff', fontSize: 'clamp(48px, 6vw, 96px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.92, margin: 0, maxWidth: '14ch' }}>
-            Let&apos;s build something.
+          <h2 className="footer-headline" style={{ color: '#ffffff', fontSize: 'clamp(32px, 5vw, 80px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95, margin: 0, maxWidth: '14ch', fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif' }}>
+            Open to <em style={{ fontStyle: 'italic' }}>full time roles</em> and <em style={{ fontStyle: 'italic' }}>creative collabs!</em>
           </h2>
 
           {/* Role pills */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '24px' }}>
             {roles.map(role => <RolePill key={role} label={role} />)}
           </div>
-
-          <p style={{ color: '#f97316', fontSize: '13px', fontWeight: 700, marginTop: '14px', lineHeight: 1.6, fontFamily: '"JetBrains Mono", ui-monospace, monospace', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            Open for full time roles and creative collabs
-          </p>
         </motion.div>
 
         {/* Right — contact pills */}
@@ -303,6 +355,7 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="footer-contact-col"
           style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: '0 0 auto', paddingTop: '8px', position: 'relative', zIndex: 1 }}
         >
           {contactLinks.map(link => (
@@ -311,11 +364,12 @@ export default function Footer() {
               href={link.href}
               target={link.external ? '_blank' : undefined}
               rel={link.external ? 'noreferrer' : undefined}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', border: '1px solid #3f3f46', borderRadius: '9999px', padding: '12px 24px', color: '#d4d4d8', fontSize: '14px', textDecoration: 'none', transition: 'border-color 0.2s ease, color 0.2s ease', minWidth: '280px' }}
+              className="footer-contact-btn"
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', border: '1px solid #3f3f46', borderRadius: '9999px', padding: '12px 24px', color: '#d4d4d8', fontSize: '14px', textDecoration: 'none', transition: 'border-color 0.2s ease, color 0.2s ease' }}
               onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = '#f97316'; el.style.color = '#f97316' }}
               onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = '#3f3f46'; el.style.color = '#d4d4d8' }}
             >
-              <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, monospace', fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#52525b' }}>
+              <span style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#52525b' }}>
                 {link.label}
               </span>
               <span style={{ fontSize: '13px' }}>{link.display}</span>
@@ -330,13 +384,14 @@ export default function Footer() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        style={{ borderTop: '1px solid #18181b', paddingTop: '48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', position: 'relative', zIndex: 1 }}
+        className="footer-bottom"
+        style={{ borderTop: '1px solid #18181b', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', position: 'relative', zIndex: 1 }}
       >
-        <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, monospace', fontSize: '12px', color: '#52525b', letterSpacing: '0.05em' }}>
+        <span style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '12px', color: '#52525b', letterSpacing: '0.05em' }}>
           Onkar Lanke
         </span>
 
-        <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+        <div className="footer-nav-links" style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
           {navLinks.map(link => (
             <Link key={link.href} href={link.href}
               style={{ color: '#52525b', fontSize: '12px', textDecoration: 'none', transition: 'color 0.2s ease', fontFamily: '"Inter Tight", system-ui, sans-serif' }}
@@ -348,10 +403,11 @@ export default function Footer() {
           ))}
         </div>
 
-        <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, monospace', fontSize: '12px', color: '#3f3f46' }}>
+        <span style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '12px', color: '#3f3f46' }}>
           © {new Date().getFullYear()}
         </span>
       </motion.div>
     </footer>
+    </>
   )
 }

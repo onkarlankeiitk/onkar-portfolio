@@ -33,7 +33,7 @@ const projects = [
     banner: '/case-studies/deck-up/hero-banner.png',
     company: 'SlideXpress',
     year: '2024',
-    title: 'Deck-Up — SaaS for Consultants',
+    title: 'Product development, positioning & strategy for a SaaS companion for consultants',
     description:
       'DeckUp increases productivity of daily power users by 45–60% by providing a toolbar specifically created for power users.',
     tags: ['Product Design', 'SaaS', 'B2B'],
@@ -48,7 +48,7 @@ const projects = [
     banner: '/case-studies/dil-kyc/hero-banner.png',
     company: 'Diamond India Ltd.',
     year: '2024',
-    title: 'KYC & Customer Management',
+    title: 'KYC, onboarding and customer management platform for India\'s largest bullion supplier',
     description:
       'Digitised extensive offline KYC and customer management, reducing onboarding from 2 weeks to 5–7 days.',
     tags: ['UX Design', 'Fintech', 'Research'],
@@ -63,7 +63,7 @@ const projects = [
     banner: '/case-studies/research-strategy/hero-banner.png',
     company: 'Commongood, USA',
     year: '2023',
-    title: 'Research & Strategy for Growth',
+    title: "Research, Strategy, Brand comms, & positioning for US' healthy snacking brand",
     description:
       'UX evaluation and research-based strategies for a US-based snacking company.',
     tags: ['UX Research', 'Strategy'],
@@ -78,7 +78,7 @@ const projects = [
     banner: '/case-studies/fintech-gamification/hero-banner.png',
     company: 'Mindseye Creative',
     year: '2023',
-    title: 'Gamification in Fintech',
+    title: "Puzzle styled, gamified no-code builder for Australia's top fintech firm",
     description:
       'Fintech interface inspired by board game mechanics, simplifying complex financial products.',
     tags: ['Gamification', 'Fintech'],
@@ -116,7 +116,6 @@ const tools = [
   { name: 'Amplitude',  category: 'Analytics', svgPath: null,              iconFill: '#1271F7' },
   { name: 'Notion',     category: 'Strategy',  svgPath: siNotion.path,     iconFill: '#000000' },
   { name: 'Miro',       category: 'Strategy',  svgPath: siMiro.path,       iconFill: '#FFD02F' },
-  { name: 'MS Clarity', category: 'Analytics', svgPath: null,              iconFill: '#0078D4' },
   { name: 'GitHub',     category: 'Dev',       svgPath: siGithub.path,     iconFill: '#181717' },
   { name: 'Vercel',     category: 'Dev',       svgPath: siVercel.path,     iconFill: '#000000' },
   { name: 'Claude',     category: 'AI',        svgPath: siAnthropic.path,  iconFill: '#CC785C' },
@@ -124,9 +123,7 @@ const tools = [
 ]
 
 const fallbackImgSrc: Record<string, string> = {
-  'Amplitude':  '/icons/amplitude.svg',
-  'MS Clarity': '/icons/ms-clarity.svg',
-  'VS Code':    '/icons/vscode.svg',
+  'Amplitude': '/icons/amplitude.svg',
 }
 
 const SQUIRCLE_PATH =
@@ -139,24 +136,31 @@ function ToolCard({ tool }: { tool: typeof tools[0] }) {
       whileHover={{ scale: 1.06, y: -3 }}
       transition={{ type: 'spring', stiffness: 400, damping: 20 }}
       className="group"
-      style={{ position: 'relative', flexShrink: 0, width: 80, height: 80, cursor: 'default' }}
+      style={{ position: 'relative', flexShrink: 0, width: 114, height: 114, cursor: 'default' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <div
         style={{
           width: '100%', height: '100%',
-          clipPath: `path("${SQUIRCLE_PATH}")`,
-          background: '#E8E5DD',
+          borderRadius: '36px',
+          background: 'rgba(255, 255, 255, 0.22)',
+          backdropFilter: 'blur(14px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+          border: '1px solid rgba(255, 255, 255, 0.4)',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.55)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
+          transition: 'background 0.2s ease',
         }}
       >
-        {tool.svgPath ? (
-          <svg role="img" viewBox="0 0 24 24" width={26} height={26} fill={tool.iconFill}>
+        {tool.name === 'VS Code' ? (
+          <span style={{ fontFamily: T.mono, fontSize: '18px', fontWeight: 600, color: '#007ACC', letterSpacing: '0.02em', textAlign: 'center', lineHeight: 1.3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}><span>VS</span><span>Code</span></span>
+        ) : tool.svgPath ? (
+          <svg role="img" viewBox="0 0 24 24" width={43} height={43} fill={tool.iconFill}>
             <path d={tool.svgPath} />
           </svg>
         ) : (
-          <img src={fallbackImgSrc[tool.name]} alt={tool.name} width={26} height={26} />
+          <img src={fallbackImgSrc[tool.name]} alt={tool.name} width={43} height={43} />
         )}
       </div>
       {hovered && (
@@ -181,7 +185,7 @@ function ToolsMarquee() {
       <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '100px', background: `linear-gradient(to right, ${T.paper}, transparent)`, zIndex: 10, pointerEvents: 'none' }} />
       <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '100px', background: `linear-gradient(to left, ${T.paper}, transparent)`, zIndex: 10, pointerEvents: 'none' }} />
       <motion.div
-        style={{ display: 'flex', gap: '16px', padding: '8px 0', width: 'max-content' }}
+        style={{ display: 'flex', gap: '20px', padding: '8px 0', width: 'max-content' }}
         animate={{ x: ['0%', '-33.33%'] }}
         transition={{ duration: 30, ease: 'linear', repeat: Infinity }}
       >
@@ -394,6 +398,7 @@ function ColSection({ children, borderRight }: { children: (headingColor: string
   const [hovered, setHovered] = useState(false)
   return (
     <div
+      className="col-section"
       style={{ borderRight: borderRight ? '1px solid #1a1a1a' : 'none', padding: '24px', overflowY: 'auto' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -439,7 +444,7 @@ function WebflowCard({ site }: { site: { name: string; url: string; description:
       </div>
 
       {/* iframe preview */}
-      <div style={{ position: 'relative', height: '220px', overflow: 'hidden', background: '#0a0a0a' }}>
+      <div className="webflow-iframe-wrap" style={{ position: 'relative', height: '180px', overflow: 'hidden', background: '#0a0a0a' }}>
         <iframe
           src={site.url}
           title={site.name}
@@ -542,6 +547,80 @@ function ArticlesColumn({ headingColor }: { headingColor: string }) {
         All articles →
       </a>
     </div>
+  )
+}
+
+// ─── Typewriter headline ──────────────────────────────────────────────────────
+const HEADLINE_LINES = ['Observer,', 'Tinkerer,', 'Storyteller.']
+
+function TypewriterHeadline() {
+  const [displayed, setDisplayed] = useState<string[]>(['', '', ''])
+  const [cursorLine, setCursorLine] = useState(0)
+
+  useEffect(() => {
+    let lineIdx = 0
+    let charIdx = 0
+    let cancelled = false
+
+    const type = () => {
+      if (cancelled) return
+      if (lineIdx >= HEADLINE_LINES.length) {
+        setCursorLine(-1)
+        return
+      }
+      const currentLine = HEADLINE_LINES[lineIdx]
+      if (charIdx <= currentLine.length) {
+        setDisplayed(prev => {
+          const next = [...prev]
+          next[lineIdx] = currentLine.slice(0, charIdx)
+          return next
+        })
+        setCursorLine(lineIdx)
+        charIdx++
+        setTimeout(type, 92)
+      } else {
+        lineIdx++
+        charIdx = 0
+        setTimeout(type, 302)
+      }
+    }
+
+    const delay = setTimeout(type, 1008)
+    return () => { cancelled = true; clearTimeout(delay) }
+  }, [])
+
+  return (
+    <h1
+      style={{
+        fontSize: 'clamp(62px, 15vw, 128px)',
+        fontWeight: 500,
+        letterSpacing: '-0.025em',
+        lineHeight: 0.95,
+        color: T.ink,
+        margin: 0,
+        fontFamily: T.sans,
+        textAlign: 'center',
+      }}
+    >
+      {HEADLINE_LINES.map((_, i) => (
+        <span key={i} style={{ display: 'block' }}>
+          {displayed[i]}
+          {cursorLine === i && (
+            <span
+              style={{
+                display: 'inline-block',
+                width: '3px',
+                height: '0.8em',
+                background: T.ink,
+                marginLeft: '4px',
+                verticalAlign: 'middle',
+                animation: 'cursorBlink 0.8s step-end infinite',
+              }}
+            />
+          )}
+        </span>
+      ))}
+    </h1>
   )
 }
 
@@ -658,7 +737,7 @@ function SketchCard({ src, label, rotation }: { src: string; label: string; rota
       style={{
         rotate: rotation,
         flexShrink: 0,
-        width: '260px',
+        width: 'clamp(180px, 45vw, 260px)',
         cursor: 'pointer',
         position: 'relative',
         zIndex: 0,
@@ -694,8 +773,8 @@ function SketchMarquee() {
   return (
     <div style={{ overflow: 'hidden', position: 'relative' }}>
       {/* Fade edges */}
-      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '80px', background: `linear-gradient(to right, ${T.dark}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '80px', background: `linear-gradient(to left, ${T.dark}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.dark}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, ${T.dark}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
 
       <motion.div
         className="sketch-track"
@@ -745,16 +824,16 @@ const expData = [
 ]
 
 const stats = [
-  { value: 5, suffix: '+', label: 'Years designing' },
-  { value: 12, suffix: '+', label: 'Products shipped' },
-  { value: 4, suffix: '', label: 'Industries' },
+  { value: 6, suffix: '+', label: 'Years designing' },
+  { value: 20, suffix: '+', label: 'Products / Services' },
+  { value: 5, suffix: '+', label: 'Industries' },
   { value: 3, suffix: 'x', label: 'Avg. impact' },
 ]
 
-const skills = ['Product Design', 'UX Research', 'Interaction Design', 'Design Systems', 'Figma', 'Prototyping', 'Strategy', 'Framer']
+const skills = ['Product Strategy', 'Roadmapping', 'UX Research', 'Digital Design', 'Analytics', 'Project Management', 'Team Management', 'Resource Allocation', 'Articulation', 'KPIs & Success Metrics']
 
 // ─── Arch project card with hover state ──────────────────────────────────────
-function ArchCard({ project, index }: { project: { title: string; label: string }; index: number }) {
+function ArchCard({ project, index }: { project: { title: string; label: string; image?: string }; index: number }) {
   const [hovered, setHovered] = useState(false)
   return (
     <motion.div
@@ -772,23 +851,32 @@ function ArchCard({ project, index }: { project: { title: string; label: string 
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Image placeholder */}
+      {/* Image / placeholder */}
       <div
         style={{
           aspectRatio: '4/3',
+          overflow: 'hidden',
+          position: 'relative',
           background: hovered
             ? 'repeating-linear-gradient(135deg, #d4d4d8 0 8px, transparent 8px 16px), #f4f4f5'
             : 'repeating-linear-gradient(135deg, #1a1a1a 0 8px, transparent 8px 16px)',
-          border: 'none',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           transition: 'background 0.25s ease',
         }}
       >
-        <p style={{ fontFamily: T.mono, fontSize: '10px', color: hovered ? '#a1a1aa' : '#3f3f46', margin: 0, letterSpacing: '0.04em', transition: 'color 0.2s' }}>
-          {project.label}
-        </p>
+        {project.image ? (
+          <img
+            src={project.image}
+            alt={project.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: hovered ? 1 : 0.85, transition: 'opacity 0.3s' }}
+          />
+        ) : (
+          <p style={{ fontFamily: T.mono, fontSize: '10px', color: hovered ? '#a1a1aa' : '#3f3f46', margin: 0, letterSpacing: '0.04em', transition: 'color 0.2s' }}>
+            {project.label}
+          </p>
+        )}
       </div>
       {/* Title strip */}
       <div style={{ padding: '14px 18px', background: hovered ? '#f4f4f5' : '#111', transition: 'background 0.25s ease' }}>
@@ -969,9 +1057,9 @@ function ArchSection() {
   ]
 
   const archProjects = [
-    { title: 'Exhibition Pavilion', label: '// spatial project — replace' },
-    { title: 'Ambient Lighting Study', label: '// lighting project — replace' },
-    { title: 'Acoustic Concept', label: '// sound/arch project — replace' },
+    { title: 'Architectural Design', label: '// spatial project — replace', image: '/arch/arch-design.png' },
+    { title: 'Interactive Lighting Design', label: '// lighting project — replace' },
+    { title: 'Consumer Electronics', label: '// sound/arch project — replace' },
   ]
 
   return (
@@ -1022,48 +1110,13 @@ function ArchSection() {
             Industrial &amp; Architectural Design
           </p>
           <h2 style={{ color: '#ffffff', fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 1.05, margin: 0 }}>
-            Beyond Pixels
+            Beyond Pixels: Spatial Design
           </h2>
         </div>
         <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: '#1a1a1a', letterSpacing: '-0.03em' }}>
           04/
         </span>
       </div>
-
-      {/* Disciplines — single horizontal row */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, ease }}
-        style={{
-          display: 'flex',
-          gap: '0',
-          marginBottom: '48px',
-          borderTop: '1px solid #1a1a1a',
-          position: 'relative',
-          zIndex: 1,
-        }}
-        className="arch-disciplines"
-      >
-        {disciplines.map((d, i) => (
-          <div
-            key={i}
-            style={{
-              flex: 1,
-              borderRight: i < disciplines.length - 1 ? '1px solid #1a1a1a' : 'none',
-              padding: '20px 24px',
-            }}
-          >
-            <span style={{ fontFamily: T.mono, fontSize: '10px', color: '#3f3f46', letterSpacing: '0.08em', display: 'block', marginBottom: '6px' }}>
-              {d.index}
-            </span>
-            <span style={{ fontFamily: T.sans, fontSize: '14px', fontWeight: 500, color: '#a1a1aa', letterSpacing: '-0.01em' }}>
-              {d.title}
-            </span>
-          </div>
-        ))}
-      </motion.div>
 
       {/* Projects — 3 cards */}
       <div
@@ -1127,11 +1180,8 @@ function AboutSection() {
         }}
       >
         <div>
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 2px' }}>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
             About
-          </p>
-          <p style={{ fontFamily: T.sans, fontSize: '22px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.02em' }}>
-            The person behind the work
           </p>
         </div>
         <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
@@ -1169,21 +1219,24 @@ function AboutSection() {
               maxWidth: '18ch',
             }}
           >
-            Craftsmanship +{'\u00A0'}Tech + Amazing{'\u00A0'}folks
+            A craftsman at heart!
           </motion.h2>
 
           {/* Bio */}
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease }}
-            style={{ fontSize: '15px', color: T.inkMute, lineHeight: 1.65, margin: 0, maxWidth: '48ch' }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '48ch' }}
           >
-            Engineer turned Designer — obsessed with the interplay of Tech and Design.
-            I bring research to the forefront and ship products that are both useful and worthy.{' '}
-            <em style={{ fontStyle: 'italic', color: T.ink }}>&ldquo;Good design shapes you&rdquo;</em> — I&apos;ve experienced that firsthand.
-          </motion.p>
+            <p style={{ fontSize: '15px', color: '#3D3D38', lineHeight: 1.65, margin: 0 }}>
+              Hi. I&apos;m an engineer turned designer obsessed with forms, shapes, materials, interactions, tech and people! I believe these are the ingredients of good, successful design. I bring research to the forefront &amp; ship products with intentional design experiences. &lsquo;Good Design shapes you&rsquo; — I have experienced that first hand.
+            </p>
+            <p style={{ fontSize: '15px', color: '#3D3D38', lineHeight: 1.65, margin: 0 }}>
+              Fundamentally, I believe I&apos;m a craftsman. I have worked with various brands and startups to work on their products/service, digging on users to find undefined behavioral patterns and hidden pain points, analysed workflows and made changes to achieve desired results like engagement, revenue boost, or impact. I also contributed in building teams and aided in hiring right design talent. I&apos;m looking for following roles: <em style={{ fontStyle: 'normal', color: T.ink, fontWeight: 500 }}>Product Lead, Innovation Manager, Product Manager</em> as my next phase of career.
+            </p>
+          </motion.div>
 
           {/* Stats row */}
           <motion.div
@@ -1222,7 +1275,7 @@ function AboutSection() {
             style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
           >
             <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
-              Tools &amp; Disciplines
+              Skills
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {skills.map(skill => (
@@ -1347,6 +1400,10 @@ export default function Home() {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
         }
+        @keyframes cursorBlink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
         @keyframes orangePulse {
           0%, 100% { opacity: 1; box-shadow: 0 0 6px #f97316; }
           50% { opacity: 0.35; box-shadow: 0 0 2px #f97316; }
@@ -1380,14 +1437,15 @@ export default function Home() {
             fontFamily: T.sans,
           }}
         >
-          {/* Ghost display word behind */}
+          {/* Ghost display word — scaled down on mobile */}
           <div
             aria-hidden
+            className="hero-ghost"
             style={{
               position: 'absolute',
               bottom: '-10%',
               right: '-2%',
-              fontSize: 'clamp(200px, 28vw, 340px)',
+              fontSize: 'clamp(80px, 28vw, 340px)',
               fontWeight: 600,
               color: T.ruleSoft,
               lineHeight: 1,
@@ -1401,43 +1459,14 @@ export default function Home() {
             Design
           </div>
 
-          {/* Registration marks at corners */}
-          <RegMark style={{ top: '32px', left: '32px' }} />
-          <RegMark style={{ top: '32px', right: '32px' }} />
-          <RegMark style={{ bottom: '32px', left: '32px' }} />
-          <RegMark style={{ bottom: '32px', right: '32px' }} />
-
-          {/* Center-left + mark */}
-          <div
-            aria-hidden
-            style={{
-              position: 'absolute',
-              left: '32px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: T.rule,
-              fontSize: '18px',
-              lineHeight: 1,
-              userSelect: 'none',
-            }}
-          >
-            +
-          </div>
-          {/* Center-right + mark */}
-          <div
-            aria-hidden
-            style={{
-              position: 'absolute',
-              right: '32px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: T.rule,
-              fontSize: '18px',
-              lineHeight: 1,
-              userSelect: 'none',
-            }}
-          >
-            +
+          {/* Registration marks — hidden on mobile */}
+          <div className="hero-decor" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+            <RegMark style={{ top: '32px', left: '32px' }} />
+            <RegMark style={{ top: '32px', right: '32px' }} />
+            <RegMark style={{ bottom: '32px', left: '32px' }} />
+            <RegMark style={{ bottom: '32px', right: '32px' }} />
+            <div aria-hidden style={{ position: 'absolute', left: '32px', top: '50%', transform: 'translateY(-50%)', color: T.rule, fontSize: '18px', lineHeight: 1, userSelect: 'none' }}>+</div>
+            <div aria-hidden style={{ position: 'absolute', right: '32px', top: '50%', transform: 'translateY(-50%)', color: T.rule, fontSize: '18px', lineHeight: 1, userSelect: 'none' }}>+</div>
           </div>
 
           {/* Main content — staggered entrance */}
@@ -1448,6 +1477,7 @@ export default function Home() {
               hidden: {},
               show: { transition: { staggerChildren: 0.1 } },
             }}
+            className="hero-content"
             style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px', marginTop: '40px' }}
           >
             {/* Availability indicator */}
@@ -1460,13 +1490,13 @@ export default function Home() {
                 borderRadius: '9999px',
                 border: '1px solid rgba(249, 115, 22, 0.4)',
                 background: 'rgba(249, 115, 22, 0.07)',
-                padding: '6px 16px',
+                padding: '6px 14px',
               }}
             >
               <span
                 style={{
-                  width: '8px',
-                  height: '8px',
+                  width: '7px',
+                  height: '7px',
                   borderRadius: '50%',
                   background: '#f97316',
                   boxShadow: '0 0 6px #f97316',
@@ -1474,60 +1504,22 @@ export default function Home() {
                   animation: 'orangePulse 1.4s ease-in-out infinite',
                 }}
               />
-              <span style={{ fontFamily: T.mono, fontSize: '12px', color: T.inkMute, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              <span style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                 Available for opportunities
               </span>
             </motion.div>
 
             {/* Main headline */}
-            <motion.h1
-              variants={{ hidden: { y: 30, opacity: 0 }, show: { y: 0, opacity: 1, transition: { duration: 0.7, ease } } }}
-              style={{
-                fontSize: 'clamp(52px, 9vw, 128px)',
-                fontWeight: 500,
-                letterSpacing: '-0.025em',
-                lineHeight: 0.92,
-                color: T.ink,
-                margin: 0,
-                fontFamily: T.sans,
-              }}
-            >
-              Observer,<br />
-              Tinkerer,<br />
-              Storyteller
-            </motion.h1>
-
-            {/* Subheading */}
-            <motion.p
-              variants={{ hidden: { y: 30, opacity: 0 }, show: { y: 0, opacity: 1, transition: { duration: 0.7, ease } } }}
-              style={{
-                fontSize: '20px',
-                fontWeight: 400,
-                color: T.inkMute,
-                maxWidth: '48ch',
-                lineHeight: 1.55,
-                margin: 0,
-                fontFamily: T.sans,
-              }}
-            >
-              Making design useful &amp; worthy, by bringing research insights to the forefront and interactive products.
-            </motion.p>
+            <TypewriterHeadline />
 
             {/* CTA pills */}
             <motion.div
               variants={{ hidden: { y: 30, opacity: 0 }, show: { y: 0, opacity: 1, transition: { duration: 0.7, ease } } }}
+              className="hero-ctas"
               style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}
             >
-              <HeroCTA
-                href="/#work"
-                label="View work"
-                filled
-              />
-              <HeroCTA
-                href="https://www.linkedin.com/in/onkarlanke/"
-                label="Connect on LinkedIn"
-                filled={false}
-              />
+              <HeroCTA href="/#work" label="View work" filled />
+              <HeroCTA href="https://www.linkedin.com/in/onkarlanke/" label="Connect on LinkedIn" filled={false} />
             </motion.div>
           </motion.div>
 
@@ -1537,7 +1529,7 @@ export default function Home() {
             WORK PANEL — dark, slides over hero
             Wrapper is 200svh so the sticky card is active for 100svh then releases
         ═══════════════════════════════════════════════════════════════════ */}
-        <div id="work" style={{ height: '200svh' }}>
+        <div id="work" className="work-wrapper" style={{ height: '200svh' }}>
         <div
           id="work-panel"
           style={{
@@ -1555,6 +1547,7 @@ export default function Home() {
         >
           {/* Panel header strip */}
           <div
+            className="work-panel-header"
             style={{
               padding: '32px 48px',
               display: 'flex',
@@ -1618,7 +1611,7 @@ export default function Home() {
                   <p style={{ fontFamily: T.mono, fontSize: '11px', color: headingColor, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px', transition: 'color 0.2s' }}>
                     Case Studies
                   </p>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div className="flip-cards" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     {projects.map(project => (
                       <FlipCard key={project.slug} project={project} />
                     ))}
@@ -1633,7 +1626,7 @@ export default function Home() {
                 <>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
                     <p style={{ fontFamily: T.mono, fontSize: '11px', color: headingColor, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0, transition: 'color 0.2s' }}>
-                      Webflow Builds
+                      NO-CODE WEBFLOW BUILDS
                     </p>
                   </div>
 
@@ -1700,22 +1693,79 @@ export default function Home() {
         .sketch-track:hover {
           animation-play-state: paused !important;
         }
+
+        /* ── Tablet (≤768px) ── */
         @media (max-width: 768px) {
+          /* Hero */
+          #hero {
+            padding: 0 24px !important;
+            justify-content: center !important;
+          }
+          .hero-decor {
+            display: none !important;
+          }
+          .hero-ghost {
+            right: -10% !important;
+            bottom: -5% !important;
+          }
+          .hero-content {
+            gap: 20px !important;
+            margin-top: 0 !important;
+            width: 100% !important;
+          }
+          .hero-ctas {
+            flex-direction: column !important;
+            width: 100% !important;
+            align-items: stretch !important;
+          }
+          .hero-ctas a {
+            justify-content: center !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+          }
+
+          /* Work panel */
+          .work-panel-header {
+            padding: 20px 24px !important;
+          }
           .work-columns {
             grid-template-columns: 1fr !important;
+            overflow-y: visible !important;
+            height: auto !important;
           }
           .work-columns > div {
             border-right: none !important;
             border-bottom: 1px solid #1a1a1a;
           }
+          #work-panel {
+            position: relative !important;
+            height: auto !important;
+            overflow: visible !important;
+          }
+          .work-wrapper {
+            height: auto !important;
+          }
+          .col-section {
+            padding: 20px !important;
+          }
+          .flip-cards {
+            grid-template-columns: 1fr !important;
+          }
+          .webflow-iframe-wrap {
+            height: 140px !important;
+          }
+
+          /* Behance */
           .behance-section {
-            padding: 64px 24px !important;
+            padding: 40px 20px !important;
           }
           .behance-grid {
             grid-template-columns: repeat(2, 1fr) !important;
           }
+
+          /* Arch */
           #arch {
-            padding: 64px 24px !important;
+            padding: 48px 20px !important;
           }
           .arch-disciplines {
             flex-wrap: wrap !important;
@@ -1724,26 +1774,69 @@ export default function Home() {
             flex: 1 1 45% !important;
           }
           .arch-projects {
-            grid-template-columns: 1fr !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 12px !important;
           }
-          #hero {
-            padding: 0 24px !important;
-          }
+
+          /* About */
           .about-inner {
-            padding: 40px 24px !important;
+            padding: 32px 20px !important;
             grid-template-columns: 1fr !important;
+            gap: 32px !important;
           }
           .stats-row {
             grid-template-columns: repeat(2, 1fr) !important;
           }
           #about > div:last-child {
-            padding-left: 24px !important;
-            padding-right: 24px !important;
+            padding-left: 20px !important;
+            padding-right: 20px !important;
           }
         }
+
+        /* ── Mobile (≤480px) ── */
         @media (max-width: 480px) {
-          #work > div:first-child {
-            padding: 24px !important;
+          /* Hero */
+          #hero {
+            padding: 0 16px !important;
+          }
+          .hero-content {
+            gap: 16px !important;
+          }
+
+          /* Work panel */
+          .work-panel-header {
+            padding: 16px 16px !important;
+          }
+          .col-section {
+            padding: 16px !important;
+          }
+
+          /* Behance */
+          .behance-section {
+            padding: 32px 16px !important;
+          }
+          .behance-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* Arch */
+          #arch {
+            padding: 40px 16px !important;
+          }
+          .arch-projects {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* About */
+          .about-inner {
+            padding: 28px 16px !important;
+          }
+          .stats-row {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+          #about > div:last-child {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
           }
         }
       `}</style>
