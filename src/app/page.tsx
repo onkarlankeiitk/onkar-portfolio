@@ -7,7 +7,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import {
   siFigma, siWebflow, siFramer, siHotjar,
-  siNotion, siMiro, siGithub, siVercel, siAnthropic,
+  siGithub, siVercel, siAnthropic,
 } from 'simple-icons'
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
@@ -33,13 +33,13 @@ const projects = [
     banner: '/case-studies/deck-up/hero-banner.png',
     company: 'SlideXpress',
     year: '2024',
-    title: 'Product development, positioning & strategy for a SaaS companion for consultants',
+    title: 'Deckup: Product development, subscription based service design (SaaS)',
     description:
-      'DeckUp increases productivity of daily power users by 45–60% by providing a toolbar specifically created for power users.',
-    tags: ['Product Design', 'SaaS', 'B2B'],
+      'Deckup is a SaaS based design companion for consultants, increasing their productivity, aesthetics, and impact.',
+    tags: ['B2C', 'Product Development', 'SaaS'],
     metrics: [
-      { v: '45–60%', l: 'Productivity' },
-      { v: '40%', l: 'User comfort' },
+      { v: '40–60%', l: 'Productivity gain' },
+      { v: '3X', l: 'Impact' },
     ],
   },
   {
@@ -48,10 +48,10 @@ const projects = [
     banner: '/case-studies/dil-kyc/hero-banner.png',
     company: 'Diamond India Ltd.',
     year: '2024',
-    title: 'KYC, onboarding and customer management platform for India\'s largest bullion supplier',
+    title: "KYC, onboarding & customer management for India's largest bullion supplier",
     description:
-      'Digitised extensive offline KYC and customer management, reducing onboarding from 2 weeks to 5–7 days.',
-    tags: ['UX Design', 'Fintech', 'Research'],
+      'Digitisation of extensive offline onboarding reducing time (4 to 2 weeks), reduced paperwork and employee fatigue.',
+    tags: ['B2B', 'UX Design', 'Fintech', 'Digital Transformation'],
     metrics: [
       { v: '55%', l: 'Onboarding time' },
       { v: '40%', l: 'Efficiency' },
@@ -63,10 +63,10 @@ const projects = [
     banner: '/case-studies/research-strategy/hero-banner.png',
     company: 'Commongood, USA',
     year: '2023',
-    title: "Research, Strategy, Brand comms, & positioning for US' healthy snacking brand",
+    title: 'UX evaluation, communication strategy, positioning & storytelling',
     description:
-      'UX evaluation and research-based strategies for a US-based snacking company.',
-    tags: ['UX Research', 'Strategy'],
+      'UX based strategic restructuring for US based snacking company, in collaboration with Commongood.',
+    tags: ['UX Evaluation', 'Strategy', 'Behavioral Mapping', 'Storytelling'],
     metrics: [
       { v: '43%', l: 'Engagement' },
       { v: '11%', l: 'Checkout vol.' },
@@ -80,11 +80,11 @@ const projects = [
     year: '2023',
     title: "Puzzle styled, gamified no-code builder for Australia's top fintech firm",
     description:
-      'Fintech interface inspired by board game mechanics, simplifying complex financial products.',
-    tags: ['Gamification', 'Fintech'],
+      'A no-code KYC & onboarding builder for financial institutions, inspired by puzzle pieces and board game mechanics.',
+    tags: ['Fintech', 'Gamification', 'Board Games'],
     metrics: [
-      { v: '85%', l: 'Usability score' },
-      { v: '70%', l: 'Retention' },
+      { v: '55%', l: 'Engagement & focus' },
+      { v: '25%', l: 'Faster build rate' },
     ],
   },
 ]
@@ -114,8 +114,6 @@ const tools = [
   { name: 'Framer',     category: 'Design',    svgPath: siFramer.path,     iconFill: '#0055FF' },
   { name: 'Hotjar',     category: 'Research',  svgPath: siHotjar.path,     iconFill: '#FF3C00' },
   { name: 'Amplitude',  category: 'Analytics', svgPath: null,              iconFill: '#1271F7' },
-  { name: 'Notion',     category: 'Strategy',  svgPath: siNotion.path,     iconFill: '#000000' },
-  { name: 'Miro',       category: 'Strategy',  svgPath: siMiro.path,       iconFill: '#FFD02F' },
   { name: 'GitHub',     category: 'Dev',       svgPath: siGithub.path,     iconFill: '#181717' },
   { name: 'Vercel',     category: 'Dev',       svgPath: siVercel.path,     iconFill: '#000000' },
   { name: 'Claude',     category: 'AI',        svgPath: siAnthropic.path,  iconFill: '#CC785C' },
@@ -553,7 +551,7 @@ function ArticlesColumn({ headingColor }: { headingColor: string }) {
 // ─── Typewriter headline ──────────────────────────────────────────────────────
 const HEADLINE_LINES = ['Observer,', 'Tinkerer,', 'Storyteller.']
 
-function TypewriterHeadline() {
+function TypewriterHeadline({ onDone }: { onDone?: () => void }) {
   const [displayed, setDisplayed] = useState<string[]>(['', '', ''])
   const [cursorLine, setCursorLine] = useState(0)
 
@@ -566,6 +564,7 @@ function TypewriterHeadline() {
       if (cancelled) return
       if (lineIdx >= HEADLINE_LINES.length) {
         setCursorLine(-1)
+        onDone?.()
         return
       }
       const currentLine = HEADLINE_LINES[lineIdx]
@@ -577,16 +576,17 @@ function TypewriterHeadline() {
         })
         setCursorLine(lineIdx)
         charIdx++
-        setTimeout(type, 92)
+        setTimeout(type, 90)
       } else {
         lineIdx++
         charIdx = 0
-        setTimeout(type, 302)
+        setTimeout(type, 280)
       }
     }
 
-    const delay = setTimeout(type, 1008)
+    const delay = setTimeout(type, 400)
     return () => { cancelled = true; clearTimeout(delay) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -827,10 +827,9 @@ const stats = [
   { value: 6, suffix: '+', label: 'Years designing' },
   { value: 20, suffix: '+', label: 'Products / Services' },
   { value: 5, suffix: '+', label: 'Industries' },
-  { value: 3, suffix: 'x', label: 'Avg. impact' },
 ]
 
-const skills = ['Product Strategy', 'Roadmapping', 'UX Research', 'Digital Design', 'Analytics', 'Project Management', 'Team Management', 'Resource Allocation', 'Articulation', 'KPIs & Success Metrics']
+const skills = ['Product Strategy', 'Roadmapping', 'UX Research', 'Digital Design', 'Analytics', 'Resource Allocation', 'Spatial Design', 'Articulation & Storytelling', 'KPIs & Success Metrics']
 
 // ─── Arch project card with hover state ──────────────────────────────────────
 function ArchCard({ project, index }: { project: { title: string; label: string; image?: string }; index: number }) {
@@ -941,8 +940,8 @@ function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; i
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Cover image — aspect ratio ~18.4/9 (16/9 + 15%) */}
-      <div style={{ position: 'relative', aspectRatio: '18.4 / 9', overflow: 'hidden', background: '#111' }}>
+      {/* Cover image — 872×688 natural ratio ≈ 4:3 */}
+      <div style={{ position: 'relative', aspectRatio: '872 / 688', overflow: 'hidden', background: '#111' }}>
         <img
           src={project.cover}
           alt={project.title}
@@ -1057,7 +1056,7 @@ function ArchSection() {
   ]
 
   const archProjects = [
-    { title: 'Architectural Design', label: '// spatial project — replace', image: '/arch/arch-design.png' },
+    { title: 'Spatial Design: Villa in Tundla, UP', label: '// spatial project — replace', image: '/arch/arch-design.png' },
     { title: 'Interactive Lighting Design', label: '// lighting project — replace' },
     { title: 'Consumer Electronics', label: '// sound/arch project — replace' },
   ]
@@ -1110,7 +1109,7 @@ function ArchSection() {
             Industrial &amp; Architectural Design
           </p>
           <h2 style={{ color: '#ffffff', fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 1.05, margin: 0 }}>
-            Beyond Pixels: Spatial Design
+            Beyond Pixels: Design for human well-being
           </h2>
         </div>
         <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: '#1a1a1a', letterSpacing: '-0.03em' }}>
@@ -1247,7 +1246,7 @@ function AboutSection() {
             transition={{ duration: 0.5, delay: 0.15, ease }}
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
+              gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '1px',
               background: T.rule,
               borderRadius: '12px',
@@ -1379,6 +1378,8 @@ function SkillPill({ label }: { label: string }) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Home() {
+  const [showUI, setShowUI] = useState(false)
+
   return (
     <>
       {/* Google Fonts */}
@@ -1415,7 +1416,7 @@ export default function Home() {
 
       <main style={{ background: T.dark }}>
         {/* Spacer blocks give each sticky section its own scroll budget */}
-        <Nav />
+        {showUI && <Nav />}
 
         {/* ═══════════════════════════════════════════════════════════════════
             HERO — sticky, light paper bg
@@ -1469,20 +1470,13 @@ export default function Home() {
             <div aria-hidden style={{ position: 'absolute', right: '32px', top: '50%', transform: 'translateY(-50%)', color: T.rule, fontSize: '18px', lineHeight: 1, userSelect: 'none' }}>+</div>
           </div>
 
-          {/* Main content — staggered entrance */}
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={{
-              hidden: {},
-              show: { transition: { staggerChildren: 0.1 } },
-            }}
+          {/* Main content */}
+          <div
             className="hero-content"
             style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px', marginTop: '40px' }}
           >
-            {/* Availability indicator */}
-            <motion.div
-              variants={{ hidden: { y: 30, opacity: 0 }, show: { y: 0, opacity: 1, transition: { duration: 0.7, ease } } }}
+            {/* Availability indicator — always in DOM, fades in after typewriter */}
+            <div
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -1491,6 +1485,8 @@ export default function Home() {
                 border: '1px solid rgba(249, 115, 22, 0.4)',
                 background: 'rgba(249, 115, 22, 0.07)',
                 padding: '6px 14px',
+                opacity: showUI ? 1 : 0,
+                transition: 'opacity 0.7s ease-out',
               }}
             >
               <span
@@ -1507,21 +1503,27 @@ export default function Home() {
               <span style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                 Available for opportunities
               </span>
-            </motion.div>
+            </div>
 
-            {/* Main headline */}
-            <TypewriterHeadline />
+            {/* Main headline — triggers showUI when done */}
+            <TypewriterHeadline onDone={() => setShowUI(true)} />
 
-            {/* CTA pills */}
-            <motion.div
-              variants={{ hidden: { y: 30, opacity: 0 }, show: { y: 0, opacity: 1, transition: { duration: 0.7, ease } } }}
+            {/* CTA pills — always in DOM, fades in after typewriter */}
+            <div
               className="hero-ctas"
-              style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}
+              style={{
+                display: 'flex',
+                gap: '12px',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                opacity: showUI ? 1 : 0,
+                transition: 'opacity 0.7s ease-out 0.2s',
+              }}
             >
               <HeroCTA href="/#work" label="View work" filled />
               <HeroCTA href="https://www.linkedin.com/in/onkarlanke/" label="Connect on LinkedIn" filled={false} />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
         </section>
 

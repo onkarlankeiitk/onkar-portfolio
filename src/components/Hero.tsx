@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, Variants, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   siFigma, siWebflow, siFramer, siHotjar,
   siNotion, siMiro, siGithub, siVercel, siAnthropic,
@@ -480,6 +480,41 @@ function MarqueeRow() {
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 export default function Hero() {
+  const shouldReduce = useReducedMotion()
+  const HEADLINE = 'Connecting dots, bridging Tech & Design'
+  const [displayedText, setDisplayedText] = useState('')
+  const [typewriterDone, setTypewriterDone] = useState(false)
+
+  useEffect(() => {
+    // Reduced motion: skip typewriter, show everything immediately
+    if (shouldReduce) {
+      setDisplayedText(HEADLINE)
+      setTypewriterDone(true)
+      return
+    }
+
+    let i = 0
+    let intervalId: ReturnType<typeof setInterval>
+
+    const timeoutId = setTimeout(() => {
+      intervalId = setInterval(() => {
+        i++
+        setDisplayedText(HEADLINE.slice(0, i))
+        if (i >= HEADLINE.length) {
+          clearInterval(intervalId)
+          setTypewriterDone(true)
+        }
+      }, 52)
+    }, 400)
+
+    // Cleanup both timeout AND interval on unmount / effect re-run
+    return () => {
+      clearTimeout(timeoutId)
+      clearInterval(intervalId)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <section id="hero" className="min-h-screen flex flex-col justify-center pt-24 relative overflow-hidden">
 
@@ -490,42 +525,81 @@ export default function Hero() {
       <div className="flex-1 flex items-center w-full px-8 md:px-16 lg:px-24 relative z-10">
 
         {/* LEFT */}
-        <motion.div variants={container} initial="hidden" animate="show" className="flex-1 max-w-xl pr-0 lg:pr-12">
+        <div className="flex-1 max-w-xl pr-0 lg:pr-12">
 
-          <motion.div variants={item} className="mb-8">
-            <div className="inline-flex items-center gap-3 rounded-full px-4 py-2" style={{ border: '1px solid rgba(34,197,94,0.45)', background: 'rgba(34,197,94,0.07)' }}>
+          {/* "Available for opportunities" — always in DOM (no layout shift), CSS-transition in after typewriter */}
+          <div
+            className="mb-8"
+            style={{ opacity: typewriterDone ? 1 : 0, transition: 'opacity 0.7s ease-out 2s' }}
+          >
+            <div className="inline-flex items-center gap-3 rounded-full px-4 py-2" style={{ border: '1.5px solid rgba(34,197,94,0.85)', background: 'rgba(34,197,94,0.18)' }}>
               <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 10, height: 10, overflow: 'visible' }}>
-                {[0, 1, 2].map((i) => (
+                {[0, 1, 2].map((idx) => (
                   <span
-                    key={i}
+                    key={idx}
                     style={{
                       position: 'absolute',
                       inset: 0,
                       borderRadius: '9999px',
                       background: '#4ade80',
-                      animation: `ripple 2.4s ease-out ${i * 0.8}s infinite`,
+                      animation: `ripple 2.4s ease-out ${idx * 0.8}s infinite`,
                     }}
                   />
                 ))}
                 <span style={{ position: 'relative', zIndex: 1, display: 'inline-flex', borderRadius: '9999px', width: 10, height: 10, background: '#22c55e', flexShrink: 0 }} />
               </span>
-              <p className="text-sm tracking-widest uppercase" style={{ color: '#4ade80' }}>Available for opportunities</p>
+              <p className="text-sm tracking-widest uppercase" style={{ color: '#ffffff', fontWeight: 600, letterSpacing: '0.12em' }}>Available for opportunities</p>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.h1 variants={item} className="text-white text-[2.73rem] md:text-[3.41rem] lg:text-[4.1rem] font-black tracking-tight leading-none mb-6">
-            Connecting dots, bridging Tech & Design
+          {/* Headline — typewriter */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
+            className="text-white text-[2.73rem] md:text-[3.41rem] lg:text-[4.1rem] font-black tracking-tight leading-none mb-6"
+          >
+            {displayedText}
+            {!typewriterDone && (
+              <span
+                className="inline-block align-middle ml-1"
+                style={{
+                  width: 3,
+                  height: '0.82em',
+                  background: 'white',
+                  borderRadius: 2,
+                  animation: 'cursor-blink 0.8s step-end infinite',
+                }}
+              />
+            )}
           </motion.h1>
 
-          <motion.h2 variants={item} className="text-zinc-400 text-xl md:text-3xl font-light mb-6">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 }}
+            className="text-zinc-400 text-xl md:text-3xl font-light mb-6"
+          >
             Designer. Researcher. Strategist. Storyteller.
           </motion.h2>
 
-          <motion.p variants={item} className="text-zinc-500 text-base md:text-lg max-w-md leading-relaxed mb-10">
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.45 }}
+            className="text-zinc-500 text-base md:text-lg max-w-md leading-relaxed mb-10"
+          >
             5+ years crafting end-to-end experiences & research based product strategies!
           </motion.p>
 
-          <motion.div variants={item} className="flex gap-4">
+          {/* Buttons — always in DOM (no layout shift), CSS-transition in after typewriter */}
+          <div
+            className="flex gap-4"
+            style={{
+              opacity: typewriterDone ? 1 : 0,
+              transition: 'opacity 0.7s ease-out 2.2s',
+            }}
+          >
             <motion.a href="mailto:onkarlanke.iitk@gmail.com"
               className="relative group inline-flex items-center gap-2 bg-white text-black px-7 py-3.5 rounded-full text-sm font-semibold overflow-hidden"
               whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
@@ -552,9 +626,9 @@ export default function Hero() {
                 <path d="M7 17L17 7M7 7h10v10"/>
               </svg>
             </motion.a>
-          </motion.div>
+          </div>
 
-        </motion.div>
+        </div>
 
         {/* RIGHT — origami bird */}
         <div className="hidden lg:flex flex-1 items-center justify-center" style={{ height: "700px" }}>

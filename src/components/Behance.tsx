@@ -62,7 +62,7 @@ export default function Behance() {
             transition={{ duration: 0.4, delay: index * 0.08 }}
             className={`group block bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 ${project.color}`}
           >
-            <div className="relative overflow-hidden aspect-video bg-zinc-800">
+            <div className="relative overflow-hidden bg-zinc-800 aspect-[4/3]">
               <img
                 src={project.cover}
                 alt={project.title}
