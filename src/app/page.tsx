@@ -36,7 +36,7 @@ const projects = [
     title: 'Deckup: Product development, subscription based service design (SaaS)',
     description:
       'Deckup is a SaaS based design companion for consultants, increasing their productivity, aesthetics, and impact.',
-    tags: ['B2C', 'Product Development', 'SaaS'],
+    tags: ['B2B & D2C', 'Product Development', 'SaaS'],
     metrics: [
       { v: '40–60%', l: 'Productivity gain' },
       { v: '3X', l: 'Impact' },
