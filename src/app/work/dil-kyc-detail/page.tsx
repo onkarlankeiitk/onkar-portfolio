@@ -154,12 +154,9 @@ function Hero() {
         className="relative z-10 px-8 md:px-16 lg:px-24 pb-5"
       >
         <p className="text-green-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">Diamond India Limited · 2023</p>
-        <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
-          KYC & <span style={{ color: '#0fa475' }}>Onboarding</span>
+        <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight">
+          KYC, Onboarding & <span style={{ color: '#0fa475' }}>Customer management portal design</span>
         </h1>
-        <p className="text-zinc-400 text-sm max-w-2xl leading-relaxed">
-          India's only government-nominated bullion supplier was running a 100% paper-based KYC. Two weeks per customer. Six handoffs. No status visibility. We designed the platform that closed that gap.
-        </p>
       </motion.div>
 
       {/* Row 3: Banner */}
@@ -186,7 +183,7 @@ function Hero() {
           {[
             { label: 'Client',    value: 'Diamond India Limited' },
             { label: 'Role',      value: 'Senior UX Designer' },
-            { label: 'Timeline',  value: '3 Months' },
+            { label: 'Timeline',  value: '8 Months' },
             { label: 'Year',      value: '2023' },
           ].map(m => (
             <div key={m.label}>
@@ -1724,6 +1721,7 @@ export default function DILKYCDetail() {
       <Nav />
       <StickyNav />
       <Hero />
+      <Team />
       <TheMoment />
       <Brief />
       <Strategy />
@@ -1737,7 +1735,6 @@ export default function DILKYCDetail() {
       <Communications />
       <QADelivery />
       <Reflection />
-      <Team />
       <FooterCTA />
     </main>
   )

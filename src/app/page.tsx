@@ -593,13 +593,16 @@ function TypewriterHeadline({ onDone }: { onDone?: () => void }) {
     <h1
       style={{
         fontSize: 'clamp(62px, 15vw, 128px)',
-        fontWeight: 500,
-        letterSpacing: '-0.025em',
+        fontWeight: 400,
+        letterSpacing: '-0.01em',
         lineHeight: 0.95,
-        color: T.ink,
         margin: 0,
-        fontFamily: T.sans,
+        fontFamily: 'var(--font-script)',
         textAlign: 'center',
+        background: 'linear-gradient(to bottom, #8B8B8B, #292828)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
       }}
     >
       {HEADLINE_LINES.map((_, i) => (
@@ -636,17 +639,16 @@ function HeroCTA({ href, label, filled }: { href: string; label: string; filled:
         display: 'inline-flex',
         alignItems: 'center',
         gap: '10px',
-        background: filled ? T.ink : 'transparent',
-        color: filled ? '#ffffff' : T.ink,
+        background: filled ? (hovered ? '#ffffff' : '#D04D1F') : 'transparent',
+        color: filled ? (hovered ? '#D04D1F' : '#ffffff') : (hovered ? '#D04D1F' : T.ink),
         fontFamily: T.sans,
         fontSize: '15px',
         fontWeight: 500,
         padding: filled ? '14px 28px' : '13px 28px',
         borderRadius: '9999px',
         textDecoration: 'none',
-        border: filled ? 'none' : `1.5px solid ${hovered ? T.ink : T.rule}`,
-        transition: 'opacity 0.2s, border-color 0.2s',
-        opacity: hovered && filled ? 0.82 : 1,
+        border: filled ? 'none' : `1.5px solid ${hovered ? '#D04D1F' : T.rule}`,
+        transition: 'background 0.25s, color 0.25s, border-color 0.25s',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -1109,7 +1111,7 @@ function ArchSection() {
             Industrial &amp; Architectural Design
           </p>
           <h2 style={{ color: '#ffffff', fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 1.05, margin: 0 }}>
-            Beyond Pixels: Design for human well-being
+            Beyond pixels: Design by 1st principles!
           </h2>
         </div>
         <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: '#1a1a1a', letterSpacing: '-0.03em' }}>
@@ -1203,23 +1205,35 @@ function AboutSection() {
         {/* ── Left column ── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           {/* Headline */}
-          <motion.h2
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease }}
-            style={{
-              fontSize: 'clamp(32px, 3.5vw, 52px)',
+            style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+          >
+            <h2 style={{
+              fontSize: 'clamp(40px, 5vw, 80px)',
               fontWeight: 500,
-              letterSpacing: '-0.025em',
-              lineHeight: 1.05,
+              letterSpacing: '-0.03em',
+              lineHeight: 0.95,
               color: T.ink,
               margin: 0,
-              maxWidth: '18ch',
-            }}
-          >
-            A craftsman at heart!
-          </motion.h2>
+              fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
+            }}>
+              Hello, I&apos;m Onkar.
+            </h2>
+            <p style={{
+              fontSize: 'clamp(18px, 2vw, 28px)',
+              fontWeight: 500,
+              letterSpacing: '-0.02em',
+              lineHeight: 1.2,
+              color: T.inkMute,
+              margin: 0,
+            }}>
+              A craftsman at heart!
+            </p>
+          </motion.div>
 
           {/* Bio */}
           <motion.div
@@ -1229,10 +1243,10 @@ function AboutSection() {
             transition={{ duration: 0.6, delay: 0.1, ease }}
             style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '48ch' }}
           >
-            <p style={{ fontSize: '15px', color: '#3D3D38', lineHeight: 1.65, margin: 0 }}>
-              Hi. I&apos;m an engineer turned designer obsessed with forms, shapes, materials, interactions, tech and people! I believe these are the ingredients of good, successful design. I bring research to the forefront &amp; ship products with intentional design experiences. &lsquo;Good Design shapes you&rsquo; — I have experienced that first hand.
+            <p style={{ fontSize: '18px', color: '#3D3D38', lineHeight: 1.65, margin: 0 }}>
+              I&apos;m an engineer turned designer obsessed with forms, shapes, materials, interactions, & technology. I believe these are the ingredients of good, successful design. I bring research to the forefront &amp; ship products with intentional design experiences. &lsquo;Good Design shapes you&rsquo; — I have experienced that first hand.
             </p>
-            <p style={{ fontSize: '15px', color: '#3D3D38', lineHeight: 1.65, margin: 0 }}>
+            <p style={{ fontSize: '18px', color: '#3D3D38', lineHeight: 1.65, margin: 0 }}>
               Fundamentally, I believe I&apos;m a craftsman. I have worked with various brands and startups to work on their products/service, digging on users to find undefined behavioral patterns and hidden pain points, analysed workflows and made changes to achieve desired results like engagement, revenue boost, or impact. I also contributed in building teams and aided in hiring right design talent. I&apos;m looking for following roles: <em style={{ fontStyle: 'normal', color: T.ink, fontWeight: 500 }}>Product Lead, Innovation Manager, Product Manager</em> as my next phase of career.
             </p>
           </motion.div>
@@ -1258,7 +1272,7 @@ function AboutSection() {
                 <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: T.ink, margin: '0 0 3px', lineHeight: 1 }}>
                   <CountUp target={s.value} suffix={s.suffix} />
                 </p>
-                <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+                <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#D04D1F', margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
                   {s.label}
                 </p>
               </div>
@@ -1297,15 +1311,13 @@ function AboutSection() {
               aspectRatio: '3/4',
               borderRadius: '14px',
               overflow: 'hidden',
-              ...stripedLight,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
             }}
           >
-            <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, textAlign: 'center', margin: 0, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-              // portrait — replace with real photo
-            </p>
+            <img
+              src="/onkar.webp"
+              alt="Onkar Lanke"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
           </div>
         </motion.div>
       </div>
@@ -1406,8 +1418,8 @@ export default function Home() {
           50% { opacity: 0; }
         }
         @keyframes orangePulse {
-          0%, 100% { opacity: 1; box-shadow: 0 0 6px #f97316; }
-          50% { opacity: 0.35; box-shadow: 0 0 2px #f97316; }
+          0%, 100% { opacity: 1; box-shadow: 0 0 6px #D04D1F; }
+          50% { opacity: 0.35; box-shadow: 0 0 2px #D04D1F; }
         }
         .flip-card-inner {
           transform-style: preserve-3d;
@@ -1473,38 +1485,8 @@ export default function Home() {
           {/* Main content */}
           <div
             className="hero-content"
-            style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px', marginTop: '40px' }}
+            style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '46px', marginTop: '40px' }}
           >
-            {/* Availability indicator — always in DOM, fades in after typewriter */}
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                borderRadius: '9999px',
-                border: '1px solid rgba(249, 115, 22, 0.4)',
-                background: 'rgba(249, 115, 22, 0.07)',
-                padding: '6px 14px',
-                opacity: showUI ? 1 : 0,
-                transition: 'opacity 0.7s ease-out',
-              }}
-            >
-              <span
-                style={{
-                  width: '7px',
-                  height: '7px',
-                  borderRadius: '50%',
-                  background: '#f97316',
-                  boxShadow: '0 0 6px #f97316',
-                  flexShrink: 0,
-                  animation: 'orangePulse 1.4s ease-in-out infinite',
-                }}
-              />
-              <span style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                Available for opportunities
-              </span>
-            </div>
-
             {/* Main headline — triggers showUI when done */}
             <TypewriterHeadline onDone={() => setShowUI(true)} />
 

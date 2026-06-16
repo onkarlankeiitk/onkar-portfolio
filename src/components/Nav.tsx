@@ -26,7 +26,7 @@ function glassTokens(isLight: boolean) {
       shadow:       '0 8px 32px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.72) inset',
       logoColor:    '#0B0B0B',
       linkColor:    '#8A8A85',
-      linkHover:    '#0B0B0B',
+      linkHover:    '#D04D1F',
       hamburger:    '#0B0B0B',
       divider:      'rgba(180, 174, 163, 0.5)',
     }
@@ -38,7 +38,7 @@ function glassTokens(isLight: boolean) {
     shadow:       '0 8px 40px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset',
     logoColor:    '#ffffff',
     linkColor:    '#71717a',
-    linkHover:    '#ffffff',
+    linkHover:    '#D04D1F',
     hamburger:    '#ffffff',
     divider:      'rgba(255,255,255,0.08)',
   }

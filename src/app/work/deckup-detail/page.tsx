@@ -1697,6 +1697,7 @@ export default function DeckUpDetail() {
       <Nav />
       <StickyNav />
       <Hero />
+      <Team />
       <TheIdea />
       <Research />
       <Competitive />
@@ -1708,7 +1709,6 @@ export default function DeckUpDetail() {
       <Chargebee />
       <PreLaunch />
       <Reflection />
-      <Team />
       <FooterCTA />
     </main>
   )
