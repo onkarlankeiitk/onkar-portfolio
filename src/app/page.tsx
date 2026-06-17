@@ -143,7 +143,7 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
   return (
     <Link
       href={project.directPath}
-      style={{ display: 'block', position: 'relative', perspective: '1000px', cursor: 'pointer', textDecoration: 'none' }}
+      style={{ display: 'block', position: 'relative', perspective: '1000px', cursor: 'pointer', textDecoration: 'none', height: '100%' }}
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
     >
@@ -153,9 +153,10 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
           transformStyle: 'preserve-3d',
           transition: 'transform 600ms cubic-bezier(0.22,1,0.36,1)',
           transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          height: '100%',
         }}
       >
-        {/* FRONT — natural height, drives card size */}
+        {/* FRONT — fills grid cell height */}
         <div
           style={{
             backfaceVisibility: 'hidden',
@@ -166,6 +167,7 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
+            height: '100%',
           }}
         >
           {/* Banner — 16:9 */}
@@ -176,7 +178,7 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
             }
           </div>
           {/* Content strip */}
-          <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1, justifyContent: 'space-between' }}>
             <div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
                 {project.tags.map(tag => (
@@ -189,8 +191,7 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
                 {project.title}
               </p>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontFamily: T.mono, fontSize: '10px', color: '#52525b', letterSpacing: '0.05em' }}>{project.year}</span>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
               <span style={{ color: '#52525b', fontSize: '16px' }}>→</span>
             </div>
           </div>
@@ -533,7 +534,7 @@ function TypewriterHeadline({ onDone }: { onDone?: () => void }) {
         margin: 0,
         fontFamily: 'var(--font-script)',
         textAlign: 'center',
-        color: '#292828',
+        color: '#2A3F5C',
       }}
     >
       {HEADLINE_LINES.map((_, i) => (
@@ -1516,16 +1517,16 @@ export default function Home() {
             {/* ── Column 2: Case Studies ── */}
             <ColSection borderRight>
               {(headingColor) => (
-                <>
-                  <p style={{ fontFamily: T.mono, fontSize: '11px', color: headingColor, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px', transition: 'color 0.2s' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                  <p style={{ fontFamily: T.mono, fontSize: '11px', color: headingColor, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px', transition: 'color 0.2s', flexShrink: 0 }}>
                     Case Studies
                   </p>
-                  <div className="flip-cards" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div className="flip-cards" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: '12px', flex: 1 }}>
                     {projects.map(project => (
                       <FlipCard key={project.slug} project={project} />
                     ))}
                   </div>
-                </>
+                </div>
               )}
             </ColSection>
 
@@ -1601,6 +1602,15 @@ export default function Home() {
       <style>{`
         .sketch-track:hover {
           animation-play-state: paused !important;
+        }
+
+        /* Hide scrollbar in Case Studies column */
+        .work-columns > div:nth-child(2)::-webkit-scrollbar {
+          display: none;
+        }
+        .work-columns > div:nth-child(2) {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
         }
 
         /* ── Tablet (≤768px) ── */
