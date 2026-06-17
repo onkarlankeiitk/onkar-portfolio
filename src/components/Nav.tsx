@@ -84,7 +84,9 @@ function CTAPill({ isLight }: { isLight: boolean }) {
   const [hovered, setHovered] = useState(false)
   return (
     <a
-      href="mailto:onkar@example.com"
+      href="/ONKAR_LANKE.pdf"
+      target="_blank"
+      rel="noreferrer"
       style={{
         display: 'inline-flex', alignItems: 'center', gap: '6px',
         fontFamily: T.sans, fontSize: '12px', fontWeight: 500,
@@ -104,7 +106,7 @@ function CTAPill({ isLight }: { isLight: boolean }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      Get in touch
+      View resume
     </a>
   )
 }

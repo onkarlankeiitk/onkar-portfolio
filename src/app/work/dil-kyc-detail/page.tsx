@@ -160,18 +160,8 @@ function Hero() {
       </motion.div>
 
       {/* Row 3: Banner */}
-      <div className="relative overflow-hidden aspect-video" style={{ backgroundColor: '#071a07' }}>
-        <div className="absolute inset-0 opacity-[0.07]" style={{
-          backgroundImage: 'linear-gradient(#0fa475 1px, transparent 1px), linear-gradient(90deg, #0fa475 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-        }} />
-        <div className="relative flex items-center justify-center gap-8 opacity-15">
-          <div className="w-16 h-16 border-2 border-green-400 flex items-center justify-center">
-            <span className="text-green-400 font-bold text-sm tracking-widest">DIL</span>
-          </div>
-          <div className="h-px w-32 bg-green-400 opacity-40" />
-          <span className="text-green-400 text-3xl font-bold tracking-tight">KYC & Onboarding Platform</span>
-        </div>
+      <div className="relative overflow-hidden aspect-video">
+        <img src="/case-studies/dil-kyc/detail-banner.png" alt="DIL KYC & Onboarding Platform" className="w-full h-full object-cover" />
       </div>
 
       {/* Row 4: Meta */}

@@ -8,7 +8,7 @@ const contactLinks = [
   { label: 'Email',    href: 'mailto:onkarlanke.iitk@gmail.com',  display: 'onkarlanke.iitk@gmail.com',   external: false },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/onkarlanke/', display: 'linkedin.com/in/onkarlanke', external: true  },
   { label: 'Phone',    href: 'tel:+918669882810',                  display: '+91 86698 82810',              external: false },
-  { label: 'Resume',   href: 'https://drive.google.com/file/d/1PNn9pC0hjqr5yJNAO6Donal4jPbvpnWo/view?usp=sharing', display: 'Download Resume ↗', external: true },
+  { label: 'Resume',   href: '/ONKAR_LANKE.pdf', display: 'Download Resume ↗', external: true },
 ]
 
 const navLinks = [

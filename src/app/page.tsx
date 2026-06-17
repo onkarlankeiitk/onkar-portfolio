@@ -5,10 +5,15 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import {
-  siFigma, siWebflow, siFramer, siHotjar,
-  siGithub, siVercel, siAnthropic,
-} from 'simple-icons'
+import { projects, archProjects, getArticleThumbnail, ARTICLE_QUADRANT_POS } from '@/lib/portfolio-data'
+// SVG paths inlined from simple-icons to avoid bundling the 25 MB package
+const siFigma    = { path: 'M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z' }
+const siWebflow  = { path: 'm24 4.515-7.658 14.97H9.149l3.205-6.204h-.144C9.566 16.713 5.621 18.973 0 19.485v-6.118s3.596-.213 5.71-2.435H0V4.515h6.417v5.278l.144-.001 2.622-5.277h4.854v5.244h.144l2.72-5.244H24Z' }
+const siFramer   = { path: 'M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z' }
+const siHotjar   = { path: 'M10.119 9.814C12.899 8.27 16.704 6.155 16.704 0h-4.609c0 3.444-1.676 4.375-4.214 5.786C5.1 7.33 1.295 9.444 1.295 15.6h4.61c0-3.444 1.676-4.376 4.214-5.786zM18.096 8.4c0 3.444-1.677 4.376-4.215 5.785-2.778 1.544-6.585 3.66-6.585 9.815h4.609c0-3.444 1.676-4.376 4.214-5.786 2.78-1.544 6.586-3.658 6.586-9.814h-4.609z' }
+const siGithub   = { path: 'M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12' }
+const siVercel   = { path: 'm12 1.608 12 20.784H0Z' }
+const siAnthropic = { path: 'M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z' }
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const T = {
@@ -25,69 +30,7 @@ const T = {
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-// ─── Projects data ─────────────────────────────────────────────────────────────
-const projects = [
-  {
-    slug: 'deckup',
-    directPath: '/work/deckup-detail',
-    banner: '/case-studies/deck-up/hero-banner.png',
-    company: 'SlideXpress',
-    year: '2024',
-    title: 'Deckup: Product development, subscription based service design (SaaS)',
-    description:
-      'Deckup is a SaaS based design companion for consultants, increasing their productivity, aesthetics, and impact.',
-    tags: ['B2B & D2C', 'Product Development', 'SaaS'],
-    metrics: [
-      { v: '40–60%', l: 'Productivity gain' },
-      { v: '3X', l: 'Impact' },
-    ],
-  },
-  {
-    slug: 'dil-kyc',
-    directPath: '/work/dil-kyc-detail',
-    banner: '/case-studies/dil-kyc/hero-banner.png',
-    company: 'Diamond India Ltd.',
-    year: '2024',
-    title: "KYC, onboarding & customer management for India's largest bullion supplier",
-    description:
-      'Digitisation of extensive offline onboarding reducing time (4 to 2 weeks), reduced paperwork and employee fatigue.',
-    tags: ['B2B', 'UX Design', 'Fintech', 'Digital Transformation'],
-    metrics: [
-      { v: '55%', l: 'Onboarding time' },
-      { v: '40%', l: 'Efficiency' },
-    ],
-  },
-  {
-    slug: 'research-strategy',
-    directPath: '/work/research-strategy',
-    banner: '/case-studies/research-strategy/hero-banner.png',
-    company: 'Commongood, USA',
-    year: '2023',
-    title: 'UX evaluation, communication strategy, positioning & storytelling',
-    description:
-      'UX based strategic restructuring for US based snacking company, in collaboration with Commongood.',
-    tags: ['UX Evaluation', 'Strategy', 'Behavioral Mapping', 'Storytelling'],
-    metrics: [
-      { v: '43%', l: 'Engagement' },
-      { v: '11%', l: 'Checkout vol.' },
-    ],
-  },
-  {
-    slug: 'fintech-gamification',
-    directPath: '/work/fintech-gamification-detail',
-    banner: '/case-studies/fintech-gamification/hero-banner.png',
-    company: 'Mindseye Creative',
-    year: '2023',
-    title: "Puzzle styled, gamified no-code builder for Australia's top fintech firm",
-    description:
-      'A no-code KYC & onboarding builder for financial institutions, inspired by puzzle pieces and board game mechanics.',
-    tags: ['Fintech', 'Gamification', 'Board Games'],
-    metrics: [
-      { v: '55%', l: 'Engagement & focus' },
-      { v: '25%', l: 'Faster build rate' },
-    ],
-  },
-]
+// projects and archProjects are imported from @/lib/portfolio-data
 
 // ─── Experience data ───────────────────────────────────────────────────────────
 const experience = [
@@ -306,6 +249,8 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
   )
 }
 
+// getThumbnail and ARTICLE_QUADRANT_POS imported from @/lib/portfolio-data
+
 // ─── Article skeleton ──────────────────────────────────────────────────────────
 function ArticleSkeleton() {
   return (
@@ -321,21 +266,10 @@ function ArticleSkeleton() {
 }
 
 // ─── Article card ──────────────────────────────────────────────────────────────
-const QUADRANT_POS = ['0% 0%', '100% 0%', '0% 100%', '100% 100%']
-
-function getThumbnail(title: string): string | null {
-  const t = title.toLowerCase()
-  if (t.includes('squircle')) return '/article-squircle.png'
-  if (t.includes('tools') || t.includes('claude') || t.includes('productivity')) return '/article-tools.png'
-  if (t.includes('credibility') || t.includes('design credibility')) return '/article-design-credibility.png'
-  if (t.includes('boeing')) return '/article-boeing.png'
-  return null
-}
-
 function ArticleCard({ article, index = 0 }: { article: { title: string; pubDate: string; link: string; tags?: string[]; publication?: string }; index?: number }) {
   const [hovered, setHovered] = useState(false)
   const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-  const thumbnail = getThumbnail(article.title)
+  const thumbnail = getArticleThumbnail(article.title)
   return (
     <a
       href={article.link}
@@ -365,7 +299,7 @@ function ArticleCard({ article, index = 0 }: { article: { title: string; pubDate
           overflow: 'hidden',
           ...(thumbnail
             ? { backgroundImage: `url(${thumbnail})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-            : { backgroundImage: 'url(/article-thumbnails.png)', backgroundSize: '200% 200%', backgroundPosition: QUADRANT_POS[index % 4] }),
+            : { backgroundImage: 'url(/article-thumbnails.png)', backgroundSize: '200% 200%', backgroundPosition: ARTICLE_QUADRANT_POS[index % 4] }),
           border: `1px solid ${hovered ? '#d4d4d8' : '#1a1a1a'}`,
           transition: 'border-color 0.25s ease',
         }}
@@ -521,7 +455,7 @@ function ArticlesColumn({ headingColor }: { headingColor: string }) {
                 padding: '12px',
               }}
             >
-              <div style={{ width: '80px', height: '64px', flexShrink: 0, borderRadius: '6px', backgroundImage: 'url(/article-thumbnails.png)', backgroundSize: '200% 200%', backgroundPosition: QUADRANT_POS[i % 4], border: '1px solid #1a1a1a' }} />
+              <div style={{ width: '80px', height: '64px', flexShrink: 0, borderRadius: '6px', backgroundImage: 'url(/article-thumbnails.png)', backgroundSize: '200% 200%', backgroundPosition: ARTICLE_QUADRANT_POS[i % 4], border: '1px solid #1a1a1a' }} />
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '6px' }}>
                 <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#52525b', letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0 }}>
                   Coming soon
@@ -599,10 +533,7 @@ function TypewriterHeadline({ onDone }: { onDone?: () => void }) {
         margin: 0,
         fontFamily: 'var(--font-script)',
         textAlign: 'center',
-        background: 'linear-gradient(to bottom, #8B8B8B, #292828)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text',
+        color: '#292828',
       }}
     >
       {HEADLINE_LINES.map((_, i) => (
@@ -1055,12 +986,6 @@ function ArchSection() {
     { index: '02', title: 'Lighting Products' },
     { index: '03', title: 'Consumer Electronics' },
     { index: '04', title: 'Acoustic Panels' },
-  ]
-
-  const archProjects = [
-    { title: 'Spatial Design: Villa in Tundla, UP', label: '// spatial project — replace', image: '/arch/arch-design.png' },
-    { title: 'Interactive Lighting Design', label: '// lighting project — replace' },
-    { title: 'Consumer Electronics', label: '// sound/arch project — replace' },
   ]
 
   return (

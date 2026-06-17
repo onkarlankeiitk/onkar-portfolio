@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { projects, archProjects, getArticleThumbnail, ARTICLE_QUADRANT_POS } from '@/lib/portfolio-data'
+import type { Project } from '@/lib/portfolio-data'
 
 // ─── Design tokens ─────────────────────────────────────────────────────────────
 const T = {
@@ -22,76 +24,8 @@ const stripedLight = {
   border: `1px solid ${T.rule}`,
 } as const
 
-const stripedDark = {
-  background: 'repeating-linear-gradient(135deg, #1a1a1a 0 8px, transparent 8px 16px)',
-  border: '1px solid #1a1a1a',
-} as const
-
-// ─── Digital design projects ────────────────────────────────────────────────────
-const digitalProjects = [
-  {
-    slug: 'deckup',
-    company: 'SlideXpress',
-    year: '2024',
-    title: 'Deck-Up — SaaS for Consultants',
-    description:
-      'DeckUp increases the productivity of daily power users by 45–60% by providing a toolbar specifically created for power users.',
-    tags: ['Product Design', 'SaaS', 'B2B'],
-    metrics: [
-      { value: '45–60%', label: 'Productivity gain' },
-      { value: '40%', label: 'User comfort' },
-    ],
-  },
-  {
-    slug: 'dil-kyc',
-    company: 'Diamond India Limited',
-    year: '2024',
-    title: 'Digitisation of KYC & Customer Management',
-    description:
-      "DIL is India's largest bullion supplier. We digitised their offline KYC and customer management system, reducing onboarding from 2 weeks to 5–7 days.",
-    tags: ['UX Design', 'Fintech', 'Research'],
-    metrics: [
-      { value: '55%', label: 'Onboarding time cut' },
-      { value: '40%', label: 'Employee efficiency' },
-    ],
-  },
-  {
-    slug: 'research-strategy',
-    company: 'Commongood, USA',
-    year: '2023',
-    title: 'Research & Strategy for Growth',
-    description:
-      'UX evaluation and research-based strategies for a US-based snacking company specializing in healthy, convenient snack bars.',
-    tags: ['UX Research', 'Strategy', 'E-commerce'],
-    metrics: [
-      { value: '43%', label: 'Content engagement' },
-      { value: '11%', label: 'Cart checkout vol.' },
-    ],
-  },
-  {
-    slug: 'fintech-gamification',
-    company: 'Mindseye Creative',
-    year: '2023',
-    title: 'Gamification in Fintech — Board Game Inspired',
-    description:
-      'Fintech interface inspired by board game mechanics, simplifying access to complex financial products through familiar interaction patterns.',
-    tags: ['Gamification', 'Fintech', 'UX Design'],
-    metrics: [
-      { value: '85%', label: 'Usability score' },
-      { value: '70%', label: 'User retention' },
-    ],
-  },
-]
-
-// ─── Arch projects ──────────────────────────────────────────────────────────────
-const archProjects = [
-  { title: 'Exhibition Pavilion', tag: 'Space Design', label: '// spatial project — replace' },
-  { title: 'Ambient Lighting Study', tag: 'Lighting Design', label: '// lighting project — replace' },
-  { title: 'Acoustic Concept', tag: 'Sound Design', label: '// sound/arch project — replace' },
-]
-
-// ─── Flip card ──────────────────────────────────────────────────────────────────
-function ProjectCard({ project, index }: { project: typeof digitalProjects[0]; index: number }) {
+// ─── Flip card — matches landing page 16:9 layout ──────────────────────────────
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [flipped, setFlipped] = useState(false)
   return (
     <motion.div
@@ -103,104 +37,93 @@ function ProjectCard({ project, index }: { project: typeof digitalProjects[0]; i
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
     >
-      <motion.div
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ duration: 0.6, ease }}
-        style={{ transformStyle: 'preserve-3d', position: 'relative', height: '460px' }}
-      >
-        {/* FRONT */}
-        <div
-          style={{
-            position: 'absolute', inset: 0,
-            backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
-            display: 'flex', flexDirection: 'column',
-            background: '#ffffff', border: `1px solid ${T.rule}`,
-            borderRadius: '4px', overflow: 'hidden',
-          }}
+      <Link href={project.directPath} style={{ display: 'block', textDecoration: 'none' }}>
+        <motion.div
+          animate={{ rotateY: flipped ? 180 : 0 }}
+          transition={{ duration: 0.6, ease }}
+          style={{ transformStyle: 'preserve-3d', position: 'relative' }}
         >
+          {/* FRONT — natural height drives card size */}
           <div
             style={{
-              flex: '0 0 55%',
-              background: `repeating-linear-gradient(135deg, ${T.ruleSoft} 0 12px, transparent 12px 24px), #ffffff`,
-              borderBottom: `1px solid ${T.rule}`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
+              background: '#111', border: '1px solid #1a1a1a',
+              borderRadius: '12px', overflow: 'hidden',
+              display: 'flex', flexDirection: 'column',
             }}
           >
-            <span style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, textAlign: 'center', padding: '0 24px' }}>
-              {`// ${project.slug} — replace with cover`}
-            </span>
+            {/* Banner — 16:9 */}
+            <div style={{ width: '100%', aspectRatio: '16/9', flexShrink: 0, overflow: 'hidden', borderBottom: '1px solid #1a1a1a', background: '#111' }}>
+              {project.banner
+                ? <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.9 }} />
+                : <div style={{ width: '100%', height: '100%', background: 'repeating-linear-gradient(135deg, #1a1a1a 0 8px, transparent 8px 16px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontFamily: T.mono, fontSize: '11px', color: '#3f3f46', textAlign: 'center', padding: '0 24px' }}>{`// ${project.slug}`}</span>
+                  </div>
+              }
+            </div>
+            {/* Content strip */}
+            <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
+                  {project.tags.map(tag => (
+                    <span key={tag} style={{ background: '#27272a', color: '#a1a1aa', fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em', padding: '3px 8px', borderRadius: '9999px' }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <p style={{ color: '#f4f4f5', fontSize: '13px', fontWeight: 500, lineHeight: 1.4, margin: 0, fontFamily: T.sans }}>
+                  {project.title}
+                </p>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontFamily: T.mono, fontSize: '10px', color: '#52525b', letterSpacing: '0.05em' }}>{project.year}</span>
+                <span style={{ color: '#52525b', fontSize: '16px' }}>→</span>
+              </div>
+            </div>
           </div>
-          <div style={{ flex: 1, padding: '24px', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '12px' }}>
-              {project.tags.map(tag => (
-                <span key={tag} style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, border: `1px solid ${T.rule}`, borderRadius: '9999px', padding: '2px 8px', lineHeight: 1.6 }}>
-                  {tag}
-                </span>
+
+          {/* BACK — absolutely fills the front face */}
+          <div
+            style={{
+              position: 'absolute', inset: 0,
+              backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
+              transform: 'rotateY(180deg)',
+              background: '#f4f4f5', border: '1px solid #e4e4e7',
+              borderRadius: '12px', padding: '20px',
+              display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+            }}
+          >
+            <div>
+              <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#71717a', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '8px' }}>
+                {project.company}
+              </p>
+              <p style={{ color: '#0B0B0B', fontSize: '13px', lineHeight: 1.6, margin: 0, fontFamily: T.sans }}>
+                {project.description}
+              </p>
+            </div>
+            {/* Metrics */}
+            <div style={{ display: 'flex', gap: '24px' }}>
+              {project.metrics.map(m => (
+                <div key={m.l}>
+                  <p style={{ color: '#0B0B0B', fontSize: '26px', fontWeight: 600, lineHeight: 1, margin: 0, fontFamily: T.sans }}>{m.v}</p>
+                  <p style={{ color: '#71717a', fontSize: '11px', margin: '4px 0 0', fontFamily: T.mono }}>{m.l}</p>
+                </div>
               ))}
             </div>
-            <h3 style={{ fontFamily: T.sans, fontSize: '20px', fontWeight: 500, color: T.ink, lineHeight: 1.25, letterSpacing: '-0.01em', margin: 0 }}>
-              {project.title}
-            </h3>
-            <div style={{ flex: 1 }} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                {project.year} · {project.company}
-              </span>
-              <span style={{ fontFamily: T.mono, fontSize: '16px', color: T.inkMute }}>→</span>
+            {/* Tags + arrow */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {project.tags.map(tag => (
+                  <span key={tag} style={{ background: '#e4e4e7', color: '#52525b', fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em', padding: '3px 8px', borderRadius: '9999px' }}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <span style={{ color: '#0B0B0B', fontSize: '16px', flexShrink: 0, marginLeft: '8px' }}>→</span>
             </div>
           </div>
-        </div>
-
-        {/* BACK */}
-        <div
-          style={{
-            position: 'absolute', inset: 0,
-            backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
-            background: T.ink, borderRadius: '4px',
-            padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden',
-          }}
-        >
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: 'rgba(244,242,236,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>
-            {project.company}
-          </p>
-          <h3 style={{ fontFamily: T.sans, fontSize: '18px', fontWeight: 500, color: 'rgba(244,242,236,0.9)', marginBottom: '16px', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
-            {project.title}
-          </h3>
-          <p style={{ fontSize: '13px', fontFamily: T.sans, color: 'rgba(244,242,236,0.6)', lineHeight: 1.6, marginBottom: '24px' }}>
-            {project.description}
-          </p>
-          <p style={{ fontFamily: T.mono, fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(244,242,236,0.3)', marginBottom: '10px' }}>
-            Impact
-          </p>
-          <div style={{ display: 'flex', gap: '32px', marginBottom: '24px' }}>
-            {project.metrics.map(m => (
-              <div key={m.label}>
-                <div style={{ fontFamily: T.sans, fontSize: '28px', fontWeight: 600, color: '#ffffff', lineHeight: 1, letterSpacing: '-0.02em' }}>
-                  {m.value}
-                </div>
-                <div style={{ fontFamily: T.mono, fontSize: '10px', color: 'rgba(244,242,236,0.4)', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  {m.label}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ flex: 1 }} />
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '20px' }}>
-            {project.tags.map(tag => (
-              <span key={tag} style={{ fontFamily: T.mono, fontSize: '10px', color: 'rgba(244,242,236,0.5)', border: '1px solid rgba(244,242,236,0.2)', borderRadius: '9999px', padding: '2px 8px', lineHeight: 1.6 }}>
-                {tag}
-              </span>
-            ))}
-          </div>
-          <Link
-            href={`/work/${project.slug}`}
-            style={{ fontFamily: T.mono, fontSize: '12px', color: 'rgba(244,242,236,0.5)', textDecoration: 'underline', textUnderlineOffset: '3px' }}
-          >
-            View case study →
-          </Link>
-        </div>
-      </motion.div>
+        </motion.div>
+      </Link>
     </motion.div>
   )
 }
@@ -210,6 +133,7 @@ type Article = { title: string; link: string; pubDate: string; tags?: string[]; 
 
 function ArticleCard({ article, index }: { article: Article; index: number }) {
   const date = new Date(article.pubDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+  const thumbnail = getArticleThumbnail(article.title)
   return (
     <motion.a
       href={article.link}
@@ -233,7 +157,7 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
       onMouseEnter={e => ((e.currentTarget as HTMLElement).style.borderColor = T.ink)}
       onMouseLeave={e => ((e.currentTarget as HTMLElement).style.borderColor = T.rule)}
     >
-      {/* Striped placeholder thumbnail */}
+      {/* Article thumbnail */}
       <div
         style={{
           flexShrink: 0,
@@ -241,7 +165,10 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
           height: '60px',
           borderRadius: '4px',
           overflow: 'hidden',
-          ...stripedLight,
+          ...(thumbnail
+            ? { backgroundImage: `url(${thumbnail})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+            : { backgroundImage: 'url(/article-thumbnails.png)', backgroundSize: '200% 200%', backgroundPosition: ARTICLE_QUADRANT_POS[index % 4] }),
+          border: `1px solid ${T.rule}`,
         }}
       />
       {/* Text */}
@@ -349,7 +276,7 @@ export default function ProjectsPage() {
           <Link href="/#about">About</Link>
           <Link href="/#contact">Contact</Link>
           <a
-            href="https://drive.google.com/file/d/1PNn9pC0hjqr5yJNAO6Donal4jPbvpnWo/view?usp=sharing"
+            href="/ONKAR_LANKE.pdf"
             target="_blank"
             rel="noreferrer"
             style={{
@@ -415,7 +342,7 @@ export default function ProjectsPage() {
       <section className="proj-section">
         <SectionHeader kicker="Product & UX" title="Digital Design" index="02/" />
         <div className="digital-grid">
-          {digitalProjects.map((project, i) => (
+          {projects.map((project, i) => (
             <ProjectCard key={project.slug} project={project} index={i} />
           ))}
         </div>
@@ -437,10 +364,11 @@ export default function ProjectsPage() {
               transition={{ duration: 0.45, delay: i * 0.1, ease }}
               style={{ borderRadius: '4px', overflow: 'hidden', border: `1px solid ${T.rule}` }}
             >
-              <div style={{ aspectRatio: '4/3', ...stripedLight, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, margin: 0, letterSpacing: '0.04em' }}>
-                  {p.label}
-                </p>
+              <div style={{ aspectRatio: '4/3', overflow: 'hidden', position: 'relative', ...(!p.image ? stripedLight : {}), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {p.image
+                  ? <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  : <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, margin: 0, letterSpacing: '0.04em' }}>{p.label}</p>
+                }
               </div>
               <div style={{ padding: '16px 20px', background: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
