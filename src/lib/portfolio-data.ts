@@ -42,7 +42,7 @@ export const projects: Project[] = [
   {
     slug: 'dil-kyc',
     directPath: '/work/dil-kyc-detail',
-    banner: '/case-studies/dil-kyc/card-banner.jpg',
+    banner: '/dil_banner.png',
     company: 'Diamond India Ltd.',
     year: '2024',
     title: "KYC, onboarding & customer management for India's largest bullion supplier",

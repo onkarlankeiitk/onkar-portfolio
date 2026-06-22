@@ -153,7 +153,7 @@ function Hero() {
         initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
         className="relative z-10 px-8 md:px-16 lg:px-24 pb-5"
       >
-        <p className="text-green-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">Diamond India Limited · 2023</p>
+        <p className="text-green-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">Diamond India Limited</p>
         <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight">
           KYC, Onboarding & <span style={{ color: '#0fa475' }}>Customer management portal design</span>
         </h1>
@@ -161,7 +161,13 @@ function Hero() {
 
       {/* Row 3: Banner */}
       <div className="relative overflow-hidden aspect-video">
-        <img src="/case-studies/dil-kyc/detail-banner.png" alt="DIL KYC & Onboarding Platform" className="w-full h-full object-cover" />
+        <video
+          src="/dil-hero-banner.mp4"
+          autoPlay
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        />
       </div>
 
       {/* Row 4: Meta */}
@@ -259,7 +265,7 @@ function Brief() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-20">
           {[
             {
-              head: 'Who is DIL?',
+              head: 'Context',
               body: 'Diamond India Limited has been India\'s only Central Government-nominated private-sector bullion supplier since 2009. 800+ customers — 98% small jewellery exporters. The biggest private agency base in the country. Their mission, stated directly: "We are here to help you grow." The banks are their competitors. The banks have ₹5 crore minimums and KYC timelines measured in years. DIL operates at any quantity, any size.',
             },
             {
@@ -1676,7 +1682,7 @@ function FooterCTA() {
         className="flex flex-col md:flex-row items-start md:items-center justify-between gap-12"
       >
         <div>
-          <p className="text-green-400 text-xs uppercase tracking-[0.2em] font-medium mb-4">Diamond India Limited · 2023</p>
+          <p className="text-green-400 text-xs uppercase tracking-[0.2em] font-medium mb-4">Diamond India Limited</p>
           <h2 className="text-white text-4xl md:text-5xl font-bold leading-tight">
             Onkar Lanke<br />
             <span style={{ color: AMBER }}>Senior UX Designer</span>

@@ -124,7 +124,7 @@ function Hero() {
         className="relative z-10 px-8 md:px-16 lg:px-24 pb-6"
       >
         <p className="text-xs tracking-[0.22em] uppercase font-medium mb-3" style={{ color: ACCENT }}>
-          {cs.client} · {cs.year}
+          {cs.client}
         </p>
         <h1 className="text-white font-bold leading-tight mb-4" style={{ fontSize: 'clamp(28px, 5vw, 56px)' }}>
           {cs.hero.headline}
@@ -391,7 +391,7 @@ export default function ResearchStrategyPage() {
         >
           <div>
             <p className="text-xs uppercase tracking-[0.2em] font-medium mb-4" style={{ color: ACCENT }}>
-              {cs.client} · {cs.year}
+              {cs.client}
             </p>
             <h2 className="text-white text-4xl md:text-5xl font-bold leading-tight">
               Onkar Lanke<br />

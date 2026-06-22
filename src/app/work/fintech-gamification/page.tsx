@@ -143,7 +143,7 @@ export default function FintechGamificationSummary() {
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
           className="px-8 md:px-16 lg:px-24 pb-5"
         >
-          <p className="text-purple-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">{cs.client} · {cs.year}</p>
+          <p className="text-purple-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">{cs.client}</p>
           <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
             {cs.hero.headline} — <span style={{ color: VIOLET }}>Rule Builder</span>
           </h1>

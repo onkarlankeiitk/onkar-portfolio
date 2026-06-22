@@ -33,27 +33,27 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.5, delay: index * 0.08, ease }}
-      style={{ perspective: '1200px', cursor: 'pointer' }}
+      style={{ perspective: '1200px', cursor: 'pointer', height: '100%' }}
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
     >
-      <Link href={project.directPath} style={{ display: 'block', textDecoration: 'none' }}>
+      <Link href={project.directPath} style={{ display: 'block', textDecoration: 'none', height: '100%' }}>
         <motion.div
           animate={{ rotateY: flipped ? 180 : 0 }}
           transition={{ duration: 0.6, ease }}
-          style={{ transformStyle: 'preserve-3d', position: 'relative' }}
+          style={{ transformStyle: 'preserve-3d', position: 'relative', height: '100%' }}
         >
-          {/* FRONT — natural height drives card size */}
+          {/* FRONT — fills grid cell height */}
           <div
             style={{
               backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
-              background: '#111', border: '1px solid #1a1a1a',
+              background: '#111',
               borderRadius: '12px', overflow: 'hidden',
-              display: 'flex', flexDirection: 'column',
+              display: 'flex', flexDirection: 'column', height: '100%',
             }}
           >
             {/* Banner — 16:9 */}
-            <div style={{ width: '100%', aspectRatio: '16/9', flexShrink: 0, overflow: 'hidden', borderBottom: '1px solid #1a1a1a', background: '#111' }}>
+            <div style={{ width: '100%', aspectRatio: '16/9', flexShrink: 0, overflow: 'hidden', background: '#111' }}>
               {project.banner
                 ? <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.9 }} />
                 : <div style={{ width: '100%', height: '100%', background: 'repeating-linear-gradient(135deg, #1a1a1a 0 8px, transparent 8px 16px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -62,7 +62,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               }
             </div>
             {/* Content strip */}
-            <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1, justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
                   {project.tags.map(tag => (
@@ -88,7 +88,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               position: 'absolute', inset: 0,
               backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
               transform: 'rotateY(180deg)',
-              background: '#f4f4f5', border: '1px solid #e4e4e7',
+              background: '#f4f4f5',
               borderRadius: '12px', padding: '20px',
               display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
             }}
@@ -348,11 +348,12 @@ export default function ProjectsPage() {
         </div>
       </section>
 
+      {/* TEMPORARILY HIDDEN — Beyond Pixels / Arch + Industrial section */}
       {/* Divider */}
-      <div style={{ borderTop: `1px solid ${T.rule}`, margin: '0 64px 64px' }} />
+      {/* <div style={{ borderTop: `1px solid ${T.rule}`, margin: '0 64px 64px' }} /> */}
 
       {/* ── 03 Arch + Industrial ── */}
-      <section className="proj-section">
+      {/* <section className="proj-section">
         <SectionHeader kicker="Beyond Pixels" title="Arch + Industrial Design" index="03/" />
         <div className="arch-card-grid">
           {archProjects.map((p, i) => (
@@ -384,7 +385,7 @@ export default function ProjectsPage() {
             </motion.div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <footer style={{ borderTop: `1px solid ${T.rule}`, padding: '28px 64px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: T.paper, flexWrap: 'wrap', gap: '12px' }}>

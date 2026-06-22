@@ -534,7 +534,7 @@ function TypewriterHeadline({ onDone }: { onDone?: () => void }) {
         margin: 0,
         fontFamily: 'var(--font-script)',
         textAlign: 'center',
-        color: '#2A3F5C',
+        color: '#121A26',
       }}
     >
       {HEADLINE_LINES.map((_, i) => (
@@ -1574,7 +1574,8 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════════════
             ARCH + INDUSTRIAL — normal scroll
         ═══════════════════════════════════════════════════════════════════ */}
-        <ArchSection />
+        {/* TEMPORARILY HIDDEN — Beyond Pixels / Arch + Industrial section */}
+        {/* <ArchSection /> */}
 
         {/* ═══════════════════════════════════════════════════════════════════
             ABOUT SECTION — normal scroll
