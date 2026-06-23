@@ -24,7 +24,7 @@ const stripedLight = {
   border: `1px solid ${T.rule}`,
 } as const
 
-// ─── Flip card — matches landing page 16:9 layout ──────────────────────────────
+// ─── Case study card — matches home page CaseStudyCard exactly ─────────────────
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [flipped, setFlipped] = useState(false)
   return (
@@ -33,75 +33,78 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.5, delay: index * 0.08, ease }}
-      style={{ perspective: '1200px', cursor: 'pointer', height: '100%' }}
-      onMouseEnter={() => setFlipped(true)}
-      onMouseLeave={() => setFlipped(false)}
+      style={{ height: '100%' }}
     >
-      <Link href={project.directPath} style={{ display: 'block', textDecoration: 'none', height: '100%' }}>
-        <motion.div
-          animate={{ rotateY: flipped ? 180 : 0 }}
-          transition={{ duration: 0.6, ease }}
-          style={{ transformStyle: 'preserve-3d', position: 'relative', height: '100%' }}
-        >
-          {/* FRONT — fills grid cell height */}
-          <div
-            style={{
-              backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
-              background: '#111',
-              borderRadius: '12px', overflow: 'hidden',
-              display: 'flex', flexDirection: 'column', height: '100%',
-            }}
-          >
-            {/* Banner — 16:9 */}
-            <div style={{ width: '100%', aspectRatio: '16/9', flexShrink: 0, overflow: 'hidden', background: '#111' }}>
+      <Link
+        href={project.directPath}
+        style={{ display: 'block', position: 'relative', perspective: '1000px', cursor: 'pointer', textDecoration: 'none', height: '100%' }}
+        onMouseEnter={() => setFlipped(true)}
+        onMouseLeave={() => setFlipped(false)}
+      >
+        <div style={{
+          position: 'relative',
+          transformStyle: 'preserve-3d',
+          transition: 'transform 600ms cubic-bezier(0.22,1,0.36,1)',
+          transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          height: '100%',
+        }}>
+          {/* FRONT — tall image + bottom strip */}
+          <div style={{
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+            background: '#111',
+            border: '1px solid #1a1a1a',
+            borderRadius: '12px',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+          }}>
+            {/* Image fills most of the card */}
+            <div style={{ flex: 1, overflow: 'hidden', background: '#0a0a0a', minHeight: 0 }}>
               {project.banner
                 ? <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.9 }} />
-                : <div style={{ width: '100%', height: '100%', background: 'repeating-linear-gradient(135deg, #1a1a1a 0 8px, transparent 8px 16px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontFamily: T.mono, fontSize: '11px', color: '#3f3f46', textAlign: 'center', padding: '0 24px' }}>{`// ${project.slug}`}</span>
-                  </div>
+                : <div style={{ width: '100%', height: '100%', background: 'repeating-linear-gradient(135deg, #1a1a1a 0 8px, transparent 8px 16px)' }} />
               }
             </div>
-            {/* Content strip */}
-            <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1, justifyContent: 'space-between' }}>
-              <div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
-                  {project.tags.map(tag => (
-                    <span key={tag} style={{ background: '#27272a', color: '#a1a1aa', fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em', padding: '3px 8px', borderRadius: '9999px' }}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <p style={{ color: '#f4f4f5', fontSize: '13px', fontWeight: 500, lineHeight: 1.4, margin: 0, fontFamily: T.sans }}>
-                  {project.title}
-                </p>
+            {/* Bottom strip — tags + title */}
+            <div style={{ padding: '14px 16px', borderTop: '1px solid #1a1a1a', flexShrink: 0 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
+                {project.tags.map(tag => (
+                  <span key={tag} style={{ background: '#27272a', color: '#a1a1aa', fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em', padding: '3px 8px', borderRadius: '9999px' }}>
+                    {tag}
+                  </span>
+                ))}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontFamily: T.mono, fontSize: '10px', color: '#52525b', letterSpacing: '0.05em' }}>{project.year}</span>
-                <span style={{ color: '#52525b', fontSize: '16px' }}>→</span>
-              </div>
+              <p style={{ color: '#f4f4f5', fontSize: '17px', fontWeight: 500, lineHeight: 1.4, margin: 0, fontFamily: T.sans }}>
+                {project.title}
+              </p>
             </div>
           </div>
 
-          {/* BACK — absolutely fills the front face */}
-          <div
-            style={{
-              position: 'absolute', inset: 0,
-              backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
-              transform: 'rotateY(180deg)',
-              background: '#f4f4f5',
-              borderRadius: '12px', padding: '20px',
-              display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-            }}
-          >
+          {/* BACK — description + metrics */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg)',
+            background: '#f4f4f5',
+            border: '1px solid #e4e4e7',
+            borderRadius: '12px',
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}>
             <div>
               <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#71717a', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '8px' }}>
                 {project.company}
               </p>
-              <p style={{ color: '#0B0B0B', fontSize: '13px', lineHeight: 1.6, margin: 0, fontFamily: T.sans }}>
+              <p style={{ color: '#0B0B0B', fontSize: '17px', lineHeight: 1.6, margin: 0, fontFamily: T.sans }}>
                 {project.description}
               </p>
             </div>
-            {/* Metrics */}
             <div style={{ display: 'flex', gap: '24px' }}>
               {project.metrics.map(m => (
                 <div key={m.l}>
@@ -110,7 +113,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 </div>
               ))}
             </div>
-            {/* Tags + arrow */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {project.tags.map(tag => (
@@ -122,7 +124,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               <span style={{ color: '#0B0B0B', fontSize: '16px', flexShrink: 0, marginLeft: '8px' }}>→</span>
             </div>
           </div>
-        </motion.div>
+        </div>
       </Link>
     </motion.div>
   )
@@ -195,21 +197,21 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
 }
 
 // ─── Section header ─────────────────────────────────────────────────────────────
-function SectionHeader({ kicker, title, index }: { kicker: string; title: string; index: string }) {
+function SectionHeader({ kicker, title, index, dark = false }: { kicker: string; title: string; index: string; dark?: boolean }) {
   return (
     <div style={{
       display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
-      borderBottom: `1px solid ${T.rule}`, paddingBottom: '20px', marginBottom: '40px',
+      borderBottom: `1px solid ${dark ? '#1a1a1a' : T.rule}`, paddingBottom: '20px', marginBottom: '40px',
     }}>
       <div>
-        <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+        <p style={{ fontFamily: T.mono, fontSize: '11px', color: dark ? '#52525b' : T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
           {kicker}
         </p>
-        <h2 style={{ fontFamily: T.sans, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 500, color: T.ink, letterSpacing: '-0.02em', lineHeight: 1.05, margin: 0 }}>
+        <h2 style={{ fontFamily: T.sans, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 500, color: dark ? '#ffffff' : T.ink, letterSpacing: '-0.02em', lineHeight: 1.05, margin: 0 }}>
           {title}
         </h2>
       </div>
-      <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
+      <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: dark ? '#1a1a1a' : T.rule, letterSpacing: '-0.03em' }}>
         {index}
       </span>
     </div>
@@ -251,18 +253,19 @@ export default function ProjectsPage() {
         .proj-section { padding: 0 64px 80px; }
         .arch-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .articles-grid { display: flex; flex-direction: column; gap: 12px; }
-        .digital-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+        .digital-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; grid-auto-rows: 552px; }
 
         @media (max-width: 1024px) {
           .pnav { padding: 0 32px; }
           .proj-section { padding: 0 32px 64px; }
           .arch-card-grid { grid-template-columns: repeat(2, 1fr); }
+          .digital-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 640px) {
           .pnav { padding: 0 20px; }
           .proj-section { padding: 0 20px 48px; }
           .arch-card-grid { grid-template-columns: 1fr; }
-          .digital-grid { grid-template-columns: 1fr; }
+          .digital-grid { grid-template-columns: 1fr; grid-auto-rows: 480px; }
         }
       `}</style>
 
@@ -311,8 +314,8 @@ export default function ProjectsPage() {
       </section>
 
       {/* ── 01 Digital Design ── */}
-      <section className="proj-section" style={{ paddingTop: '64px' }}>
-        <SectionHeader kicker="Product & UX" title="Digital Design" index="01/" />
+      <section className="proj-section" style={{ paddingTop: '64px', background: T.dark, borderRadius: '24px 24px 0 0' }}>
+        <SectionHeader kicker="Product & UX" title="Digital Design" index="01/" dark />
         <div className="digital-grid">
           {projects.map((project, i) => (
             <ProjectCard key={project.slug} project={project} index={i} />

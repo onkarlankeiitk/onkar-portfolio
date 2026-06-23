@@ -694,7 +694,7 @@ function TypewriterHeadline({ onDone }: { onDone?: () => void }) {
         letterSpacing: '-0.01em',
         lineHeight: 0.95,
         margin: 0,
-        fontFamily: "'Felipa', cursive",
+        fontFamily: "'Allura', cursive",
         textAlign: 'center',
         color: '#121A26',
       }}
@@ -1520,7 +1520,7 @@ export default function Home() {
         crossOrigin="anonymous"
       />
       <link
-        href="https://fonts.googleapis.com/css2?family=Felipa&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Allura&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet"
       />
       <style>{`
@@ -1555,7 +1555,7 @@ export default function Home() {
             top: 0,
             zIndex: 0,
             height: '100svh',
-            background: T.paper,
+            background: '#ffffff',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
