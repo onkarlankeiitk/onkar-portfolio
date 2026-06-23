@@ -67,6 +67,21 @@ const fallbackImgSrc: Record<string, string> = {
   'Amplitude': '/icons/amplitude.svg',
 }
 
+const webflowSites = [
+  {
+    name: 'Reevo CRM',
+    url: 'https://www.reevocrm.com',
+    description: 'Salesforce Summit Partner — implementations, AI integrations & adoption.',
+    tags: ['CRM', 'B2B'],
+  },
+  {
+    name: 'Catalyst Healthcare',
+    url: 'https://catalysthcc.com',
+    description: 'Regulatory policy advancing innovative healthcare solutions.',
+    tags: ['Healthcare', 'Consulting'],
+  },
+]
+
 const SQUIRCLE_PATH =
   'M 48 0 C 68 0 79 0 85 7 C 92 13 96 24 96 48 C 96 68 96 79 89 85 C 83 92 72 96 48 96 C 28 96 17 96 11 89 C 4 83 0 72 0 48 C 0 28 0 17 7 11 C 13 4 24 0 48 0 Z'
 
@@ -252,6 +267,104 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
 
 // getThumbnail and ARTICLE_QUADRANT_POS imported from @/lib/portfolio-data
 
+// ─── Case Study vertical card ─────────────────────────────────────────────────
+function CaseStudyCard({ project }: { project: typeof projects[0] }) {
+  const [flipped, setFlipped] = useState(false)
+  return (
+    <Link
+      href={project.directPath}
+      style={{ display: 'block', position: 'relative', perspective: '1000px', cursor: 'pointer', textDecoration: 'none', height: '100%' }}
+      onMouseEnter={() => setFlipped(true)}
+      onMouseLeave={() => setFlipped(false)}
+    >
+      <div style={{
+        position: 'relative',
+        transformStyle: 'preserve-3d',
+        transition: 'transform 600ms cubic-bezier(0.22,1,0.36,1)',
+        transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+        height: '100%',
+      }}>
+        {/* FRONT — tall image + tags + title */}
+        <div style={{
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+          background: '#111',
+          border: '1px solid #1a1a1a',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+        }}>
+          {/* Banner — fills most of the card height */}
+          <div style={{ flex: 1, overflow: 'hidden', background: '#0a0a0a', minHeight: 0 }}>
+            {project.banner
+              ? <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.9 }} />
+              : <div style={{ width: '100%', height: '100%', ...stripedDark }} />
+            }
+          </div>
+          {/* Bottom strip — tags + title only */}
+          <div style={{ padding: '14px 16px', borderTop: '1px solid #1a1a1a', flexShrink: 0 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
+              {project.tags.map(tag => (
+                <span key={tag} style={{ background: '#27272a', color: '#a1a1aa', fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em', padding: '3px 8px', borderRadius: '9999px' }}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <p style={{ color: '#f4f4f5', fontSize: '17px', fontWeight: 500, lineHeight: 1.4, margin: 0, fontFamily: T.sans }}>
+              {project.title}
+            </p>
+          </div>
+        </div>
+
+        {/* BACK — full details */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+          transform: 'rotateY(180deg)',
+          background: '#f4f4f5',
+          border: '1px solid #e4e4e7',
+          borderRadius: '12px',
+          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}>
+          <div>
+            <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#71717a', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '8px' }}>
+              {project.company}
+            </p>
+            <p style={{ color: '#0B0B0B', fontSize: '17px', lineHeight: 1.6, margin: 0, fontFamily: T.sans }}>
+              {project.description}
+            </p>
+          </div>
+          <div style={{ display: 'flex', gap: '24px' }}>
+            {project.metrics.map(m => (
+              <div key={m.l}>
+                <p style={{ color: '#0B0B0B', fontSize: '26px', fontWeight: 600, lineHeight: 1, margin: 0, fontFamily: T.sans }}>{m.v}</p>
+                <p style={{ color: '#71717a', fontSize: '11px', margin: '4px 0 0', fontFamily: T.mono }}>{m.l}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+              {project.tags.map(tag => (
+                <span key={tag} style={{ background: '#e4e4e7', color: '#52525b', fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em', padding: '3px 8px', borderRadius: '9999px' }}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <span style={{ color: '#0B0B0B', fontSize: '16px', flexShrink: 0, marginLeft: '8px' }}>→</span>
+          </div>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
 // ─── Article skeleton ──────────────────────────────────────────────────────────
 function ArticleSkeleton() {
   return (
@@ -279,13 +392,13 @@ function ArticleCard({ article, index = 0 }: { article: { title: string; pubDate
       style={{
         display: 'flex',
         gap: '12px',
-        background: hovered ? '#f4f4f5' : '#111',
-        border: `1px solid ${hovered ? '#e4e4e7' : '#1a1a1a'}`,
+        background: hovered ? T.ruleSoft : '#ffffff',
+        border: `1px solid ${T.rule}`,
         borderRadius: '8px',
         padding: '12px',
         textDecoration: 'none',
         cursor: 'pointer',
-        transition: 'border-color 0.2s ease, background 0.2s ease',
+        transition: 'background 0.2s ease',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -301,21 +414,20 @@ function ArticleCard({ article, index = 0 }: { article: { title: string; pubDate
           ...(thumbnail
             ? { backgroundImage: `url(${thumbnail})`, backgroundSize: 'cover', backgroundPosition: 'center' }
             : { backgroundImage: 'url(/article-thumbnails.png)', backgroundSize: '200% 200%', backgroundPosition: ARTICLE_QUADRANT_POS[index % 4] }),
-          border: `1px solid ${hovered ? '#d4d4d8' : '#1a1a1a'}`,
-          transition: 'border-color 0.25s ease',
+          border: `1px solid ${T.rule}`,
         }}
       />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '6px' }}>
-        <p style={{ fontFamily: T.mono, fontSize: '10px', color: hovered ? '#71717a' : '#52525b', letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0, transition: 'color 0.2s' }}>
+        <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0 }}>
           {date}
         </p>
-        <p style={{ color: hovered ? '#0B0B0B' : '#d4d4d8', fontSize: '13px', fontWeight: 500, lineHeight: 1.4, margin: 0, fontFamily: T.sans, transition: 'color 0.2s' }}>
+        <p style={{ color: T.ink, fontSize: '13px', fontWeight: 500, lineHeight: 1.4, margin: 0, fontFamily: T.sans }}>
           {article.title}
         </p>
         {article.tags && article.tags.length > 0 && (
           <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
             {article.tags.slice(0, 2).map(tag => (
-              <span key={tag} style={{ fontFamily: T.mono, fontSize: '9px', color: hovered ? '#52525b' : '#3f3f46', letterSpacing: '0.05em', background: hovered ? '#e4e4e7' : '#1a1a1a', padding: '2px 6px', borderRadius: '9999px', transition: 'all 0.2s' }}>
+              <span key={tag} style={{ fontFamily: T.mono, fontSize: '9px', color: T.inkMute, letterSpacing: '0.05em', background: T.ruleSoft, padding: '2px 6px', borderRadius: '9999px' }}>
                 {tag}
               </span>
             ))}
@@ -323,6 +435,56 @@ function ArticleCard({ article, index = 0 }: { article: { title: string; pubDate
         )}
       </div>
     </a>
+  )
+}
+
+// ─── Medium articles section (below tools in About) ──────────────────────────
+function MediumSection() {
+  const [articles, setArticles] = useState<Array<{ title: string; pubDate: string; link: string; tags?: string[]; publication?: string }>>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/medium')
+      .then(r => r.json())
+      .then(data => {
+        setArticles(Array.isArray(data) ? data.slice(0, 6) : [])
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [])
+
+  return (
+    <div className="medium-section" style={{ borderTop: `1px solid ${T.rule}`, padding: '48px 64px', background: T.paper }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '28px' }}>
+        <h3 style={{ fontFamily: T.sans, fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.025em', lineHeight: 1.05 }}>
+          Medium pen-downs
+        </h3>
+        <a
+          href="https://medium.com/@onkarlanke"
+          target="_blank"
+          rel="noreferrer"
+          style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s', flexShrink: 0, marginLeft: '24px' }}
+          onMouseEnter={e => (e.currentTarget.style.color = T.ink)}
+          onMouseLeave={e => (e.currentTarget.style.color = T.inkMute)}
+        >
+          All articles →
+        </a>
+      </div>
+      <div className="medium-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+        {loading
+          ? Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} style={{ background: T.ruleSoft, border: `1px solid ${T.rule}`, borderRadius: '8px', padding: '12px', display: 'flex', gap: '12px' }}>
+                <div style={{ width: '80px', height: '64px', flexShrink: 0, background: T.rule, borderRadius: '6px' }} />
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', justifyContent: 'center' }}>
+                  <div style={{ height: '10px', background: T.rule, borderRadius: '4px', width: '40%' }} />
+                  <div style={{ height: '12px', background: T.rule, borderRadius: '4px', width: '90%' }} />
+                </div>
+              </div>
+            ))
+          : articles.map((a, i) => <ArticleCard key={i} article={a} index={i} />)
+        }
+      </div>
+    </div>
   )
 }
 
@@ -377,14 +539,14 @@ function WebflowCard({ site }: { site: { name: string; url: string; description:
       </div>
 
       {/* iframe preview */}
-      <div className="webflow-iframe-wrap" style={{ position: 'relative', height: '180px', overflow: 'hidden', background: '#0a0a0a' }}>
+      <div className="webflow-iframe-wrap" style={{ position: 'relative', height: '320px', overflow: 'hidden', background: '#0a0a0a' }}>
         <iframe
           src={site.url}
           title={site.name}
           loading="lazy"
           style={{
             width: '200%',
-            height: '440px',
+            height: '640px',
             border: 'none',
             transform: 'scale(0.5)',
             transformOrigin: 'top left',
@@ -527,12 +689,12 @@ function TypewriterHeadline({ onDone }: { onDone?: () => void }) {
   return (
     <h1
       style={{
-        fontSize: 'clamp(62px, 15vw, 128px)',
+        fontSize: 'clamp(64px, 16vw, 144px)',
         fontWeight: 400,
         letterSpacing: '-0.01em',
         lineHeight: 0.95,
         margin: 0,
-        fontFamily: 'var(--font-script)',
+        fontFamily: "'Felipa', cursive",
         textAlign: 'center',
         color: '#121A26',
       }}
@@ -945,7 +1107,7 @@ function BehanceSection() {
           margin: 0,
           letterSpacing: '-0.02em',
         }}>
-          Behance old work: 2020
+          Previous work on behance
         </h2>
         <a
           href="https://www.behance.net/lankeonkar"
@@ -1263,6 +1425,8 @@ function AboutSection() {
         <ToolsMarquee />
       </div>
 
+      <MediumSection />
+
       {/* ── Sketches band (dark) ── */}
       <div
         style={{
@@ -1314,6 +1478,31 @@ function SkillPill({ label }: { label: string }) {
   )
 }
 
+// ─── Work subsection with hover-orange label ──────────────────────────────────
+function WorkSubSection({ label, children, topPadding = '40px' }: { label: string; children: React.ReactNode; topPadding?: string }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <div
+      style={{ padding: `${topPadding} 48px 0` }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <p style={{
+        fontFamily: T.mono,
+        fontSize: '15px',
+        color: hovered ? '#f97316' : '#52525b',
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase',
+        margin: '0 0 20px',
+        transition: 'color 0.2s ease',
+      }}>
+        {label}
+      </p>
+      {children}
+    </div>
+  )
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Home() {
   const [showUI, setShowUI] = useState(false)
@@ -1331,7 +1520,7 @@ export default function Home() {
         crossOrigin="anonymous"
       />
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Felipa&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet"
       />
       <style>{`
@@ -1436,26 +1625,20 @@ export default function Home() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════════
-            WORK PANEL — dark, slides over hero
-            Wrapper is 200svh so the sticky card is active for 100svh then releases
+            WORK — case studies + webflow builds
         ═══════════════════════════════════════════════════════════════════ */}
-        <div id="work" className="work-wrapper" style={{ height: '200svh' }}>
-        <div
-          id="work-panel"
+        <section
+          id="work"
           style={{
-            position: 'sticky',
-            top: 0,
+            position: 'relative',
             zIndex: 10,
-            height: '100svh',
-            borderRadius: '24px 24px 0 0',
             background: T.dark,
-            overflow: 'hidden',
+            borderRadius: '24px 24px 0 0',
             fontFamily: T.sans,
-            display: 'flex',
-            flexDirection: 'column',
+            paddingBottom: '56px',
           }}
         >
-          {/* Panel header strip */}
+          {/* Header strip */}
           <div
             className="work-panel-header"
             style={{
@@ -1466,29 +1649,12 @@ export default function Home() {
               borderBottom: '1px solid #1a1a1a',
             }}
           >
-            <h2
-              style={{
-                color: '#ffffff',
-                fontFamily: T.sans,
-                fontSize: '28px',
-                fontWeight: 500,
-                margin: 0,
-                letterSpacing: '-0.02em',
-              }}
-            >
+            <h2 style={{ color: '#ffffff', fontFamily: T.sans, fontSize: '28px', fontWeight: 500, margin: 0, letterSpacing: '-0.02em' }}>
               Digital Design
             </h2>
             <Link
               href="/projects"
-              style={{
-                fontFamily: T.mono,
-                fontSize: '11px',
-                color: '#52525b',
-                textDecoration: 'none',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                transition: 'color 0.2s',
-              }}
+              style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#ffffff')}
               onMouseLeave={e => (e.currentTarget.style.color = '#52525b')}
             >
@@ -1496,75 +1662,24 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Three-column grid — fills remaining card height, each col scrolls independently */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1.6fr 1fr',
-              flex: 1,
-              overflow: 'hidden',
-              borderTop: '1px solid #1a1a1a',
-            }}
-            className="work-columns"
-          >
-            {/* ── Column 1: Articles ── */}
-            <ColSection borderRight>
-              {(headingColor) => (
-                <ArticlesColumn headingColor={headingColor} />
-              )}
-            </ColSection>
+          {/* Case Studies — 4 vertical cards */}
+          <WorkSubSection label="Case Studies">
+            <div className="case-studies-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', gridAutoRows: '552px' }}>
+              {projects.map(project => (
+                <CaseStudyCard key={project.slug} project={project} />
+              ))}
+            </div>
+          </WorkSubSection>
 
-            {/* ── Column 2: Case Studies ── */}
-            <ColSection borderRight>
-              {(headingColor) => (
-                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                  <p style={{ fontFamily: T.mono, fontSize: '11px', color: headingColor, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px', transition: 'color 0.2s', flexShrink: 0 }}>
-                    Case Studies
-                  </p>
-                  <div className="flip-cards" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: '12px', flex: 1 }}>
-                    {projects.map(project => (
-                      <FlipCard key={project.slug} project={project} />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </ColSection>
-
-            {/* ── Column 3: Webflow Builds ── */}
-            <ColSection>
-              {(headingColor) => (
-                <>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
-                    <p style={{ fontFamily: T.mono, fontSize: '11px', color: headingColor, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0, transition: 'color 0.2s' }}>
-                      NO-CODE WEBFLOW BUILDS
-                    </p>
-                  </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {[
-                  {
-                    name: 'Reevo CRM',
-                    url: 'https://www.reevocrm.com',
-                    description: 'Salesforce Summit Partner — implementations, AI integrations & adoption.',
-                    tags: ['CRM', 'B2B'],
-                  },
-                  {
-                    name: 'Catalyst Healthcare',
-                    url: 'https://catalysthcc.com',
-                    description: 'Regulatory policy advancing innovative healthcare solutions.',
-                    tags: ['Healthcare', 'Consulting'],
-                  },
-                ].map((item, i) => (
-                  <WebflowCard key={i} site={item} />
-                ))}
-              </div>
-                </>
-              )}
-            </ColSection>
-          </div>
-        </div>
-
-        </div>{/* end work wrapper */}
+          {/* Webflow Builds — 2 columns */}
+          <WorkSubSection label="No-code Webflow Builds" topPadding="80px">
+            <div className="webflow-builds-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              {webflowSites.map((site, i) => (
+                <WebflowCard key={i} site={site} />
+              ))}
+            </div>
+          </WorkSubSection>
+        </section>
 
         {/* ═══════════════════════════════════════════════════════════════════
             BEHANCE ARCHIVE — normal scroll
@@ -1644,35 +1759,28 @@ export default function Home() {
             box-sizing: border-box !important;
           }
 
-          /* Work panel */
+          /* Work section */
           .work-panel-header {
             padding: 20px 24px !important;
           }
-          .work-columns {
-            grid-template-columns: 1fr !important;
-            overflow-y: visible !important;
-            height: auto !important;
+          #work > div {
+            padding-left: 24px !important;
+            padding-right: 24px !important;
           }
-          .work-columns > div {
-            border-right: none !important;
-            border-bottom: 1px solid #1a1a1a;
+          .case-studies-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
           }
-          #work-panel {
-            position: relative !important;
-            height: auto !important;
-            overflow: visible !important;
-          }
-          .work-wrapper {
-            height: auto !important;
-          }
-          .col-section {
-            padding: 20px !important;
-          }
-          .flip-cards {
+          .webflow-builds-grid {
             grid-template-columns: 1fr !important;
           }
           .webflow-iframe-wrap {
             height: 140px !important;
+          }
+          .medium-section {
+            padding: 40px 20px !important;
+          }
+          .medium-grid {
+            grid-template-columns: 1fr !important;
           }
 
           /* Behance */
@@ -1723,12 +1831,12 @@ export default function Home() {
             gap: 16px !important;
           }
 
-          /* Work panel */
+          /* Work section */
           .work-panel-header {
-            padding: 16px 16px !important;
-          }
-          .col-section {
             padding: 16px !important;
+          }
+          .case-studies-grid {
+            grid-template-columns: 1fr !important;
           }
 
           /* Behance */

@@ -310,9 +310,22 @@ export default function ProjectsPage() {
         </p>
       </section>
 
-      {/* ── 01 Articles ── */}
+      {/* ── 01 Digital Design ── */}
       <section className="proj-section" style={{ paddingTop: '64px' }}>
-        <SectionHeader kicker="Writing" title="Articles & Essays" index="01/" />
+        <SectionHeader kicker="Product & UX" title="Digital Design" index="01/" />
+        <div className="digital-grid">
+          {projects.map((project, i) => (
+            <ProjectCard key={project.slug} project={project} index={i} />
+          ))}
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div style={{ borderTop: `1px solid ${T.rule}`, margin: '0 64px 64px' }} />
+
+      {/* ── 02 Articles ── */}
+      <section className="proj-section">
+        <SectionHeader kicker="Writing" title="Articles & Essays" index="02/" />
         {articles.length === 0 ? (
           <div className="articles-grid">
             {Array.from({ length: 4 }).map((_, i) => (
@@ -333,19 +346,6 @@ export default function ProjectsPage() {
             ))}
           </div>
         )}
-      </section>
-
-      {/* Divider */}
-      <div style={{ borderTop: `1px solid ${T.rule}`, margin: '0 64px 64px' }} />
-
-      {/* ── 02 Digital Design ── */}
-      <section className="proj-section">
-        <SectionHeader kicker="Product & UX" title="Digital Design" index="02/" />
-        <div className="digital-grid">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.slug} project={project} index={i} />
-          ))}
-        </div>
       </section>
 
       {/* TEMPORARILY HIDDEN — Beyond Pixels / Arch + Industrial section */}

@@ -1718,7 +1718,8 @@ export default function DILKYCDetail() {
       <StickyNav />
       <Hero />
       <Team />
-      <TheMoment />
+      {/* HIDDEN — restore by changing false to true */}
+      {false && <TheMoment />}
       <Brief />
       <Strategy />
       <Research />
