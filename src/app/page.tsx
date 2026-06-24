@@ -646,126 +646,140 @@ function ArticlesColumn({ headingColor }: { headingColor: string }) {
 }
 
 // ─── Typewriter headline ──────────────────────────────────────────────────────
-const HEADLINE_LINES = ['Observer,', 'Tinkerer,', 'Storyteller.']
+// ─── Hero — Option A: Asymmetric grid (exact from design handoff) ─────────────
+const HERO_ACCENT = '#FF4A1C'
+const HERO_BG     = '#FCFCFA'
+const HERO_INK    = '#141414'
+const HERO_MUTED  = '#8a8a85'
+const HERO_BODY   = '#3a3a36'
+const SPACE_MONO  = "'Space Mono', monospace"
+const HELV        = "'Helvetica Neue', Helvetica, Arial, sans-serif"
 
-function TypewriterHeadline({ onDone }: { onDone?: () => void }) {
-  const [displayed, setDisplayed] = useState<string[]>(['', '', ''])
-  const [cursorLine, setCursorLine] = useState(0)
+const HERO_TAGS = [
+  { n: '01', label: 'Product Development' },
+  { n: '02', label: 'UX Research & Strategy' },
+  { n: '03', label: 'Behavioral Mapping' },
+  { n: '04', label: 'Visual Design' },
+  { n: '05', label: 'GTM' },
+  { n: '06', label: 'Roadmapping' },
+]
 
-  useEffect(() => {
-    let lineIdx = 0
-    let charIdx = 0
-    let cancelled = false
-
-    const type = () => {
-      if (cancelled) return
-      if (lineIdx >= HEADLINE_LINES.length) {
-        setCursorLine(-1)
-        onDone?.()
-        return
-      }
-      const currentLine = HEADLINE_LINES[lineIdx]
-      if (charIdx <= currentLine.length) {
-        setDisplayed(prev => {
-          const next = [...prev]
-          next[lineIdx] = currentLine.slice(0, charIdx)
-          return next
-        })
-        setCursorLine(lineIdx)
-        charIdx++
-        setTimeout(type, 90)
-      } else {
-        lineIdx++
-        charIdx = 0
-        setTimeout(type, 280)
-      }
-    }
-
-    const delay = setTimeout(type, 400)
-    return () => { cancelled = true; clearTimeout(delay) }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
+function HeroSection() {
   return (
-    <h1
+    <section
+      id="hero"
       style={{
-        fontSize: 'clamp(64px, 16vw, 144px)',
-        fontWeight: 400,
-        letterSpacing: '-0.01em',
-        lineHeight: 0.95,
-        margin: 0,
-        fontFamily: "'Allura', cursive",
-        textAlign: 'center',
-        color: '#121A26',
+        position: 'sticky',
+        top: 0,
+        zIndex: 0,
+        height: '100svh',
+        background: HERO_BG,
+        color: HERO_INK,
+        fontFamily: HELV,
+        padding: '72px 80px 64px',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
       }}
     >
-      {HEADLINE_LINES.map((_, i) => (
-        <span key={i} style={{ display: 'block' }}>
-          {displayed[i]}
-          {cursorLine === i && (
-            <span
-              style={{
-                display: 'inline-block',
-                width: '3px',
-                height: '0.8em',
-                background: T.ink,
-                marginLeft: '4px',
-                verticalAlign: 'middle',
-                animation: 'cursorBlink 0.8s step-end infinite',
-              }}
-            />
-          )}
+      {/* ── Top meta bar ── */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        paddingBottom: '18px',
+        borderBottom: `1px solid ${HERO_INK}`,
+        fontFamily: SPACE_MONO,
+        fontSize: '12px',
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase',
+        color: HERO_INK,
+      }}>
+        {/* Left: orange square + name */}
+        <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{ width: '9px', height: '9px', background: HERO_ACCENT, display: 'inline-block', flexShrink: 0 }} />
+          Portfolio — Onkar
         </span>
-      ))}
-    </h1>
+        {/* Center */}
+        <span style={{ color: HERO_MUTED }}>Product &amp; UX</span>
+        {/* Right */}
+        <span>Est. 2020 / 6+ Yrs</span>
+      </div>
+
+      {/* ── Headline block — asymmetric grid ── */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 440px',
+        gap: '48px',
+        alignItems: 'end',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+        padding: '72px 0',
+      }}>
+        {/* Left: greeting + headline */}
+        <div>
+          <div style={{
+            fontFamily: SPACE_MONO,
+            fontSize: 'clamp(14px, 1.25vw, 18px)',
+            letterSpacing: '0.04em',
+            color: HERO_INK,
+            marginBottom: '28px',
+          }}>
+            Hi, I&rsquo;m Onkar
+          </div>
+          <h1 style={{
+            margin: 0,
+            fontFamily: HELV,
+            fontWeight: 600,
+            fontSize: 'clamp(56px, 7.2vw, 104px)',
+            lineHeight: 0.94,
+            letterSpacing: '-0.035em',
+            color: HERO_INK,
+          }}>
+            Observer,<br />
+            Tinkerer<br />
+            <span style={{ color: HERO_ACCENT }}>&amp;</span> Storyteller<span style={{ color: HERO_ACCENT }}>.</span>
+          </h1>
+        </div>
+
+        {/* Right: descriptor */}
+        <p style={{
+          margin: '0 0 12px',
+          fontFamily: HELV,
+          fontSize: 'clamp(16px, 1.46vw, 21px)',
+          lineHeight: 1.45,
+          color: HERO_BODY,
+          maxWidth: '420px',
+        }}>
+          A seasoned professional passionately building user-centric products for business impact for the last{' '}
+          <span style={{ color: HERO_INK, fontWeight: 500 }}>6+ years</span>.
+        </p>
+      </div>
+
+      {/* ── Tags bar ── */}
+      <div style={{
+        borderTop: `1px solid ${HERO_INK}`,
+        paddingTop: '22px',
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '14px 40px',
+        fontFamily: SPACE_MONO,
+        fontSize: '13px',
+        letterSpacing: '0.04em',
+        textTransform: 'uppercase',
+        color: HERO_INK,
+      }}>
+        {HERO_TAGS.map(({ n, label }) => (
+          <span key={n} style={{ display: 'flex', gap: '10px' }}>
+            <span style={{ color: HERO_ACCENT }}>{n}</span>
+            {label}
+          </span>
+        ))}
+      </div>
+    </section>
   )
 }
 
-// ─── Hero CTA with rotating arrow ────────────────────────────────────────────
-function HeroCTA({ href, label, filled }: { href: string; label: string; filled: boolean }) {
-  const [hovered, setHovered] = useState(false)
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '10px',
-        background: filled ? (hovered ? '#ffffff' : '#D04D1F') : 'transparent',
-        color: filled ? (hovered ? '#D04D1F' : '#ffffff') : (hovered ? '#D04D1F' : T.ink),
-        fontFamily: T.sans,
-        fontSize: '15px',
-        fontWeight: 500,
-        padding: filled ? '14px 28px' : '13px 28px',
-        borderRadius: '9999px',
-        textDecoration: 'none',
-        border: filled ? 'none' : `1.5px solid ${hovered ? '#D04D1F' : T.rule}`,
-        transition: 'background 0.25s, color 0.25s, border-color 0.25s',
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {label}
-      {/* Arrow: 45° at rest, 0° on hover */}
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 14 14"
-        fill="none"
-        style={{
-          transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1)',
-          transform: hovered ? 'rotate(0deg)' : 'rotate(-45deg)',
-          flexShrink: 0,
-        }}
-      >
-        <line x1="1" y1="7" x2="13" y2="7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <polyline points="8,2 13,7 8,12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </a>
-  )
-}
 
 // ─── Corner registration mark ─────────────────────────────────────────────────
 function RegMark({ style }: { style: React.CSSProperties }) {
@@ -1505,7 +1519,7 @@ function WorkSubSection({ label, children, topPadding = '40px' }: { label: strin
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Home() {
-  const [showUI, setShowUI] = useState(false)
+  const [showUI] = useState(true)
 
   return (
     <>
@@ -1520,7 +1534,7 @@ export default function Home() {
         crossOrigin="anonymous"
       />
       <link
-        href="https://fonts.googleapis.com/css2?family=Allura&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Allura&family=Quicksand:wght@400;500;600&family=Felipa&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=JetBrains+Mono:wght@400;500&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet"
       />
       <style>{`
@@ -1528,11 +1542,7 @@ export default function Home() {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
         }
-        @keyframes cursorBlink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-        @keyframes orangePulse {
+@keyframes orangePulse {
           0%, 100% { opacity: 1; box-shadow: 0 0 6px #D04D1F; }
           50% { opacity: 0.35; box-shadow: 0 0 2px #D04D1F; }
         }
@@ -1543,86 +1553,12 @@ export default function Home() {
 
       <main style={{ background: T.dark }}>
         {/* Spacer blocks give each sticky section its own scroll budget */}
-        {showUI && <Nav />}
+        {/* {showUI && <Nav />} */}
 
         {/* ═══════════════════════════════════════════════════════════════════
-            HERO — sticky, light paper bg
+            HERO — sticky, white bg, editorial layout
         ═══════════════════════════════════════════════════════════════════ */}
-        <section
-          id="hero"
-          style={{
-            position: 'sticky',
-            top: 0,
-            zIndex: 0,
-            height: '100svh',
-            background: '#ffffff',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: '0 80px',
-            fontFamily: T.sans,
-          }}
-        >
-          {/* Ghost display word — scaled down on mobile */}
-          <div
-            aria-hidden
-            className="hero-ghost"
-            style={{
-              position: 'absolute',
-              bottom: '-10%',
-              right: '-2%',
-              fontSize: 'clamp(80px, 28vw, 340px)',
-              fontWeight: 600,
-              color: T.ruleSoft,
-              lineHeight: 1,
-              letterSpacing: '-0.04em',
-              pointerEvents: 'none',
-              userSelect: 'none',
-              zIndex: 0,
-              fontFamily: T.sans,
-            }}
-          >
-            Design
-          </div>
-
-          {/* Registration marks — hidden on mobile */}
-          <div className="hero-decor" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-            <RegMark style={{ top: '32px', left: '32px' }} />
-            <RegMark style={{ top: '32px', right: '32px' }} />
-            <RegMark style={{ bottom: '32px', left: '32px' }} />
-            <RegMark style={{ bottom: '32px', right: '32px' }} />
-            <div aria-hidden style={{ position: 'absolute', left: '32px', top: '50%', transform: 'translateY(-50%)', color: T.rule, fontSize: '18px', lineHeight: 1, userSelect: 'none' }}>+</div>
-            <div aria-hidden style={{ position: 'absolute', right: '32px', top: '50%', transform: 'translateY(-50%)', color: T.rule, fontSize: '18px', lineHeight: 1, userSelect: 'none' }}>+</div>
-          </div>
-
-          {/* Main content */}
-          <div
-            className="hero-content"
-            style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '46px', marginTop: '40px' }}
-          >
-            {/* Main headline — triggers showUI when done */}
-            <TypewriterHeadline onDone={() => setShowUI(true)} />
-
-            {/* CTA pills — always in DOM, fades in after typewriter */}
-            <div
-              className="hero-ctas"
-              style={{
-                display: 'flex',
-                gap: '12px',
-                flexWrap: 'wrap',
-                justifyContent: 'center',
-                opacity: showUI ? 1 : 0,
-                transition: 'opacity 0.7s ease-out 0.2s',
-              }}
-            >
-              <HeroCTA href="/#work" label="View work" filled />
-              <HeroCTA href="https://www.linkedin.com/in/onkarlanke/" label="Connect on LinkedIn" filled={false} />
-            </div>
-          </div>
-
-        </section>
+        <HeroSection />
 
         {/* ═══════════════════════════════════════════════════════════════════
             WORK — case studies + webflow builds
@@ -1663,7 +1599,7 @@ export default function Home() {
           </div>
 
           {/* Case Studies — 4 vertical cards */}
-          <WorkSubSection label="Case Studies">
+          <WorkSubSection label="UX Case Studies">
             <div className="case-studies-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', gridAutoRows: '552px' }}>
               {projects.map(project => (
                 <CaseStudyCard key={project.slug} project={project} />

@@ -315,7 +315,7 @@ export default function ProjectsPage() {
 
       {/* ── 01 Digital Design ── */}
       <section className="proj-section" style={{ paddingTop: '64px', background: T.dark, borderRadius: '24px 24px 0 0' }}>
-        <SectionHeader kicker="Product & UX" title="Digital Design" index="01/" dark />
+        <SectionHeader kicker="UX Case Studies" title="Digital Design" index="01/" dark />
         <div className="digital-grid">
           {projects.map((project, i) => (
             <ProjectCard key={project.slug} project={project} index={i} />
