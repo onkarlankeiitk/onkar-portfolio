@@ -36,7 +36,7 @@ function SectionLabel({ children, light }: { children: React.ReactNode; light?: 
 }
 
 function Divider({ dark }: { dark?: boolean }) {
-  return <div className={`border-t my-16 ${dark ? 'border-zinc-800' : 'border-zinc-100'}`} />
+  return <div className={`border-t my-20 md:my-28 ${dark ? 'border-zinc-800' : 'border-zinc-100'}`} />
 }
 
 // ProcessImage — activate by setting src to a real path
@@ -131,7 +131,7 @@ function Hero() {
       }} />
 
       {/* Row 1: Back + Tags */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-8 pb-5">
+      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-16 md:pt-20 pb-6 md:pb-8 flex-wrap gap-3">
         <Link href="/#work" className="flex items-center gap-2 text-zinc-500 text-xs hover:text-purple-400 transition-colors">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
@@ -148,7 +148,7 @@ function Hero() {
       {/* Row 2: Headline + description — ABOVE banner */}
       <motion.div
         initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-        className="relative z-10 px-8 md:px-16 lg:px-24 pb-5"
+        className="relative z-10 px-8 md:px-16 lg:px-24 pb-8 md:pb-12"
       >
         <p className="text-purple-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">frankieOne · 2024</p>
         <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
@@ -176,7 +176,7 @@ function Hero() {
       {/* Row 4: Meta — BELOW banner */}
       <motion.div
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-        className="relative z-10 flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-5 border-t border-zinc-800"
+        className="relative z-10 flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-6 md:py-10 border-t border-zinc-800"
       >
         {[
           { label: 'Client',    value: 'frankieOne' },
@@ -197,7 +197,7 @@ function Hero() {
 // ─── SECTION: BRIEF ───────────────────────────────────────────────────────────
 function Brief() {
   return (
-    <section id="brief" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="brief" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>01 — The Brief</SectionLabel>
@@ -283,7 +283,7 @@ function Strategy() {
   ]
 
   return (
-    <section id="strategy" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="strategy" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel light>02 — Product Strategy</SectionLabel>
@@ -388,7 +388,7 @@ function Research() {
   ]
 
   return (
-    <section id="research" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="research" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>03 — User Research</SectionLabel>
@@ -538,7 +538,7 @@ function Benchmarking() {
   ]
 
   return (
-    <section id="benchmark" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="benchmark" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>04 — Benchmarking</SectionLabel>
@@ -611,7 +611,7 @@ function DesignSystem() {
   ]
 
   return (
-    <section id="system" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="system" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel light>05 — Design System</SectionLabel>
@@ -731,7 +731,7 @@ function DesignSystem() {
 // ─── SECTION: CANVAS DESIGN ───────────────────────────────────────────────────
 function CanvasDesign() {
   return (
-    <section id="canvas" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="canvas" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>06 — Canvas Design</SectionLabel>
@@ -884,7 +884,7 @@ function HiFi() {
   ]
 
   return (
-    <section id="hifi" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="hifi" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>07 — High-Fidelity UI</SectionLabel>
@@ -960,7 +960,7 @@ function HiFi() {
 // ─── SECTION: GOVERNANCE ──────────────────────────────────────────────────────
 function Governance() {
   return (
-    <section id="govern" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="govern" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel light>08 — Governance Layer</SectionLabel>
@@ -1082,7 +1082,7 @@ function Reflection() {
   ]
 
   return (
-    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>09 — Findings & Reflection</SectionLabel>
@@ -1193,7 +1193,7 @@ function FooterCTA() {
 export default function FrankieOneDetail() {
   return (
     <main className="antialiased" style={{ backgroundColor: DARK }}>
-      <Nav />
+      {/* <Nav /> */}
       <StickyNav />
       <Hero />
       <Brief />

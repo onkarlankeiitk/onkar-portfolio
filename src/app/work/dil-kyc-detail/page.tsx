@@ -35,7 +35,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 function Divider() {
-  return <div className="border-t border-zinc-100 my-16" />
+  return <div className="border-t border-zinc-100 my-20 md:my-28" />
 }
 
 // ProcessImage — shows real image when src is set, placeholder otherwise
@@ -134,14 +134,14 @@ function Hero() {
       }} />
 
       {/* Row 1: Back + Tags */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-8 pb-5">
+      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-16 md:pt-20 pb-6 md:pb-8 flex-wrap gap-3">
         <Link href="/#work" className="flex items-center gap-2 text-zinc-400 text-xs hover:text-green-400 transition-colors">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
           Back to work
         </Link>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap justify-end">
           {['UX Design', 'Enterprise', 'Bullion'].map(t => (
             <span key={t} className="inline-block text-xs px-3 py-1 rounded-full border border-green-500/30 bg-green-500/10 text-green-300 font-medium">{t}</span>
           ))}
@@ -151,7 +151,7 @@ function Hero() {
       {/* Row 2: Headline + description */}
       <motion.div
         initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-        className="relative z-10 px-8 md:px-16 lg:px-24 pb-5"
+        className="relative z-10 px-8 md:px-16 lg:px-24 pb-8 md:pb-12"
       >
         <p className="text-green-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">Diamond India Limited</p>
         <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight">
@@ -173,7 +173,7 @@ function Hero() {
       {/* Row 4: Meta */}
       <motion.div
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-        className="relative z-10 flex flex-wrap items-center justify-between gap-6 px-8 md:px-16 lg:px-24 py-5 border-t border-zinc-800"
+        className="relative z-10 flex flex-wrap items-center justify-between gap-6 px-8 md:px-16 lg:px-24 py-6 md:py-10 border-t border-zinc-800"
       >
         <div className="flex flex-wrap gap-8">
           {[
@@ -199,7 +199,7 @@ function Hero() {
 // ─── SECTION: THE MOMENT ──────────────────────────────────────────────────────
 function TheMoment() {
   return (
-    <section id="moment" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="moment" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>00 — The Moment</SectionLabel>
@@ -254,7 +254,7 @@ function TheMoment() {
 // ─── SECTION: BRIEF ───────────────────────────────────────────────────────────
 function Brief() {
   return (
-    <section id="brief" className="px-8 md:px-16 lg:px-24 py-28 bg-[#f9f9f7]">
+    <section id="brief" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>01 — The Brief</SectionLabel>
@@ -327,7 +327,7 @@ function Strategy() {
   ]
 
   return (
-    <section id="strategy" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="strategy" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>02 — Brand Strategy</SectionLabel>
@@ -465,7 +465,7 @@ function Research() {
   ]
 
   return (
-    <section id="research" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="research" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>03 — User Research</SectionLabel>
@@ -549,7 +549,7 @@ function Research() {
 // ─── SECTION: PERSONAS ────────────────────────────────────────────────────────
 function Personas() {
   return (
-    <section id="personas" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="personas" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>04 — Personas & Empathy Maps</SectionLabel>
@@ -747,7 +747,7 @@ function JourneyMaps() {
   ]
 
   return (
-    <section id="journey" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="journey" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>05 — Journey Maps</SectionLabel>
@@ -865,7 +865,7 @@ function IA() {
   ]
 
   return (
-    <section id="ia" className="px-8 md:px-16 lg:px-24 py-28 bg-[#f9f9f7]">
+    <section id="ia" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>06 — Information Architecture</SectionLabel>
@@ -989,7 +989,7 @@ function KYCFlow() {
   ]
 
   return (
-    <section id="kyc" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="kyc" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>07 — KYC Portal Design</SectionLabel>
@@ -1115,7 +1115,7 @@ function Dashboard() {
   ]
 
   return (
-    <section id="dashboard" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="dashboard" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>08 — Staff Dashboard</SectionLabel>
@@ -1198,7 +1198,7 @@ function Dashboard() {
 // ─── SECTION: KYC RENEWAL ────────────────────────────────────────────────────
 function Renewal() {
   return (
-    <section id="renewal" className="px-8 md:px-16 lg:px-24 py-28 bg-[#f9f9f7]">
+    <section id="renewal" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>09 — KYC Renewal</SectionLabel>
@@ -1357,7 +1357,7 @@ function Communications() {
   }
 
   return (
-    <section id="comms" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="comms" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>10 — Communications Design</SectionLabel>
@@ -1455,7 +1455,7 @@ const STATUS_STYLE: Record<string, string> = {
 
 function QADelivery() {
   return (
-    <section id="qa" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="qa" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>11 — QA & Delivery</SectionLabel>
@@ -1571,7 +1571,7 @@ function Reflection() {
   ]
 
   return (
-    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>12 — Findings & Reflection</SectionLabel>
@@ -1714,7 +1714,7 @@ function FooterCTA() {
 export default function DILKYCDetail() {
   return (
     <main className="bg-white text-zinc-900 antialiased">
-      <Nav />
+      {/* <Nav /> */}
       <StickyNav />
       <Hero />
       <Team />

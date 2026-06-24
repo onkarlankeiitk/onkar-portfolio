@@ -454,8 +454,8 @@ function MediumSection() {
   }, [])
 
   return (
-    <div className="medium-section" style={{ borderTop: `1px solid ${T.rule}`, padding: '48px 64px', background: T.paper }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '28px' }}>
+    <div className="medium-section" style={{ borderTop: `1px solid ${T.rule}`, padding: '72px 80px', background: T.paper }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '40px' }}>
         <h3 style={{ fontFamily: T.sans, fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.025em', lineHeight: 1.05 }}>
           Medium pen-downs
         </h3>
@@ -678,6 +678,48 @@ const HERO_LINES: CharDef[][] = [
   ],
 ]
 
+function HeroCTA({ href, label, external }: { href: string; label: string; external?: boolean }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <a
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noreferrer' : undefined}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '10px',
+        fontFamily: SPACE_MONO,
+        fontSize: '11px',
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        textDecoration: 'none',
+        color: hovered ? HERO_ACCENT : HERO_INK,
+        background: 'none',
+        border: 'none',
+        padding: '10px 0',
+        cursor: 'pointer',
+        transition: 'color 0.2s ease',
+        borderBottom: `1px solid ${hovered ? HERO_ACCENT : HERO_INK}`,
+        width: 'fit-content',
+      }}
+    >
+      {label}
+      <span style={{
+        display: 'inline-block',
+        fontSize: '13px',
+        lineHeight: 1,
+        transform: hovered ? 'rotate(0deg)' : 'rotate(-45deg)',
+        transition: 'transform 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
+      }}>
+        →
+      </span>
+    </a>
+  )
+}
+
 function HeroSection() {
   // revealed[i] = number of chars shown for line i
   const [revealed, setRevealed]     = useState([0, 0, 0])
@@ -739,7 +781,7 @@ function HeroSection() {
       }}
     >
       {/* ── Top meta bar — fades in after typing ── */}
-      <div style={{
+      <div className="hero-meta-bar" style={{
         ...fadeIn,
         display: 'flex',
         justifyContent: 'space-between',
@@ -761,7 +803,7 @@ function HeroSection() {
       </div>
 
       {/* ── Headline block — asymmetric grid ── */}
-      <div style={{
+      <div className="hero-grid" style={{
         display: 'grid',
         gridTemplateColumns: '1fr 440px',
         gap: '48px',
@@ -781,7 +823,7 @@ function HeroSection() {
             lineHeight: 0.94,
             letterSpacing: '-0.035em',
             color: HERO_INK,
-            minHeight: '3em', // prevent layout shift while typing
+            minHeight: '2.82em', // 3 lines × lineHeight 0.94 — prevents layout shift without dead space below
           }}>
             {HERO_LINES.map((line, li) => (
               <span key={li} style={{ display: 'block' }}>
@@ -808,7 +850,7 @@ function HeroSection() {
         </div>
 
         {/* Right: greeting + descriptor — fades in after done */}
-        <div style={{ ...fadeIn, transitionDelay: done ? '0.1s' : '0s', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="hero-right-col" style={{ ...fadeIn, transitionDelay: done ? '0.1s' : '0s', display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'flex-end' }}>
           <div style={{
             fontFamily: SPACE_MONO,
             fontSize: 'clamp(14px, 1.25vw, 18px)',
@@ -818,21 +860,27 @@ function HeroSection() {
             Hi, I&rsquo;m Onkar
           </div>
           <p style={{
-          margin: '0 0 12px',
-          fontFamily: HELV,
-          fontSize: 'clamp(16px, 1.46vw, 21px)',
-          lineHeight: 1.45,
-          color: HERO_BODY,
-          maxWidth: '420px',
-        }}>
-          A seasoned professional passionately building user-centric products for business impact for the last{' '}
-          <span style={{ color: HERO_INK, fontWeight: 500 }}>6+ years</span>.
+            margin: 0,
+            fontFamily: HELV,
+            fontSize: 'clamp(16px, 1.46vw, 21px)',
+            lineHeight: 1.45,
+            color: HERO_BODY,
+            maxWidth: '420px',
+          }}>
+            A seasoned professional passionately building user-centric products for business impact for the last{' '}
+            <span style={{ color: HERO_INK, fontWeight: 500 }}>6+ years</span>.
           </p>
+
+          {/* CTA buttons */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginTop: '8px' }}>
+            <HeroCTA href="/ONKAR_LANKE.pdf" label="View resume" external />
+            <HeroCTA href="https://www.linkedin.com/in/onkarlanke/" label="Connect on LinkedIn" external />
+          </div>
         </div>
       </div>
 
       {/* ── Tags bar — fades in after done ── */}
-      <div style={{
+      <div className="hero-tags-bar" style={{
         ...fadeIn,
         transitionDelay: done ? '0.2s' : '0s',
         borderTop: `1px solid ${HERO_INK}`,
@@ -1176,7 +1224,7 @@ function BehanceSection() {
         position: 'relative',
         zIndex: 2,
         background: '#0A0A0A',
-        padding: '56px 48px',
+        padding: '80px 64px',
         borderTop: '1px solid #1a1a1a',
         fontFamily: T.sans,
       }}
@@ -1188,8 +1236,8 @@ function BehanceSection() {
         justifyContent: 'space-between',
         alignItems: 'center',
         borderBottom: '1px solid #1a1a1a',
-        paddingBottom: '24px',
-        marginBottom: '32px',
+        paddingBottom: '32px',
+        marginBottom: '48px',
       }}>
         <h2 style={{
           color: '#ffffff',
@@ -1351,7 +1399,7 @@ function AboutSection() {
       {/* Chrome strip */}
       <div
         style={{
-          padding: '28px 64px',
+          padding: '40px 80px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'baseline',
@@ -1376,14 +1424,14 @@ function AboutSection() {
         style={{
           display: 'grid',
           gridTemplateColumns: '1.2fr 0.8fr',
-          gap: '64px',
-          padding: '48px 64px 56px',
+          gap: '80px',
+          padding: '72px 80px 80px',
           position: 'relative',
           zIndex: 1,
         }}
       >
         {/* ── Left column ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
           {/* Headline */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1421,13 +1469,10 @@ function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease }}
-            style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '48ch' }}
+            style={{ maxWidth: '48ch' }}
           >
             <p style={{ fontSize: '18px', color: '#3D3D38', lineHeight: 1.65, margin: 0 }}>
               I&apos;m an engineer turned designer obsessed with forms, shapes, materials, interactions, & technology. I believe these are the ingredients of good, successful design. I bring research to the forefront &amp; ship products with intentional design experiences. &lsquo;Good Design shapes you&rsquo; — I have experienced that first hand.
-            </p>
-            <p style={{ fontSize: '18px', color: '#3D3D38', lineHeight: 1.65, margin: 0 }}>
-              Fundamentally, I believe I&apos;m a craftsman. I have worked with various brands and startups to work on their products/service, digging on users to find undefined behavioral patterns and hidden pain points, analysed workflows and made changes to achieve desired results like engagement, revenue boost, or impact. I also contributed in building teams and aided in hiring right design talent. I&apos;m looking for following roles: <em style={{ fontStyle: 'normal', color: T.ink, fontWeight: 500 }}>Product Lead, Innovation Manager, Product Manager</em> as my next phase of career.
             </p>
           </motion.div>
 
@@ -1448,7 +1493,7 @@ function AboutSection() {
             }}
           >
             {stats.map((s, i) => (
-              <div key={i} style={{ background: T.paper, padding: '18px 20px' }}>
+              <div key={i} style={{ background: T.paper, padding: '24px 28px' }}>
                 <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: T.ink, margin: '0 0 3px', lineHeight: 1 }}>
                   <CountUp target={s.value} suffix={s.suffix} />
                 </p>
@@ -1502,16 +1547,128 @@ function AboutSection() {
         </motion.div>
       </div>
 
+      {/* ── Services section ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease }}
+        style={{ borderTop: `1px solid ${T.rule}`, background: T.paper }}
+      >
+        {/* Header row */}
+        <div className="services-header" style={{
+          padding: '40px 80px 36px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          borderBottom: `1px solid ${T.rule}`,
+        }}>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
+            Services I provide
+          </p>
+          <span style={{ fontFamily: T.mono, fontSize: '11px', color: T.rule, letterSpacing: '0.08em' }}>03 disciplines</span>
+        </div>
+
+        {/* Three-column service grid */}
+        <div className="services-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
+          {[
+            {
+              index: '01',
+              title: 'UX Design',
+              items: [
+                'Research & strategy',
+                'Usability testing',
+                'Analytics',
+                'Workflow creation & optimisation',
+                'Human factors & ergonomics',
+                'Visual design',
+              ],
+            },
+            {
+              index: '02',
+              title: 'AI',
+              items: [
+                'Working prototypes',
+                'Testing & evaluation',
+                'Feedback loops',
+                'Deployment',
+              ],
+            },
+            {
+              index: '03',
+              title: 'Industrial Design',
+              items: [
+                'Product market & user studies',
+                'Concept generation',
+                'Sketching & modelling',
+                'Prototype engineering',
+                'Ergonomics & usability engineering',
+              ],
+            },
+          ].map((service, i) => (
+            <div
+              key={service.index}
+              style={{
+                padding: '40px 48px 48px',
+                borderRight: i < 2 ? `1px solid ${T.rule}` : 'none',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '24px',
+              }}
+            >
+              {/* Index + title */}
+              <div>
+                <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', margin: '0 0 10px' }}>
+                  {service.index}
+                </p>
+                <h3 style={{
+                  fontFamily: T.sans,
+                  fontSize: 'clamp(22px, 2vw, 32px)',
+                  fontWeight: 500,
+                  letterSpacing: '-0.025em',
+                  lineHeight: 1.05,
+                  color: T.ink,
+                  margin: 0,
+                }}>
+                  {service.title}
+                </h3>
+              </div>
+
+              {/* Item list */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0px', borderTop: `1px solid ${T.rule}`, paddingTop: '20px' }}>
+                {service.items.map((item, j) => (
+                  <div
+                    key={j}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'baseline',
+                      gap: '10px',
+                      padding: '9px 0',
+                      borderBottom: `1px solid ${T.ruleSoft}`,
+                    }}
+                  >
+                    <span style={{ fontFamily: T.mono, fontSize: '9px', color: T.inkMute, letterSpacing: '0.06em', flexShrink: 0, marginTop: '1px' }}>—</span>
+                    <span style={{ fontFamily: T.sans, fontSize: '14px', color: '#3D3D38', lineHeight: 1.4, letterSpacing: '-0.005em' }}>
+                      {item}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
       {/* ── Tools band ── */}
       <div
         style={{
           borderTop: `1px solid ${T.rule}`,
-          padding: '40px 0 36px',
+          padding: '64px 0 56px',
           overflow: 'hidden',
           background: T.paper,
         }}
       >
-        <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 20px', padding: '0 64px' }}>
+        <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 32px', padding: '0 80px' }}>
           Tools I use
         </p>
         <ToolsMarquee />
@@ -1524,13 +1681,13 @@ function AboutSection() {
         style={{
           background: T.dark,
           borderTop: `1px solid ${T.rule}`,
-          paddingTop: '48px',
-          paddingBottom: '48px',
+          paddingTop: '72px',
+          paddingBottom: '72px',
           overflow: 'hidden',
         }}
       >
         {/* Sketches header */}
-        <div style={{ padding: '0 64px 32px' }}>
+        <div style={{ padding: '0 80px 48px' }}>
           <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
             Raw sketches &amp; explorations
           </p>
@@ -1571,11 +1728,11 @@ function SkillPill({ label }: { label: string }) {
 }
 
 // ─── Work subsection with hover-orange label ──────────────────────────────────
-function WorkSubSection({ label, children, topPadding = '40px' }: { label: string; children: React.ReactNode; topPadding?: string }) {
+function WorkSubSection({ label, children, topPadding = '56px' }: { label: string; children: React.ReactNode; topPadding?: string }) {
   const [hovered, setHovered] = useState(false)
   return (
     <div
-      style={{ padding: `${topPadding} 48px 0` }}
+      style={{ padding: `${topPadding} 64px 0` }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -1653,14 +1810,14 @@ export default function Home() {
             background: T.dark,
             borderRadius: '24px 24px 0 0',
             fontFamily: T.sans,
-            paddingBottom: '56px',
+            paddingBottom: '80px',
           }}
         >
           {/* Header strip */}
           <div
             className="work-panel-header"
             style={{
-              padding: '32px 48px',
+              padding: '40px 64px',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -1690,7 +1847,7 @@ export default function Home() {
           </WorkSubSection>
 
           {/* Webflow Builds — 2 columns */}
-          <WorkSubSection label="No-code Webflow Builds" topPadding="80px">
+          <WorkSubSection label="No-code Webflow Builds" topPadding="96px">
             <div className="webflow-builds-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               {webflowSites.map((site, i) => (
                 <WebflowCard key={i} site={site} />
@@ -1749,37 +1906,37 @@ export default function Home() {
 
         /* ── Tablet (≤768px) ── */
         @media (max-width: 768px) {
-          /* Hero */
+          /* Hero — proper top padding to clear floating nav */
           #hero {
-            padding: 0 24px !important;
-            justify-content: center !important;
+            padding: 88px 24px 36px !important;
           }
-          .hero-decor {
+          /* Hero inner grid — stack headline above description */
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+            padding: 28px 0 24px !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+          }
+          /* Hero meta bar — smaller font, allow wrap */
+          .hero-meta-bar {
+            font-size: 10px !important;
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+          }
+          /* Hide middle meta item on small screens */
+          .hero-meta-bar > span:nth-child(2) {
             display: none !important;
           }
-          .hero-ghost {
-            right: -10% !important;
-            bottom: -5% !important;
-          }
-          .hero-content {
-            gap: 20px !important;
-            margin-top: 0 !important;
-            width: 100% !important;
-          }
-          .hero-ctas {
-            flex-direction: column !important;
-            width: 100% !important;
-            align-items: stretch !important;
-          }
-          .hero-ctas a {
-            justify-content: center !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
+          /* Hero tags bar — tighter gap, 3-per-row */
+          .hero-tags-bar {
+            gap: 12px 24px !important;
+            justify-content: flex-start !important;
           }
 
           /* Work section */
           .work-panel-header {
-            padding: 20px 24px !important;
+            padding: 24px 24px !important;
           }
           #work > div {
             padding-left: 24px !important;
@@ -1795,7 +1952,7 @@ export default function Home() {
             height: 140px !important;
           }
           .medium-section {
-            padding: 40px 20px !important;
+            padding: 56px 24px !important;
           }
           .medium-grid {
             grid-template-columns: 1fr !important;
@@ -1803,7 +1960,7 @@ export default function Home() {
 
           /* Behance */
           .behance-section {
-            padding: 40px 20px !important;
+            padding: 56px 24px !important;
           }
           .behance-grid {
             grid-template-columns: repeat(2, 1fr) !important;
@@ -1811,7 +1968,7 @@ export default function Home() {
 
           /* Arch */
           #arch {
-            padding: 48px 20px !important;
+            padding: 56px 24px !important;
           }
           .arch-disciplines {
             flex-wrap: wrap !important;
@@ -1826,16 +1983,32 @@ export default function Home() {
 
           /* About */
           .about-inner {
-            padding: 32px 20px !important;
+            padding: 48px 24px !important;
             grid-template-columns: 1fr !important;
-            gap: 32px !important;
+            gap: 48px !important;
           }
           .stats-row {
             grid-template-columns: repeat(2, 1fr) !important;
           }
           #about > div:last-child {
-            padding-left: 20px !important;
-            padding-right: 20px !important;
+            padding-left: 24px !important;
+            padding-right: 24px !important;
+          }
+
+          /* Services */
+          .services-header {
+            padding: 32px 24px 28px !important;
+          }
+          .services-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .services-grid > div {
+            border-right: none !important;
+            border-bottom: 1px solid var(--rule, #D9D6CE);
+            padding: 32px 24px !important;
+          }
+          .services-grid > div:last-child {
+            border-bottom: none !important;
           }
         }
 
@@ -1843,15 +2016,19 @@ export default function Home() {
         @media (max-width: 480px) {
           /* Hero */
           #hero {
-            padding: 0 16px !important;
+            padding: 80px 18px 28px !important;
           }
-          .hero-content {
-            gap: 16px !important;
+          .hero-grid {
+            gap: 20px !important;
+            padding: 20px 0 16px !important;
+          }
+          .hero-tags-bar {
+            gap: 10px 16px !important;
           }
 
           /* Work section */
           .work-panel-header {
-            padding: 16px !important;
+            padding: 20px 18px !important;
           }
           .case-studies-grid {
             grid-template-columns: 1fr !important;
@@ -1859,7 +2036,7 @@ export default function Home() {
 
           /* Behance */
           .behance-section {
-            padding: 32px 16px !important;
+            padding: 48px 18px !important;
           }
           .behance-grid {
             grid-template-columns: 1fr !important;
@@ -1867,7 +2044,7 @@ export default function Home() {
 
           /* Arch */
           #arch {
-            padding: 40px 16px !important;
+            padding: 48px 18px !important;
           }
           .arch-projects {
             grid-template-columns: 1fr !important;
@@ -1875,14 +2052,19 @@ export default function Home() {
 
           /* About */
           .about-inner {
-            padding: 28px 16px !important;
+            padding: 40px 18px !important;
           }
           .stats-row {
             grid-template-columns: repeat(2, 1fr) !important;
           }
           #about > div:last-child {
-            padding-left: 16px !important;
-            padding-right: 16px !important;
+            padding-left: 18px !important;
+            padding-right: 18px !important;
+          }
+
+          /* Services */
+          .services-grid > div {
+            padding: 28px 18px !important;
           }
         }
       `}</style>

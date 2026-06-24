@@ -95,7 +95,7 @@ function Hero() {
       }} />
 
       {/* Row 1: Back + Tags */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-8 pb-5 flex-wrap gap-3">
+      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-16 md:pt-20 pb-6 md:pb-8 flex-wrap gap-3">
         <Link
           href="/#work"
           className="flex items-center gap-2 text-zinc-400 text-xs transition-colors hover:text-orange-400"
@@ -121,7 +121,7 @@ function Hero() {
       {/* Row 2: Headline + subline */}
       <motion.div
         initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-        className="relative z-10 px-8 md:px-16 lg:px-24 pb-6"
+        className="relative z-10 px-8 md:px-16 lg:px-24 pb-8 md:pb-12"
       >
         <p className="text-xs tracking-[0.22em] uppercase font-medium mb-3" style={{ color: ACCENT }}>
           {cs.client}
@@ -150,7 +150,7 @@ function Hero() {
       {/* Row 4: Meta strip */}
       <motion.div
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-        className="relative z-10 flex flex-wrap items-center gap-8 px-8 md:px-16 lg:px-24 py-5 border-t border-zinc-800"
+        className="relative z-10 flex flex-wrap items-center gap-8 px-8 md:px-16 lg:px-24 py-6 md:py-10 border-t border-zinc-800"
       >
         {[
           { label: 'Client',   value: cs.client },
@@ -172,7 +172,7 @@ function Hero() {
 export default function ResearchStrategyPage() {
   return (
     <main className="bg-white">
-      <Nav />
+      {/* <Nav /> */}
       <StickyNav />
 
       <Hero />
@@ -214,7 +214,7 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           OVERVIEW
       ══════════════════════════════════════════════════════ */}
-      <section id="overview" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+      <section id="overview" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
           <SectionLabel light>01 — Overview</SectionLabel>
@@ -322,7 +322,7 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           FINDINGS
       ══════════════════════════════════════════════════════ */}
-      <section id="findings" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+      <section id="findings" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
           <SectionLabel light>06 — Key Findings</SectionLabel>
@@ -358,7 +358,7 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           REFLECTION
       ══════════════════════════════════════════════════════ */}
-      <section id="reflect" className="px-8 md:px-16 lg:px-24 py-28 bg-zinc-950">
+      <section id="reflect" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-zinc-950">
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
           <SectionLabel>07 — {cs.conclusion.heading}</SectionLabel>

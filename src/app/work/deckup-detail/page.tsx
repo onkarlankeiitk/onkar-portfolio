@@ -36,7 +36,7 @@ function SectionLabel({ children, light }: { children: React.ReactNode; light?: 
 }
 
 function Divider({ dark }: { dark?: boolean }) {
-  return <div className={`border-t my-16 ${dark ? 'border-zinc-800' : 'border-zinc-100'}`} />
+  return <div className={`border-t my-20 md:my-28 ${dark ? 'border-zinc-800' : 'border-zinc-100'}`} />
 }
 
 function ProcessImage({ src, label, hint, aspect = 'aspect-video', dark = false }: {
@@ -130,14 +130,14 @@ function Hero() {
       }} />
 
       {/* Row 1: Back + Tags */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-8 pb-5">
+      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-16 md:pt-20 pb-6 md:pb-8 flex-wrap gap-3">
         <Link href="/#work" className="flex items-center gap-2 text-zinc-400 text-xs hover:text-orange-400 transition-colors">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
           Back to work
         </Link>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap justify-end">
           {['SaaS', 'B2B', 'PowerPoint Plugin'].map(t => (
             <Pill key={t} blue>{t}</Pill>
           ))}
@@ -147,7 +147,7 @@ function Hero() {
       {/* Row 2: Headline + description — ABOVE banner */}
       <motion.div
         initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-        className="relative z-10 px-8 md:px-16 lg:px-24 pb-5"
+        className="relative z-10 px-8 md:px-16 lg:px-24 pb-8 md:pb-12"
       >
         <p className="text-orange-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">SlideXpress · DeckUp · 2024</p>
         <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
@@ -168,7 +168,7 @@ function Hero() {
       {/* Row 4: Meta — BELOW banner */}
       <motion.div
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-        className="relative z-10 flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-5 border-t border-zinc-800"
+        className="relative z-10 flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-6 md:py-10 border-t border-zinc-800"
       >
         {[
           { label: 'Client',   value: 'SlideXpress' },
@@ -189,7 +189,7 @@ function Hero() {
 // ─── SECTION: THE IDEA ────────────────────────────────────────────────────────
 function TheIdea() {
   return (
-    <section id="idea" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="idea" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>01 — The Idea</SectionLabel>
@@ -419,7 +419,7 @@ function Research() {
   ]
 
   return (
-    <section id="research" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="research" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>02 — User Research</SectionLabel>
@@ -603,7 +603,7 @@ function Competitive() {
   ]
 
   return (
-    <section id="compete" className="px-8 md:px-16 lg:px-24 py-28 bg-[#f9f9f7]">
+    <section id="compete" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>03 — Competitive Analysis</SectionLabel>
@@ -684,7 +684,7 @@ function IA() {
   ]
 
   return (
-    <section id="ia" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="ia" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>05 — Information Architecture</SectionLabel>
@@ -809,7 +809,7 @@ function Flows() {
   ]
 
   return (
-    <section id="flows" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="flows" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel light>06 — User Flows</SectionLabel>
@@ -994,7 +994,7 @@ function ToolbarFeatures() {
   ]
 
   return (
-    <section id="toolbar" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="toolbar" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>04 — Plugin Design</SectionLabel>
@@ -1109,7 +1109,7 @@ function ToolbarFeatures() {
 // ─── SECTION: SUBSCRIPTION PLATFORM ──────────────────────────────────────────
 function Platform() {
   return (
-    <section id="platform" className="px-8 md:px-16 lg:px-24 py-28 bg-[#f9f9f7]">
+    <section id="platform" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>08 — Subscription Platform</SectionLabel>
@@ -1258,7 +1258,7 @@ const STATUS_STYLE: Record<string, string> = {
 
 function Testing() {
   return (
-    <section id="qa" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="qa" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>09 — Testing & QA</SectionLabel>
@@ -1345,7 +1345,7 @@ function Testing() {
 // ─── SECTION: TECH STACK & CHARGEBEE ─────────────────────────────────────────
 function Chargebee() {
   return (
-    <section id="chargebee" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="chargebee" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>10 — Tech Stack Decision</SectionLabel>
@@ -1425,7 +1425,7 @@ function Chargebee() {
 // ─── SECTION: MARKETING & PRELAUNCH ──────────────────────────────────────────
 function PreLaunch() {
   return (
-    <section id="prelaunch" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-28">
+    <section id="prelaunch" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel light>11 — Marketing & Pre-launch Strategy</SectionLabel>
@@ -1523,7 +1523,7 @@ function Reflection() {
   ]
 
   return (
-    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-28 bg-white">
+    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>12 — Findings & Reflection</SectionLabel>
@@ -1694,7 +1694,7 @@ function FooterCTA() {
 export default function DeckUpDetail() {
   return (
     <main className="bg-white text-zinc-900 antialiased">
-      <Nav />
+      {/* <Nav /> */}
       <StickyNav />
       <Hero />
       <Team />

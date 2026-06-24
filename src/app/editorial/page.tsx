@@ -716,7 +716,7 @@ export default function EditorialPage() {
       `}</style>
 
       <div className="ed-root">
-        <Nav />
+        {/* <Nav /> */}
 
         {/* Sections use the spacing scale from §12: 96px between, 64px margins */}
         <Hero />
