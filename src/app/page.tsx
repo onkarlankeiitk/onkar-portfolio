@@ -660,11 +660,67 @@ const HERO_TAGS = [
   { n: '02', label: 'UX Research & Strategy' },
   { n: '03', label: 'Behavioral Mapping' },
   { n: '04', label: 'Visual Design' },
-  { n: '05', label: 'GTM' },
-  { n: '06', label: 'Roadmapping' },
+  { n: '05', label: 'Roadmapping' },
+  { n: '06', label: 'GTM' },
+]
+
+// Each character carries its display text and whether it's accent-coloured.
+// We encode the ampersand as the literal '&' char for rendering (React escapes it).
+type CharDef = { ch: string; accent: boolean }
+
+const HERO_LINES: CharDef[][] = [
+  [...'Observer,'].map(ch => ({ ch, accent: false })),
+  [...'Tinkerer'].map(ch => ({ ch, accent: false })),
+  [
+    { ch: '&', accent: true },
+    ...(' Storyteller').split('').map(ch => ({ ch, accent: false })),
+    { ch: '.', accent: true },
+  ],
 ]
 
 function HeroSection() {
+  // revealed[i] = number of chars shown for line i
+  const [revealed, setRevealed]     = useState([0, 0, 0])
+  const [cursorLine, setCursorLine] = useState(0)
+  const [done, setDone]             = useState(false)
+
+  useEffect(() => {
+    let lineIdx = 0
+    let charIdx = 0
+    let cancelled = false
+
+    const type = () => {
+      if (cancelled) return
+      if (lineIdx >= HERO_LINES.length) {
+        setCursorLine(-1)
+        setTimeout(() => setDone(true), 200)
+        return
+      }
+      const line = HERO_LINES[lineIdx]
+      if (charIdx <= line.length) {
+        const li = lineIdx
+        const ci = charIdx
+        setRevealed(prev => { const n = [...prev]; n[li] = ci; return n })
+        setCursorLine(lineIdx)
+        charIdx++
+        setTimeout(type, 75)
+      } else {
+        lineIdx++
+        charIdx = 0
+        setTimeout(type, 260)
+      }
+    }
+
+    const delay = setTimeout(type, 350)
+    return () => { cancelled = true; clearTimeout(delay) }
+  }, [])
+
+  const fadeIn: React.CSSProperties = {
+    opacity: done ? 1 : 0,
+    transform: done ? 'translateY(0)' : 'translateY(6px)',
+    transition: 'opacity 0.55s ease, transform 0.55s ease',
+  }
+
   return (
     <section
       id="hero"
@@ -682,8 +738,9 @@ function HeroSection() {
         overflow: 'hidden',
       }}
     >
-      {/* ── Top meta bar ── */}
+      {/* ── Top meta bar — fades in after typing ── */}
       <div style={{
+        ...fadeIn,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
@@ -695,14 +752,11 @@ function HeroSection() {
         textTransform: 'uppercase',
         color: HERO_INK,
       }}>
-        {/* Left: orange square + name */}
         <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span style={{ width: '9px', height: '9px', background: HERO_ACCENT, display: 'inline-block', flexShrink: 0 }} />
           Portfolio — Onkar
         </span>
-        {/* Center */}
         <span style={{ color: HERO_MUTED }}>Product &amp; UX</span>
-        {/* Right */}
         <span>Est. 2020 / 6+ Yrs</span>
       </div>
 
@@ -716,17 +770,9 @@ function HeroSection() {
         marginBottom: 'auto',
         padding: '72px 0',
       }}>
-        {/* Left: greeting + headline */}
+        {/* Left: typewritten headline */}
         <div>
-          <div style={{
-            fontFamily: SPACE_MONO,
-            fontSize: 'clamp(14px, 1.25vw, 18px)',
-            letterSpacing: '0.04em',
-            color: HERO_INK,
-            marginBottom: '28px',
-          }}>
-            Hi, I&rsquo;m Onkar
-          </div>
+          {/* Typewritten h1 */}
           <h1 style={{
             margin: 0,
             fontFamily: HELV,
@@ -735,15 +781,43 @@ function HeroSection() {
             lineHeight: 0.94,
             letterSpacing: '-0.035em',
             color: HERO_INK,
+            minHeight: '3em', // prevent layout shift while typing
           }}>
-            Observer,<br />
-            Tinkerer<br />
-            <span style={{ color: HERO_ACCENT }}>&amp;</span> Storyteller<span style={{ color: HERO_ACCENT }}>.</span>
+            {HERO_LINES.map((line, li) => (
+              <span key={li} style={{ display: 'block' }}>
+                {line.slice(0, revealed[li]).map(({ ch, accent }, ci) => (
+                  <span key={ci} style={accent ? { color: HERO_ACCENT } : undefined}>
+                    {ch}
+                  </span>
+                ))}
+                {/* Blinking cursor on active line */}
+                {cursorLine === li && (
+                  <span style={{
+                    display: 'inline-block',
+                    width: '3px',
+                    height: '0.8em',
+                    background: HERO_INK,
+                    marginLeft: '4px',
+                    verticalAlign: 'middle',
+                    animation: 'heroCursor 0.75s step-end infinite',
+                  }} />
+                )}
+              </span>
+            ))}
           </h1>
         </div>
 
-        {/* Right: descriptor */}
-        <p style={{
+        {/* Right: greeting + descriptor — fades in after done */}
+        <div style={{ ...fadeIn, transitionDelay: done ? '0.1s' : '0s', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div style={{
+            fontFamily: SPACE_MONO,
+            fontSize: 'clamp(14px, 1.25vw, 18px)',
+            letterSpacing: '0.04em',
+            color: HERO_INK,
+          }}>
+            Hi, I&rsquo;m Onkar
+          </div>
+          <p style={{
           margin: '0 0 12px',
           fontFamily: HELV,
           fontSize: 'clamp(16px, 1.46vw, 21px)',
@@ -753,16 +827,20 @@ function HeroSection() {
         }}>
           A seasoned professional passionately building user-centric products for business impact for the last{' '}
           <span style={{ color: HERO_INK, fontWeight: 500 }}>6+ years</span>.
-        </p>
+          </p>
+        </div>
       </div>
 
-      {/* ── Tags bar ── */}
+      {/* ── Tags bar — fades in after done ── */}
       <div style={{
+        ...fadeIn,
+        transitionDelay: done ? '0.2s' : '0s',
         borderTop: `1px solid ${HERO_INK}`,
         paddingTop: '22px',
         display: 'flex',
         flexWrap: 'wrap',
-        gap: '14px 40px',
+        gap: '14px 0',
+        justifyContent: 'space-between',
         fontFamily: SPACE_MONO,
         fontSize: '13px',
         letterSpacing: '0.04em',
@@ -1541,6 +1619,10 @@ export default function Home() {
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
+        }
+        @keyframes heroCursor {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
         }
 @keyframes orangePulse {
           0%, 100% { opacity: 1; box-shadow: 0 0 6px #D04D1F; }
