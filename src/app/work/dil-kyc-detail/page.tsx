@@ -180,7 +180,7 @@ function Hero() {
             { label: 'Client',    value: 'Diamond India Limited' },
             { label: 'Role',      value: 'Senior UX Designer' },
             { label: 'Timeline',  value: '8 Months' },
-            { label: 'Year',      value: '2023' },
+            { label: 'Year',      value: '2024' },
           ].map(m => (
             <div key={m.label}>
               <p className="text-zinc-500 text-xs uppercase tracking-widest mb-1">{m.label}</p>
@@ -234,7 +234,7 @@ function TheMoment() {
           <p className="text-zinc-400 text-xs uppercase tracking-widest mb-4">What the data showed</p>
           <div className="grid grid-cols-3 gap-8">
             {[
-              { v: '2 weeks', l: 'Average onboarding time' },
+              { v: '5 weeks → 2 weeks', l: 'Average onboarding time' },
               { v: '6+',      l: 'Manual handoffs per application' },
               { v: '0',       l: 'Status updates a customer received' },
             ].map(m => (
@@ -266,15 +266,15 @@ function Brief() {
           {[
             {
               head: 'Context',
-              body: 'Diamond India Limited has been India\'s only Central Government-nominated private-sector bullion supplier since 2009. 800+ customers — 98% small jewellery exporters. The biggest private agency base in the country. Their mission, stated directly: "We are here to help you grow." The banks are their competitors. The banks have ₹5 crore minimums and KYC timelines measured in years. DIL operates at any quantity, any size.',
+              body: 'Diamond India Limited is India\'s only govt nominated private bullion supplier, with a clear motive of supporting small jewellery exporters. Established in 2009 by members of the GJEPC council, located in the finance hub of BKC, Mumbai, it serves more than 800+ customers across all over India. Largest base for any bullion supplier.',
             },
             {
               head: 'The situation',
-              body: 'Every new customer went through a fully paper-based KYC — 6+ manual handoffs, no status updates, no audit trail, no online path of any kind. Staff spent hours re-entering data and chasing physical signatures. Query resolution halted the entire process. A customer in Surat who sent a document by courier and got a sticky-note query back would wait another week. The average was two weeks. Often more.',
+              body: 'Every new customer from all over India had to go through a tedious paper-based KYC with only phone & email communication to know the status of the application. DIL staff had to manage a lot of paperwork, calls and emails manually for the queries, reducing their efficiency and thus ignorance towards customer experience.',
             },
             {
-              head: 'The ask',
-              body: 'Design a two-sided digital platform: a customer-facing KYC portal for online application, and a staff-facing dashboard for section-level review and approval. Design the KYC renewal flow for returning customers. And design a full website information architecture — because most potential customers didn\'t even know what DIL was before showing up to apply.',
+              head: 'Solution',
+              body: 'Cloud based 2 sided portal both for KYC submissions and approvals from DIL and other communication. A dashboard for staff for managing multi-layered approvals.',
             },
           ].map(col => (
             <div key={col.head}>
@@ -285,12 +285,11 @@ function Brief() {
         </div>
 
         {/* Impact numbers */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-100 rounded-2xl overflow-hidden mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-zinc-100 rounded-2xl overflow-hidden mb-16">
           {[
-            { v: '55%',  l: 'Onboarding time cut',  s: '2 weeks → 5–7 days' },
+            { v: '55%',  l: 'Onboarding time cut',  s: '5 weeks → 2 weeks' },
             { v: '800+', l: 'Customers served',      s: 'Largest private agency base' },
             { v: '3',    l: 'KYC form types',        s: 'Proprietor, Corporate, Bullion' },
-            { v: '7',    l: 'Site sections',         s: 'Home to Resources' },
           ].map(m => (
             <div key={m.l} className="bg-white px-6 py-8">
               <div className="text-4xl font-bold mb-1" style={{ color: AMBER }}>{m.v}</div>
@@ -307,8 +306,29 @@ function Brief() {
           hint="Show the original 6-step manual process: Customer inquiry → Physical form → 6 manual handoffs → Physical signature → Filing → No status visibility. Annotate pain points in red. Can use a rough whiteboard photo or a clean swim-lane diagram."
           aspect="aspect-[16/7]"
         />
-        <ImageCaption>The paper-based process DIL was running before the digital platform — 2 weeks, 6 handoffs, zero visibility.</ImageCaption>
+        <ImageCaption>The paper-based process DIL was running before the digital platform — 5 weeks, 6 handoffs, zero visibility.</ImageCaption>
 
+      </motion.div>
+    </section>
+  )
+}
+
+// ─── SECTION: PHASES ──────────────────────────────────────────────────────────
+function Phases() {
+  return (
+    <section className="px-8 md:px-16 lg:px-24 py-12 bg-white border-t border-zinc-100">
+      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+        <p className="text-xs tracking-[0.2em] uppercase font-semibold text-zinc-400 mb-6">Project phases</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="rounded-2xl p-8" style={{ backgroundColor: NAVY }}>
+            <p className="text-xs uppercase tracking-widest font-semibold mb-3" style={{ color: AMBER }}>Phase I</p>
+            <h3 className="text-white text-xl font-bold">KYC & customer management</h3>
+          </div>
+          <div className="rounded-2xl p-8 border-2 border-dashed border-zinc-200">
+            <p className="text-zinc-400 text-xs uppercase tracking-widest font-semibold mb-3">Phase II</p>
+            <h3 className="text-zinc-400 text-xl font-bold">Order management, delivery</h3>
+          </div>
+        </div>
       </motion.div>
     </section>
   )
@@ -332,10 +352,10 @@ function Strategy() {
 
         <SectionLabel>02 — Brand Strategy</SectionLabel>
         <h2 className="text-white text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
-          Before designing any screen, we mapped who DIL was competing against — and why they were better
+          Competition mapping & why DIL is better
         </h2>
         <p className="text-zinc-400 text-base max-w-2xl mb-16 leading-relaxed">
-          The brand strategy session was not a design exercise. It was a positioning exercise. We needed to understand exactly what made DIL different from the banks — not just to write it on a website, but to make it felt in every interaction the platform created. Eight words emerged. Everything else flowed from those.
+          We analysed DIL&apos;s market position and identified core offerings that made DIL different, to make it as a core strategy for direction.
         </p>
 
         {/* Banks vs DIL comparison */}
@@ -362,7 +382,7 @@ function Strategy() {
 
         {/* Brand keywords */}
         <div className="mb-16">
-          <p className="text-zinc-500 text-xs tracking-widest uppercase mb-6">8 brand value keywords</p>
+          <p className="text-xs tracking-widest uppercase mb-6 font-semibold" style={{ color: AMBER }}>8 brand value keywords</p>
           <div className="flex flex-wrap gap-3">
             {keywords.map(k => (
               <span key={k} className="border text-sm px-5 py-3 rounded-xl font-medium text-zinc-300 border-zinc-700 hover:border-green-500 hover:text-green-400 transition-colors">
@@ -385,11 +405,11 @@ function Strategy() {
         </div>
 
         {/* Design constraint acknowledgement */}
-        <div className="border border-zinc-800 rounded-2xl p-8">
-          <p className="text-zinc-400 text-xs uppercase tracking-widest mb-4 font-semibold">Design constraints — stated upfront</p>
+        <div className="rounded-2xl p-8" style={{ border: '2px solid #F59E0B' }}>
+          <p className="text-xs uppercase tracking-widest mb-4 font-semibold" style={{ color: '#F59E0B' }}>Constraints</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { head: 'No decoration', body: 'Minimal colours — only functional. No visual complexity that would create friction with less tech-savvy customers.' },
+              { head: 'No decoration', body: 'Minimal brand colors, functional design. No visual complexity to reduce usability for less tech savvy customers.' },
               { head: 'Internal tech team in the loop', body: 'Every technical decision reviewed jointly. No surprise handoffs. No specs that couldn\'t be built by the team that existed.' },
               { head: 'Design limits acknowledged', body: 'AI-powered onboarding was discussed and deliberately deprioritised for v1. Constraints are real, and that\'s what makes design truthful.' },
             ].map(c => (
@@ -1721,6 +1741,7 @@ export default function DILKYCDetail() {
       {/* HIDDEN — restore by changing false to true */}
       {false && <TheMoment />}
       <Brief />
+      <Phases />
       <Strategy />
       <Research />
       <Personas />

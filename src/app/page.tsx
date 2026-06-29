@@ -867,8 +867,7 @@ function HeroSection() {
             color: HERO_BODY,
             maxWidth: '420px',
           }}>
-            A seasoned professional passionately building user-centric products for business impact for the last{' '}
-            <span style={{ color: HERO_INK, fontWeight: 500 }}>6+ years</span>.
+            I build user-centric products with high growth potential (product led growth) backed by in depth insights, behavioral patterns &amp; strategies derived from critical UX enquiries, product vision &amp; disciplined execution cycles!
           </p>
 
           {/* CTA buttons */}
@@ -1449,18 +1448,8 @@ function AboutSection() {
               margin: 0,
               fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
             }}>
-              Hello, I&apos;m Onkar.
-            </h2>
-            <p style={{
-              fontSize: 'clamp(18px, 2vw, 28px)',
-              fontWeight: 500,
-              letterSpacing: '-0.02em',
-              lineHeight: 1.2,
-              color: T.inkMute,
-              margin: 0,
-            }}>
               A craftsman at heart!
-            </p>
+            </h2>
           </motion.div>
 
           {/* Bio */}
