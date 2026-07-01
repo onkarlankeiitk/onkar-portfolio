@@ -254,49 +254,37 @@ function TheMoment() {
 // ─── SECTION: BRIEF ───────────────────────────────────────────────────────────
 function Brief() {
   return (
-    <section id="brief" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-[#f9f9f7]">
+    <section id="brief" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>01 — The Brief</SectionLabel>
-        <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-16 max-w-3xl leading-tight">
-          The brand promise was being undermined by the process
-        </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-20">
-          {[
-            {
-              head: 'Context',
-              body: 'Diamond India Limited is India\'s only govt nominated private bullion supplier, with a clear motive of supporting small jewellery exporters. Established in 2009 by members of the GJEPC council, located in the finance hub of BKC, Mumbai, it serves more than 800+ customers across all over India. Largest base for any bullion supplier.',
-            },
-            {
-              head: 'The situation',
-              body: 'Every new customer from all over India had to go through a tedious paper-based KYC with only phone & email communication to know the status of the application. DIL staff had to manage a lot of paperwork, calls and emails manually for the queries, reducing their efficiency and thus ignorance towards customer experience.',
-            },
-            {
-              head: 'Solution',
-              body: 'Cloud based 2 sided portal both for KYC submissions and approvals from DIL and other communication. A dashboard for staff for managing multi-layered approvals.',
-            },
-          ].map(col => (
-            <div key={col.head}>
-              <h3 className="text-zinc-900 font-semibold text-base mb-3">{col.head}</h3>
-              <p className="text-zinc-500 text-sm leading-relaxed">{col.body}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Impact numbers */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-zinc-100 rounded-2xl overflow-hidden mb-16">
-          {[
-            { v: '55%',  l: 'Onboarding time cut',  s: '5 weeks → 2 weeks' },
-            { v: '800+', l: 'Customers served',      s: 'Largest private agency base' },
-            { v: '3',    l: 'KYC form types',        s: 'Proprietor, Corporate, Bullion' },
-          ].map(m => (
-            <div key={m.l} className="bg-white px-6 py-8">
-              <div className="text-4xl font-bold mb-1" style={{ color: AMBER }}>{m.v}</div>
-              <div className="text-zinc-700 text-sm font-medium mb-0.5">{m.l}</div>
-              <div className="text-zinc-400 text-xs">{m.s}</div>
-            </div>
-          ))}
+        <div className="relative mb-20 pl-8 pr-8 mt-12">
+          {/* Left bracket */}
+          <div className="absolute left-0 top-0 bottom-0 w-4 border-l-2 border-t-2 border-b-2 border-zinc-300" />
+          {/* Right bracket */}
+          <div className="absolute right-0 top-0 bottom-0 w-4 border-r-2 border-t-2 border-b-2 border-zinc-300" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 py-6">
+            {[
+              {
+                head: 'Context',
+                body: 'Diamond India Limited is India\'s only govt nominated private bullion supplier, with a clear motive of supporting small jewellery exporters. Established in 2009 by members of the GJEPC council, located in the finance hub of BKC, Mumbai, it serves more than 800+ customers all over India — the largest base for any bullion supplier.',
+              },
+              {
+                head: 'The situation',
+                body: 'Every new customer from all over India had to go through a tedious paper-based KYC with only phone call & email based status updates. DIL staff had to manage a lot of paperwork, queries, communication to customers and manual data management — reducing their efficiency and increasing onboarding time.',
+              },
+              {
+                head: 'Solution',
+                body: 'KYC online application portal for customers with tracking and minute updates via automated mail & SMS system. A multi-layered approval system for DIL staff for reviewing department-wise tasks and allocations and subsequent contracting for customer onboarding and orderbook.',
+              },
+            ].map(col => (
+              <div key={col.head}>
+                <h3 className="text-zinc-900 font-semibold text-base mb-3">{col.head}</h3>
+                <p className="text-zinc-500 text-sm leading-relaxed">{col.body}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* As-is paper process image */}
@@ -306,29 +294,22 @@ function Brief() {
           hint="Show the original 6-step manual process: Customer inquiry → Physical form → 6 manual handoffs → Physical signature → Filing → No status visibility. Annotate pain points in red. Can use a rough whiteboard photo or a clean swim-lane diagram."
           aspect="aspect-[16/7]"
         />
-        <ImageCaption>The paper-based process DIL was running before the digital platform — 5 weeks, 6 handoffs, zero visibility.</ImageCaption>
 
-      </motion.div>
-    </section>
-  )
-}
-
-// ─── SECTION: PHASES ──────────────────────────────────────────────────────────
-function Phases() {
-  return (
-    <section className="px-8 md:px-16 lg:px-24 py-12 bg-white border-t border-zinc-100">
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-        <p className="text-xs tracking-[0.2em] uppercase font-semibold text-zinc-400 mb-6">Project phases</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="rounded-2xl p-8" style={{ backgroundColor: NAVY }}>
-            <p className="text-xs uppercase tracking-widest font-semibold mb-3" style={{ color: AMBER }}>Phase I</p>
-            <h3 className="text-white text-xl font-bold">KYC & customer management</h3>
-          </div>
-          <div className="rounded-2xl p-8 border-2 border-dashed border-zinc-200">
-            <p className="text-zinc-400 text-xs uppercase tracking-widest font-semibold mb-3">Phase II</p>
-            <h3 className="text-zinc-400 text-xl font-bold">Order management, delivery</h3>
+        {/* Project phases */}
+        <div className="mt-12">
+          <p className="text-xs tracking-[0.2em] uppercase font-semibold text-zinc-400 mb-6">Project phases</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="rounded-2xl p-8" style={{ backgroundColor: NAVY }}>
+              <p className="text-xs uppercase tracking-widest font-semibold mb-3" style={{ color: AMBER }}>Phase I</p>
+              <h3 className="text-white text-xl font-bold">KYC & customer management</h3>
+            </div>
+            <div className="rounded-2xl p-8 border-2 border-dashed border-zinc-200">
+              <p className="text-zinc-400 text-xs uppercase tracking-widest font-semibold mb-3">Phase II</p>
+              <h3 className="text-zinc-400 text-xl font-bold">Order management, delivery</h3>
+            </div>
           </div>
         </div>
+
       </motion.div>
     </section>
   )
@@ -338,19 +319,21 @@ function Phases() {
 function Strategy() {
   const keywords = ['Professionalism', 'Service', 'Trust', 'Transparency', 'Efficiency', 'Reputation', 'Credibility', 'Commercially Viable']
 
-  const diff = [
-    { dim: 'KYC speed',        bank: 'Up to 2 years',           dil: '1 week' },
-    { dim: 'Minimum order',    bank: '₹5 crore minimum',        dil: 'Even 1 kg' },
-    { dim: 'KYC philosophy',   bank: 'Filtering-out process',   dil: 'Welcoming-in process' },
-    { dim: 'Client size',      bank: 'Large clients preferred', dil: 'All sizes welcome' },
-    { dim: 'Process clarity',  bank: 'Complex & opaque',        dil: 'Simple & transparent' },
-  ]
-
   return (
     <section id="strategy" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>02 — Brand Strategy</SectionLabel>
+
+        {/* Overall strategy map */}
+        <div className="mb-16">
+          <img
+            src="/str_DIL.png"
+            alt="Overall strategy map"
+            className="w-full rounded-2xl"
+          />
+        </div>
+
         <h2 className="text-white text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
           Competition mapping & why DIL is better
         </h2>
@@ -361,23 +344,7 @@ function Strategy() {
         {/* Banks vs DIL comparison */}
         <div className="mb-20">
           <p className="text-zinc-500 text-xs tracking-widest uppercase mb-6">The competitive differential</p>
-          <div className="rounded-2xl overflow-hidden border border-zinc-800">
-
-            {/* Header row */}
-            <div className="grid grid-cols-3 bg-zinc-900">
-              <div className="px-6 py-4 text-zinc-500 text-xs uppercase tracking-widest"></div>
-              <div className="px-6 py-4 text-zinc-400 text-sm font-medium border-l border-zinc-800">Banks (HDFC, ICICI, SBI)</div>
-              <div className="px-6 py-4 font-semibold text-sm border-l border-zinc-800" style={{ color: AMBER }}>DIL</div>
-            </div>
-
-            {diff.map((row, i) => (
-              <div key={row.dim} className={`grid grid-cols-3 border-t border-zinc-800 ${i % 2 === 0 ? 'bg-zinc-900/40' : ''}`}>
-                <div className="px-6 py-5 text-zinc-400 text-sm font-medium">{row.dim}</div>
-                <div className="px-6 py-5 text-zinc-500 text-sm border-l border-zinc-800">{row.bank}</div>
-                <div className="px-6 py-5 text-sm font-medium border-l border-zinc-800" style={{ color: AMBER }}>{row.dil}</div>
-              </div>
-            ))}
-          </div>
+          <img src="/TCD_DIL.png" alt="The competitive differential" className="w-full rounded-2xl" />
         </div>
 
         {/* Brand keywords */}
@@ -428,60 +395,17 @@ function Strategy() {
 
 // ─── SECTION: RESEARCH ────────────────────────────────────────────────────────
 function Research() {
-  const painPoints = [
-    {
-      n: 'P1',
-      title: 'Zero discoverability',
-      body: 'Harish heard about DIL from a peer at a GJEPC trade event. The website barely explained what DIL was. Discovery was entirely word-of-mouth.',
-    },
-    {
-      n: 'P2',
-      title: 'No document checklist before starting',
-      body: 'Customers were told (verbally) what to gather. No written reference. People started the form, hit an unfamiliar field, and stopped — sometimes for days.',
-    },
-    {
-      n: 'P3',
-      title: 'Six-plus manual handoffs, no visibility',
-      body: 'An application moved through 6+ internal stations. Each transfer was untracked. No one — inside or outside DIL — knew where it was at any moment.',
-    },
-    {
-      n: 'P4',
-      title: 'Physical signature required',
-      body: 'The agreement required a wet signature. Travel to Mumbai or courier — both adding days and cost for exporters in Surat, Jaipur, Kolkata.',
-    },
-    {
-      n: 'P5',
-      title: 'No status for 2 weeks',
-      body: 'Once submitted, Harish had no way to check status except by calling. Staff received 5–10 status calls daily that they couldn\'t meaningfully action.',
-    },
-    {
-      n: 'P6',
-      title: 'All-or-nothing query resolution',
-      body: 'One problem in bank details froze the entire application. A minor query about a single field stopped everything else. Average delay per query: 3–5 days.',
-    },
-    {
-      n: 'P7',
-      title: 'Data re-entry between systems',
-      body: 'Approved applications required 1–2 hours of manual data re-entry into DIL\'s internal CRM. Entry errors and time waste, every application.',
-    },
-    {
-      n: 'P8',
-      title: 'No entity-type differentiation',
-      body: 'A Sole Proprietor and a Corporate Director have different requirements. The paper form showed all fields to everyone. Confusion in every direction.',
-    },
-  ]
-
   const hmwQuestions = [
-    'How might we give customers real-time status visibility without adding load to the compliance team?',
-    'How might we enable reviewers to query one section without blocking the rest of the application?',
-    'How might we show each customer only the fields relevant to their entity type?',
-    'How might we let customers complete the entire KYC from anywhere in India — no travel, no courier?',
-    'How might we give customers a complete document checklist before they fill a single field?',
-    'How might we design KYC renewal as a relationship moment rather than an annual compliance chore?',
-    'How might we make the 3-step KYC feel like three completable tasks, not one overwhelming form?',
-    'How might we turn a rejection into a specific, actionable communication instead of a closed door?',
-    'How might we eliminate every paper handoff without changing DIL\'s internal approval authority?',
-    'How might we make DIL discoverable to small exporters before they hear about it from a peer?',
+    'Give customers real-time status visibility?',
+    'Let reviewers query one section without blocking others?',
+    'Show only fields relevant to each entity type?',
+    'Complete KYC from anywhere — no travel, no courier?',
+    'Surface a document checklist before the form starts?',
+    'Make KYC renewal feel relational, not bureaucratic?',
+    'Make 3-step KYC feel like tasks, not one huge form?',
+    'Turn a rejection into a specific, actionable message?',
+    'Eliminate paper handoffs without changing approval authority?',
+    'Make DIL discoverable to small exporters earlier?',
   ]
 
   return (
@@ -490,18 +414,17 @@ function Research() {
 
         <SectionLabel>03 — User Research</SectionLabel>
         <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-6 max-w-3xl leading-tight">
-          What we found when we looked at both sides of the process
+          The 2 sides of the process
         </h2>
         <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
-          Research ran on both sides simultaneously — the customer applying and the compliance reviewer reviewing. The problems on each side turned out to be mirror images of each other. What the customer couldn't see, the staff couldn't communicate. What the staff needed to do partially, the system forced them to do entirely.
+          We ran simultaneous inquiries into both sides, customer applying for KYC and DIL staff reviewing it, as problems weren&apos;t different but 2 sides of the same coin, connected.
         </p>
 
         {/* Research methods */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-20">
           {[
             { method: 'Stakeholder sessions', detail: 'DIL management, admin, director — internal workflow mapping' },
             { method: 'Contextual inquiry', detail: 'Observed the paper review process as-is — where it stalled' },
-            { method: 'User interviews', detail: 'Jewellery exporter archetype — goals, fears, digital comfort' },
             { method: 'Concept testing', detail: 'Wireframes tested with staff and customers before high-fidelity' },
           ].map(m => (
             <div key={m.method} className="bg-zinc-50 border border-zinc-200 rounded-xl p-5">
@@ -511,33 +434,16 @@ function Research() {
           ))}
         </div>
 
-        {/* Pain points grid */}
+        {/* Pain points */}
         <div className="mb-20">
-          <p className="text-zinc-400 text-xs uppercase tracking-widest mb-8">8 core pain points — evidenced, not assumed</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {painPoints.map((p, i) => (
-              <motion.div
-                key={p.n}
-                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="bg-white border border-zinc-200 rounded-xl p-5 flex gap-4"
-              >
-                <div className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-red-500 bg-red-50 border border-red-100">
-                  {p.n}
-                </div>
-                <div>
-                  <p className="text-zinc-800 text-sm font-semibold mb-1.5">{p.title}</p>
-                  <p className="text-zinc-500 text-sm leading-relaxed">{p.body}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <p className="text-zinc-400 text-xs uppercase tracking-widest mb-8">7 core pain points — evidenced, not assumed</p>
+          <img src="/PP_DIL.png" alt="8 core pain points" className="w-full rounded-2xl" />
         </div>
 
         {/* HMW */}
         <div className="mb-20">
           <p className="text-zinc-400 text-xs uppercase tracking-widest mb-8">How might we questions — 10 of them</p>
-          <div className="space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {hmwQuestions.map((q, i) => (
               <motion.div
                 key={i}
@@ -1652,9 +1558,6 @@ function Team() {
         initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
       >
         <SectionLabel>Team</SectionLabel>
-        <h2 className="text-white text-3xl md:text-4xl font-bold mb-12">
-          Who built this
-        </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {TEAM.map((member, i) => (
@@ -1686,6 +1589,30 @@ function Team() {
                 LinkedIn
               </span>
             </motion.a>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  )
+}
+
+// ─── SECTION: IMPACT ──────────────────────────────────────────────────────────
+function Impact() {
+  return (
+    <section style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 pb-24">
+      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+        <SectionLabel>Impact</SectionLabel>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-zinc-800 rounded-2xl overflow-hidden mt-8">
+          {[
+            { v: '55%',  l: 'Onboarding time cut',  s: '5 weeks → 2 weeks' },
+            { v: '800+', l: 'Customers served',      s: 'Largest private agency base' },
+            { v: '3',    l: 'KYC form types',        s: 'Proprietor, Corporate, Bullion' },
+          ].map(m => (
+            <div key={m.l} className="px-6 py-8" style={{ backgroundColor: NAVY }}>
+              <div className="text-4xl font-bold mb-1" style={{ color: AMBER }}>{m.v}</div>
+              <div className="text-white text-sm font-medium mb-0.5">{m.l}</div>
+              <div className="text-zinc-500 text-xs">{m.s}</div>
+            </div>
           ))}
         </div>
       </motion.div>
@@ -1738,10 +1665,10 @@ export default function DILKYCDetail() {
       <StickyNav />
       <Hero />
       <Team />
+      <Impact />
       {/* HIDDEN — restore by changing false to true */}
       {false && <TheMoment />}
       <Brief />
-      <Phases />
       <Strategy />
       <Research />
       <Personas />

@@ -867,7 +867,7 @@ function HeroSection() {
             color: HERO_BODY,
             maxWidth: '420px',
           }}>
-            I build user-centric products with high growth potential (product led growth) backed by in depth insights, behavioral patterns &amp; strategies derived from critical UX enquiries, product vision &amp; disciplined execution cycles!
+            An experience architect, passionate researcher, and product strategist achieving growth goals in new age media and technology
           </p>
 
           {/* CTA buttons */}
