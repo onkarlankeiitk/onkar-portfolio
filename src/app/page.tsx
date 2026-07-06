@@ -867,7 +867,7 @@ function HeroSection() {
             color: HERO_BODY,
             maxWidth: '420px',
           }}>
-            An experience architect, passionate researcher, and product strategist achieving growth goals in new age media and technology
+            A senior product designer, passionate researcher, and strategist. Welcome to my folio!
           </p>
 
           {/* CTA buttons */}
@@ -1281,6 +1281,96 @@ function BehanceSection() {
   )
 }
 
+// ─── Industrial Design Photo Grid ─────────────────────────────────────────────
+const industrialImages = [
+  // Row 1 — wide + single
+  { src: '/industrial/id-04.jpg', alt: 'Product design study', span: 2 },
+  { src: '/industrial/id-05.jpg', alt: 'Lifestyle product design', span: 1 },
+  // Row 2 — three equal
+  { src: '/industrial/id-01.jpg', alt: 'Headphones industrial design', span: 1 },
+  { src: '/industrial/id-02.jpg', alt: 'Audio equipment design', span: 1 },
+  { src: '/industrial/id-03.jpg', alt: 'Consumer electronics design', span: 1 },
+]
+
+function IndustrialSection() {
+  return (
+    <section
+      style={{
+        position: 'relative',
+        zIndex: 2,
+        background: '#0A0A0A',
+        padding: '80px 64px',
+        borderTop: '1px solid #1a1a1a',
+        fontFamily: T.sans,
+      }}
+      className="industrial-section"
+    >
+      {/* Header */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'baseline',
+        borderBottom: '1px solid #1a1a1a',
+        paddingBottom: '32px',
+        marginBottom: '48px',
+      }}>
+        <div>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
+            Industrial &amp; Product Design
+          </p>
+          <h2 style={{ color: '#ffffff', fontSize: '28px', fontWeight: 500, letterSpacing: '-0.02em', margin: 0 }}>
+            Beyond pixels
+          </h2>
+        </div>
+        <span style={{ fontFamily: T.mono, fontSize: '11px', color: '#3f3f46', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          3D · Physical · Systems
+        </span>
+      </div>
+
+      {/* Photo grid — fixed row heights so every cell in a row aligns flush */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gridTemplateRows: '360px 360px',
+          gap: '10px',
+        }}
+        className="industrial-grid"
+      >
+        {industrialImages.map((img, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: i * 0.07, ease }}
+            style={{
+              gridColumn: img.span > 1 ? `span ${img.span}` : undefined,
+              borderRadius: '8px',
+              overflow: 'hidden',
+              background: '#141414',
+            }}
+          >
+            <img
+              src={img.src}
+              alt={img.alt}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+                transition: 'transform 0.4s ease',
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.transform = 'scale(1.03)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.transform = 'scale(1)' }}
+            />
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 // ─── Arch + Industrial Section ────────────────────────────────────────────────
 function ArchSection() {
   const disciplines = [
@@ -1461,7 +1551,7 @@ function AboutSection() {
             style={{ maxWidth: '48ch' }}
           >
             <p style={{ fontSize: '18px', color: '#3D3D38', lineHeight: 1.65, margin: 0 }}>
-              I&apos;m an engineer turned designer obsessed with forms, shapes, materials, interactions, & technology. I believe these are the ingredients of good, successful design. I bring research to the forefront &amp; ship products with intentional design experiences. &lsquo;Good Design shapes you&rsquo; — I have experienced that first hand.
+              I&apos;m an engineer turned designer obsessed with forms, shapes, materials, interactions, & technology. I believe these are the ingredients of good, successful design. I bring research to the forefront &amp; ship products with intentional design experiences. People say, &lsquo;Good Design shapes you&rsquo;,  I have experienced that first hand.
             </p>
           </motion.div>
 
@@ -1827,7 +1917,7 @@ export default function Home() {
           </div>
 
           {/* Case Studies — 4 vertical cards */}
-          <WorkSubSection label="UX Case Studies">
+          <WorkSubSection label="Case Studies">
             <div className="case-studies-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', gridAutoRows: '552px' }}>
               {projects.map(project => (
                 <CaseStudyCard key={project.slug} project={project} />
@@ -1851,8 +1941,10 @@ export default function Home() {
         <BehanceSection />
 
         {/* ═══════════════════════════════════════════════════════════════════
-            ARCH + INDUSTRIAL — normal scroll
+            INDUSTRIAL DESIGN PHOTO GRID — normal scroll
         ═══════════════════════════════════════════════════════════════════ */}
+        <IndustrialSection />
+
         {/* TEMPORARILY HIDDEN — Beyond Pixels / Arch + Industrial section */}
         {/* <ArchSection /> */}
 

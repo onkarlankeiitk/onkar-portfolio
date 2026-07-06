@@ -38,17 +38,17 @@ function Divider() {
   return <div className="border-t border-zinc-100 my-20 md:my-28" />
 }
 
-// ProcessImage — shows real image when src is set, placeholder otherwise
-function ProcessImage({ src, label, hint, aspect = 'aspect-video', dark = false }: {
-  src?: string | null; label: string; hint: string; aspect?: string; dark?: boolean
+// ProcessImage — shows real image at its natural dimensions
+function ProcessImage({ src, label }: {
+  src?: string | null; label: string; hint?: string; aspect?: string; dark?: boolean
 }) {
   if (!src) return null
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-      className={`${aspect} w-full rounded-2xl overflow-hidden shadow-sm`}
+      className="w-full rounded-2xl overflow-hidden shadow-sm"
     >
-      <img src={src} alt={label} className="w-full h-full object-cover" />
+      <img src={src} alt={label} className="w-full h-auto block" />
     </motion.div>
   )
 }
@@ -287,14 +287,6 @@ function Brief() {
           </div>
         </div>
 
-        {/* As-is paper process image */}
-        <ProcessImage
-          src={null}
-          label="As-is paper-based KYC process — flow diagram"
-          hint="Show the original 6-step manual process: Customer inquiry → Physical form → 6 manual handoffs → Physical signature → Filing → No status visibility. Annotate pain points in red. Can use a rough whiteboard photo or a clean swim-lane diagram."
-          aspect="aspect-[16/7]"
-        />
-
         {/* Project phases */}
         <div className="mt-12">
           <p className="text-xs tracking-[0.2em] uppercase font-semibold text-zinc-400 mb-6">Project phases</p>
@@ -457,15 +449,6 @@ function Research() {
             ))}
           </div>
         </div>
-
-        {/* Research image placeholder */}
-        <ProcessImage
-          src={null}
-          label="Research synthesis — pain points mapped to HMW questions"
-          hint="Affinity map or synthesis board showing pain points clustered into themes: Status Visibility, Query Resolution, Entity Branching, Discoverability. Can be a whiteboard photo, FigJam screenshot, or a clean diagram. Shows the bridge from observations to design decisions."
-          aspect="aspect-[16/8]"
-        />
-        <ImageCaption>Research synthesis — observations from both sides of the process mapped to design opportunities.</ImageCaption>
 
       </motion.div>
     </section>
@@ -632,15 +615,6 @@ function Personas() {
           </div>
         </div>
 
-        <ProcessImage
-          src={null}
-          label="Persona cards — Harish Gupta and Priya Nair"
-          hint="Full persona card pages from the DIL research phase: photo/avatar, demographics, quote, goals, frustrations, empathy map. Can be Figma exports, PDF pages, or whiteboard sketches. Shows both personas side by side."
-          aspect="aspect-[16/7]"
-          dark
-        />
-        <ImageCaption dark>Primary and secondary personas — the exporter applying and the reviewer approving. Both shaped every design decision.</ImageCaption>
-
       </motion.div>
     </section>
   )
@@ -764,15 +738,6 @@ function JourneyMaps() {
           </p>
         </div>
 
-        {/* Journey map image */}
-        <ProcessImage
-          src={null}
-          label="Journey map — current state vs future state (full diagram)"
-          hint="Full journey map showing both states: paper-based (red emotion curve with two frustration peaks at Handoffs and Query Resolution) vs digital (green curve with consistent positive arc). Annotated with touchpoints and pain points. Figma frame, whiteboard, or PDF page."
-          aspect="aspect-[16/7]"
-        />
-        <ImageCaption>Current vs future state journey — the frustration peaks in the paper process were both caused by the same absence: a process that couldn't communicate its own status.</ImageCaption>
-
       </motion.div>
     </section>
   )
@@ -801,17 +766,6 @@ function IA() {
         <p className="text-zinc-500 text-base max-w-2xl mb-16 leading-relaxed">
           Harish didn't know DIL existed until someone told him. When he went looking, the site told him almost nothing. The information architecture was built around one insight: a first-time visitor needs to understand why DIL is better than a bank before they'll hand over their business documents. Every section earns the next one.
         </p>
-
-        {/* Wireframe sitemap image */}
-        <div className="mb-16">
-          <ProcessImage
-            src={null}
-            label="Wireframe sitemap — 7-section site structure"
-            hint="Wireframe or annotated diagram showing the full DIL site IA: Home → Services → KYC for Bullion → About → Login → Support → Resources. Shows page hierarchy and interlinking logic."
-            aspect="aspect-[16/8]"
-          />
-          <ImageCaption>Site map wireframe — 7 primary sections designed to move a visitor from awareness to KYC submission.</ImageCaption>
-        </div>
 
         {/* Site map */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-16">
@@ -873,15 +827,6 @@ function IA() {
             </div>
           </div>
         </div>
-
-        {/* Homepage wireframe */}
-        <ProcessImage
-          src={null}
-          label="Homepage wireframe — information architecture in practice"
-          hint="Wireframe of the DIL homepage showing: brand statement header, credibility metrics row, services section (Bullion + Rough Diamonds), and KYC CTA. Shows page as a trust-building sequence."
-          aspect="aspect-[16/9]"
-        />
-        <ImageCaption>Homepage wireframe — brand story first, KYC CTA last. Every section earns the next one.</ImageCaption>
 
       </motion.div>
     </section>
@@ -946,21 +891,24 @@ function KYCFlow() {
         {/* Step breakdowns */}
         <div className="space-y-0 divide-y divide-zinc-100">
           {steps.map((step, i) => {
-            const stepImages: Record<string, { label: string; hint: string; file: string }> = {
+            const stepImages: Record<string, { label: string; hint: string; file: string; src: string | null }> = {
               '01': {
                 label: 'Step 1 — Basic Information screen',
                 hint: 'Form with Firm name, Owner name, Contact, Monthly requirement (Kgs), Nature of business, Jewellery type. Right panel: document guidelines. Top: green progress stepper showing Step 1 active.',
-                file: 'Wireframe-09.png or Wireframe-10.png',
+                file: 'kyc-step-01.png',
+                src: '/dil/kyc-step-01.png',
               },
               '02': {
                 label: 'Step 2 — Application Form (Sole Proprietor + Corporate)',
                 hint: 'Accordion form: Firm Details → Registration Details (7 doc types) → Bank Details → Chief Executive → Declarations. Show corporate entity with "Add director" repeat. Stepper Step 2 active.',
                 file: 'Wireframe-11.png or Wireframe-12.png',
+                src: null,
               },
               '03': {
                 label: 'Step 3 — Agreement (all steps green)',
                 hint: 'All 3 stepper nodes are green checkmarks. Agreement document visible with Download button. Clean completion state.',
                 file: 'Wireframe-15.png or Wireframe-16.png',
+                src: null,
               },
             }
             const img = stepImages[step.num]
@@ -995,29 +943,33 @@ function KYCFlow() {
                     </ul>
                   </div>
                 </motion.div>
-                <div className="pb-12">
-                  <ProcessImage
-                    src={null}
-                    label={img.label}
-                    hint={img.hint}
-                    aspect="aspect-[16/9]"
-                  />
-                  <ImageCaption>{img.label}</ImageCaption>
-                </div>
+                {img.src && (
+                  <div className="pb-12">
+                    <ProcessImage
+                      src={img.src}
+                      label={img.label}
+                      hint={img.hint}
+                    />
+                    <ImageCaption>{img.label}</ImageCaption>
+                  </div>
+                )}
               </div>
             )
           })}
         </div>
 
-        {/* 3-step composite */}
-        <div className="mt-4">
-          <ProcessImage
-            src={null}
-            label="KYC portal — 3-step composite overview"
-            hint="Single wide image showing all 3 steps side-by-side: Basic Info → Application Form → Agreement complete. Optionally on a MacBook Air mockup."
-            aspect="aspect-[16/7]"
+        {/* Figma prototype embed — footer clipped via overflow hidden */}
+        <div className="mt-16">
+          <p className="text-zinc-400 text-xs uppercase tracking-widest mb-4">Figma Prototype</p>
+        </div>
+        <div className="w-full rounded-2xl shadow-sm" style={{ height: '750px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.1)' }}>
+          <iframe
+            style={{ border: 'none', display: 'block', marginBottom: '-50px' }}
+            width="100%"
+            height="800"
+            src="https://embed.figma.com/proto/revyMacd0NuLSNdjygdV4z/Dil---For-Amol?node-id=1671-4367&p=f&viewport=955%2C-5680%2C0.09&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=1671%3A4367&page-id=0%3A1&embed-host=share"
+            allowFullScreen
           />
-          <ImageCaption>The complete 3-step KYC portal — from first contact to signed agreement.</ImageCaption>
         </div>
 
       </motion.div>
@@ -1093,28 +1045,6 @@ function Dashboard() {
             </div>
           </div>
         </div>
-
-        {/* Dashboard wireframe — overview */}
-        <div className="mb-8">
-          <ProcessImage
-            src={null}
-            label="Staff approval dashboard — application queue"
-            hint="Pending applications list: table with Applicant name, KYC type, Submission date, Status badge (Pending / In Review / Queried / Approved). Dark navy header, green accent. Status badges colour-coded."
-            aspect="aspect-[16/9]"
-            dark
-          />
-          <ImageCaption dark>Dashboard overview — all pending KYC applications, sortable by date and status.</ImageCaption>
-        </div>
-
-        {/* Dashboard wireframe — section-level review */}
-        <ProcessImage
-          src={null}
-          label="Staff dashboard — section-level review (application open)"
-          hint="Individual application expanded: left panel = 4 section accordion. Right panel = field grid with submitted values + Approve / Reject / Query buttons per section. Each registration document has an inline download button."
-          aspect="aspect-[16/9]"
-          dark
-        />
-        <ImageCaption dark>Section-level review — approve, reject, or query each form section independently. Progress doesn't require unanimity.</ImageCaption>
 
       </motion.div>
     </section>
@@ -1214,17 +1144,6 @@ function Renewal() {
           </div>
         </div>
 
-        {/* Renewal screen image */}
-        <div className="mb-16">
-          <ProcessImage
-            src={null}
-            label="KYC renewal screen — returning customer view"
-            hint="All 3 stepper nodes shown as green checkmarks. Amber alert banner: 'KYC is due for update!' Below: onboarding date, body copy, two equal-weight CTAs — 'Update details' (green fill) and 'I confirm, no changes' (outline)."
-            aspect="aspect-[4/3]"
-          />
-          <ImageCaption>Renewal screen — a compliance obligation reframed as a relationship moment.</ImageCaption>
-        </div>
-
         {/* Account section */}
         <div>
           <p className="text-zinc-400 text-xs uppercase tracking-widest mb-6">Post-onboarding account section</p>
@@ -1243,13 +1162,6 @@ function Renewal() {
             ))}
           </div>
 
-          <ProcessImage
-            src={null}
-            label="Post-onboarding account — order status & tracking"
-            hint="Account dashboard: left nav with Account Info, Your Orders, Order Status, Order History tabs. Main panel: active order card with progress timeline (Order Placed → Confirmed → Dispatched → Delivered)."
-            aspect="aspect-[16/9]"
-          />
-          <ImageCaption>Customer account — order tracking section, giving full visibility into active bullion orders.</ImageCaption>
         </div>
 
       </motion.div>
@@ -1329,16 +1241,6 @@ function Communications() {
               </motion.div>
             ))}
           </div>
-        </div>
-
-        <div className="mt-16">
-          <ProcessImage
-            src={null}
-            label="Automated email designs — full set of 7 templates"
-            hint="All 7 email templates side by side or stacked. Each: DIL header branding, subject, body, CTA button. Arranged as 2-column grid or vertical strip."
-            aspect="aspect-[16/9]"
-          />
-          <ImageCaption>Full set of 7 transactional emails — each triggered by a KYC stage change. Each carrying DIL's voice.</ImageCaption>
         </div>
 
       </motion.div>
@@ -1452,14 +1354,6 @@ function QADelivery() {
             </div>
           </div>
         </div>
-
-        <ProcessImage
-          src={null}
-          label="QA tracking sheet — collaborative bug tracker with DIL team"
-          hint="Screenshot of the DIL_testing.xlsx spreadsheet: columns for Date, Customer form issues, Dashboard issues, status (Done / Verified / Pending). Shows the live tracker maintained with the client through dev."
-          aspect="aspect-[16/7]"
-        />
-        <ImageCaption>Shared QA tracker maintained with the DIL team — functional and visual issues logged, resolved, and signed off.</ImageCaption>
 
       </motion.div>
     </section>
