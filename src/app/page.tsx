@@ -1620,142 +1620,16 @@ function AboutSection() {
             <img
               src="/onkar.webp"
               alt="Onkar Lanke"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'grayscale(100%)' }}
             />
           </div>
         </motion.div>
       </div>
 
-      {/* ── Services section ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, ease }}
-        style={{ borderTop: `1px solid ${T.rule}`, background: T.paper }}
-      >
-        {/* Header row */}
-        <div className="services-header" style={{
-          padding: '40px 80px 36px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-          borderBottom: `1px solid ${T.rule}`,
-        }}>
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
-            Services I provide
-          </p>
-          <span style={{ fontFamily: T.mono, fontSize: '11px', color: T.rule, letterSpacing: '0.08em' }}>03 disciplines</span>
-        </div>
-
-        {/* Three-column service grid */}
-        <div className="services-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
-          {[
-            {
-              index: '01',
-              title: 'UX Design',
-              items: [
-                'Research & strategy',
-                'Usability testing',
-                'Analytics',
-                'Workflow creation & optimisation',
-                'Human factors & ergonomics',
-                'Visual design',
-              ],
-            },
-            {
-              index: '02',
-              title: 'AI',
-              items: [
-                'Working prototypes',
-                'Testing & evaluation',
-                'Feedback loops',
-                'Deployment',
-              ],
-            },
-            {
-              index: '03',
-              title: 'Industrial Design',
-              items: [
-                'Product market & user studies',
-                'Concept generation',
-                'Sketching & modelling',
-                'Prototype engineering',
-                'Ergonomics & usability engineering',
-              ],
-            },
-          ].map((service, i) => (
-            <div
-              key={service.index}
-              style={{
-                padding: '40px 48px 48px',
-                borderRight: i < 2 ? `1px solid ${T.rule}` : 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '24px',
-              }}
-            >
-              {/* Index + title */}
-              <div>
-                <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', margin: '0 0 10px' }}>
-                  {service.index}
-                </p>
-                <h3 style={{
-                  fontFamily: T.sans,
-                  fontSize: 'clamp(22px, 2vw, 32px)',
-                  fontWeight: 500,
-                  letterSpacing: '-0.025em',
-                  lineHeight: 1.05,
-                  color: T.ink,
-                  margin: 0,
-                }}>
-                  {service.title}
-                </h3>
-              </div>
-
-              {/* Item list */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0px', borderTop: `1px solid ${T.rule}`, paddingTop: '20px' }}>
-                {service.items.map((item, j) => (
-                  <div
-                    key={j}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'baseline',
-                      gap: '10px',
-                      padding: '9px 0',
-                      borderBottom: `1px solid ${T.ruleSoft}`,
-                    }}
-                  >
-                    <span style={{ fontFamily: T.mono, fontSize: '9px', color: T.inkMute, letterSpacing: '0.06em', flexShrink: 0, marginTop: '1px' }}>—</span>
-                    <span style={{ fontFamily: T.sans, fontSize: '14px', color: '#3D3D38', lineHeight: 1.4, letterSpacing: '-0.005em' }}>
-                      {item}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* ── Tools band ── */}
-      <div
-        style={{
-          borderTop: `1px solid ${T.rule}`,
-          padding: '64px 0 56px',
-          overflow: 'hidden',
-          background: T.paper,
-        }}
-      >
-        <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 32px', padding: '0 80px' }}>
-          Tools I use
-        </p>
-        <ToolsMarquee />
-      </div>
-
       <MediumSection />
 
-      {/* ── Sketches band (dark) ── */}
+      {/* TEMPORARILY HIDDEN — Sketches / Design Breaks section */}
+      {false && (
       <div
         style={{
           background: T.dark,
@@ -1771,13 +1645,14 @@ function AboutSection() {
             Raw sketches &amp; explorations
           </p>
           <p style={{ fontFamily: T.sans, fontSize: '22px', fontWeight: 500, color: '#ffffff', margin: 0, letterSpacing: '-0.02em' }}>
-            Design Breaks
+            Scratches during free time
           </p>
         </div>
 
         {/* Marquee */}
         <SketchMarquee />
       </div>
+      )}
     </section>
   )
 }
@@ -1943,7 +1818,8 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════════════
             INDUSTRIAL DESIGN PHOTO GRID — normal scroll
         ═══════════════════════════════════════════════════════════════════ */}
-        <IndustrialSection />
+        {/* TEMPORARILY HIDDEN — Beyond Pixels / Industrial section */}
+        {false && <IndustrialSection />}
 
         {/* TEMPORARILY HIDDEN — Beyond Pixels / Arch + Industrial section */}
         {/* <ArchSection /> */}
