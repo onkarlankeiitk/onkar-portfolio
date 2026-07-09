@@ -426,6 +426,14 @@ function Research() {
           ))}
         </div>
 
+        {/* Stakeholders & insights */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+          className="w-full rounded-2xl overflow-hidden mb-10 border border-zinc-100"
+        >
+          <img src="/case-studies/dil-kyc/stakeholders-insights.png" alt="Primary stakeholders map and early insights" className="w-full h-auto block" />
+        </motion.div>
+
         {/* Pain points */}
         <div className="mb-20">
           <p className="text-zinc-400 text-xs uppercase tracking-widest mb-8">7 core pain points — evidenced, not assumed</p>
@@ -958,19 +966,6 @@ function KYCFlow() {
           })}
         </div>
 
-        {/* Figma prototype embed — footer clipped via overflow hidden */}
-        <div className="mt-16">
-          <p className="text-zinc-400 text-xs uppercase tracking-widest mb-4">Figma Prototype</p>
-        </div>
-        <div className="w-full rounded-2xl shadow-sm" style={{ height: '750px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.1)' }}>
-          <iframe
-            style={{ border: 'none', display: 'block', marginBottom: '-50px' }}
-            width="100%"
-            height="800"
-            src="https://embed.figma.com/proto/revyMacd0NuLSNdjygdV4z/Dil---For-Amol?node-id=1671-4367&p=f&viewport=955%2C-5680%2C0.09&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=1671%3A4367&page-id=0%3A1&embed-host=share"
-            allowFullScreen
-          />
-        </div>
 
       </motion.div>
     </section>
@@ -1316,6 +1311,14 @@ function QADelivery() {
           ))}
         </div>
 
+        {/* QA tracker screenshot */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+          className="w-full rounded-2xl overflow-hidden mb-10 border border-zinc-200"
+        >
+          <img src="/case-studies/dil-kyc/qa-tracker.png" alt="QA issue tracker — shared spreadsheet used during delivery" className="w-full h-auto block" />
+        </motion.div>
+
         {/* Issue tracker — two columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
           <div>
@@ -1366,27 +1369,27 @@ function Reflection() {
     {
       n: '01',
       title: 'The brand promise was the design brief',
-      body: 'DIL\'s entire competitive advantage over banks was speed, access, and a welcoming KYC. The paper process delivered none of that. Every design decision — the 3-step flow, the preview state, the section-level query — was evaluated against this brief. The interface had to deliver what the brand was claiming. Not just look like it did.',
+      body: 'DIL\'s edge over banks — speed, access, transparency — was being contradicted by the paper process. Every design decision was evaluated against that brief.',
     },
     {
       n: '02',
-      title: 'Section-level approval was the key unlock on both sides',
-      body: 'Applications rarely fail entirely. One section needs a query while the rest is clean. Application-level approval meant one sticky-note halted everything. Section-level approval meant partial progress was possible. That single structural decision changed the reviewer\'s experience more than anything visual.',
+      title: 'Section-level approval was the key unlock',
+      body: 'Applications rarely fail entirely. Section-level Approve / Reject / Query let reviewers make partial progress instead of blocking entire submissions.',
     },
     {
       n: '03',
-      title: 'Entity-type branching solved the perceived complexity problem',
-      body: 'A sole proprietor, a corporate with 3 directors, and a bullion dealer have different compliance requirements. The paper form showed everyone everything. Progressive disclosure by entity type cut perceived form length by ~40% without removing a single required field.',
+      title: 'Entity-type branching reduced perceived complexity',
+      body: 'Progressive disclosure by entity type cut perceived form length by ~40% without removing a single required field.',
     },
     {
       n: '04',
-      title: 'KYC renewal is a retention moment, not an admin task',
-      body: 'Designing it as a prominent, status-visible touchpoint — with a clear "no changes" path and an onboarding date — reframed an annual obligation into a signal that DIL valued the customer\'s time. An obligation isn\'t always just an obligation. Sometimes it\'s an opportunity to remind someone they matter.',
+      title: 'KYC renewal is a retention moment',
+      body: 'A clear "no changes" confirmation path and onboarding date reframed an annual obligation into a signal that DIL valued the customer\'s time.',
     },
     {
       n: '05',
-      title: 'The specific query email made resubmissions work the first time',
-      body: 'Vague queries get vague resubmissions. When the query email carried the exact section name, field, and issue, customers knew exactly what to fix. The circularity of bad queries — which had been consuming weeks — broke almost entirely.',
+      title: 'Specific query emails fixed resubmissions',
+      body: 'When queries named the exact section, field, and issue, customers knew what to fix. The cycle of vague queries and vague resubmissions broke almost entirely.',
     },
   ]
 
@@ -1421,15 +1424,12 @@ function Reflection() {
         {/* What I learnt */}
         <div className="max-w-3xl">
           <p className="text-green-500 text-xs uppercase tracking-widest font-semibold mb-8">What I learnt</p>
-          {[
-            'The most important realisation was that DIL\'s competitive advantage — speed, access, transparency — was being actively contradicted by the paper-based process. The design work wasn\'t about making a form look good. It was about making the brand credible.',
-            'Designing for a document-heavy regulated domain taught me that form design is a discipline on its own. Field order, conditional visibility, progressive disclosure, inline guidance, and clear error states each carry real consequences when the information is legally required and users are small business owners who can\'t afford to get it wrong.',
-            'Building a two-sided platform revealed a specific tension: what felt simplest for the customer — one submit, all decisions at the end — was hardest for staff. What felt most efficient for staff — section-level actions, query per field — required careful design to avoid surfacing internal complexity to the applicant. Resolving that tension, cleanly, on both sides, was the central challenge. That\'s the work that doesn\'t show up in the portfolio screenshots. But it\'s the work that made the screenshots mean something.',
-          ].map((p, i) => (
-            <p key={i} className={`leading-relaxed mb-6 last:mb-0 ${i === 0 ? 'text-zinc-700 text-lg' : 'text-zinc-500 text-base'}`}>
-              {p}
-            </p>
-          ))}
+          <p className="text-zinc-700 text-lg leading-relaxed mb-6">
+            The design work wasn't about making a form look good — it was about making the brand credible. Every interaction had to deliver what DIL was promising.
+          </p>
+          <p className="text-zinc-500 text-base leading-relaxed">
+            Building a two-sided platform exposed a core tension: what felt simplest for the customer was hardest for staff, and vice versa. Resolving that — cleanly, on both sides — was the real design challenge.
+          </p>
         </div>
 
       </motion.div>
@@ -1453,36 +1453,16 @@ function Team() {
       >
         <SectionLabel>Team</SectionLabel>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {TEAM.map((member, i) => (
-            <motion.a
-              key={member.name}
-              href={member.url}
-              target="_blank"
-              rel="noreferrer"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="group flex flex-col items-center text-center p-6 rounded-2xl border border-zinc-800 hover:border-green-500/50 hover:bg-zinc-900 transition-all duration-200"
-            >
-              <div
-                className="w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold mb-4 border-2 border-zinc-700 group-hover:border-green-400 transition-colors"
-                style={{ backgroundColor: '#1a2a3a', color: AMBER }}
-              >
-                {member.initials}
-              </div>
-              <p className="text-white text-sm font-semibold mb-1 group-hover:text-green-400 transition-colors">
-                {member.name}
-              </p>
-              <p className="text-zinc-500 text-xs mb-4">{member.role}</p>
-              <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500 border border-zinc-700 rounded-full px-3 py-1 group-hover:border-green-500/50 group-hover:text-green-400 transition-colors">
-                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" />
-                </svg>
+        <div className="border border-zinc-700 rounded-2xl overflow-hidden divide-y divide-zinc-800">
+          {TEAM.map((member) => (
+            <div key={member.name} className="grid grid-cols-3 items-center px-6 py-4">
+              <p className="text-white text-sm font-medium">{member.name}</p>
+              <p className="text-zinc-500 text-sm">{member.role}</p>
+              <a href={member.url} target="_blank" rel="noreferrer" className="justify-self-end flex items-center gap-1.5 text-xs border border-zinc-700 rounded-full px-3 py-1.5 text-zinc-500 hover:border-green-500/50 hover:text-green-400 transition-colors">
+                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
                 LinkedIn
-              </span>
-            </motion.a>
+              </a>
+            </div>
           ))}
         </div>
       </motion.div>

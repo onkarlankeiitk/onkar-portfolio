@@ -1614,38 +1614,20 @@ function Team() {
           Who built this
         </h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {TEAM.map((member, i) => (
-            <motion.a
-              key={member.name}
-              href={member.url === '#' ? undefined : member.url}
-              target={member.url === '#' ? undefined : '_blank'}
-              rel="noreferrer"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.07 }}
-              className="group flex flex-col items-center text-center p-6 rounded-2xl border border-zinc-800 hover:border-blue-500/50 hover:bg-zinc-900 transition-all duration-200"
-            >
-              <div
-                className="w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold mb-4 border-2 border-zinc-700 group-hover:border-blue-400 transition-colors"
-                style={{ backgroundColor: '#1a2535', color: BLUE_MUTED }}
-              >
-                {member.initials}
-              </div>
-              <p className="text-white text-sm font-semibold mb-1 group-hover:text-blue-400 transition-colors">
-                {member.name}
-              </p>
-              <p className="text-zinc-500 text-xs mb-4">{member.role}</p>
-              {member.url !== '#' && (
-                <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500 border border-zinc-700 rounded-full px-3 py-1 group-hover:border-blue-500/50 group-hover:text-blue-400 transition-colors">
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" />
-                  </svg>
+        <div className="border border-zinc-700 rounded-2xl overflow-hidden divide-y divide-zinc-800">
+          {TEAM.map((member) => (
+            <div key={member.name} className="grid grid-cols-3 items-center px-6 py-4">
+              <p className="text-white text-sm font-medium">{member.name}</p>
+              <p className="text-zinc-500 text-sm">{member.role}</p>
+              {member.url !== '#' ? (
+                <a href={member.url} target="_blank" rel="noreferrer" className="justify-self-end flex items-center gap-1.5 text-xs border border-zinc-700 rounded-full px-3 py-1.5 text-zinc-500 hover:border-blue-500/50 hover:text-blue-400 transition-colors">
+                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
                   LinkedIn
-                </span>
+                </a>
+              ) : (
+                <span className="justify-self-end" />
               )}
-            </motion.a>
+            </div>
           ))}
         </div>
       </motion.div>

@@ -454,7 +454,7 @@ function MediumSection() {
   }, [])
 
   return (
-    <div className="medium-section" style={{ borderTop: `1px solid ${T.rule}`, padding: '72px 80px', background: T.paper }}>
+    <div className="medium-section" style={{ borderTop: `1px solid ${T.rule}`, padding: '72px 80px', background: '#FCFCFA' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '40px' }}>
         <h3 style={{ fontFamily: T.sans, fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.025em', lineHeight: 1.05 }}>
           Medium pen-downs
@@ -656,12 +656,11 @@ const SPACE_MONO  = "'Space Mono', monospace"
 const HELV        = "'Helvetica Neue', Helvetica, Arial, sans-serif"
 
 const HERO_TAGS = [
-  { n: '01', label: 'Product Development' },
+  { n: '01', label: 'Product Design' },
   { n: '02', label: 'UX Research & Strategy' },
   { n: '03', label: 'Behavioral Mapping' },
   { n: '04', label: 'Visual Design' },
-  { n: '05', label: 'Roadmapping' },
-  { n: '06', label: 'GTM' },
+  { n: '05', label: 'Data Analytics' },
 ]
 
 // Each character carries its display text and whether it's accent-coloured.
@@ -1460,7 +1459,7 @@ function AboutSection() {
     <section
       id="about"
       style={{
-        background: T.paper,
+        background: '#FCFCFA',
         fontFamily: T.sans,
         position: 'relative',
       }}
@@ -1572,11 +1571,11 @@ function AboutSection() {
             }}
           >
             {stats.map((s, i) => (
-              <div key={i} style={{ background: T.paper, padding: '24px 28px' }}>
-                <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: T.ink, margin: '0 0 3px', lineHeight: 1 }}>
+              <div key={i} style={{ background: '#F0F0F0', padding: '24px 28px' }}>
+                <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: '#FF4A1C', margin: '0 0 3px', lineHeight: 1 }}>
                   <CountUp target={s.value} suffix={s.suffix} />
                 </p>
-                <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#D04D1F', margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+                <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#8A8A85', margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
                   {s.label}
                 </p>
               </div>

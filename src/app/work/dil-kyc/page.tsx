@@ -256,7 +256,7 @@ export default function DILKYCSummary() {
       </section>
 
       {/* ── PROCESS ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-24 bg-[#f9f9f7]">
+      <section className="px-8 md:px-16 lg:px-24 py-14 bg-[#f9f9f7]">
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
           <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-4" style={{ color: GREEN }}>Process</p>
@@ -264,7 +264,7 @@ export default function DILKYCSummary() {
             <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-20 max-w-3xl leading-tight">{cs.processIntro}</h2>
           )}
 
-          <div className="space-y-24">
+          <div className="space-y-14">
             {cs.process.map((step) => {
               const isLeft = step.imagePosition === 'left'
               return (
@@ -301,7 +301,7 @@ export default function DILKYCSummary() {
       {cs.preFindingsBanner && <BannerImage src={cs.preFindingsBanner.src} alt={cs.preFindingsBanner.alt} />}
 
       {/* ── FINDINGS ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-24 bg-white">
+      <section className="px-8 md:px-16 lg:px-24 py-14 bg-white">
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
           <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-4" style={{ color: GREEN }}>Key Findings</p>
@@ -330,7 +330,7 @@ export default function DILKYCSummary() {
       {cs.preConclusionBanner && <BannerImage src={(cs as any).preConclusionBanner?.src} alt={(cs as any).preConclusionBanner?.alt ?? ''} />}
 
       {/* ── CONCLUSION ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-24 bg-[#f9f9f7]">
+      <section className="px-8 md:px-16 lg:px-24 py-14 bg-[#f9f9f7]">
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
           <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-4" style={{ color: GREEN }}>{cs.conclusion.heading}</p>
@@ -345,23 +345,19 @@ export default function DILKYCSummary() {
 
       {/* ── TEAM ── */}
       {cs.team && cs.team.length > 0 && (
-        <section className="px-8 md:px-16 lg:px-24 py-20 bg-white border-t border-zinc-100">
+        <section className="px-8 md:px-16 lg:px-24 py-12 bg-white border-t border-zinc-100">
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: GREEN }}>Team</p>
-            <div className="flex flex-wrap gap-3">
+            <div className="border border-zinc-100 rounded-2xl overflow-hidden divide-y divide-zinc-100">
               {cs.team.map(m => (
-                <a
-                  key={m.name} href={m.url} target="_blank" rel="noreferrer"
-                  className="group flex items-center gap-3 bg-zinc-50 border border-zinc-200 px-5 py-3 rounded-xl hover:border-green-300 hover:bg-green-50/50 transition-all duration-200"
-                >
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 text-white" style={{ backgroundColor: GREEN }}>
-                    {m.initials}
-                  </div>
-                  <div>
-                    <p className="text-zinc-800 text-sm font-medium group-hover:text-green-700 transition-colors">{m.name}</p>
-                    <p className="text-zinc-400 text-xs">{m.role}</p>
-                  </div>
-                </a>
+                <div key={m.name} className="grid grid-cols-3 items-center px-6 py-4">
+                  <p className="text-zinc-800 text-sm font-medium">{m.name}</p>
+                  <p className="text-zinc-400 text-sm">{m.role}</p>
+                  <a href={m.url} target="_blank" rel="noreferrer" className="justify-self-end flex items-center gap-1.5 text-xs border border-zinc-200 rounded-full px-3 py-1.5 text-zinc-500 hover:border-green-400 hover:text-green-600 transition-colors">
+                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
+                    LinkedIn
+                  </a>
+                </div>
               ))}
             </div>
           </motion.div>
@@ -369,7 +365,7 @@ export default function DILKYCSummary() {
       )}
 
       {/* ── CTA ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-32" style={{ backgroundColor: NAVY }}>
+      <section className="px-8 md:px-16 lg:px-24 py-20" style={{ backgroundColor: NAVY }}>
         <motion.div
           initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
           className="flex flex-col md:flex-row items-start md:items-center justify-between gap-12"

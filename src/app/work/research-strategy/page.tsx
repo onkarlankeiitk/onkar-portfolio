@@ -185,26 +185,16 @@ export default function ResearchStrategyPage() {
 
           <SectionLabel light>Team</SectionLabel>
 
-          <div className="flex flex-wrap gap-3 mt-2">
+          <div className="border border-zinc-100 rounded-2xl overflow-hidden divide-y divide-zinc-100 mt-2">
             {cs.team.map(m => (
-              <a
-                key={m.name}
-                href={m.url}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 border border-zinc-200 hover:border-zinc-400 px-5 py-3 rounded-xl transition-colors no-underline"
-              >
-                <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold text-white shrink-0"
-                  style={{ background: ACCENT }}
-                >
-                  {m.initials}
-                </div>
-                <div>
-                  <p className="text-zinc-900 text-sm font-medium leading-none mb-0.5">{m.name}</p>
-                  <p className="text-zinc-400 text-xs">{m.role}</p>
-                </div>
-              </a>
+              <div key={m.name} className="grid grid-cols-3 items-center px-6 py-4">
+                <p className="text-zinc-800 text-sm font-medium">{m.name}</p>
+                <p className="text-zinc-400 text-sm">{m.role}</p>
+                <a href={m.url} target="_blank" rel="noreferrer" className="justify-self-end flex items-center gap-1.5 text-xs border border-zinc-200 rounded-full px-3 py-1.5 text-zinc-500 hover:border-zinc-400 hover:text-zinc-700 transition-colors">
+                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
+                  LinkedIn
+                </a>
+              </div>
             ))}
           </div>
 

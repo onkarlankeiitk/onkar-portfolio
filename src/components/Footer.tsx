@@ -18,7 +18,7 @@ const navLinks = [
   { href: '/#contact', label: 'Contact' },
 ]
 
-const roles = ['Lead designer', 'Product Manager', 'Innovation Manager']
+const roles = ['Senior UX Designer', 'Senior Product Designer', 'Usability Analyst']
 
 function RolePill({ label }: { label: string }) {
   const [hovered, setHovered] = useState(false)
