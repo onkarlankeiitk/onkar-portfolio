@@ -457,7 +457,7 @@ function MediumSection() {
     <div className="medium-section" style={{ borderTop: `1px solid ${T.rule}`, padding: '72px 80px', background: '#FCFCFA' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '40px' }}>
         <h3 style={{ fontFamily: T.sans, fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.025em', lineHeight: 1.05 }}>
-          Medium pen-downs
+          Weekend pen-downs: My articles
         </h3>
         <a
           href="https://medium.com/@onkarlanke"
@@ -782,6 +782,7 @@ function HeroSection() {
       {/* ── Top meta bar — fades in after typing ── */}
       <div className="hero-meta-bar" style={{
         ...fadeIn,
+        visibility: 'hidden',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
@@ -856,7 +857,7 @@ function HeroSection() {
             letterSpacing: '0.04em',
             color: HERO_INK,
           }}>
-            Hi, I&rsquo;m Onkar
+            Hi, I&rsquo;m Onkar.
           </div>
           <p style={{
             margin: 0,
@@ -881,6 +882,7 @@ function HeroSection() {
       <div className="hero-tags-bar" style={{
         ...fadeIn,
         transitionDelay: done ? '0.2s' : '0s',
+        visibility: 'hidden',
         borderTop: `1px solid ${HERO_INK}`,
         paddingTop: '22px',
         display: 'flex',
@@ -1245,7 +1247,7 @@ function BehanceSection() {
           margin: 0,
           letterSpacing: '-0.02em',
         }}>
-          Previous work on behance
+          Previous work: portfolio 2020
         </h2>
         <a
           href="https://www.behance.net/lankeonkar"
@@ -1481,7 +1483,7 @@ function AboutSection() {
           zIndex: 0,
         }}
       >
-        Process
+        Hey
       </div>
 
       {/* Chrome strip */}
@@ -1572,7 +1574,7 @@ function AboutSection() {
           >
             {stats.map((s, i) => (
               <div key={i} style={{ background: '#F0F0F0', padding: '24px 28px' }}>
-                <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: '#FF4A1C', margin: '0 0 3px', lineHeight: 1 }}>
+                <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: T.ink, margin: '0 0 3px', lineHeight: 1 }}>
                   <CountUp target={s.value} suffix={s.suffix} />
                 </p>
                 <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#8A8A85', margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
@@ -1777,7 +1779,7 @@ export default function Home() {
               borderBottom: '1px solid #1a1a1a',
             }}
           >
-            <h2 style={{ color: '#ffffff', fontFamily: T.sans, fontSize: '28px', fontWeight: 500, margin: 0, letterSpacing: '-0.02em' }}>
+            <h2 style={{ color: '#ffffff', fontFamily: T.sans, fontSize: '36px', fontWeight: 500, margin: 0, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
               Digital Design
             </h2>
             <Link
@@ -1800,7 +1802,7 @@ export default function Home() {
           </WorkSubSection>
 
           {/* Webflow Builds — 2 columns */}
-          <WorkSubSection label="No-code Webflow Builds" topPadding="96px">
+          <WorkSubSection label="Design + Low-code work on webflow" topPadding="96px">
             <div className="webflow-builds-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               {webflowSites.map((site, i) => (
                 <WebflowCard key={i} site={site} />

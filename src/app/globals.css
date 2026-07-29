@@ -40,7 +40,12 @@ html {
   --color-green-950: #022b20;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+}
+
+h3, h4, h5, h6 {
   font-family: var(--font-quicksand), sans-serif;
   font-weight: 300;
 }

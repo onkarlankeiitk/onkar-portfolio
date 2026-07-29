@@ -134,6 +134,13 @@ function Hero() {
         </p>
       </motion.div>
 
+      {/* NDA strip */}
+      <div style={{ background: '#E75175', padding: '12px 0', textAlign: 'center' }}>
+        <p style={{ fontFamily: '"JetBrains Mono", ui-monospace, monospace', fontSize: '12px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#ffffff', margin: 0 }}>
+          ⚠ Sharing only snippets as per NDA
+        </p>
+      </div>
+
       {/* Row 3: Banner */}
       <div className="relative overflow-hidden aspect-video bg-zinc-900">
         {cs.hero.banner && (
@@ -204,7 +211,7 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           OVERVIEW
       ══════════════════════════════════════════════════════ */}
-      <section id="overview" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+      <section id="overview" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
           <SectionLabel light>01 — Overview</SectionLabel>
@@ -312,7 +319,7 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           FINDINGS
       ══════════════════════════════════════════════════════ */}
-      <section id="findings" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+      <section id="findings" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
           <SectionLabel light>06 — Key Findings</SectionLabel>
@@ -348,7 +355,7 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           REFLECTION
       ══════════════════════════════════════════════════════ */}
-      <section id="reflect" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-zinc-950">
+      <section id="reflect" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-zinc-950">
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
           <SectionLabel>07 — {cs.conclusion.heading}</SectionLabel>

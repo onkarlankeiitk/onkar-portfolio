@@ -152,7 +152,7 @@ function Hero() {
       >
         <p className="text-purple-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">frankieOne · 2024</p>
         <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
-          No-Code<br /><span style={{ color: PURPLE_MUTED }}>KYC Builder</span>
+          No-Code KYC Builder
         </h1>
         <p className="text-zinc-400 text-sm max-w-2xl leading-relaxed">
           A gamified, no-code rule builder that turns compliance configuration into an engaging puzzle-solving experience — giving teams full ownership of KYC flows without writing a line of code.
@@ -197,7 +197,7 @@ function Hero() {
 // ─── SECTION: BRIEF ───────────────────────────────────────────────────────────
 function Brief() {
   return (
-    <section id="brief" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="brief" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>01 — The Brief</SectionLabel>
@@ -283,7 +283,7 @@ function Strategy() {
   ]
 
   return (
-    <section id="strategy" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="strategy" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel light>02 — Product Strategy</SectionLabel>
@@ -388,7 +388,7 @@ function Research() {
   ]
 
   return (
-    <section id="research" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="research" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>03 — User Research</SectionLabel>
@@ -538,7 +538,7 @@ function Benchmarking() {
   ]
 
   return (
-    <section id="benchmark" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="benchmark" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>04 — Benchmarking</SectionLabel>
@@ -611,7 +611,7 @@ function DesignSystem() {
   ]
 
   return (
-    <section id="system" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="system" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel light>05 — Design System</SectionLabel>
@@ -731,7 +731,7 @@ function DesignSystem() {
 // ─── SECTION: CANVAS DESIGN ───────────────────────────────────────────────────
 function CanvasDesign() {
   return (
-    <section id="canvas" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="canvas" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>06 — Canvas Design</SectionLabel>
@@ -884,7 +884,7 @@ function HiFi() {
   ]
 
   return (
-    <section id="hifi" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="hifi" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>07 — High-Fidelity UI</SectionLabel>
@@ -960,7 +960,7 @@ function HiFi() {
 // ─── SECTION: GOVERNANCE ──────────────────────────────────────────────────────
 function Governance() {
   return (
-    <section id="govern" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="govern" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel light>08 — Governance Layer</SectionLabel>
@@ -1082,7 +1082,7 @@ function Reflection() {
   ]
 
   return (
-    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>09 — Findings & Reflection</SectionLabel>

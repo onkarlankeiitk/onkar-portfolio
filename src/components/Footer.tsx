@@ -340,7 +340,7 @@ export default function Footer() {
           style={{ flex: '1 1 340px', maxWidth: '520px' }}
         >
           <h2 className="footer-headline" style={{ color: '#ffffff', fontSize: 'clamp(32px, 5vw, 80px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95, margin: 0, maxWidth: '14ch', fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif' }}>
-            Open to <em style={{ fontStyle: 'italic' }}>full time roles</em> and <em style={{ fontStyle: 'italic' }}>creative collabs!</em>
+            Open to full time roles
           </h2>
 
           {/* Role pills */}

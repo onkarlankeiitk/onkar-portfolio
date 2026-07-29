@@ -155,18 +155,16 @@ function Hero() {
       >
         <p className="text-green-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">Diamond India Limited</p>
         <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight">
-          KYC, Onboarding & <span style={{ color: '#0fa475' }}>Customer management portal design</span>
+          KYC, Onboarding & Customer management portal design
         </h1>
       </motion.div>
 
       {/* Row 3: Banner */}
-      <div className="relative overflow-hidden aspect-video">
-        <video
-          src="/dil-hero-banner.mp4"
-          autoPlay
-          muted
-          playsInline
-          className="w-full h-full object-cover"
+      <div className="relative overflow-hidden">
+        <img
+          src="/dil_banner.png"
+          alt="DIL KYC Platform — Dashboard and KYC Process screens"
+          className="w-full h-auto block"
         />
       </div>
 
@@ -199,7 +197,7 @@ function Hero() {
 // ─── SECTION: THE MOMENT ──────────────────────────────────────────────────────
 function TheMoment() {
   return (
-    <section id="moment" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="moment" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>00 — The Moment</SectionLabel>
@@ -312,7 +310,7 @@ function Strategy() {
   const keywords = ['Professionalism', 'Service', 'Trust', 'Transparency', 'Efficiency', 'Reputation', 'Credibility', 'Commercially Viable']
 
   return (
-    <section id="strategy" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="strategy" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>02 — Brand Strategy</SectionLabel>
@@ -401,7 +399,7 @@ function Research() {
   ]
 
   return (
-    <section id="research" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="research" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>03 — User Research</SectionLabel>
@@ -466,7 +464,7 @@ function Research() {
 // ─── SECTION: PERSONAS ────────────────────────────────────────────────────────
 function Personas() {
   return (
-    <section id="personas" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="personas" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>04 — Personas & Empathy Maps</SectionLabel>
@@ -655,7 +653,7 @@ function JourneyMaps() {
   ]
 
   return (
-    <section id="journey" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="journey" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>05 — Journey Maps</SectionLabel>
@@ -764,7 +762,7 @@ function IA() {
   ]
 
   return (
-    <section id="ia" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-[#f9f9f7]">
+    <section id="ia" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>06 — Information Architecture</SectionLabel>
@@ -868,7 +866,7 @@ function KYCFlow() {
   ]
 
   return (
-    <section id="kyc" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="kyc" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>07 — KYC Portal Design</SectionLabel>
@@ -988,7 +986,7 @@ function Dashboard() {
   ]
 
   return (
-    <section id="dashboard" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="dashboard" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>08 — Staff Dashboard</SectionLabel>
@@ -1049,7 +1047,7 @@ function Dashboard() {
 // ─── SECTION: KYC RENEWAL ────────────────────────────────────────────────────
 function Renewal() {
   return (
-    <section id="renewal" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-[#f9f9f7]">
+    <section id="renewal" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>09 — KYC Renewal</SectionLabel>
@@ -1190,7 +1188,7 @@ function Communications() {
   }
 
   return (
-    <section id="comms" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="comms" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>10 — Communications Design</SectionLabel>
@@ -1278,7 +1276,7 @@ const STATUS_STYLE: Record<string, string> = {
 
 function QADelivery() {
   return (
-    <section id="qa" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="qa" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>11 — QA & Delivery</SectionLabel>
@@ -1394,7 +1392,7 @@ function Reflection() {
   ]
 
   return (
-    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>12 — Findings & Reflection</SectionLabel>
@@ -1494,6 +1492,27 @@ function Impact() {
   )
 }
 
+// ─── SECTION: CASE STUDY VIDEO ────────────────────────────────────────────────
+function CaseStudyVideo() {
+  return (
+    <section style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 border-t border-zinc-800">
+      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+        <p className="text-green-400 text-xs uppercase tracking-[0.2em] font-medium mb-6">Product walkthrough</p>
+        <div className="w-full rounded-2xl overflow-hidden aspect-video">
+          <video
+            src="/dil-hero-banner.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </motion.div>
+    </section>
+  )
+}
+
 // ─── FOOTER / CTA ─────────────────────────────────────────────────────────────
 function FooterCTA() {
   return (
@@ -1554,6 +1573,7 @@ export default function DILKYCDetail() {
       <Communications />
       <QADelivery />
       <Reflection />
+      <CaseStudyVideo />
       <FooterCTA />
     </main>
   )

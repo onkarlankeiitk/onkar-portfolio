@@ -151,7 +151,7 @@ function Hero() {
       >
         <p className="text-orange-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">SlideXpress · DeckUp · 2024</p>
         <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
-          Deck<span style={{ color: BLUE_MUTED }}>Up</span>
+          DeckUp
         </h1>
         <p className="text-zinc-400 text-sm max-w-2xl leading-relaxed">
           A PowerPoint productivity plugin that reduces repetitive formatting, data visualisation, and consistency work by up to 60% — built end-to-end for consultants and strategy teams.
@@ -189,7 +189,7 @@ function Hero() {
 // ─── SECTION: THE IDEA ────────────────────────────────────────────────────────
 function TheIdea() {
   return (
-    <section id="idea" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="idea" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>01 — The Idea</SectionLabel>
@@ -419,7 +419,7 @@ function Research() {
   ]
 
   return (
-    <section id="research" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="research" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>02 — User Research</SectionLabel>
@@ -603,7 +603,7 @@ function Competitive() {
   ]
 
   return (
-    <section id="compete" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-[#f9f9f7]">
+    <section id="compete" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>03 — Competitive Analysis</SectionLabel>
@@ -684,7 +684,7 @@ function IA() {
   ]
 
   return (
-    <section id="ia" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="ia" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>05 — Information Architecture</SectionLabel>
@@ -809,7 +809,7 @@ function Flows() {
   ]
 
   return (
-    <section id="flows" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="flows" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel light>06 — User Flows</SectionLabel>
@@ -994,7 +994,7 @@ function ToolbarFeatures() {
   ]
 
   return (
-    <section id="toolbar" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="toolbar" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>04 — Plugin Design</SectionLabel>
@@ -1109,7 +1109,7 @@ function ToolbarFeatures() {
 // ─── SECTION: SUBSCRIPTION PLATFORM ──────────────────────────────────────────
 function Platform() {
   return (
-    <section id="platform" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-[#f9f9f7]">
+    <section id="platform" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-[#f9f9f7]">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>08 — Subscription Platform</SectionLabel>
@@ -1258,7 +1258,7 @@ const STATUS_STYLE: Record<string, string> = {
 
 function Testing() {
   return (
-    <section id="qa" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="qa" style={{ backgroundColor: '#f9f9f7' }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>09 — Testing & QA</SectionLabel>
@@ -1345,7 +1345,7 @@ function Testing() {
 // ─── SECTION: TECH STACK & CHARGEBEE ─────────────────────────────────────────
 function Chargebee() {
   return (
-    <section id="chargebee" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="chargebee" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>10 — Tech Stack Decision</SectionLabel>
@@ -1425,7 +1425,7 @@ function Chargebee() {
 // ─── SECTION: MARKETING & PRELAUNCH ──────────────────────────────────────────
 function PreLaunch() {
   return (
-    <section id="prelaunch" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40">
+    <section id="prelaunch" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel light>11 — Marketing & Pre-launch Strategy</SectionLabel>
@@ -1523,7 +1523,7 @@ function Reflection() {
   ]
 
   return (
-    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-20 md:py-32 lg:py-40 bg-white">
+    <section id="reflect" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
         <SectionLabel>12 — Findings & Reflection</SectionLabel>
