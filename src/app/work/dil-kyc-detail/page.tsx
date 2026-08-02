@@ -162,7 +162,7 @@ function Hero() {
       {/* Row 3: Banner */}
       <div className="relative overflow-hidden">
         <img
-          src="/dil_banner.png"
+          src="/case-studies/dil-kyc/detail-banner-hero.png"
           alt="DIL KYC Platform — Dashboard and KYC Process screens"
           className="w-full h-auto block"
         />

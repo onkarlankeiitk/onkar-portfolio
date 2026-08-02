@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 
+
 const contactLinks = [
   { label: 'Email',    href: 'mailto:onkarlanke.iitk@gmail.com',  display: 'onkarlanke.iitk@gmail.com',   external: false },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/onkarlanke/', display: 'linkedin.com/in/onkarlanke', external: true  },
@@ -254,6 +255,15 @@ function AnimatedOrigami() {
 
 // ─── Footer ────────────────────────────────────────────────────────────────────
 export default function Footer() {
+  const [articles, setArticles] = useState<{ title: string; link: string; pubDate: string; tags?: string[]; publication?: string }[]>([])
+
+  useEffect(() => {
+    fetch('/api/medium')
+      .then(r => r.json())
+      .then(data => { if (Array.isArray(data)) setArticles(data.slice(0, 4)) })
+      .catch(() => {})
+  }, [])
+
   return (
     <>
     <style>{`
@@ -377,6 +387,48 @@ export default function Footer() {
           ))}
         </motion.div>
       </div>
+
+      {/* ── Medium articles strip ── */}
+      {articles.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          style={{ position: 'relative', zIndex: 1, borderTop: '1px solid #18181b', paddingTop: '32px' }}
+        >
+          <p style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#3f3f46', marginBottom: '16px' }}>
+            My articles
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', background: '#18181b' }}>
+            {articles.map((a) => (
+              <a
+                key={a.link}
+                href={a.link}
+                target="_blank"
+                rel="noreferrer"
+                style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '12px', padding: '20px 24px', background: '#0A0A0A', textDecoration: 'none', transition: 'background 0.2s ease' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#111' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#0A0A0A' }}
+              >
+                <p style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '13px', fontWeight: 500, color: '#d4d4d8', lineHeight: 1.45, margin: 0, letterSpacing: '-0.01em' }}>
+                  {a.title}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                    {(a.tags ?? []).map(tag => (
+                      <span key={tag} style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: '9px', color: '#52525b', letterSpacing: '0.06em', background: '#18181b', padding: '2px 7px', borderRadius: '4px' }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <span style={{ color: '#3f3f46', fontSize: '14px', flexShrink: 0 }}>↗</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </motion.div>
+      )}
 
       {/* ── Bottom navigation row ── */}
       <motion.div

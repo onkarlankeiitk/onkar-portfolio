@@ -25,19 +25,15 @@ const T = {
   accent: '#1E3AE8',
   dark: '#0A0A0A',
   sans: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
-  mono: '"JetBrains Mono", ui-monospace, monospace',
+  mono: "'Space Mono', monospace",
 }
 
 const ease = [0.22, 1, 0.36, 1] as const
 
 // projects and archProjects are imported from @/lib/portfolio-data
 
-// ─── Experience data ───────────────────────────────────────────────────────────
-const experience = [
-  { role: 'Product Designer', company: 'SlideXpress (DeckUp)', period: '2023 – 2024' },
-  { role: 'UX Designer', company: 'Diamond India Ltd.', period: '2024' },
-  { role: 'UX Researcher', company: 'Commongood, USA', period: '2023' },
-]
+// ─── Experience data (from CV) ────────────────────────────────────────────────
+// Defined in component section below
 
 // ─── Striped pattern style ─────────────────────────────────────────────────────
 const stripedDark = {
@@ -134,12 +130,12 @@ function ToolCard({ tool }: { tool: typeof tools[0] }) {
   )
 }
 
-function ToolsMarquee() {
+function ToolsMarquee({ bg = T.paper }: { bg?: string }) {
   const tripled = [...tools, ...tools, ...tools]
   return (
     <div style={{ position: 'relative', overflowX: 'clip', overflowY: 'visible' }}>
-      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '100px', background: `linear-gradient(to right, ${T.paper}, transparent)`, zIndex: 10, pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '100px', background: `linear-gradient(to left, ${T.paper}, transparent)`, zIndex: 10, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '100px', background: `linear-gradient(to right, ${bg}, transparent)`, zIndex: 10, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '100px', background: `linear-gradient(to left, ${bg}, transparent)`, zIndex: 10, pointerEvents: 'none' }} />
       <motion.div
         style={{ display: 'flex', gap: '20px', padding: '8px 0', width: 'max-content' }}
         animate={{ x: ['0%', '-33.33%'] }}
@@ -153,36 +149,29 @@ function ToolsMarquee() {
 
 // ─── Flip Card ─────────────────────────────────────────────────────────────────
 function FlipCard({ project }: { project: typeof projects[0] }) {
-  const [flipped, setFlipped] = useState(false)
+  const [hovered, setHovered] = useState(false)
 
   return (
     <Link
       href={project.directPath}
-      style={{ display: 'block', position: 'relative', perspective: '1000px', cursor: 'pointer', textDecoration: 'none', height: '100%' }}
-      onMouseEnter={() => setFlipped(true)}
-      onMouseLeave={() => setFlipped(false)}
+      style={{ display: 'block', position: 'relative', cursor: 'pointer', textDecoration: 'none', height: '100%' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      <div
-        style={{
-          position: 'relative',
-          transformStyle: 'preserve-3d',
-          transition: 'transform 600ms cubic-bezier(0.22,1,0.36,1)',
-          transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-          height: '100%',
-        }}
-      >
-        {/* FRONT — fills grid cell height */}
+      <div style={{ position: 'relative', height: '100%' }}>
+        {/* FRONT */}
         <div
           style={{
-            backfaceVisibility: 'hidden',
-            WebkitBackfaceVisibility: 'hidden',
             background: '#111',
             border: '1px solid #1a1a1a',
-            borderRadius: '12px',
+            borderRadius: '6px',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
             height: '100%',
+            transition: 'opacity 650ms ease, transform 650ms ease',
+            opacity: hovered ? 0 : 1,
+            transform: hovered ? 'scale(0.97)' : 'scale(1)',
           }}
         >
           {/* Banner — 16:9 */}
@@ -195,13 +184,6 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
           {/* Content strip */}
           <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1, justifyContent: 'space-between' }}>
             <div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
-                {project.tags.map(tag => (
-                  <span key={tag} style={{ background: '#27272a', color: '#a1a1aa', fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em', padding: '3px 8px', borderRadius: '9999px' }}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
               <p style={{ color: '#f4f4f5', fontSize: '13px', fontWeight: 500, lineHeight: 1.4, margin: 0, fontFamily: T.sans }}>
                 {project.title}
               </p>
@@ -212,21 +194,22 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
           </div>
         </div>
 
-        {/* BACK — absolutely fills the front face, light theme */}
+        {/* BACK — fades in over the front */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            backfaceVisibility: 'hidden',
-            WebkitBackfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
             background: '#f4f4f5',
             border: '1px solid #e4e4e7',
-            borderRadius: '12px',
+            borderRadius: '6px',
             padding: '20px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
+            transition: 'opacity 650ms ease, transform 650ms ease',
+            opacity: hovered ? 1 : 0,
+            transform: hovered ? 'translateY(0)' : 'translateY(10px)',
+            pointerEvents: hovered ? 'auto' : 'none',
           }}
         >
           <div>
@@ -269,32 +252,27 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
 
 // ─── Case Study vertical card ─────────────────────────────────────────────────
 function CaseStudyCard({ project }: { project: typeof projects[0] }) {
-  const [flipped, setFlipped] = useState(false)
+  const [hovered, setHovered] = useState(false)
   return (
     <Link
       href={project.directPath}
-      style={{ display: 'block', position: 'relative', perspective: '1000px', cursor: 'pointer', textDecoration: 'none', height: '100%' }}
-      onMouseEnter={() => setFlipped(true)}
-      onMouseLeave={() => setFlipped(false)}
+      style={{ display: 'block', position: 'relative', cursor: 'pointer', textDecoration: 'none', height: '100%' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      <div style={{
-        position: 'relative',
-        transformStyle: 'preserve-3d',
-        transition: 'transform 600ms cubic-bezier(0.22,1,0.36,1)',
-        transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-        height: '100%',
-      }}>
+      <div style={{ position: 'relative', height: '100%' }}>
         {/* FRONT — tall image + tags + title */}
         <div style={{
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
           background: '#111',
           border: '1px solid #1a1a1a',
-          borderRadius: '12px',
+          borderRadius: '6px',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
+          transition: 'opacity 650ms ease, transform 650ms ease',
+          opacity: hovered ? 0 : 1,
+          transform: hovered ? 'scale(0.97)' : 'scale(1)',
         }}>
           {/* Banner — fills most of the card height */}
           <div style={{ flex: 1, overflow: 'hidden', background: '#0a0a0a', minHeight: 0 }}>
@@ -303,35 +281,29 @@ function CaseStudyCard({ project }: { project: typeof projects[0] }) {
               : <div style={{ width: '100%', height: '100%', ...stripedDark }} />
             }
           </div>
-          {/* Bottom strip — tags + title only */}
+          {/* Bottom strip — title only */}
           <div style={{ padding: '14px 16px', borderTop: '1px solid #1a1a1a', flexShrink: 0 }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
-              {project.tags.map(tag => (
-                <span key={tag} style={{ background: '#27272a', color: '#a1a1aa', fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em', padding: '3px 8px', borderRadius: '9999px' }}>
-                  {tag}
-                </span>
-              ))}
-            </div>
             <p style={{ color: '#f4f4f5', fontSize: '17px', fontWeight: 500, lineHeight: 1.4, margin: 0, fontFamily: T.sans }}>
               {project.title}
             </p>
           </div>
         </div>
 
-        {/* BACK — full details */}
+        {/* BACK — fades in over the front */}
         <div style={{
           position: 'absolute',
           inset: 0,
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-          transform: 'rotateY(180deg)',
           background: '#f4f4f5',
           border: '1px solid #e4e4e7',
-          borderRadius: '12px',
+          borderRadius: '6px',
           padding: '20px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          transition: 'opacity 650ms ease, transform 650ms ease',
+          opacity: hovered ? 1 : 0,
+          transform: hovered ? 'translateY(0)' : 'translateY(10px)',
+          pointerEvents: hovered ? 'auto' : 'none',
         }}>
           <div>
             <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#71717a', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '8px' }}>
@@ -654,6 +626,7 @@ const HERO_MUTED  = '#8a8a85'
 const HERO_BODY   = '#3a3a36'
 const SPACE_MONO  = "'Space Mono', monospace"
 const HELV        = "'Helvetica Neue', Helvetica, Arial, sans-serif"
+const GLORY       = "'Glory', sans-serif"
 
 const HERO_TAGS = [
   { n: '01', label: 'Product Design' },
@@ -669,10 +642,9 @@ type CharDef = { ch: string; accent: boolean }
 
 const HERO_LINES: CharDef[][] = [
   [...'Observer,'].map(ch => ({ ch, accent: false })),
-  [...'Tinkerer'].map(ch => ({ ch, accent: false })),
+  [...'Tinkerer,'].map(ch => ({ ch, accent: false })),
   [
-    { ch: '&', accent: true },
-    ...(' Storyteller').split('').map(ch => ({ ch, accent: false })),
+    ...('Storyteller').split('').map(ch => ({ ch, accent: false })),
     { ch: '.', accent: true },
   ],
 ]
@@ -687,34 +659,33 @@ function HeroCTA({ href, label, external }: { href: string; label: string; exter
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        display: 'inline-flex',
+        display: 'flex',
         alignItems: 'center',
-        gap: '10px',
+        gap: '5px',
         fontFamily: SPACE_MONO,
-        fontSize: '11px',
-        letterSpacing: '0.08em',
+        fontSize: '13px',
+        letterSpacing: '0.06em',
         textTransform: 'uppercase',
         textDecoration: 'none',
-        color: hovered ? HERO_ACCENT : HERO_INK,
-        background: 'none',
-        border: 'none',
-        padding: '10px 0',
+        color: hovered ? '#ffffff' : HERO_ACCENT,
+        background: hovered ? HERO_ACCENT : 'transparent',
+        padding: '4px 8px 4px 0',
+        paddingLeft: hovered ? '8px' : '0',
+        clipPath: hovered
+          ? 'polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%)'
+          : 'polygon(0 0, 100% 0, 100% 0, 100% 100%, 0 100%)',
         cursor: 'pointer',
-        transition: 'color 0.2s ease',
-        borderBottom: `1px solid ${hovered ? HERO_ACCENT : HERO_INK}`,
-        width: 'fit-content',
+        transition: 'color 0.2s ease, background 0.2s ease, clip-path 0.2s ease, padding-left 0.2s ease',
+        whiteSpace: 'nowrap',
       }}
     >
-      {label}
       <span style={{
-        display: 'inline-block',
-        fontSize: '13px',
-        lineHeight: 1,
-        transform: hovered ? 'rotate(0deg)' : 'rotate(-45deg)',
-        transition: 'transform 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
-      }}>
-        →
-      </span>
+        textDecoration: hovered ? 'none' : 'underline',
+        textDecorationColor: HERO_ACCENT,
+        textUnderlineOffset: '6px',
+        transition: 'text-decoration-color 0.2s ease',
+      }}>{label}</span>
+      <span style={{ fontSize: '15px', lineHeight: 1, textDecoration: 'none' }}>↗</span>
     </a>
   )
 }
@@ -773,7 +744,7 @@ function HeroSection() {
         background: HERO_BG,
         color: HERO_INK,
         fontFamily: HELV,
-        padding: '72px 80px 64px',
+        padding: '36px 80px 64px',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -782,14 +753,13 @@ function HeroSection() {
       {/* ── Top meta bar — fades in after typing ── */}
       <div className="hero-meta-bar" style={{
         ...fadeIn,
-        visibility: 'hidden',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
         paddingBottom: '18px',
-        borderBottom: `1px solid ${HERO_INK}`,
+        borderBottom: '0.5px solid #888880',
         fontFamily: SPACE_MONO,
-        fontSize: '12px',
+        fontSize: '10px',
         letterSpacing: '0.1em',
         textTransform: 'uppercase',
         color: HERO_INK,
@@ -850,29 +820,43 @@ function HeroSection() {
         </div>
 
         {/* Right: greeting + descriptor — fades in after done */}
-        <div className="hero-right-col" style={{ ...fadeIn, transitionDelay: done ? '0.1s' : '0s', display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'flex-end' }}>
+        <div
+          className="hero-right-col"
+          style={{
+            ...fadeIn,
+            transitionDelay: done ? '0.1s' : '0s',
+            transitionDuration: '1s',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+            justifyContent: 'flex-end',
+            background: '#0a0a0a',
+            padding: '28px 24px',
+            clipPath: 'polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)',
+          }}
+        >
           <div style={{
             fontFamily: SPACE_MONO,
             fontSize: 'clamp(14px, 1.25vw, 18px)',
             letterSpacing: '0.04em',
-            color: HERO_INK,
+            color: '#888880',
           }}>
-            Hi, I&rsquo;m Onkar.
+            Hi, <span style={{ color: '#ffffff' }}>I&rsquo;m Onkar</span>,
           </div>
           <p style={{
             margin: 0,
             fontFamily: HELV,
-            fontSize: 'clamp(16px, 1.46vw, 21px)',
+            fontSize: '17px',
             lineHeight: 1.45,
-            color: HERO_BODY,
+            color: '#888880',
             maxWidth: '420px',
           }}>
-            A senior product designer, passionate researcher, and strategist. Welcome to my folio!
+            A senior <span style={{ color: '#ffffff' }}>product designer</span>, passionate <span style={{ color: '#ffffff' }}>researcher</span>, and product <span style={{ color: '#ffffff' }}>strategist</span> with <span style={{ color: '#ffffff' }}>5+ years</span> in end to end project delivery with recent work in AI enabled development & agentic workflows.
           </p>
 
           {/* CTA buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginTop: '8px' }}>
-            <HeroCTA href="/ONKAR_LANKE.pdf" label="View resume" external />
+          <div style={{ display: 'flex', flexDirection: 'column', marginTop: '8px' }}>
+            <div style={{ marginBottom: '7px' }}><HeroCTA href="/ONKAR_LANKE.pdf" label="View resume" external /></div>
             <HeroCTA href="https://www.linkedin.com/in/onkarlanke/" label="Connect on LinkedIn" external />
           </div>
         </div>
@@ -882,22 +866,21 @@ function HeroSection() {
       <div className="hero-tags-bar" style={{
         ...fadeIn,
         transitionDelay: done ? '0.2s' : '0s',
-        visibility: 'hidden',
-        borderTop: `1px solid ${HERO_INK}`,
+        borderTop: '0.5px solid #888880',
         paddingTop: '22px',
         display: 'flex',
         flexWrap: 'wrap',
         gap: '14px 0',
         justifyContent: 'space-between',
         fontFamily: SPACE_MONO,
-        fontSize: '13px',
+        fontSize: '11px',
         letterSpacing: '0.04em',
         textTransform: 'uppercase',
-        color: HERO_INK,
+        color: '#888880',
       }}>
         {HERO_TAGS.map(({ n, label }) => (
           <span key={n} style={{ display: 'flex', gap: '10px' }}>
-            <span style={{ color: HERO_ACCENT }}>{n}</span>
+            <span style={{ color: '#3a3a3a' }}>{n}</span>
             {label}
           </span>
         ))}
@@ -1060,7 +1043,7 @@ const expData = [
 ]
 
 const stats = [
-  { value: 6, suffix: '+', label: 'Years designing' },
+  { value: 5, suffix: '+', label: 'Years designing' },
   { value: 20, suffix: '+', label: 'Products / Services' },
   { value: 5, suffix: '+', label: 'Industries' },
 ]
@@ -1167,7 +1150,7 @@ function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; i
         display: 'block',
         background: '#0A0A0A',
         border: `1px solid ${hovered ? '#2a2a2a' : '#1a1a1a'}`,
-        borderRadius: '12px',
+        borderRadius: '6px',
         overflow: 'hidden',
         textDecoration: 'none',
         transition: 'border-color 0.25s',
@@ -1528,18 +1511,17 @@ function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease }}
-            style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
           >
             <h2 style={{
-              fontSize: 'clamp(40px, 5vw, 80px)',
-              fontWeight: 500,
-              letterSpacing: '-0.03em',
-              lineHeight: 0.95,
+              fontSize: 'clamp(64px, 9vw, 140px)',
+              fontWeight: 600,
+              letterSpacing: '-0.04em',
+              lineHeight: 1,
               color: T.ink,
               margin: 0,
               fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
             }}>
-              A craftsman at heart!
+              Hey!
             </h2>
           </motion.div>
 
@@ -1627,8 +1609,6 @@ function AboutSection() {
         </motion.div>
       </div>
 
-      <MediumSection />
-
       {/* TEMPORARILY HIDDEN — Sketches / Design Breaks section */}
       {false && (
       <div
@@ -1654,6 +1634,160 @@ function AboutSection() {
         <SketchMarquee />
       </div>
       )}
+    </section>
+  )
+}
+
+// ─── Experience + Tools sections ──────────────────────────────────────────────
+const experience = [
+  {
+    role: 'Product Design + Strategy',
+    company: 'Laminar Interactive',
+    type: 'Freelance · Stealth AI startup',
+    period: 'Mar 2026 – May 2026',
+    bullets: [
+      'AI-powered tool for architects to execute villa/bungalow projects in hours — developed product vision, user scenarios, research (surveys + moderated interviews).',
+      'Built a working prototype using Claude, Nano Banana, and Vercel; trained model agents for site analysis and concept generation in 2D plans and 3D sectional views.',
+    ],
+  },
+  {
+    role: 'Product Lead — Design + Strategy',
+    company: 'SlideXpress · Mindseye Creative',
+    type: 'Full-time',
+    period: 'Apr 2023 – Dec 2025',
+    bullets: [
+      'Co-visioned and built a subscription-based AI SaaS companion for consultants — improved workflow productivity by 40–55%. Led full PDLC: research, IA, wireframing, prototyping, developer handoffs.',
+      'Identified critical dev-capacity gap and hired a frontend engineer whose performance set the benchmark for future engineering hires. Flagged 3rd-party dependency risk 12+ months before it stalled the product.',
+    ],
+  },
+  {
+    role: 'Senior UX Designer',
+    company: 'Mindseye Creative',
+    type: 'Full-time',
+    period: '2022 – 2023',
+    bullets: [
+      'Led research-driven strategy across client engagements — identified behavioral insights that reframed positioning, resulting in 24% sales lift and ~130% engagement growth.',
+      'Built complex websites with Webflow & Framer; leveraged behavioral analytics (Microsoft Clarity, Hotjar, Amplitude) for data-informed growth decisions.',
+    ],
+  },
+  {
+    role: 'UX Designer',
+    company: 'Tata Consultancy Services',
+    type: 'Full-time',
+    period: 'Sept 2020 – Mar 2023',
+    bullets: [
+      'Designed integrated employee experience systems for TCS Vision 2025 — seamless workflows across workplace touchpoints.',
+      "Conducted heuristic evaluation of Tata Neu app (Nielsen\u2019s principles), leading to 7% drop reduction during onboarding. Collaborated on hybrid work booking platform and COVID proximity-tracking app.",
+    ],
+  },
+  {
+    role: 'Instructional Design · Course Designer',
+    company: 'LOM Digital × LearningMate',
+    type: 'Freelance',
+    period: 'Nov 2022 – Feb 2023',
+    bullets: [
+      'Designed structure, scope & sequence for "Introduction to Manufacturing: Product Design & Innovation" — an online elective for 9th–12th grade students in Pennsylvania.',
+    ],
+  },
+]
+
+function ExperienceSection() {
+  return (
+    <section
+      id="experience"
+      style={{
+        background: '#FCFCFA',
+        fontFamily: T.sans,
+        position: 'relative',
+        zIndex: 10,
+      }}
+    >
+      {/* Header strip */}
+      <div style={{
+        padding: '40px 80px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'baseline',
+        borderBottom: `1px solid ${T.rule}`,
+      }}>
+        <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
+          Experience
+        </p>
+        <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
+          05/
+        </span>
+      </div>
+
+      {/* Timeline */}
+      <div style={{ padding: '0 80px 80px' }}>
+        {experience.map((job, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: i * 0.06, ease }}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '220px 1fr',
+              gap: '40px',
+              borderBottom: i < experience.length - 1 ? `1px solid ${T.rule}` : 'none',
+              padding: '40px 0',
+            }}
+          >
+            {/* Left — meta */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', paddingTop: '3px' }}>
+              <span style={{ fontFamily: T.mono, fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase', color: T.inkMute }}>
+                {job.period}
+              </span>
+              <span style={{ fontFamily: T.mono, fontSize: '10px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#aaaaaa' }}>
+                {job.type}
+              </span>
+            </div>
+
+            {/* Right — content */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div>
+                <p style={{ margin: '0 0 2px', fontSize: '17px', fontWeight: 600, color: T.ink, letterSpacing: '-0.01em' }}>
+                  {job.role}
+                </p>
+                <p style={{ margin: 0, fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                  {job.company}
+                </p>
+              </div>
+              <ul style={{ margin: 0, paddingLeft: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {job.bullets.map((b, bi) => (
+                  <li key={bi} style={{ fontSize: '14px', color: '#3D3D38', lineHeight: 1.6, paddingLeft: '4px' }}>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function ToolsSection() {
+  return (
+    <section
+      style={{
+        background: '#FCFCFA',
+        borderTop: `1px solid ${T.rule}`,
+        padding: '48px 0 64px',
+      }}
+    >
+      <div style={{ padding: '0 80px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+        <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
+          Tools I use
+        </p>
+        <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
+          06/
+        </span>
+      </div>
+      <ToolsMarquee bg="#FCFCFA" />
     </section>
   )
 }
@@ -1724,7 +1858,7 @@ export default function Home() {
         crossOrigin="anonymous"
       />
       <link
-        href="https://fonts.googleapis.com/css2?family=Allura&family=Quicksand:wght@400;500;600&family=Felipa&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=JetBrains+Mono:wght@400;500&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Allura&family=Glory:wght@700&family=Quicksand:wght@400;500;600&family=Felipa&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=JetBrains+Mono:wght@400;500&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet"
       />
       <style>{`
@@ -1740,9 +1874,7 @@ export default function Home() {
           0%, 100% { opacity: 1; box-shadow: 0 0 6px #D04D1F; }
           50% { opacity: 0.35; box-shadow: 0 0 2px #D04D1F; }
         }
-        .flip-card-inner {
-          transform-style: preserve-3d;
-        }
+
       `}</style>
 
       <main style={{ background: T.dark }}>
@@ -1753,6 +1885,11 @@ export default function Home() {
             HERO — sticky, white bg, editorial layout
         ═══════════════════════════════════════════════════════════════════ */}
         <HeroSection />
+
+        {/* ═══════════════════════════════════════════════════════════════════
+            ABOUT SECTION — normal scroll
+        ═══════════════════════════════════════════════════════════════════ */}
+        <AboutSection />
 
         {/* ═══════════════════════════════════════════════════════════════════
             WORK — case studies + webflow builds
@@ -1817,6 +1954,17 @@ export default function Home() {
         <BehanceSection />
 
         {/* ═══════════════════════════════════════════════════════════════════
+            EXPERIENCE — below behance
+        ═══════════════════════════════════════════════════════════════════ */}
+        <ExperienceSection />
+
+        {/* ═══════════════════════════════════════════════════════════════════
+            TOOLS — below experience
+        ═══════════════════════════════════════════════════════════════════ */}
+        {/* TEMPORARILY HIDDEN — Tools section */}
+        {false && <ToolsSection />}
+
+        {/* ═══════════════════════════════════════════════════════════════════
             INDUSTRIAL DESIGN PHOTO GRID — normal scroll
         ═══════════════════════════════════════════════════════════════════ */}
         {/* TEMPORARILY HIDDEN — Beyond Pixels / Industrial section */}
@@ -1824,11 +1972,6 @@ export default function Home() {
 
         {/* TEMPORARILY HIDDEN — Beyond Pixels / Arch + Industrial section */}
         {/* <ArchSection /> */}
-
-        {/* ═══════════════════════════════════════════════════════════════════
-            ABOUT SECTION — normal scroll
-        ═══════════════════════════════════════════════════════════════════ */}
-        <AboutSection />
 
         {/* ═══════════════════════════════════════════════════════════════════
             FOOTER — sticky, ends the scroll

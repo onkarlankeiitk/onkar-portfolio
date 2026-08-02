@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { projects, archProjects, getArticleThumbnail, ARTICLE_QUADRANT_POS } from '@/lib/portfolio-data'
 import type { Project } from '@/lib/portfolio-data'
+import Footer from '@/components/Footer'
 
 // ─── Design tokens ─────────────────────────────────────────────────────────────
 const T = {
@@ -196,6 +197,107 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
   )
 }
 
+// ─── Webflow data ───────────────────────────────────────────────────────────────
+const webflowSites = [
+  { name: 'Reevo CRM', url: 'https://www.reevocrm.com', description: 'Salesforce Summit Partner — implementations, AI integrations & adoption.', tags: ['CRM', 'B2B'] },
+  { name: 'Catalyst Healthcare', url: 'https://catalysthcc.com', description: 'Regulatory policy advancing innovative healthcare solutions.', tags: ['Healthcare', 'Consulting'] },
+]
+
+// ─── Behance data ────────────────────────────────────────────────────────────────
+const behanceProjects = [
+  { title: 'IndiGo Go Next Experience Design', url: 'https://www.behance.net/gallery/149525913/IndiGo-Go-Next-Experience-Design', cover: '/behance/behance-01.png', year: '2020' },
+  { title: 'Designing for Last Mile Reach — Financial Inclusion', url: 'https://www.behance.net/gallery/153941575/Designing-for-last-mile-reach-financial-inclusion', cover: '/behance/behance-02.png', year: '2020' },
+  { title: 'Delivering Better Experience — A Redesign', url: 'https://www.behance.net/gallery/88634913/Delivering-Better-Experience-A-REDESIGN', cover: '/behance/behance-03.png', year: '2020' },
+  { title: 'Icons Design Planner', url: 'https://www.behance.net/gallery/72384035/Icons-Design-Planner', cover: '/behance/behance-04.png', year: '2019' },
+]
+
+// ─── Webflow card ────────────────────────────────────────────────────────────────
+function WebflowCard({ site }: { site: typeof webflowSites[0] }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <a
+      href={site.url}
+      target="_blank"
+      rel="noreferrer"
+      style={{ borderRadius: '8px', overflow: 'hidden', border: `1px solid ${hovered ? '#333' : '#1a1a1a'}`, transition: 'border-color 0.2s', display: 'block', textDecoration: 'none', cursor: 'pointer' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Browser chrome */}
+      <div style={{ background: '#111', borderBottom: '1px solid #1a1a1a', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', gap: '5px' }}>
+          {['#ff5f57', '#febc2e', '#28c840'].map(c => (
+            <div key={c} style={{ width: '8px', height: '8px', borderRadius: '50%', background: c, opacity: 0.8 }} />
+          ))}
+        </div>
+        <div style={{ flex: 1, background: '#1a1a1a', borderRadius: '4px', padding: '3px 8px' }}>
+          <span style={{ fontFamily: T.mono, fontSize: '9px', color: '#52525b', letterSpacing: '0.03em' }}>
+            {site.url.replace('https://', '')}
+          </span>
+        </div>
+      </div>
+      {/* iframe preview */}
+      <div style={{ position: 'relative', height: '280px', overflow: 'hidden', background: '#0a0a0a' }}>
+        <iframe
+          src={site.url}
+          title={site.name}
+          loading="lazy"
+          style={{ width: '200%', height: '560px', border: 'none', transform: 'scale(0.5)', transformOrigin: 'top left', pointerEvents: 'none' }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.08)', transition: 'opacity 0.3s', opacity: hovered ? 0 : 1 }} />
+      </div>
+      {/* Footer strip */}
+      <div style={{ padding: '10px 14px', background: '#111', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>
+          <p style={{ fontFamily: T.sans, fontSize: '12px', fontWeight: 500, color: '#d4d4d8', margin: '0 0 2px' }}>{site.name}</p>
+          <p style={{ fontFamily: T.sans, fontSize: '10px', color: '#52525b', margin: 0 }}>{site.description}</p>
+        </div>
+        <div style={{ display: 'flex', gap: '4px', flexShrink: 0, marginLeft: '12px' }}>
+          {site.tags.map(tag => (
+            <span key={tag} style={{ fontFamily: T.mono, fontSize: '8px', color: '#52525b', border: '1px solid #27272a', padding: '2px 6px', borderRadius: '9999px' }}>{tag}</span>
+          ))}
+        </div>
+      </div>
+    </a>
+  )
+}
+
+// ─── Behance card ────────────────────────────────────────────────────────────────
+function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; index: number }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <motion.a
+      href={project.url}
+      target="_blank"
+      rel="noreferrer"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.08, ease }}
+      style={{ display: 'block', background: '#0A0A0A', border: `1px solid ${hovered ? '#2a2a2a' : '#1a1a1a'}`, borderRadius: '6px', overflow: 'hidden', textDecoration: 'none', transition: 'border-color 0.25s', cursor: 'pointer' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden', background: '#111' }}>
+        <img
+          src={project.cover}
+          alt={project.title}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: hovered ? 1 : 0.75, transition: 'opacity 0.3s', display: 'block' }}
+        />
+      </div>
+      <div style={{ padding: '14px 16px' }}>
+        <p style={{ fontFamily: T.sans, fontSize: '13px', fontWeight: 500, color: hovered ? '#ffffff' : '#a1a1aa', margin: '0 0 8px', lineHeight: 1.4, transition: 'color 0.2s' }}>
+          {project.title}
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={{ fontFamily: T.mono, fontSize: '10px', color: '#3f3f46', letterSpacing: '0.04em' }}>{project.year}</span>
+          <span style={{ fontFamily: T.mono, fontSize: '11px', color: '#3f3f46' }}>↗</span>
+        </div>
+      </div>
+    </motion.a>
+  )
+}
+
 // ─── Section header ─────────────────────────────────────────────────────────────
 function SectionHeader({ kicker, title, index, dark = false }: { kicker: string; title: string; index: string; dark?: boolean }) {
   return (
@@ -220,14 +322,6 @@ function SectionHeader({ kicker, title, index, dark = false }: { kicker: string;
 
 // ─── Page ────────────────────────────────────────────────────────────────────────
 export default function ProjectsPage() {
-  const [articles, setArticles] = useState<Article[]>([])
-
-  useEffect(() => {
-    fetch('/api/medium')
-      .then(r => r.json())
-      .then(data => setArticles(Array.isArray(data) ? data.slice(0, 6) : []))
-      .catch(() => {})
-  }, [])
 
   return (
     <>
@@ -255,17 +349,23 @@ export default function ProjectsPage() {
         .articles-grid { display: flex; flex-direction: column; gap: 12px; }
         .digital-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; grid-auto-rows: 552px; }
 
+        .behance-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .webflow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
         @media (max-width: 1024px) {
           .pnav { padding: 0 32px; }
           .proj-section { padding: 0 32px 64px; }
           .arch-card-grid { grid-template-columns: repeat(2, 1fr); }
           .digital-grid { grid-template-columns: repeat(2, 1fr); }
+          .behance-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 640px) {
           .pnav { padding: 0 20px; }
           .proj-section { padding: 0 20px 48px; }
           .arch-card-grid { grid-template-columns: 1fr; }
           .digital-grid { grid-template-columns: 1fr; grid-auto-rows: 480px; }
+          .behance-grid { grid-template-columns: repeat(2, 1fr); }
+          .webflow-grid { grid-template-columns: 1fr; }
         }
       `}</style>
 
@@ -324,31 +424,36 @@ export default function ProjectsPage() {
       </section>
 
       {/* Divider */}
-      <div style={{ borderTop: `1px solid ${T.rule}`, margin: '0 64px 64px' }} />
+      {/* ── 02 Webflow builds ── */}
+      <section className="proj-section" style={{ paddingTop: '64px', background: T.dark }}>
+        <SectionHeader kicker="Low-code" title="Design + Webflow Builds" index="03/" dark />
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          {webflowSites.map((site, i) => (
+            <WebflowCard key={i} site={site} />
+          ))}
+        </div>
+      </section>
 
-      {/* ── 02 Articles ── */}
-      <section className="proj-section">
-        <SectionHeader kicker="Writing" title="Articles & Essays" index="02/" />
-        {articles.length === 0 ? (
-          <div className="articles-grid">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} style={{ display: 'flex', gap: '20px', padding: '20px 24px', border: `1px solid ${T.rule}`, borderRadius: '4px', background: '#ffffff', alignItems: 'flex-start' }}>
-                <div style={{ flexShrink: 0, width: '80px', height: '60px', borderRadius: '4px', ...stripedLight }} />
-                <div style={{ flex: 1 }}>
-                  <div style={{ height: '10px', background: T.ruleSoft, borderRadius: '2px', width: '40%', marginBottom: '10px' }} />
-                  <div style={{ height: '14px', background: T.ruleSoft, borderRadius: '2px', width: '80%', marginBottom: '6px' }} />
-                  <div style={{ height: '14px', background: T.ruleSoft, borderRadius: '2px', width: '60%' }} />
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="articles-grid">
-            {articles.map((a, i) => (
-              <ArticleCard key={i} article={a} index={i} />
-            ))}
-          </div>
-        )}
+      {/* ── 04 Behance archive ── */}
+      <section className="proj-section" style={{ paddingTop: '64px', background: T.dark, paddingBottom: '80px' }}>
+        <SectionHeader kicker="Archive" title="Previous Work: Portfolio 2020" index="04/" dark />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+          {behanceProjects.map((project, i) => (
+            <BehanceCard key={project.url} project={project} index={i} />
+          ))}
+        </div>
+        <div style={{ marginTop: '32px', textAlign: 'center' }}>
+          <a
+            href="https://www.behance.net/lankeonkar"
+            target="_blank"
+            rel="noreferrer"
+            style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s' }}
+            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#ffffff')}
+            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = '#52525b')}
+          >
+            View on Behance →
+          </a>
+        </div>
       </section>
 
       {/* TEMPORARILY HIDDEN — Beyond Pixels / Arch + Industrial section */}
@@ -391,19 +496,9 @@ export default function ProjectsPage() {
       </section> */}
 
       {/* Footer */}
-      <footer style={{ borderTop: `1px solid ${T.rule}`, padding: '28px 64px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: T.paper, flexWrap: 'wrap', gap: '12px' }}>
-        <span style={{ fontFamily: T.mono, fontSize: '12px', color: T.inkMute }}>© {new Date().getFullYear()} Onkar Lanke</span>
-        <nav style={{ display: 'flex', gap: '24px' }}>
-          {[['/', 'Home'], ['/#work', 'Work'], ['/#about', 'About'], ['/#contact', 'Contact']].map(([href, label]) => (
-            <Link key={href} href={href} style={{ fontFamily: T.mono, fontSize: '12px', color: T.inkMute, textDecoration: 'none', transition: 'color 0.2s' }}
-              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = T.ink)}
-              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = T.inkMute)}
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
-      </footer>
+      <div style={{ position: 'sticky', top: 0, zIndex: 30, height: '100svh', borderRadius: '24px 24px 0 0', overflow: 'hidden' }}>
+        <Footer />
+      </div>
     </>
   )
 }

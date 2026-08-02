@@ -841,7 +841,7 @@ function LightBehance() {
           <motion.a key={project.url} href={project.url} target="_blank" rel="noreferrer"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ duration: 0.4, delay: index * 0.08 }}
-            className={`group block border rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 ${project.color}`}
+            className={`group block border rounded overflow-hidden transition-all duration-300 hover:-translate-y-1 ${project.color}`}
             style={{ background: CARD, borderColor: BORDER }}>
             <div className="relative overflow-hidden aspect-video" style={{ background: '#f1f1f5' }}>
               <img src={project.cover} alt={project.title}
