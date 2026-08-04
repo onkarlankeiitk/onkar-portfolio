@@ -285,6 +285,9 @@ export default function Footer() {
           height: auto !important;
           min-height: 100svh;
         }
+        .footer-articles-grid {
+          grid-template-columns: 1fr !important;
+        }
         .footer-headline {
           line-height: 1.05 !important;
         }
@@ -397,10 +400,10 @@ export default function Footer() {
           transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           style={{ position: 'relative', zIndex: 1, borderTop: '1px solid #18181b', paddingTop: '32px' }}
         >
-          <p style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#3f3f46', marginBottom: '16px' }}>
+          <p style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: '15px', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#ffffff', marginBottom: '16px' }}>
             My articles
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', background: '#18181b' }}>
+          <div className="footer-articles-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', background: '#18181b' }}>
             {articles.map((a) => (
               <a
                 key={a.link}
@@ -408,10 +411,10 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '12px', padding: '20px 24px', background: '#0A0A0A', textDecoration: 'none', transition: 'background 0.2s ease' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#111' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#0A0A0A' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#111'; (el.querySelector('.art-title') as HTMLElement).style.color = '#f97316'; (el.querySelector('.art-arrow') as HTMLElement).style.color = '#f97316' }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#0A0A0A'; (el.querySelector('.art-title') as HTMLElement).style.color = '#d4d4d8'; (el.querySelector('.art-arrow') as HTMLElement).style.color = '#3f3f46' }}
               >
-                <p style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '13px', fontWeight: 500, color: '#d4d4d8', lineHeight: 1.45, margin: 0, letterSpacing: '-0.01em' }}>
+                <p className="art-title" style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '13px', fontWeight: 500, color: '#d4d4d8', lineHeight: 1.45, margin: 0, letterSpacing: '-0.01em', transition: 'color 0.2s ease' }}>
                   {a.title}
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -422,7 +425,7 @@ export default function Footer() {
                       </span>
                     ))}
                   </div>
-                  <span style={{ color: '#3f3f46', fontSize: '14px', flexShrink: 0 }}>↗</span>
+                  <span className="art-arrow" style={{ color: '#3f3f46', fontSize: '14px', flexShrink: 0, transition: 'color 0.2s ease' }}>↗</span>
                 </div>
               </a>
             ))}

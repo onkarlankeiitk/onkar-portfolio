@@ -819,13 +819,13 @@ function HeroSection() {
           </h1>
         </div>
 
-        {/* Right: greeting + descriptor — fades in after done */}
-        <div
+        {/* Right: greeting + descriptor — spring pop in after done */}
+        <motion.div
           className="hero-right-col"
+          initial={{ opacity: 0, scale: 0.88, y: 24 }}
+          animate={done ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.88, y: 24 }}
+          transition={{ type: 'spring', stiffness: 280, damping: 18, mass: 0.9, delay: 0.15 }}
           style={{
-            ...fadeIn,
-            transitionDelay: done ? '0.1s' : '0s',
-            transitionDuration: '1s',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px',
@@ -859,7 +859,7 @@ function HeroSection() {
             <div style={{ marginBottom: '7px' }}><HeroCTA href="/ONKAR_LANKE.pdf" label="View resume" external /></div>
             <HeroCTA href="https://www.linkedin.com/in/onkarlanke/" label="Connect on LinkedIn" external />
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* ── Tags bar — fades in after done ── */}
@@ -1109,15 +1109,15 @@ function ArchCard({ project, index }: { project: { title: string; label: string;
 // ─── Behance Section ──────────────────────────────────────────────────────────
 const behanceProjects = [
   {
+    title: 'Icons Design Planner',
+    url: 'https://www.behance.net/gallery/72384035/Icons-Design-Planner',
+    cover: '/behance/behance-04.png',
+    year: '2019',
+  },
+  {
     title: 'IndiGo Go Next Experience Design',
     url: 'https://www.behance.net/gallery/149525913/IndiGo-Go-Next-Experience-Design',
     cover: '/behance/behance-01.png',
-    year: '2020',
-  },
-  {
-    title: 'Designing for Last Mile Reach — Financial Inclusion',
-    url: 'https://www.behance.net/gallery/153941575/Designing-for-last-mile-reach-financial-inclusion',
-    cover: '/behance/behance-02.png',
     year: '2020',
   },
   {
@@ -1127,10 +1127,10 @@ const behanceProjects = [
     year: '2020',
   },
   {
-    title: 'Icons Design Planner',
-    url: 'https://www.behance.net/gallery/72384035/Icons-Design-Planner',
-    cover: '/behance/behance-04.png',
-    year: '2019',
+    title: 'Designing for Last Mile Reach — Financial Inclusion',
+    url: 'https://www.behance.net/gallery/153941575/Designing-for-last-mile-reach-financial-inclusion',
+    cover: '/behance/behance-02.png',
+    year: '2020',
   },
 ]
 
@@ -1268,12 +1268,12 @@ function BehanceSection() {
 // ─── Industrial Design Photo Grid ─────────────────────────────────────────────
 const industrialImages = [
   // Row 1 — wide + single
-  { src: '/industrial/id-04.jpg', alt: 'Product design study', span: 2 },
-  { src: '/industrial/id-05.jpg', alt: 'Lifestyle product design', span: 1 },
+  { src: '/industrial/id-04.jpg', alt: 'Space design', span: 2 },
+  { src: '/industrial/id-05.jpg', alt: 'Interactive origami lamp design', span: 1 },
   // Row 2 — three equal
-  { src: '/industrial/id-01.jpg', alt: 'Headphones industrial design', span: 1 },
-  { src: '/industrial/id-02.jpg', alt: 'Audio equipment design', span: 1 },
-  { src: '/industrial/id-03.jpg', alt: 'Consumer electronics design', span: 1 },
+  { src: '/industrial/id-01.jpg', alt: 'Speakers concept', span: 1 },
+  { src: '/industrial/id-02.jpg', alt: 'Indoor food growing pods', span: 1 },
+  { src: '/industrial/id-03.jpg', alt: 'Arch vision', span: 1 },
 ]
 
 function IndustrialSection() {
@@ -1282,34 +1282,40 @@ function IndustrialSection() {
       style={{
         position: 'relative',
         zIndex: 2,
-        background: '#0A0A0A',
+        background: '#FCFCFA',
         padding: '80px 64px',
-        borderTop: '1px solid #1a1a1a',
+        borderTop: '1px solid #E5E5E0',
         fontFamily: T.sans,
       }}
       className="industrial-section"
     >
       {/* Header */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'baseline',
-        borderBottom: '1px solid #1a1a1a',
-        paddingBottom: '32px',
-        marginBottom: '48px',
-      }}>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease }}
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          borderBottom: '1px solid #E5E5E0',
+          paddingBottom: '32px',
+          marginBottom: '48px',
+        }}
+      >
         <div>
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
             Industrial &amp; Product Design
           </p>
-          <h2 style={{ color: '#ffffff', fontSize: '28px', fontWeight: 500, letterSpacing: '-0.02em', margin: 0 }}>
-            Beyond pixels
+          <h2 style={{ color: T.ink, fontSize: '28px', fontWeight: 500, letterSpacing: '-0.02em', margin: 0 }}>
+            Beyond pixels: Design by 1st principles
           </h2>
         </div>
-        <span style={{ fontFamily: T.mono, fontSize: '11px', color: '#3f3f46', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+        <span style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
           3D · Physical · Systems
         </span>
-      </div>
+      </motion.div>
 
       {/* Photo grid — fixed row heights so every cell in a row aligns flush */}
       <div
@@ -1317,7 +1323,7 @@ function IndustrialSection() {
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
           gridTemplateRows: '360px 360px',
-          gap: '10px',
+          gap: '3px',
         }}
         className="industrial-grid"
       >
@@ -1330,9 +1336,9 @@ function IndustrialSection() {
             transition={{ duration: 0.5, delay: i * 0.07, ease }}
             style={{
               gridColumn: img.span > 1 ? `span ${img.span}` : undefined,
-              borderRadius: '8px',
+              borderRadius: '0px',
               overflow: 'hidden',
-              background: '#141414',
+              background: '#E5E5E0',
             }}
           >
             <img
@@ -1456,7 +1462,7 @@ function AboutSection() {
           position: 'absolute',
           top: '40px',
           right: '-10px',
-          fontSize: 'clamp(100px, 15vw, 220px)',
+          fontSize: 'clamp(49px, 7.35vw, 108px)',
           fontWeight: 500,
           letterSpacing: '-0.04em',
           color: T.ruleSoft,
@@ -1466,7 +1472,7 @@ function AboutSection() {
           zIndex: 0,
         }}
       >
-        Hey
+        About
       </div>
 
       {/* Chrome strip */}
@@ -1474,18 +1480,12 @@ function AboutSection() {
         style={{
           padding: '40px 80px',
           display: 'flex',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-end',
           alignItems: 'baseline',
-          borderBottom: `1px solid ${T.rule}`,
           position: 'relative',
           zIndex: 1,
         }}
       >
-        <div>
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
-            About
-          </p>
-        </div>
         <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
           03/
         </span>
@@ -1498,7 +1498,7 @@ function AboutSection() {
           display: 'grid',
           gridTemplateColumns: '1.2fr 0.8fr',
           gap: '80px',
-          padding: '72px 80px 80px',
+          padding: '32px 80px 80px',
           position: 'relative',
           zIndex: 1,
         }}
@@ -1513,15 +1513,15 @@ function AboutSection() {
             transition={{ duration: 0.6, ease }}
           >
             <h2 style={{
-              fontSize: 'clamp(64px, 9vw, 140px)',
-              fontWeight: 600,
-              letterSpacing: '-0.04em',
-              lineHeight: 1,
+              fontSize: 'clamp(32px, 5vw, 80px)',
+              fontWeight: 500,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.2,
               color: T.ink,
               margin: 0,
               fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
             }}>
-              Hey!
+              Thriving on<br /><em>curiosity</em>
             </h2>
           </motion.div>
 
@@ -1549,17 +1549,17 @@ function AboutSection() {
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '1px',
-              background: T.rule,
-              borderRadius: '12px',
+              background: 'rgba(255,255,255,0.25)',
+              clipPath: 'polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)',
               overflow: 'hidden',
             }}
           >
             {stats.map((s, i) => (
-              <div key={i} style={{ background: '#F0F0F0', padding: '24px 28px' }}>
-                <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: T.ink, margin: '0 0 3px', lineHeight: 1 }}>
+              <div key={i} style={{ background: '#ffffff', padding: '24px 28px' }}>
+                <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: '#f97316', margin: '0 0 3px', lineHeight: 1 }}>
                   <CountUp target={s.value} suffix={s.suffix} />
                 </p>
-                <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#8A8A85', margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+                <p style={{ fontFamily: T.mono, fontSize: '10px', color: 'rgba(249,115,22,0.6)', margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
                   {s.label}
                 </p>
               </div>
@@ -1825,17 +1825,23 @@ function WorkSubSection({ label, children, topPadding = '56px' }: { label: strin
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <p style={{
-        fontFamily: T.mono,
-        fontSize: '15px',
-        color: hovered ? '#f97316' : '#52525b',
-        letterSpacing: '0.1em',
-        textTransform: 'uppercase',
-        margin: '0 0 20px',
-        transition: 'color 0.2s ease',
-      }}>
+      <motion.p
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease }}
+        style={{
+          fontFamily: T.mono,
+          fontSize: '21px',
+          color: hovered ? '#f97316' : '#52525b',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          margin: '0 0 20px',
+          transition: 'color 0.2s ease',
+        }}
+      >
         {label}
-      </p>
+      </motion.p>
       {children}
     </div>
   )
@@ -1887,11 +1893,6 @@ export default function Home() {
         <HeroSection />
 
         {/* ═══════════════════════════════════════════════════════════════════
-            ABOUT SECTION — normal scroll
-        ═══════════════════════════════════════════════════════════════════ */}
-        <AboutSection />
-
-        {/* ═══════════════════════════════════════════════════════════════════
             WORK — case studies + webflow builds
         ═══════════════════════════════════════════════════════════════════ */}
         <section
@@ -1906,34 +1907,20 @@ export default function Home() {
           }}
         >
           {/* Header strip */}
-          <div
-            className="work-panel-header"
-            style={{
-              padding: '40px 64px',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottom: '1px solid #1a1a1a',
-            }}
-          >
-            <h2 style={{ color: '#ffffff', fontFamily: T.sans, fontSize: '36px', fontWeight: 500, margin: 0, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
-              Digital Design
-            </h2>
-            <Link
-              href="/projects"
-              style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s' }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#ffffff')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#52525b')}
-            >
-              All Projects →
-            </Link>
-          </div>
-
           {/* Case Studies — 4 vertical cards */}
           <WorkSubSection label="Case Studies">
             <div className="case-studies-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', gridAutoRows: '552px' }}>
-              {projects.map(project => (
-                <CaseStudyCard key={project.slug} project={project} />
+              {projects.map((project, i) => (
+                <motion.div
+                  key={project.slug}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.08, ease }}
+                  style={{ height: '100%' }}
+                >
+                  <CaseStudyCard project={project} />
+                </motion.div>
               ))}
             </div>
           </WorkSubSection>
@@ -1942,21 +1929,51 @@ export default function Home() {
           <WorkSubSection label="Design + Low-code work on webflow" topPadding="96px">
             <div className="webflow-builds-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               {webflowSites.map((site, i) => (
-                <WebflowCard key={i} site={site} />
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1, ease }}
+                >
+                  <WebflowCard site={site} />
+                </motion.div>
+              ))}
+            </div>
+          </WorkSubSection>
+
+          {/* Behance Archive */}
+          <WorkSubSection label="Notable previous work" topPadding="96px">
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '24px' }}>
+              <a
+                href="https://www.behance.net/lankeonkar"
+                target="_blank"
+                rel="noreferrer"
+                style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#ffffff')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#52525b')}
+              >
+                View on Behance →
+              </a>
+            </div>
+            <div className="behance-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+              {behanceProjects.map((project, i) => (
+                <BehanceCard key={project.url} project={project} index={i} />
               ))}
             </div>
           </WorkSubSection>
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════════
-            BEHANCE ARCHIVE — normal scroll
+            ABOUT SECTION — normal scroll
         ═══════════════════════════════════════════════════════════════════ */}
-        <BehanceSection />
+        <AboutSection />
 
         {/* ═══════════════════════════════════════════════════════════════════
             EXPERIENCE — below behance
         ═══════════════════════════════════════════════════════════════════ */}
-        <ExperienceSection />
+        {/* TEMPORARILY HIDDEN — Experience section */}
+        {false && <ExperienceSection />}
 
         {/* ═══════════════════════════════════════════════════════════════════
             TOOLS — below experience
@@ -1967,8 +1984,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════════════
             INDUSTRIAL DESIGN PHOTO GRID — normal scroll
         ═══════════════════════════════════════════════════════════════════ */}
-        {/* TEMPORARILY HIDDEN — Beyond Pixels / Industrial section */}
-        {false && <IndustrialSection />}
+        <IndustrialSection />
 
         {/* TEMPORARILY HIDDEN — Beyond Pixels / Arch + Industrial section */}
         {/* <ArchSection /> */}
