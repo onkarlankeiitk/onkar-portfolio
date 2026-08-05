@@ -644,6 +644,8 @@ const HERO_LINES: CharDef[][] = [
   [...'Observer,'].map(ch => ({ ch, accent: false })),
   [...'Tinkerer,'].map(ch => ({ ch, accent: false })),
   [
+    { ch: '&', accent: true },
+    { ch: ' ', accent: false },
     ...('Storyteller').split('').map(ch => ({ ch, accent: false })),
     { ch: '.', accent: true },
   ],
@@ -1832,7 +1834,7 @@ function WorkSubSection({ label, children, topPadding = '56px' }: { label: strin
         transition={{ duration: 0.5, ease }}
         style={{
           fontFamily: T.mono,
-          fontSize: '21px',
+          fontSize: '17px',
           color: hovered ? '#f97316' : '#52525b',
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
