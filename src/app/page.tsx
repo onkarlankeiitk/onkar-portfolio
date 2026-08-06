@@ -620,6 +620,9 @@ function ArticlesColumn({ headingColor }: { headingColor: string }) {
 // ─── Typewriter headline ──────────────────────────────────────────────────────
 // ─── Hero — Option A: Asymmetric grid (exact from design handoff) ─────────────
 const HERO_ACCENT = '#FF4A1C'
+const PIXEL_COLS = 22
+const PIXEL_ROWS = 16
+const PIXEL_DELAYS: number[] = Array.from({ length: PIXEL_COLS * PIXEL_ROWS }, () => Math.random() * 0.9)
 const HERO_BG     = '#FCFCFA'
 const HERO_INK    = '#141414'
 const HERO_MUTED  = '#8a8a85'
@@ -835,8 +838,32 @@ function HeroSection() {
             background: '#0a0a0a',
             padding: '28px 24px',
             clipPath: 'polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)',
+            position: 'relative',
+            overflow: 'hidden',
           }}
         >
+          {/* Pixel dissolve overlay */}
+          {done && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'grid',
+              gridTemplateColumns: `repeat(${PIXEL_COLS}, 1fr)`,
+              gridTemplateRows: `repeat(${PIXEL_ROWS}, 1fr)`,
+              pointerEvents: 'none',
+              zIndex: 10,
+            }}>
+              {PIXEL_DELAYS.map((delay, i) => (
+                <motion.div
+                  key={i}
+                  style={{ background: '#0a0a0a' }}
+                  initial={{ opacity: 1 }}
+                  animate={{ opacity: 0 }}
+                  transition={{ duration: 0.30, delay: delay + 0.2 }}
+                />
+              ))}
+            </div>
+          )}
           <div style={{
             fontFamily: SPACE_MONO,
             fontSize: 'clamp(14px, 1.25vw, 18px)',
@@ -853,7 +880,7 @@ function HeroSection() {
             color: '#888880',
             maxWidth: '420px',
           }}>
-            A senior <span style={{ color: '#ffffff' }}>product designer</span>, passionate <span style={{ color: '#ffffff' }}>researcher</span>, and product <span style={{ color: '#ffffff' }}>strategist</span> with <span style={{ color: '#ffffff' }}>5+ years</span> in end to end project delivery with recent work in AI enabled development & agentic workflows.
+            <span style={{ color: '#ffffff' }}>Product designer</span>, passionate <span style={{ color: '#ffffff' }}>researcher</span>, and <span style={{ color: '#ffffff' }}>strategist</span> with <span style={{ color: '#ffffff' }}>5+ years</span> in end to end project delivery with recent work in AI enabled development & agentic workflows.
           </p>
 
           {/* CTA buttons */}
