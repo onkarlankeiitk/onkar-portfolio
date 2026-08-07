@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import Link from 'next/link'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
@@ -623,6 +623,7 @@ const HERO_ACCENT = '#FF4A1C'
 const PIXEL_COLS = 22
 const PIXEL_ROWS = 16
 const PIXEL_DELAYS: number[] = Array.from({ length: PIXEL_COLS * PIXEL_ROWS }, () => Math.random() * 0.9)
+const ABOUT_PIXEL_DELAYS: number[] = Array.from({ length: PIXEL_COLS * PIXEL_ROWS }, () => Math.random() * 0.9)
 const HERO_BG     = '#FCFCFA'
 const HERO_INK    = '#141414'
 const HERO_MUTED  = '#8a8a85'
@@ -647,8 +648,6 @@ const HERO_LINES: CharDef[][] = [
   [...'Observer,'].map(ch => ({ ch, accent: false })),
   [...'Tinkerer,'].map(ch => ({ ch, accent: false })),
   [
-    { ch: '&', accent: true },
-    { ch: ' ', accent: false },
     ...('Storyteller').split('').map(ch => ({ ch, accent: false })),
     { ch: '.', accent: true },
   ],
@@ -827,21 +826,23 @@ function HeroSection() {
         {/* Right: greeting + descriptor — spring pop in after done */}
         <motion.div
           className="hero-right-col"
-          initial={{ opacity: 0, scale: 0.88, y: 24 }}
-          animate={done ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.88, y: 24 }}
-          transition={{ type: 'spring', stiffness: 280, damping: 18, mass: 0.9, delay: 0.15 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: done ? 1 : 0 }}
+          transition={{ duration: 0 }}
           style={{
             display: 'flex',
             flexDirection: 'column',
             gap: '16px',
             justifyContent: 'flex-end',
-            background: '#0a0a0a',
+            background: '#1D1D1D',
             padding: '28px 24px',
             clipPath: 'polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)',
             position: 'relative',
             overflow: 'hidden',
           }}
         >
+          {/* Noise texture */}
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px', opacity: 0.13, pointerEvents: 'none', zIndex: 0 }} />
           {/* Pixel dissolve overlay */}
           {done && (
             <div style={{
@@ -856,7 +857,7 @@ function HeroSection() {
               {PIXEL_DELAYS.map((delay, i) => (
                 <motion.div
                   key={i}
-                  style={{ background: '#0a0a0a' }}
+                  style={{ background: HERO_BG }}
                   initial={{ opacity: 1 }}
                   animate={{ opacity: 0 }}
                   transition={{ duration: 0.30, delay: delay + 0.2 }}
@@ -1474,6 +1475,60 @@ function ArchSection() {
   )
 }
 
+function AboutPhoto() {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-10% 0px' })
+  return (
+    <div ref={ref} style={{ position: 'relative' }}>
+      {/* Diagonal line texture — top-left corner */}
+      <div style={{
+        position: 'absolute',
+        top: '-24px',
+        left: '-24px',
+        width: '55%',
+        height: '55%',
+        zIndex: 2,
+        pointerEvents: 'none',
+        backgroundImage: 'repeating-linear-gradient(45deg, #f97316 0px, #f97316 1px, transparent 1px, transparent 8px)',
+        maskImage: 'linear-gradient(135deg, black 40%, transparent 75%)',
+        WebkitMaskImage: 'linear-gradient(135deg, black 40%, transparent 75%)',
+        opacity: 0.6,
+      }} />
+      <motion.div
+        style={{ width: '100%', aspectRatio: '3/4', overflow: 'hidden', position: 'relative', zIndex: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: inView ? 1 : 0 }}
+        transition={{ duration: 0 }}
+      >
+        {/* Pixel dissolve overlay */}
+        {inView && (
+          <div style={{
+            position: 'absolute', inset: 0, display: 'grid',
+            gridTemplateColumns: `repeat(${PIXEL_COLS}, 1fr)`,
+            gridTemplateRows: `repeat(${PIXEL_ROWS}, 1fr)`,
+            pointerEvents: 'none', zIndex: 10,
+          }}>
+            {ABOUT_PIXEL_DELAYS.map((delay, i) => (
+              <motion.div
+                key={i}
+                style={{ background: '#FCFCFA' }}
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 0 }}
+                transition={{ duration: 0.30, delay: delay + 0.2 }}
+              />
+            ))}
+          </div>
+        )}
+        <img
+          src="/onkar.jpg"
+          alt="Onkar Lanke"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'grayscale(100%)' }}
+        />
+      </motion.div>
+    </div>
+  )
+}
+
 function AboutSection() {
   return (
     <section
@@ -1578,17 +1633,19 @@ function AboutSection() {
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '1px',
-              background: 'rgba(255,255,255,0.25)',
+              background: 'rgba(255,255,255,0.08)',
               clipPath: 'polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)',
               overflow: 'hidden',
             }}
           >
             {stats.map((s, i) => (
-              <div key={i} style={{ background: '#ffffff', padding: '24px 28px' }}>
-                <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: '#f97316', margin: '0 0 3px', lineHeight: 1 }}>
+              <div key={i} style={{ background: '#1D1D1D', padding: '24px 28px', position: 'relative', overflow: 'hidden' }}>
+                {/* Noise texture */}
+                <div style={{ position: 'absolute', inset: 0, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px', opacity: 0.13, pointerEvents: 'none', zIndex: 0 }} />
+                <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: '#f97316', margin: '0 0 3px', lineHeight: 1, position: 'relative', zIndex: 1 }}>
                   <CountUp target={s.value} suffix={s.suffix} />
                 </p>
-                <p style={{ fontFamily: T.mono, fontSize: '10px', color: 'rgba(249,115,22,0.6)', margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+                <p style={{ fontFamily: T.mono, fontSize: '10px', color: 'rgba(249,115,22,0.6)', margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase', position: 'relative', zIndex: 1 }}>
                   {s.label}
                 </p>
               </div>
@@ -1615,54 +1672,9 @@ function AboutSection() {
         </div>
 
         {/* ── Right column — tall photo ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1, ease }}
-        >
-          <div
-            style={{
-              width: '100%',
-              aspectRatio: '3/4',
-              borderRadius: '14px',
-              overflow: 'hidden',
-            }}
-          >
-            <img
-              src="/onkar.webp"
-              alt="Onkar Lanke"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'grayscale(100%)' }}
-            />
-          </div>
-        </motion.div>
+        <AboutPhoto />
       </div>
 
-      {/* TEMPORARILY HIDDEN — Sketches / Design Breaks section */}
-      {false && (
-      <div
-        style={{
-          background: T.dark,
-          borderTop: `1px solid ${T.rule}`,
-          paddingTop: '72px',
-          paddingBottom: '72px',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Sketches header */}
-        <div style={{ padding: '0 80px 48px' }}>
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
-            Raw sketches &amp; explorations
-          </p>
-          <p style={{ fontFamily: T.sans, fontSize: '22px', fontWeight: 500, color: '#ffffff', margin: 0, letterSpacing: '-0.02em' }}>
-            Scratches during free time
-          </p>
-        </div>
-
-        {/* Marquee */}
-        <SketchMarquee />
-      </div>
-      )}
     </section>
   )
 }
@@ -2017,6 +2029,23 @@ export default function Home() {
 
         {/* TEMPORARILY HIDDEN — Beyond Pixels / Arch + Industrial section */}
         {/* <ArchSection /> */}
+
+        {/* ═══════════════════════════════════════════════════════════════════
+            DOODLES — just above footer
+        ═══════════════════════════════════════════════════════════════════ */}
+        <div style={{ background: T.dark, overflow: 'hidden', position: 'relative', padding: '48px 0' }}>
+          <div style={{ padding: '0 64px 24px' }}>
+            <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+              Raw sketches &amp; explorations
+            </p>
+            <p style={{ fontFamily: T.sans, fontSize: '22px', fontWeight: 500, color: '#ffffff', margin: 0, letterSpacing: '-0.02em' }}>
+              Doodles: Keep designing, keep sketching
+            </p>
+          </div>
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.dark}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, ${T.dark}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+          <SketchMarquee />
+        </div>
 
         {/* ═══════════════════════════════════════════════════════════════════
             FOOTER — sticky, ends the scroll

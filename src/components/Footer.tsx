@@ -5,6 +5,17 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 
 
+const sketchSrcs = [
+  '/sketches/sketch-01.jpg',
+  '/sketches/sketch-02.jpg',
+  '/sketches/sketch-03.jpg',
+  '/sketches/sketch-04.webp',
+  '/sketches/sketch-05.jpg',
+  '/sketches/sketch-06.jpg',
+  '/sketches/sketch-07.jpg',
+  '/sketches/sketch-08.jpg',
+]
+
 const contactLinks = [
   { label: 'Email',    href: 'mailto:onkarlanke.iitk@gmail.com',  display: 'onkarlanke.iitk@gmail.com',   external: false },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/onkarlanke/', display: 'linkedin.com/in/onkarlanke', external: true  },
@@ -329,7 +340,7 @@ export default function Footer() {
       className="footer-root"
       style={{
         background: '#0A0A0A',
-        height: '100svh',
+        minHeight: '100svh',
         fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
         display: 'flex',
         flexDirection: 'column',
