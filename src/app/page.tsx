@@ -470,7 +470,7 @@ function ColSection({ children, borderRight }: { children: (headingColor: string
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {children(hovered ? '#f97316' : '#52525b')}
+      {children(hovered ? '#FF4A1C' : '#52525b')}
     </div>
   )
 }
@@ -624,6 +624,9 @@ const PIXEL_COLS = 22
 const PIXEL_ROWS = 16
 const PIXEL_DELAYS: number[] = Array.from({ length: PIXEL_COLS * PIXEL_ROWS }, () => Math.random() * 0.9)
 const ABOUT_PIXEL_DELAYS: number[] = Array.from({ length: PIXEL_COLS * PIXEL_ROWS }, () => Math.random() * 0.9)
+const BLOB_PIXEL_COLS = 12
+const BLOB_PIXEL_ROWS = 12
+const BLOB_PIXEL_DELAYS: number[] = Array.from({ length: BLOB_PIXEL_COLS * BLOB_PIXEL_ROWS }, () => Math.random() * 0.9)
 const HERO_BG     = '#FCFCFA'
 const HERO_INK    = '#141414'
 const HERO_MUTED  = '#8a8a85'
@@ -637,7 +640,8 @@ const HERO_TAGS = [
   { n: '02', label: 'UX Research & Strategy' },
   { n: '03', label: 'Behavioral Mapping' },
   { n: '04', label: 'Visual Design' },
-  { n: '05', label: 'Data Analytics' },
+  { n: '05', label: 'Systems Thinking' },
+  { n: '06', label: 'Data Analytics' },
 ]
 
 // Each character carries its display text and whether it's accent-coloured.
@@ -694,16 +698,60 @@ function HeroCTA({ href, label, external }: { href: string; label: string; exter
   )
 }
 
+function HeroCTALight({ href, label, external }: { href: string; label: string; external?: boolean }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <a
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noreferrer' : undefined}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '5px',
+        fontFamily: SPACE_MONO,
+        fontSize: '12px',
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        textDecoration: 'none',
+        color: hovered ? '#ffffff' : HERO_INK,
+        background: hovered ? HERO_ACCENT : 'transparent',
+        padding: '4px 8px 4px 0',
+        paddingLeft: hovered ? '8px' : '0',
+        clipPath: hovered
+          ? 'polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%)'
+          : 'none',
+        cursor: 'pointer',
+        transition: 'color 0.2s ease, background 0.2s ease, clip-path 0.2s ease, padding-left 0.2s ease',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      <span style={{
+        textDecoration: hovered ? 'none' : 'underline',
+        textDecorationColor: HERO_INK,
+        textUnderlineOffset: '6px',
+      }}>{label}</span>
+      <span style={{ fontSize: '13px', lineHeight: 1 }}>↗</span>
+    </a>
+  )
+}
+
+const HERO_TOTAL_CHARS = HERO_LINES.reduce((s, l) => s + l.length, 0)
+
 function HeroSection() {
-  // revealed[i] = number of chars shown for line i
-  const [revealed, setRevealed]     = useState([0, 0, 0])
-  const [cursorLine, setCursorLine] = useState(0)
-  const [done, setDone]             = useState(false)
+  const [revealed, setRevealed]       = useState([0, 0, 0])
+  const [cursorLine, setCursorLine]   = useState(0)
+  const [done, setDone]               = useState(false)
+  const [rightReady, setRightReady]   = useState(false)
+  const [charsDone, setCharsDone]     = useState(0)
 
   useEffect(() => {
     let lineIdx = 0
     let charIdx = 0
     let cancelled = false
+    let count = 0
 
     const type = () => {
       if (cancelled) return
@@ -714,15 +762,16 @@ function HeroSection() {
       }
       const line = HERO_LINES[lineIdx]
       if (charIdx <= line.length) {
-        const li = lineIdx
-        const ci = charIdx
+        const li = lineIdx, ci = charIdx
         setRevealed(prev => { const n = [...prev]; n[li] = ci; return n })
         setCursorLine(lineIdx)
+        count++; setCharsDone(count)
         charIdx++
         setTimeout(type, 75)
       } else {
-        lineIdx++
-        charIdx = 0
+        lineIdx++; charIdx = 0
+        // Storyteller (line 2) just started — trigger right side
+        if (lineIdx === 2) setRightReady(true)
         setTimeout(type, 260)
       }
     }
@@ -731,11 +780,14 @@ function HeroSection() {
     return () => { cancelled = true; clearTimeout(delay) }
   }, [])
 
-  const fadeIn: React.CSSProperties = {
-    opacity: done ? 1 : 0,
-    transform: done ? 'translateY(0)' : 'translateY(6px)',
-    transition: 'opacity 0.55s ease, transform 0.55s ease',
-  }
+  // Badge grows from line → rectangle as typing progresses
+  const p = Math.min(charsDone / HERO_TOTAL_CHARS, 1)
+  const badgeW  = p > 0 ? 220 : 0                        // px — appears immediately
+  const badgeH  = 2 + Math.max(0, (p - 0.2) / 0.8) * 68 // grows once 20% typed
+  const textAlpha = Math.max(0, (p - 0.65) / 0.35)       // text fades in last 35%
+
+  const CARD_BG = 'rgba(225, 217, 214, 0.50)'
+  const CARD_DISSOLVE = '#E1D9D6'
 
   return (
     <section
@@ -748,65 +800,72 @@ function HeroSection() {
         background: HERO_BG,
         color: HERO_INK,
         fontFamily: HELV,
-        padding: '36px 80px 64px',
+        padding: '36px 80px 36px',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
       }}
     >
-      {/* ── Top meta bar — fades in after typing ── */}
-      <div className="hero-meta-bar" style={{
-        ...fadeIn,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        paddingBottom: '18px',
-        borderBottom: '0.5px solid #888880',
-        fontFamily: SPACE_MONO,
-        fontSize: '10px',
-        letterSpacing: '0.1em',
-        textTransform: 'uppercase',
-        color: HERO_INK,
-      }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span style={{ width: '9px', height: '9px', background: HERO_ACCENT, display: 'inline-block', flexShrink: 0 }} />
-          Portfolio — Onkar
-        </span>
-        <span style={{ color: HERO_MUTED }}>Product &amp; UX</span>
-        <span>Est. 2020 / 6+ Yrs</span>
+      {/* ── Animated badge — top left ── */}
+      <div className="hero-badge" style={{ position: 'absolute', top: '36px', left: '80px', zIndex: 2 }}>
+        <div style={{
+          width: `${badgeW}px`,
+          height: `${badgeH}px`,
+          background: HERO_ACCENT,
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          padding: badgeH > 30 ? '10px 16px' : '0',
+          clipPath: `polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)`,
+          transition: 'width 0.12s ease, height 0.12s ease, padding 0.12s ease',
+        }}>
+          <div style={{
+            opacity: textAlpha,
+            transition: 'opacity 0.2s ease',
+            fontFamily: SPACE_MONO,
+            fontSize: '13px',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            lineHeight: 1.7,
+            whiteSpace: 'nowrap',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#333333' }}>
+              <span style={{ display: 'inline-block', width: '6px', height: '6px', background: '#333333', flexShrink: 0 }} />
+              Portfolio — 2026
+            </div>
+            <div style={{ color: '#EAEAEA' }}>Est. 2020 / 6+ Years</div>
+          </div>
+        </div>
       </div>
 
-      {/* ── Headline block — asymmetric grid ── */}
+      {/* ── Main grid: headline | circle+card | vertical skills ── */}
       <div className="hero-grid" style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 440px',
-        gap: '48px',
-        alignItems: 'end',
-        marginTop: 'auto',
-        marginBottom: 'auto',
-        padding: '72px 0',
+        gridTemplateColumns: '1fr 480px 120px',
+        gap: '32px',
+        alignItems: 'center',
+        flex: 1,
+        padding: '80px 0 0',
       }}>
-        {/* Left: typewritten headline */}
+
+        {/* Left — typewritten headline */}
         <div>
-          {/* Typewritten h1 */}
           <h1 style={{
             margin: 0,
             fontFamily: HELV,
-            fontWeight: 600,
-            fontSize: 'clamp(56px, 7.2vw, 104px)',
+            fontWeight: 700,
+            fontSize: 'clamp(40px, 9vw, 100px)',
             lineHeight: 0.94,
             letterSpacing: '-0.035em',
             color: HERO_INK,
-            minHeight: '2.82em', // 3 lines × lineHeight 0.94 — prevents layout shift without dead space below
+            minHeight: '2.82em',
           }}>
             {HERO_LINES.map((line, li) => (
               <span key={li} style={{ display: 'block' }}>
                 {line.slice(0, revealed[li]).map(({ ch, accent }, ci) => (
-                  <span key={ci} style={accent ? { color: HERO_ACCENT } : undefined}>
-                    {ch}
-                  </span>
+                  <span key={ci} style={accent ? { color: HERO_ACCENT } : undefined}>{ch}</span>
                 ))}
-                {/* Blinking cursor on active line */}
                 {cursorLine === li && (
                   <span style={{
                     display: 'inline-block',
@@ -823,97 +882,160 @@ function HeroSection() {
           </h1>
         </div>
 
-        {/* Right: greeting + descriptor — spring pop in after done */}
-        <motion.div
-          className="hero-right-col"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: done ? 1 : 0 }}
-          transition={{ duration: 0 }}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-            justifyContent: 'flex-end',
-            background: '#1D1D1D',
-            padding: '28px 24px',
-            clipPath: 'polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)',
-            position: 'relative',
+        {/* Center — orange circle + light card */}
+        <div style={{ position: 'relative' }}>
+          {/* Orange circle — mounts when Storyteller starts, pixel dissolve reveals it */}
+          {rightReady && <div style={{
+            position: 'absolute',
+            top: 'clamp(-80px, -15vw, -110px)',
+            left: 'clamp(-80px, -15vw, -110px)',
+            width: 'clamp(200px, 35vw, 300px)',
+            height: 'clamp(200px, 35vw, 300px)',
+            borderRadius: '50%',
+            background: HERO_ACCENT,
+            zIndex: 0,
+            pointerEvents: 'none',
             overflow: 'hidden',
-          }}
-        >
-          {/* Noise texture */}
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px', opacity: 0.13, pointerEvents: 'none', zIndex: 0 }} />
-          {/* Pixel dissolve overlay */}
-          {done && (
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              display: 'grid',
-              gridTemplateColumns: `repeat(${PIXEL_COLS}, 1fr)`,
-              gridTemplateRows: `repeat(${PIXEL_ROWS}, 1fr)`,
-              pointerEvents: 'none',
-              zIndex: 10,
+          }}>
+            {(
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                display: 'grid',
+                gridTemplateColumns: `repeat(${BLOB_PIXEL_COLS}, 1fr)`,
+                gridTemplateRows: `repeat(${BLOB_PIXEL_ROWS}, 1fr)`,
+                pointerEvents: 'none',
+                zIndex: 2,
+              }}>
+                {BLOB_PIXEL_DELAYS.map((delay, i) => (
+                  <motion.div
+                    key={i}
+                    style={{ background: HERO_BG }}
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: 0 }}
+                    transition={{ duration: 0.30, delay: delay + 0.2 }}
+                  />
+                ))}
+              </div>
+            )}
+          </div>}
+
+          {/* Card */}
+          <motion.div
+            className="hero-right-col"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: rightReady ? 1 : 0 }}
+            transition={{ duration: 0 }}
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+              background: CARD_BG,
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              padding: '40px 36px',
+              borderRadius: '12px',
+              border: '1px solid #DBDBDB',
+              overflow: 'hidden',
+            }}
+          >
+            {/* Pixel dissolve overlay */}
+            {rightReady && (
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                display: 'grid',
+                gridTemplateColumns: `repeat(${PIXEL_COLS}, 1fr)`,
+                gridTemplateRows: `repeat(${PIXEL_ROWS}, 1fr)`,
+                pointerEvents: 'none',
+                zIndex: 10,
+              }}>
+                {PIXEL_DELAYS.map((delay, i) => (
+                  <motion.div
+                    key={i}
+                    style={{ background: CARD_DISSOLVE }}
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: 0 }}
+                    transition={{ duration: 0.30, delay: delay + 0.2 }}
+                  />
+                ))}
+              </div>
+            )}
+
+            <div className="hero-card-heading" style={{
+              fontFamily: SPACE_MONO,
+              fontSize: '21px',
+              letterSpacing: '0.04em',
+              color: HERO_INK,
+              position: 'relative', zIndex: 1,
             }}>
-              {PIXEL_DELAYS.map((delay, i) => (
-                <motion.div
-                  key={i}
-                  style={{ background: HERO_BG }}
-                  initial={{ opacity: 1 }}
-                  animate={{ opacity: 0 }}
-                  transition={{ duration: 0.30, delay: delay + 0.2 }}
-                />
+              Hi, <span style={{ color: HERO_INK }}>I&rsquo;m Onkar</span>,
+            </div>
+
+            <p className="hero-card-body" style={{
+              margin: 0,
+              fontFamily: HELV,
+              fontSize: '15px',
+              lineHeight: 1.55,
+              color: HERO_BODY,
+              maxWidth: '380px',
+              position: 'relative', zIndex: 1,
+            }}>
+              Passionate UX researcher, product craftsman &amp; technologist, building experiences for{' '}
+              <span style={{ color: HERO_INK, fontWeight: 500 }}>5+ years</span>, with recent development
+              in agentic environments and AI powered research &amp; prototyping.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '96px', position: 'relative', zIndex: 1 }}>
+              <HeroCTALight href="/ONKAR_LANKE.pdf" label="View Resume" external />
+              <HeroCTALight href="https://www.linkedin.com/in/onkarlanke/" label="Connect on LinkedIn" external />
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Right — vertical skills bar (2 columns) */}
+        <div className="hero-skills-bar" style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+          gap: '14px',
+          height: '100%',
+          opacity: rightReady ? 1 : 0,
+          transition: 'opacity 0.6s ease 0.3s',
+          overflow: 'hidden',
+        }}>
+          {(() => {
+            const reversed = [...HERO_TAGS].reverse()
+            const cols = [reversed.slice(3), reversed.slice(0, 3)]
+            return cols.map((colItems, col) => (
+            <div key={col} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '18px' }}>
+              {colItems.map(({ n, label }) => (
+                <div key={n} style={{
+                  writingMode: 'vertical-rl',
+                  transform: 'rotate(180deg)',
+                  fontFamily: SPACE_MONO,
+                  fontSize: '13.2px',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: HERO_MUTED,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '7px',
+                  whiteSpace: 'nowrap',
+                  lineHeight: 1,
+                }}>
+                  <span style={{ color: '#222222' }}>{n}</span>
+                  {label}
+                </div>
               ))}
             </div>
-          )}
-          <div style={{
-            fontFamily: SPACE_MONO,
-            fontSize: 'clamp(14px, 1.25vw, 18px)',
-            letterSpacing: '0.04em',
-            color: '#888880',
-          }}>
-            Hi, <span style={{ color: '#ffffff' }}>I&rsquo;m Onkar</span>,
-          </div>
-          <p style={{
-            margin: 0,
-            fontFamily: HELV,
-            fontSize: '17px',
-            lineHeight: 1.45,
-            color: '#888880',
-            maxWidth: '420px',
-          }}>
-            <span style={{ color: '#ffffff' }}>Product designer</span>, passionate <span style={{ color: '#ffffff' }}>researcher</span>, and <span style={{ color: '#ffffff' }}>strategist</span> with <span style={{ color: '#ffffff' }}>5+ years</span> in end to end project delivery with recent work in AI enabled development & agentic workflows.
-          </p>
-
-          {/* CTA buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', marginTop: '8px' }}>
-            <div style={{ marginBottom: '7px' }}><HeroCTA href="/ONKAR_LANKE.pdf" label="View resume" external /></div>
-            <HeroCTA href="https://www.linkedin.com/in/onkarlanke/" label="Connect on LinkedIn" external />
-          </div>
-        </motion.div>
-      </div>
-
-      {/* ── Tags bar — fades in after done ── */}
-      <div className="hero-tags-bar" style={{
-        ...fadeIn,
-        transitionDelay: done ? '0.2s' : '0s',
-        borderTop: '0.5px solid #888880',
-        paddingTop: '22px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '14px 0',
-        justifyContent: 'space-between',
-        fontFamily: SPACE_MONO,
-        fontSize: '11px',
-        letterSpacing: '0.04em',
-        textTransform: 'uppercase',
-        color: '#888880',
-      }}>
-        {HERO_TAGS.map(({ n, label }) => (
-          <span key={n} style={{ display: 'flex', gap: '10px' }}>
-            <span style={{ color: '#3a3a3a' }}>{n}</span>
-            {label}
-          </span>
-        ))}
+          ))
+          })()}
+        </div>
       </div>
     </section>
   )
@@ -1022,8 +1144,8 @@ function SketchMarquee() {
   return (
     <div style={{ overflow: 'hidden', position: 'relative' }}>
       {/* Fade edges */}
-      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.dark}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, ${T.dark}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
 
       <motion.div
         className="sketch-track"
@@ -1489,7 +1611,7 @@ function AboutPhoto() {
         height: '55%',
         zIndex: 2,
         pointerEvents: 'none',
-        backgroundImage: 'repeating-linear-gradient(45deg, #f97316 0px, #f97316 1px, transparent 1px, transparent 8px)',
+        backgroundImage: 'repeating-linear-gradient(45deg, #FF4A1C 0px, #FF4A1C 1px, transparent 1px, transparent 8px)',
         maskImage: 'linear-gradient(135deg, black 40%, transparent 75%)',
         WebkitMaskImage: 'linear-gradient(135deg, black 40%, transparent 75%)',
         opacity: 0.6,
@@ -1605,7 +1727,7 @@ function AboutSection() {
               margin: 0,
               fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
             }}>
-              Thriving on<br /><em>curiosity</em>
+              Thriving on curiosity &amp; experimentation
             </h2>
           </motion.div>
 
@@ -1617,8 +1739,11 @@ function AboutSection() {
             transition={{ duration: 0.6, delay: 0.1, ease }}
             style={{ maxWidth: '48ch' }}
           >
+            <p style={{ fontSize: '18px', color: '#3D3D38', lineHeight: 1.65, margin: '0 0 20px' }}>
+              I love product building! I&apos;m an engineer turned designer. I explore &amp; bring insights to the forefront &amp; ship intentional experiences, that help in brand building.
+            </p>
             <p style={{ fontSize: '18px', color: '#3D3D38', lineHeight: 1.65, margin: 0 }}>
-              I&apos;m an engineer turned designer obsessed with forms, shapes, materials, interactions, & technology. I believe these are the ingredients of good, successful design. I bring research to the forefront &amp; ship products with intentional design experiences. People say, &lsquo;Good Design shapes you&rsquo;,  I have experienced that first hand.
+              People say, &ldquo;Good Design shapes you.&rdquo; Design has made me more humble, an active listener, &amp; importance of putting your heart into creations.
             </p>
           </motion.div>
 
@@ -1641,11 +1766,11 @@ function AboutSection() {
             {stats.map((s, i) => (
               <div key={i} style={{ background: '#1D1D1D', padding: '24px 28px', position: 'relative', overflow: 'hidden' }}>
                 {/* Noise texture */}
-                <div style={{ position: 'absolute', inset: 0, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px', opacity: 0.13, pointerEvents: 'none', zIndex: 0 }} />
-                <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: '#f97316', margin: '0 0 3px', lineHeight: 1, position: 'relative', zIndex: 1 }}>
+                <div style={{ position: 'absolute', inset: 0, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px', opacity: 0.28, pointerEvents: 'none', zIndex: 0 }} />
+                <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: HERO_ACCENT, margin: '0 0 3px', lineHeight: 1, position: 'relative', zIndex: 1 }}>
                   <CountUp target={s.value} suffix={s.suffix} />
                 </p>
-                <p style={{ fontFamily: T.mono, fontSize: '10px', color: 'rgba(249,115,22,0.6)', margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase', position: 'relative', zIndex: 1 }}>
+                <p style={{ fontFamily: T.mono, fontSize: '10px', color: 'rgba(255,74,28,0.6)', margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase', position: 'relative', zIndex: 1 }}>
                   {s.label}
                 </p>
               </div>
@@ -1874,7 +1999,7 @@ function WorkSubSection({ label, children, topPadding = '56px' }: { label: strin
         style={{
           fontFamily: T.mono,
           fontSize: '17px',
-          color: hovered ? '#f97316' : '#52525b',
+          color: hovered ? '#FF4A1C' : '#52525b',
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
           margin: '0 0 20px',
@@ -2033,17 +2158,17 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════════════
             DOODLES — just above footer
         ═══════════════════════════════════════════════════════════════════ */}
-        <div style={{ background: T.dark, overflow: 'hidden', position: 'relative', padding: '48px 0' }}>
+        <div style={{ background: T.paper, overflow: 'hidden', position: 'relative', padding: '48px 0', borderTop: '1px solid #E5E5E0' }}>
           <div style={{ padding: '0 64px 24px' }}>
-            <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+            <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
               Raw sketches &amp; explorations
             </p>
-            <p style={{ fontFamily: T.sans, fontSize: '22px', fontWeight: 500, color: '#ffffff', margin: 0, letterSpacing: '-0.02em' }}>
+            <p style={{ fontFamily: T.sans, fontSize: '22px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.02em' }}>
               Doodles: Keep designing, keep sketching
             </p>
           </div>
-          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.dark}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, ${T.dark}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
           <SketchMarquee />
         </div>
 
@@ -2081,32 +2206,42 @@ export default function Home() {
 
         /* ── Tablet (≤768px) ── */
         @media (max-width: 768px) {
-          /* Hero — proper top padding to clear floating nav */
+          /* Hero */
           #hero {
-            padding: 88px 24px 36px !important;
+            padding: 72px 24px 32px !important;
+            height: auto !important;
+            min-height: 100svh !important;
           }
-          /* Hero inner grid — stack headline above description */
+          /* Stack: headline on top, card below */
           .hero-grid {
             grid-template-columns: 1fr !important;
-            gap: 24px !important;
-            padding: 28px 0 24px !important;
-            margin-top: 0 !important;
-            margin-bottom: 0 !important;
+            gap: 28px !important;
+            padding: 24px 0 16px !important;
           }
-          /* Hero meta bar — smaller font, allow wrap */
-          .hero-meta-bar {
-            font-size: 10px !important;
-            flex-wrap: wrap !important;
-            gap: 8px !important;
+          /* Card — full width, reduce padding */
+          .hero-right-col {
+            padding: 28px 24px !important;
           }
-          /* Hide middle meta item on small screens */
-          .hero-meta-bar > span:nth-child(2) {
+          /* Reduce card heading font size on tablet */
+          .hero-right-col .hero-card-heading {
+            font-size: 17px !important;
+          }
+          /* Reduce card body font size on tablet */
+          .hero-right-col .hero-card-body {
+            font-size: 13px !important;
+          }
+          /* Para-to-CTA spacing tighter on mobile */
+          .hero-right-col > div:last-child {
+            margin-top: 32px !important;
+          }
+          /* Hide vertical skills bar on mobile */
+          .hero-skills-bar {
             display: none !important;
           }
-          /* Hero tags bar — tighter gap, 3-per-row */
-          .hero-tags-bar {
-            gap: 12px 24px !important;
-            justify-content: flex-start !important;
+          /* Badge repositioned for smaller padding */
+          .hero-badge {
+            top: 20px !important;
+            left: 24px !important;
           }
 
           /* Work section */
@@ -2185,20 +2320,43 @@ export default function Home() {
           .services-grid > div:last-child {
             border-bottom: none !important;
           }
+
+          /* Industrial / Beyond Pixels */
+          .industrial-section {
+            padding: 56px 24px !important;
+          }
+          .industrial-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            grid-template-rows: auto !important;
+          }
+          .industrial-grid > div {
+            height: 240px !important;
+          }
+
         }
 
         /* ── Mobile (≤480px) ── */
         @media (max-width: 480px) {
           /* Hero */
           #hero {
-            padding: 80px 18px 28px !important;
+            padding: 64px 18px 24px !important;
           }
           .hero-grid {
             gap: 20px !important;
-            padding: 20px 0 16px !important;
+            padding: 16px 0 12px !important;
           }
-          .hero-tags-bar {
-            gap: 10px 16px !important;
+          .hero-right-col {
+            padding: 24px 20px !important;
+          }
+          /* Further reduce card font sizes on small mobile */
+          .hero-right-col .hero-card-heading {
+            font-size: 15px !important;
+          }
+          .hero-right-col .hero-card-body {
+            font-size: 12px !important;
+          }
+          .hero-right-col > div:last-child {
+            margin-top: 24px !important;
           }
 
           /* Work section */
@@ -2240,6 +2398,18 @@ export default function Home() {
           /* Services */
           .services-grid > div {
             padding: 28px 18px !important;
+          }
+
+          /* Industrial / Beyond Pixels */
+          .industrial-section {
+            padding: 48px 18px !important;
+          }
+          .industrial-grid {
+            grid-template-columns: 1fr !important;
+            grid-template-rows: auto !important;
+          }
+          .industrial-grid > div {
+            height: 220px !important;
           }
         }
       `}</style>

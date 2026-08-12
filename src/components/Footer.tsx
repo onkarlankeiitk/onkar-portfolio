@@ -37,12 +37,12 @@ function RolePill({ label }: { label: string }) {
   return (
     <span
       style={{
-        border: `1px solid ${hovered ? '#f97316' : '#27272a'}`,
+        border: `1px solid ${hovered ? '#FF4A1C' : '#27272a'}`,
         borderRadius: '9999px',
         padding: '8px 20px',
         fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
         fontSize: '14px',
-        color: hovered ? '#f97316' : '#f97316',
+        color: hovered ? '#FF4A1C' : '#FF4A1C',
         letterSpacing: '0.04em',
         cursor: 'default',
         transition: 'border-color 0.2s ease, color 0.2s ease',
@@ -58,7 +58,7 @@ function RolePill({ label }: { label: string }) {
 // ─── Origami SVG components ────────────────────────────────────────────────────
 function OrigamiCrane({ size, opacity }: { size: number; opacity: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#f97316" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#FF4A1C" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
       <polygon points="50,15 80,55 50,70 20,55" />
       <polygon points="20,55 50,70 10,80" />
       <polygon points="80,55 50,70 90,80" />
@@ -72,7 +72,7 @@ function OrigamiCrane({ size, opacity }: { size: number; opacity: number }) {
 
 function OrigamiFox({ size, opacity }: { size: number; opacity: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#f97316" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#FF4A1C" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
       <polygon points="50,80 10,30 50,50 90,30" />
       <polygon points="10,30 20,5 35,30" />
       <polygon points="90,30 80,5 65,30" />
@@ -85,7 +85,7 @@ function OrigamiFox({ size, opacity }: { size: number; opacity: number }) {
 
 function OrigamiBoat({ size, opacity }: { size: number; opacity: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#f97316" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#FF4A1C" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
       <polygon points="10,60 50,80 90,60 70,40 30,40" />
       <polygon points="50,40 50,10 75,40" />
       <line x1="50" y1="10" x2="50" y2="80" />
@@ -96,7 +96,7 @@ function OrigamiBoat({ size, opacity }: { size: number; opacity: number }) {
 
 function OrigamiDiamond({ size, opacity }: { size: number; opacity: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#f97316" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#FF4A1C" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
       <polygon points="50,5 95,50 50,95 5,50" />
       <line x1="50" y1="5" x2="50" y2="95" />
       <line x1="5" y1="50" x2="95" y2="50" />
@@ -108,7 +108,7 @@ function OrigamiDiamond({ size, opacity }: { size: number; opacity: number }) {
 
 function OrigamiBird({ size, opacity }: { size: number; opacity: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#f97316" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#FF4A1C" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
       <polygon points="50,20 85,50 50,65 15,50" />
       <polygon points="15,50 50,65 5,72" />
       <polygon points="85,50 50,65 95,72" />
@@ -122,7 +122,7 @@ function OrigamiBird({ size, opacity }: { size: number; opacity: number }) {
 
 function OrigamiStar({ size, opacity }: { size: number; opacity: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#f97316" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#FF4A1C" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
       <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" />
       <line x1="50" y1="5" x2="50" y2="95" />
       <line x1="5" y1="50" x2="95" y2="50" />
@@ -132,7 +132,7 @@ function OrigamiStar({ size, opacity }: { size: number; opacity: number }) {
 
 function OrigamiFlower({ size, opacity }: { size: number; opacity: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#f97316" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="#FF4A1C" strokeWidth="0.8" strokeLinejoin="round" opacity={opacity}>
       <polygon points="50,10 60,40 90,40 68,58 76,88 50,72 24,88 32,58 10,40 40,40" />
       <polygon points="50,25 57,45 75,45 62,55 67,73 50,62 33,73 38,55 25,45 43,45" />
       <circle cx="50" cy="50" r="8" />
@@ -390,7 +390,7 @@ export default function Footer() {
               rel={link.external ? 'noreferrer' : undefined}
               className="footer-contact-btn"
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', border: '1px solid #3f3f46', borderRadius: '9999px', padding: '12px 24px', color: '#d4d4d8', fontSize: '14px', textDecoration: 'none', transition: 'border-color 0.2s ease, color 0.2s ease' }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = '#f97316'; el.style.color = '#f97316' }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = '#FF4A1C'; el.style.color = '#FF4A1C' }}
               onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = '#3f3f46'; el.style.color = '#d4d4d8' }}
             >
               <span style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#52525b' }}>
@@ -422,7 +422,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '12px', padding: '20px 24px', background: '#0A0A0A', textDecoration: 'none', transition: 'background 0.2s ease' }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#111'; (el.querySelector('.art-title') as HTMLElement).style.color = '#f97316'; (el.querySelector('.art-arrow') as HTMLElement).style.color = '#f97316' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#111'; (el.querySelector('.art-title') as HTMLElement).style.color = '#FF4A1C'; (el.querySelector('.art-arrow') as HTMLElement).style.color = '#FF4A1C' }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#0A0A0A'; (el.querySelector('.art-title') as HTMLElement).style.color = '#d4d4d8'; (el.querySelector('.art-arrow') as HTMLElement).style.color = '#3f3f46' }}
               >
                 <p className="art-title" style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '13px', fontWeight: 500, color: '#d4d4d8', lineHeight: 1.45, margin: 0, letterSpacing: '-0.01em', transition: 'color 0.2s ease' }}>
