@@ -712,7 +712,7 @@ function HeroCTALight({ href, label, external }: { href: string; label: string; 
         alignItems: 'center',
         gap: '5px',
         fontFamily: SPACE_MONO,
-        fontSize: '12px',
+        fontSize: '13px',
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
         textDecoration: 'none',
@@ -780,11 +780,7 @@ function HeroSection() {
     return () => { cancelled = true; clearTimeout(delay) }
   }, [])
 
-  // Badge grows from line → rectangle as typing progresses
   const p = Math.min(charsDone / HERO_TOTAL_CHARS, 1)
-  const badgeW  = p > 0 ? 220 : 0                        // px — appears immediately
-  const badgeH  = 2 + Math.max(0, (p - 0.2) / 0.8) * 68 // grows once 20% typed
-  const textAlpha = Math.max(0, (p - 0.65) / 0.35)       // text fades in last 35%
 
   const CARD_BG = 'rgba(225, 217, 214, 0.50)'
   const CARD_DISSOLVE = '#E1D9D6'
@@ -807,42 +803,54 @@ function HeroSection() {
       }}
     >
       {/* ── Animated badge — top left ── */}
-      <div className="hero-badge" style={{ position: 'absolute', top: '36px', left: '80px', zIndex: 2 }}>
-        <div style={{
-          width: `${badgeW}px`,
-          height: `${badgeH}px`,
-          background: HERO_ACCENT,
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          padding: badgeH > 30 ? '10px 16px' : '0',
-          clipPath: `polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)`,
-          transition: 'width 0.12s ease, height 0.12s ease, padding 0.12s ease',
-        }}>
-          <div style={{
-            opacity: textAlpha,
-            transition: 'opacity 0.2s ease',
-            fontFamily: SPACE_MONO,
-            fontSize: '13px',
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            lineHeight: 1.7,
-            whiteSpace: 'nowrap',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#333333' }}>
-              <span style={{ display: 'inline-block', width: '6px', height: '6px', background: '#333333', flexShrink: 0 }} />
-              Portfolio — 2026
-            </div>
-            <div style={{ color: '#EAEAEA' }}>Est. 2020 / 6+ Years</div>
-          </div>
-        </div>
+      <div className="hero-badge" style={{ position: 'absolute', top: '36px', left: '80px', zIndex: 2, perspective: '600px' }}>
+        {p > 0 && (
+          <motion.div
+            initial={{ rotateY: -85, height: 3 }}
+            animate={{ rotateY: 0, height: 70 }}
+            transition={{
+              rotateY: { duration: 0.975, ease: [0.22, 1, 0.36, 1] },
+              height:   { duration: 0.675, ease: [0.22, 1, 0.36, 1], delay: 0.75 },
+            }}
+            style={{
+              width: '220px',
+              background: HERO_ACCENT,
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              padding: '10px 16px',
+              clipPath: `polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)`,
+              transformOrigin: 'left center',
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.45, delay: 1.32 }}
+              style={{
+                fontFamily: SPACE_MONO,
+                fontSize: '13px',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                lineHeight: 1.7,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#333333' }}>
+                <span style={{ display: 'inline-block', width: '6px', height: '6px', background: '#333333', flexShrink: 0 }} />
+                Portfolio — 2026
+              </div>
+              <div style={{ color: '#EAEAEA' }}>Est. 2020 / 6+ Years</div>
+            </motion.div>
+          </motion.div>
+        )}
       </div>
 
       {/* ── Main grid: headline | circle+card | vertical skills ── */}
       <div className="hero-grid" style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 480px 120px',
+        gridTemplateColumns: '1fr 480px',
         gap: '32px',
         alignItems: 'center',
         flex: 1,
@@ -884,14 +892,32 @@ function HeroSection() {
 
         {/* Center — orange circle + light card */}
         <div style={{ position: 'relative' }}>
+          {/* Dotted grid — behind blob, 30% larger on each side */}
+          {rightReady && (
+            <div style={{
+              position: 'absolute',
+              top: 'calc(clamp(-80px, -15vw, -110px) - clamp(200px, 35vw, 300px) * 0.3)',
+              left: 'calc(clamp(-80px, -15vw, -110px) - clamp(200px, 35vw, 300px) * 0.3)',
+              width: 'calc(clamp(200px, 35vw, 300px) * 1.6)',
+              height: 'calc(clamp(200px, 35vw, 300px) * 1.6)',
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cline x1='0' y1='0' x2='40' y2='0' stroke='%23C9C9C9' stroke-width='1.5' stroke-dasharray='4 4'/%3E%3Cline x1='0' y1='0' x2='0' y2='40' stroke='%23C9C9C9' stroke-width='1.5' stroke-dasharray='4 4'/%3E%3C/svg%3E")`,
+              backgroundRepeat: 'repeat',
+              zIndex: 1,
+              pointerEvents: 'none',
+            }} />
+          )}
           {/* Orange circle — mounts when Storyteller starts, pixel dissolve reveals it */}
-          {rightReady && <div style={{
+          {rightReady && <motion.div
+            className="hero-blob"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', stiffness: 180, damping: 18, delay: 0.1 }}
+            style={{
             position: 'absolute',
             top: 'clamp(-80px, -15vw, -110px)',
             left: 'clamp(-80px, -15vw, -110px)',
             width: 'clamp(200px, 35vw, 300px)',
             height: 'clamp(200px, 35vw, 300px)',
-            borderRadius: '50%',
             background: HERO_ACCENT,
             zIndex: 0,
             pointerEvents: 'none',
@@ -918,7 +944,7 @@ function HeroSection() {
                 ))}
               </div>
             )}
-          </div>}
+          </motion.div>}
 
           {/* Card */}
           <motion.div
@@ -991,51 +1017,29 @@ function HeroSection() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '96px', position: 'relative', zIndex: 1 }}>
               <HeroCTALight href="/ONKAR_LANKE.pdf" label="View Resume" external />
               <HeroCTALight href="https://www.linkedin.com/in/onkarlanke/" label="Connect on LinkedIn" external />
+              <div style={{
+                marginTop: '14px',
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '4px 0',
+                fontFamily: SPACE_MONO,
+                fontSize: '9px',
+                letterSpacing: '0.09em',
+                textTransform: 'uppercase',
+                color: HERO_MUTED,
+                lineHeight: 1.4,
+              }}>
+                {HERO_TAGS.map(({ label }, i) => (
+                  <span key={label}>
+                    {label}
+                    {i < HERO_TAGS.length - 1 && <span style={{ margin: '0 6px', opacity: 0.5 }}>·</span>}
+                  </span>
+                ))}
+              </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Right — vertical skills bar (2 columns) */}
-        <div className="hero-skills-bar" style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'flex-end',
-          gap: '14px',
-          height: '100%',
-          opacity: rightReady ? 1 : 0,
-          transition: 'opacity 0.6s ease 0.3s',
-          overflow: 'hidden',
-        }}>
-          {(() => {
-            const reversed = [...HERO_TAGS].reverse()
-            const cols = [reversed.slice(3), reversed.slice(0, 3)]
-            return cols.map((colItems, col) => (
-            <div key={col} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '18px' }}>
-              {colItems.map(({ n, label }) => (
-                <div key={n} style={{
-                  writingMode: 'vertical-rl',
-                  transform: 'rotate(180deg)',
-                  fontFamily: SPACE_MONO,
-                  fontSize: '13.2px',
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  color: HERO_MUTED,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: '7px',
-                  whiteSpace: 'nowrap',
-                  lineHeight: 1,
-                }}>
-                  <span style={{ color: '#222222' }}>{n}</span>
-                  {label}
-                </div>
-              ))}
-            </div>
-          ))
-          })()}
-        </div>
       </div>
     </section>
   )
@@ -2045,6 +2049,18 @@ export default function Home() {
 @keyframes orangePulse {
           0%, 100% { opacity: 1; box-shadow: 0 0 6px #D04D1F; }
           50% { opacity: 0.35; box-shadow: 0 0 2px #D04D1F; }
+        }
+        @keyframes blobMorph {
+          0%   { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+          20%  { border-radius: 45% 55% 35% 65% / 65% 35% 60% 40%; }
+          40%  { border-radius: 55% 45% 65% 35% / 42% 58% 45% 55%; }
+          60%  { border-radius: 38% 62% 50% 50% / 55% 45% 58% 42%; }
+          80%  { border-radius: 62% 38% 45% 55% / 45% 55% 38% 62%; }
+          100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+        }
+        .hero-blob {
+          border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+          animation: blobMorph 9s ease-in-out infinite;
         }
 
       `}</style>
