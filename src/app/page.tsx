@@ -14,6 +14,7 @@ const siHotjar   = { path: 'M10.119 9.814C12.899 8.27 16.704 6.155 16.704 0h-4.6
 const siGithub   = { path: 'M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12' }
 const siVercel   = { path: 'm12 1.608 12 20.784H0Z' }
 const siAnthropic = { path: 'M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z' }
+const siAdobeCC   = { path: 'M13.966 4.79h6.925v14.42h-6.925zm-3.932 0H3.109v14.42h6.925zM12 10.066c-1.1.596-1.857 1.645-2.005 2.863.148 1.218.905 2.267 2.005 2.862 1.1-.595 1.857-1.644 2.005-2.862-.148-1.218-.905-2.267-2.005-2.863z' }
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const T = {
@@ -57,6 +58,7 @@ const tools = [
   { name: 'Vercel',     category: 'Dev',       svgPath: siVercel.path,     iconFill: '#000000' },
   { name: 'Claude',     category: 'AI',        svgPath: siAnthropic.path,  iconFill: '#CC785C' },
   { name: 'VS Code',    category: 'Dev',       svgPath: null,              iconFill: '#007ACC' },
+  { name: 'Adobe CC',  category: 'Design',    svgPath: siAdobeCC.path,   iconFill: '#FF0000' },
 ]
 
 const fallbackImgSrc: Record<string, string> = {
@@ -81,63 +83,57 @@ const webflowSites = [
 const SQUIRCLE_PATH =
   'M 48 0 C 68 0 79 0 85 7 C 92 13 96 24 96 48 C 96 68 96 79 89 85 C 83 92 72 96 48 96 C 28 96 17 96 11 89 C 4 83 0 72 0 48 C 0 28 0 17 7 11 C 13 4 24 0 48 0 Z'
 
+const TOOL_CARD_CLIP = 'polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)'
+
 function ToolCard({ tool }: { tool: typeof tools[0] }) {
   const [hovered, setHovered] = useState(false)
   return (
     <motion.div
-      whileHover={{ scale: 1.06, y: -3 }}
+      whileHover={{ scale: 1.04, y: -2 }}
       transition={{ type: 'spring', stiffness: 400, damping: 20 }}
       className="group"
-      style={{ position: 'relative', flexShrink: 0, width: 114, height: 114, cursor: 'default' }}
+      style={{ position: 'relative', flexShrink: 0, cursor: 'default' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <div
         style={{
-          width: '100%', height: '100%',
-          borderRadius: '36px',
-          background: 'rgba(255, 255, 255, 0.22)',
-          backdropFilter: 'blur(14px) saturate(160%)',
-          WebkitBackdropFilter: 'blur(14px) saturate(160%)',
-          border: '1px solid rgba(255, 255, 255, 0.4)',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.55)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          transition: 'background 0.2s ease',
+          width: 144, height: 62,
+          background: hovered ? '#2a2a2a' : '#F0EDE6',
+          border: `1px solid ${hovered ? '#2a2a2a' : '#E2DFD8'}`,
+          borderRadius: '8px',
+          display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
+          gap: '10px',
+          padding: '0 17px',
+          transition: 'background 0.18s ease, border-color 0.18s ease',
+          boxShadow: hovered ? '0 2px 10px rgba(0,0,0,0.18)' : 'none',
         }}
       >
         {tool.name === 'VS Code' ? (
-          <span style={{ fontFamily: T.mono, fontSize: '18px', fontWeight: 600, color: '#007ACC', letterSpacing: '0.02em', textAlign: 'center', lineHeight: 1.3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}><span>VS</span><span>Code</span></span>
+          <span style={{ fontFamily: T.mono, fontSize: '11px', fontWeight: 700, color: '#007ACC', letterSpacing: '0.01em', lineHeight: 1.2, textAlign: 'center', flexShrink: 0 }}>{'</>'}</span>
         ) : tool.svgPath ? (
-          <svg role="img" viewBox="0 0 24 24" width={43} height={43} fill={tool.iconFill}>
+          <svg role="img" viewBox="0 0 24 24" width={22} height={22} fill={tool.iconFill} style={{ flexShrink: 0 }}>
             <path d={tool.svgPath} />
           </svg>
         ) : (
-          <img src={fallbackImgSrc[tool.name]} alt={tool.name} width={43} height={43} />
+          <img src={fallbackImgSrc[tool.name]} alt={tool.name} width={22} height={22} style={{ flexShrink: 0 }} />
         )}
+        <span style={{ fontFamily: T.sans, fontSize: '14px', fontWeight: 500, color: hovered ? '#ffffff' : T.ink, whiteSpace: 'nowrap', letterSpacing: '-0.01em', transition: 'color 0.18s ease' }}>
+          {tool.name}
+        </span>
       </div>
-      {hovered && (
-        <div style={{
-          position: 'absolute', bottom: 'calc(100% + 8px)', left: '50%', transform: 'translateX(-50%)',
-          background: '#27272a', border: '1px solid #3f3f46', borderRadius: '10px',
-          padding: '6px 12px', textAlign: 'center', whiteSpace: 'nowrap', zIndex: 30,
-          pointerEvents: 'none',
-        }}>
-          <p style={{ color: '#fff', fontSize: '12px', fontWeight: 600, margin: 0, fontFamily: T.sans }}>{tool.name}</p>
-          <p style={{ color: '#71717a', fontSize: '10px', margin: '2px 0 0', fontFamily: T.mono }}>{tool.category}</p>
-        </div>
-      )}
     </motion.div>
   )
 }
 
-function ToolsMarquee({ bg = T.paper }: { bg?: string }) {
+function ToolsMarquee({ bg = '#F7F4EE' }: { bg?: string }) {
   const tripled = [...tools, ...tools, ...tools]
   return (
     <div style={{ position: 'relative', overflowX: 'clip', overflowY: 'visible' }}>
-      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '100px', background: `linear-gradient(to right, ${bg}, transparent)`, zIndex: 10, pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '100px', background: `linear-gradient(to left, ${bg}, transparent)`, zIndex: 10, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '80px', background: `linear-gradient(to right, ${bg}, transparent)`, zIndex: 10, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '80px', background: `linear-gradient(to left, ${bg}, transparent)`, zIndex: 10, pointerEvents: 'none' }} />
       <motion.div
-        style={{ display: 'flex', gap: '20px', padding: '8px 0', width: 'max-content' }}
+        style={{ display: 'flex', gap: '10px', padding: '6px 0', width: 'max-content' }}
         animate={{ x: ['0%', '-33.33%'] }}
         transition={{ duration: 30, ease: 'linear', repeat: Infinity }}
       >
@@ -1009,7 +1005,7 @@ function HeroSection() {
               maxWidth: '380px',
               position: 'relative', zIndex: 1,
             }}>
-              Passionate UX researcher, product craftsman &amp; technologist, building experiences for{' '}
+              Product craftsman, passionate UX researcher, &amp; technologist, building experiences for{' '}
               <span style={{ color: HERO_INK, fontWeight: 500 }}>5+ years</span>, with recent development
               in agentic environments and AI powered research &amp; prototyping.
             </p>
@@ -1621,7 +1617,7 @@ function AboutPhoto() {
         opacity: 0.6,
       }} />
       <motion.div
-        style={{ width: '100%', aspectRatio: '3/4', overflow: 'hidden', position: 'relative', zIndex: 1 }}
+        style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden', position: 'relative', zIndex: 1 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: inView ? 1 : 0 }}
         transition={{ duration: 0 }}
@@ -1655,6 +1651,75 @@ function AboutPhoto() {
   )
 }
 
+const aboutSkillsGrid = [
+  {
+    heading: 'UX Research',
+    items: ['Literature or secondary', 'Behavioral mapping', 'Contextual inquiry', 'Surveys', 'Focus groups', 'Ethnographic research', 'Usability testing', 'Heuristic evaluation', 'A/B testing', 'Data analytics'],
+  },
+  {
+    heading: 'Design',
+    items: ['Concept generation', 'Wireframes', 'Information Architecture', 'Navigation Structures', 'Personas & Journey mapping', 'Story boarding', 'Design Systems', 'Prototyping', 'Product Spec Docs', 'VisualUI', '3D modeling', 'Accessibility (WCAG)', 'Inclusive Design'],
+  },
+  {
+    heading: 'Tech',
+    items: ['HTML', 'CSS', 'JS', 'Python', 'Data analytics', 'GitHub VC'],
+  },
+]
+
+function SkillTag({ label }: { label: string }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <span
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        fontFamily: T.sans, fontSize: '14px',
+        color: hovered ? '#ffffff' : '#3a3a36',
+        background: hovered ? '#2a2a2a' : 'rgba(255,255,255,0.6)',
+        border: `1px solid ${hovered ? '#2a2a2a' : '#DBDBDB'}`,
+        borderRadius: '4px', padding: '4px 10px', lineHeight: 1.5,
+        cursor: 'default', transition: 'all 0.18s ease',
+      }}
+    >{label}</span>
+  )
+}
+
+function SkillsAccordion() {
+  return (
+    <div>
+      <p style={{ fontFamily: T.mono, fontSize: '13px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: T.inkMute, margin: '0 0 12px' }}>Skills</p>
+    <div style={{
+      background: 'rgba(225, 217, 214, 0.30)',
+      backdropFilter: 'blur(20px) saturate(180%)',
+      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+      borderRadius: '12px',
+      border: '1px solid rgba(219, 219, 219, 0.5)',
+      overflow: 'hidden',
+      padding: '0 20px',
+      position: 'relative',
+    }}>
+      {/* Noise overlay */}
+      <div aria-hidden style={{
+        position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', borderRadius: '12px',
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        backgroundSize: '200px 200px',
+        opacity: 0.3,
+      }} />
+      {aboutSkillsGrid.map((col, i) => (
+        <div key={col.heading} style={{ borderBottom: i < aboutSkillsGrid.length - 1 ? '1px solid #DBDBDB' : 'none', padding: '16px 0', position: 'relative', zIndex: 1 }}>
+          <p style={{ fontFamily: T.sans, fontSize: '17px', fontWeight: 600, color: T.ink, margin: '0 0 10px' }}>{col.heading}</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px' }}>
+            {col.items.map(item => (
+              <SkillTag key={item} label={item} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+    </div>
+  )
+}
+
 function AboutSection() {
   return (
     <section
@@ -1665,6 +1730,21 @@ function AboutSection() {
         position: 'relative',
       }}
     >
+      {/* Background image */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'url(/about-bg.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(2px)',
+          opacity: 0.15,
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
       {/* Ghost display word */}
       <div
         aria-hidden
@@ -1706,15 +1786,15 @@ function AboutSection() {
         className="about-inner"
         style={{
           display: 'grid',
-          gridTemplateColumns: '1.2fr 0.8fr',
-          gap: '80px',
+          gridTemplateColumns: '1fr 1.3fr',
+          gap: '64px',
           padding: '32px 80px 80px',
           position: 'relative',
           zIndex: 1,
         }}
       >
-        {/* ── Left column ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+        {/* ── Left column: headline + illustration ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           {/* Headline */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1723,17 +1803,47 @@ function AboutSection() {
             transition={{ duration: 0.6, ease }}
           >
             <h2 style={{
-              fontSize: 'clamp(32px, 5vw, 80px)',
-              fontWeight: 500,
+              fontSize: 'clamp(28px, 3.5vw, 52px)',
+              fontWeight: 700,
               letterSpacing: '-0.03em',
-              lineHeight: 1.2,
+              lineHeight: 1.08,
               color: T.ink,
               margin: 0,
               fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
             }}>
-              Thriving on curiosity &amp; experimentation
+              Thriving on Curiosity &amp; Experimentation&hellip;
             </h2>
           </motion.div>
+
+          {/* Illustration */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.08, ease }}
+            style={{ borderRadius: '12px', overflow: 'hidden', border: `1px solid ${T.rule}` }}
+          >
+            <img
+              src="/about-illustration.png"
+              alt="Designer at work illustration"
+              style={{ width: '100%', display: 'block' }}
+            />
+          </motion.div>
+
+          {/* Tools marquee */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.12, ease }}
+          >
+            <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#2a2a2a', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 12px' }}>Tools I use</p>
+            <ToolsMarquee bg="#FCFCFA" />
+          </motion.div>
+        </div>
+
+        {/* ── Right column: stats + bio + skills accordion ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
 
           {/* Bio */}
           <motion.div
@@ -1741,17 +1851,23 @@ function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease }}
-            style={{ maxWidth: '48ch' }}
           >
-            <p style={{ fontSize: '18px', color: '#3D3D38', lineHeight: 1.65, margin: '0 0 20px' }}>
-              I love product building! I&apos;m an engineer turned designer. I explore &amp; bring insights to the forefront &amp; ship intentional experiences, that help in brand building.
+            <p style={{ fontSize: '15px', color: '#3D3D38', lineHeight: 1.7, margin: '0 0 16px' }}>
+              I&rsquo;m an engineer turned designer, &amp; I simply love product building!
+              Through extensive explorations, I bring insights to the forefront &amp;
+              ship intentional, desirable experiences, for various outcomes like
+              improved user satisfaction, enhanced onboarding, increase in
+              task completions and product growth.
             </p>
-            <p style={{ fontSize: '18px', color: '#3D3D38', lineHeight: 1.65, margin: 0 }}>
-              People say, &ldquo;Good Design shapes you.&rdquo; Design has made me more humble, an active listener, &amp; importance of putting your heart into creations.
+            <p style={{ fontSize: '15px', color: '#3D3D38', lineHeight: 1.7, margin: 0 }}>
+              People say, &ldquo;<span style={{ color: T.ink, fontWeight: 500 }}>Good Design shapes you.</span>&rdquo; Design has made me
+              more humble, an active listener, &amp; importance of putting your
+              heart into every small detail, as I feel designers do an incredible
+              job making spaces more liveable and desirable.
             </p>
           </motion.div>
 
-          {/* Stats row */}
+          {/* Stats card */}
           <motion.div
             className="stats-row"
             initial={{ opacity: 0, y: 12 }}
@@ -1759,49 +1875,38 @@ function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15, ease }}
             style={{
+              background: '#FF4A1C',
+              clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)',
+              overflow: 'hidden',
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '1px',
-              background: 'rgba(255,255,255,0.08)',
-              clipPath: 'polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)',
-              overflow: 'hidden',
             }}
           >
             {stats.map((s, i) => (
-              <div key={i} style={{ background: '#1D1D1D', padding: '24px 28px', position: 'relative', overflow: 'hidden' }}>
-                {/* Noise texture */}
-                <div style={{ position: 'absolute', inset: 0, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px', opacity: 0.28, pointerEvents: 'none', zIndex: 0 }} />
-                <p style={{ fontFamily: T.sans, fontSize: 'clamp(26px, 2.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.03em', color: HERO_ACCENT, margin: '0 0 3px', lineHeight: 1, position: 'relative', zIndex: 1 }}>
+              <div key={i} style={{
+                padding: '20px 20px',
+                borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,0.25)' : 'none',
+              }}>
+                <p style={{ fontFamily: T.mono, fontSize: 'clamp(22px, 2.2vw, 32px)', fontWeight: 700, letterSpacing: '-0.03em', color: '#ffffff', margin: '0 0 4px', lineHeight: 1 }}>
                   <CountUp target={s.value} suffix={s.suffix} />
                 </p>
-                <p style={{ fontFamily: T.mono, fontSize: '10px', color: 'rgba(255,74,28,0.6)', margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase', position: 'relative', zIndex: 1 }}>
+                <p style={{ fontFamily: T.mono, fontSize: '9px', color: 'rgba(255,255,255,0.75)', margin: 0, letterSpacing: '0.08em', textTransform: 'uppercase', lineHeight: 1.4 }}>
                   {s.label}
                 </p>
               </div>
             ))}
           </motion.div>
 
-          {/* Skills pills */}
+          {/* Skills accordion */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2, ease }}
-            style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
           >
-            <p style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
-              Skills
-            </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-              {skills.map(skill => (
-                <SkillPill key={skill} label={skill} />
-              ))}
-            </div>
+            <SkillsAccordion />
           </motion.div>
         </div>
-
-        {/* ── Right column — tall photo ── */}
-        <AboutPhoto />
       </div>
 
     </section>
@@ -1944,20 +2049,18 @@ function ToolsSection() {
   return (
     <section
       style={{
-        background: '#FCFCFA',
-        borderTop: `1px solid ${T.rule}`,
-        padding: '48px 0 64px',
+        background: '#F7F4EE',
+        padding: '32px 0 40px',
+        position: 'relative',
+        zIndex: 10,
       }}
     >
-      <div style={{ padding: '0 80px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-        <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
+      <div style={{ padding: '0 80px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+        <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.12em', textTransform: 'uppercase', margin: 0 }}>
           Tools I use
         </p>
-        <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
-          06/
-        </span>
       </div>
-      <ToolsMarquee bg="#FCFCFA" />
+      <ToolsMarquee />
     </section>
   )
 }
@@ -2158,12 +2261,6 @@ export default function Home() {
         {false && <ExperienceSection />}
 
         {/* ═══════════════════════════════════════════════════════════════════
-            TOOLS — below experience
-        ═══════════════════════════════════════════════════════════════════ */}
-        {/* TEMPORARILY HIDDEN — Tools section */}
-        {false && <ToolsSection />}
-
-        {/* ═══════════════════════════════════════════════════════════════════
             INDUSTRIAL DESIGN PHOTO GRID — normal scroll
         ═══════════════════════════════════════════════════════════════════ */}
         <IndustrialSection />
@@ -2316,10 +2413,6 @@ export default function Home() {
           .stats-row {
             grid-template-columns: repeat(2, 1fr) !important;
           }
-          #about > div:last-child {
-            padding-left: 24px !important;
-            padding-right: 24px !important;
-          }
 
           /* Services */
           .services-header {
@@ -2405,10 +2498,6 @@ export default function Home() {
           }
           .stats-row {
             grid-template-columns: repeat(2, 1fr) !important;
-          }
-          #about > div:last-child {
-            padding-left: 18px !important;
-            padding-right: 18px !important;
           }
 
           /* Services */
