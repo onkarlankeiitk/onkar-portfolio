@@ -247,88 +247,136 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
 // getThumbnail and ARTICLE_QUADRANT_POS imported from @/lib/portfolio-data
 
 // ─── Case Study vertical card ─────────────────────────────────────────────────
-function CaseStudyCard({ project }: { project: typeof projects[0] }) {
-  const [hovered, setHovered] = useState(false)
-  return (
-    <Link
-      href={project.directPath}
-      style={{ display: 'block', position: 'relative', cursor: 'pointer', textDecoration: 'none', height: '100%' }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div style={{ position: 'relative', height: '100%' }}>
-        {/* FRONT — tall image + tags + title */}
-        <div style={{
-          background: '#111',
-          border: '1px solid #1a1a1a',
-          borderRadius: '6px',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-          transition: 'opacity 650ms ease, transform 650ms ease',
-          opacity: hovered ? 0 : 1,
-          transform: hovered ? 'scale(0.97)' : 'scale(1)',
-        }}>
-          {/* Banner — fills most of the card height */}
-          <div style={{ flex: 1, overflow: 'hidden', background: '#0a0a0a', minHeight: 0 }}>
-            {project.banner
-              ? <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.9 }} />
-              : <div style={{ width: '100%', height: '100%', ...stripedDark }} />
-            }
-          </div>
-          {/* Bottom strip — title only */}
-          <div style={{ padding: '14px 16px', borderTop: '1px solid #1a1a1a', flexShrink: 0 }}>
-            <p style={{ color: '#f4f4f5', fontSize: '17px', fontWeight: 500, lineHeight: 1.4, margin: 0, fontFamily: T.sans }}>
-              {project.title}
-            </p>
-          </div>
-        </div>
+// ─── Bento case study grid ────────────────────────────────────────────────────
+const BC = {
+  bg: '#F4F2EC',
+  border: '#E0DDD6',
+  ink: '#0B0B0B',
+  mute: '#8A8A85',
+  orange: '#FF4A1C',
+  divider: '#D9D6CE',
+}
 
-        {/* BACK — fades in over the front */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: '#f4f4f5',
-          border: '1px solid #e4e4e7',
-          borderRadius: '6px',
-          padding: '20px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          transition: 'opacity 650ms ease, transform 650ms ease',
-          opacity: hovered ? 1 : 0,
-          transform: hovered ? 'translateY(0)' : 'translateY(10px)',
-          pointerEvents: hovered ? 'auto' : 'none',
-        }}>
-          <div>
-            <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#71717a', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '8px' }}>
-              {project.company}
-            </p>
-            <p style={{ color: '#0B0B0B', fontSize: '17px', lineHeight: 1.6, margin: 0, fontFamily: T.sans }}>
-              {project.description}
-            </p>
-          </div>
-          <div style={{ display: 'flex', gap: '24px' }}>
-            {project.metrics.map(m => (
-              <div key={m.l}>
-                <p style={{ color: '#0B0B0B', fontSize: '26px', fontWeight: 600, lineHeight: 1, margin: 0, fontFamily: T.sans }}>{m.v}</p>
-                <p style={{ color: '#71717a', fontSize: '11px', margin: '4px 0 0', fontFamily: T.mono }}>{m.l}</p>
-              </div>
-            ))}
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-              {project.tags.map(tag => (
-                <span key={tag} style={{ background: '#e4e4e7', color: '#52525b', fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em', padding: '3px 8px', borderRadius: '9999px' }}>
-                  {tag}
-                </span>
-              ))}
+// Shared resting meta block (company · year, title — metrics shown on hover only)
+function BentoMeta({ project }: { project: typeof projects[0] }) {
+  return (
+    <div style={{ flexShrink: 0, paddingTop: '2px' }}>
+      <p style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
+        {project.company} · {project.year}
+      </p>
+      <p style={{ fontFamily: T.sans, fontSize: '18px', fontWeight: 500, color: BC.ink, lineHeight: 1.35, margin: 0, letterSpacing: '-0.02em' }}>
+        {project.title}
+      </p>
+    </div>
+  )
+}
+
+// Hover overlay — description + metrics + tags, fades in over the card
+function BentoOverlay({ project, visible }: { project: typeof projects[0]; visible: boolean }) {
+  return (
+    <div style={{
+      position: 'absolute', inset: 0,
+      background: 'rgba(244, 242, 236, 0.92)',
+      backdropFilter: 'blur(16px) saturate(160%)',
+      WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+      padding: '22px',
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(10px)',
+      transition: 'opacity 0.4s ease, transform 0.4s ease',
+      pointerEvents: 'none',
+    }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        <div>
+          <p style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>
+            {project.company}
+          </p>
+          <p style={{ fontFamily: T.sans, fontSize: '15px', color: BC.ink, lineHeight: 1.6, margin: 0, letterSpacing: '-0.01em' }}>
+            {project.description}
+          </p>
+        </div>
+        <div style={{ display: 'flex', gap: '24px' }}>
+          {project.metrics.map(m => (
+            <div key={m.l}>
+              <p style={{ fontFamily: T.sans, fontSize: '26px', fontWeight: 600, color: BC.orange, margin: 0, lineHeight: 1, letterSpacing: '-0.04em' }}>{m.v}</p>
+              <p style={{ fontFamily: T.mono, fontSize: '10px', color: BC.mute, margin: '4px 0 0', letterSpacing: '0.06em' }}>{m.l}</p>
             </div>
-            <span style={{ color: '#0B0B0B', fontSize: '16px', flexShrink: 0, marginLeft: '8px' }}>→</span>
-          </div>
+          ))}
         </div>
       </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+          {project.tags.map(tag => (
+            <span key={tag} style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, background: BC.border, padding: '3px 8px', borderRadius: '9999px', letterSpacing: '0.04em' }}>
+              {tag}
+            </span>
+          ))}
+        </div>
+        <span style={{ fontFamily: T.sans, fontSize: '18px', color: BC.ink, flexShrink: 0, marginLeft: '8px' }}>→</span>
+      </div>
+    </div>
+  )
+}
+
+// Cell 1: tall card — image top (inset), text bottom (col 1, rows 1–2)
+function BentoTall({ project }: { project: typeof projects[0] }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <Link href={project.directPath} className="home-bento-cell-tall"
+      style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '14px', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', textDecoration: 'none', cursor: 'pointer', position: 'relative', overflow: 'hidden' }}
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{ flex: 1, borderRadius: '8px', overflow: 'hidden', minHeight: 0 }}>
+        <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transform: hovered ? 'scale(1.04)' : 'scale(1)', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+      </div>
+      <BentoMeta project={project} />
+      <BentoOverlay project={project} visible={hovered} />
+    </Link>
+  )
+}
+
+// Cell 2: wide split — text left, image right inset (cols 2–3, row 1)
+function BentoWide({ project }: { project: typeof projects[0] }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <Link href={project.directPath} className="home-bento-cell-wide"
+      style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', overflow: 'hidden', textDecoration: 'none', cursor: 'pointer', position: 'relative' }}
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+    >
+      {/* Left: text panel */}
+      <div style={{ padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderRight: `1px solid ${BC.divider}` }}>
+        <div>
+          <p style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>{project.company}</p>
+          <p style={{ fontFamily: T.sans, fontSize: '18px', fontWeight: 500, color: BC.ink, lineHeight: 1.35, margin: 0, letterSpacing: '-0.02em' }}>{project.title}</p>
+        </div>
+        <span style={{ fontFamily: T.mono, fontSize: '10px', color: hovered ? BC.ink : BC.mute, transition: 'color 0.2s', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          View case study →
+        </span>
+      </div>
+      {/* Right: image inset */}
+      <div style={{ padding: '14px' }}>
+        <div style={{ height: '100%', borderRadius: '8px', overflow: 'hidden' }}>
+          <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transform: hovered ? 'scale(1.04)' : 'scale(1)', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+        </div>
+      </div>
+      <BentoOverlay project={project} visible={hovered} />
+    </Link>
+  )
+}
+
+// Cells 3 & 4: square cards — image top (inset), text + metrics below
+function BentoSquare({ project, className }: { project: typeof projects[0]; className: string }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <Link href={project.directPath} className={className}
+      style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '14px', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', textDecoration: 'none', cursor: 'pointer', position: 'relative', overflow: 'hidden' }}
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{ flex: 1, borderRadius: '8px', overflow: 'hidden', minHeight: 0 }}>
+        <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transform: hovered ? 'scale(1.04)' : 'scale(1)', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+      </div>
+      <BentoMeta project={project} />
+      <BentoOverlay project={project} visible={hovered} />
     </Link>
   )
 }
@@ -1759,6 +1807,15 @@ function AboutSection() {
         position: 'relative',
       }}
     >
+      {/* Background dot grid */}
+      <div aria-hidden style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='1.2' fill='%23B0ADA6'/%3E%3C/svg%3E")`,
+        backgroundRepeat: 'repeat',
+        opacity: 0.22,
+        pointerEvents: 'none',
+        zIndex: 0,
+      }} />
       {/* Background image */}
       <div
         aria-hidden
@@ -1768,8 +1825,7 @@ function AboutSection() {
           backgroundImage: 'url(/about-bg.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          filter: 'blur(2px)',
-          opacity: 0.15,
+          opacity: 0.2,
           zIndex: 0,
           pointerEvents: 'none',
         }}
@@ -1794,6 +1850,26 @@ function AboutSection() {
         About
       </div>
 
+      {/* Horizontal grid rule — below chrome strip */}
+      <div aria-hidden style={{
+        position: 'absolute', left: 0, right: 0, top: '120px',
+        height: 1, background: T.rule, opacity: 0.18,
+        pointerEvents: 'none', zIndex: 1,
+      }} />
+
+      {/* Left-edge vertical annotation */}
+      <div aria-hidden style={{
+        position: 'absolute', left: 20, top: '50%',
+        transform: 'rotate(-90deg)',
+        transformOrigin: 'left top',
+        fontFamily: T.mono, fontSize: '8px',
+        color: T.inkMute, letterSpacing: '0.16em',
+        textTransform: 'uppercase', opacity: 0.3,
+        whiteSpace: 'nowrap', zIndex: 1, pointerEvents: 'none',
+      }}>
+        About the designer
+      </div>
+
       {/* Chrome strip */}
       <div
         style={{
@@ -1803,8 +1879,25 @@ function AboutSection() {
           alignItems: 'baseline',
           position: 'relative',
           zIndex: 1,
+          borderBottom: `1px solid ${T.rule}`,
         }}
       >
+        {/* Diagonal hatch accent — left side of chrome strip */}
+        <div aria-hidden style={{
+          position: 'absolute', top: 0, left: 0,
+          width: 140, height: '100%',
+          backgroundImage: 'repeating-linear-gradient(45deg, #C8C5BE 0px, #C8C5BE 1px, transparent 1px, transparent 9px)',
+          maskImage: 'linear-gradient(to right, black 0%, transparent 75%)',
+          WebkitMaskImage: 'linear-gradient(to right, black 0%, transparent 75%)',
+          opacity: 0.3,
+          pointerEvents: 'none',
+        }} />
+        {/* Section label */}
+        <div style={{ position: 'absolute', left: 80, top: '50%', transform: 'translateY(-50%)' }}>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0, opacity: 0.7 }}>
+            Background &amp; skills
+          </p>
+        </div>
         <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
           03/
         </span>
@@ -1950,6 +2043,12 @@ const timelineJobs = [
     months: 3,
     desc: 'Platform revamp research — 86% engagement growth post-redesign.',
     accent: false,
+    points: [
+      'Led end-to-end platform revamp research for TeamLease\u2019s HR tech product',
+      'Moderated user interviews and synthesized insights across recruitment & HR workflows',
+      'Delivered prioritized recommendations that directly shaped the redesign roadmap',
+      'Post-redesign platform achieved 86% engagement growth',
+    ],
   },
   {
     role: 'Product Designer',
@@ -1959,6 +2058,12 @@ const timelineJobs = [
     months: 2,
     desc: 'Sensor dashboard — 65% reduction in service time (47m → 16m).',
     accent: true,
+    points: [
+      'Designed IoT sensor dashboard for real-time water flow monitoring',
+      'Contextual inquiry with field engineers to map existing service workflows',
+      'Simplified diagnostic interface reducing cognitive load for non-technical operators',
+      'Service resolution time cut from 47 min → 16 min — 65% reduction',
+    ],
   },
   {
     role: 'UX Designer',
@@ -1968,6 +2073,12 @@ const timelineJobs = [
     months: 30,
     desc: 'AirAsia CX, Tata Neu heuristic eval, hybrid work platform.',
     accent: false,
+    points: [
+      'Redesigned AirAsia CX — research, IA & interaction design across booking flows',
+      'Heuristic eval of Tata Neu app — 40+ issues flagged, 7% onboarding drop reduction',
+      'Designed hybrid work booking platform for TCS\u2019s post-COVID return-to-office strategy',
+      'Led integrated employee experience systems for TCS Vision 2025',
+    ],
   },
   {
     role: 'Senior UX Designer',
@@ -1977,15 +2088,27 @@ const timelineJobs = [
     months: 32,
     desc: 'End-to-end UX + AI SaaS for consultants; 40–55% productivity gain.',
     accent: true,
+    points: [
+      'Co-visioned DeckUp — subscription AI SaaS for consultants; 40–55% productivity gain',
+      'Full PDLC ownership: research, IA, wireframing, prototyping, developer handoffs',
+      'Research-driven strategy across clients — 24% sales lift, ~130% engagement growth',
+      'Hired benchmark-setting engineer; flagged 3rd-party risk 12+ months before impact',
+    ],
   },
   {
     role: 'Product Design Consultant',
     company: 'Laminar Interactive',
     type: 'Freelance',
-    period: 'Mar – May 2026',
-    months: 2,
+    period: 'Mar – Jun 2026',
+    months: 3,
     desc: 'AI tool for architects — research, prototype, 20% workflow gain.',
     accent: false,
+    points: [
+      'Developed product vision & user scenarios for an AI-powered architecture tool',
+      'Conducted user research — surveys and moderated interviews with practicing architects',
+      'Built working prototype using Claude, Nano Banana, and Vercel',
+      'Trained model agents for site analysis and concept generation in 2D/3D views',
+    ],
   },
 ]
 
@@ -2005,6 +2128,7 @@ function tlSize(months: number) {
 function ExperienceTimeline() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
 
   // total track height: line (240) + max radius (135) + tick extra (40) + date text (56) + bottom pad (40)
   const trackH = TL_LINE_Y + Math.round(TL_MAX_PX / 2) + TL_TICK_EXTRA + 56 + 40
@@ -2014,6 +2138,16 @@ function ExperienceTimeline() {
       id="experience"
       style={{ background: '#F7F4EE', position: 'relative', zIndex: 10, fontFamily: T.sans }}
     >
+      {/* Background dot grid — full section */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='1.2' fill='%23B0ADA6'/%3E%3C/svg%3E")`,
+        backgroundRepeat: 'repeat',
+        opacity: 0.28,
+        pointerEvents: 'none',
+        zIndex: 0,
+      }} />
+
       {/* Header strip */}
       <div className="tl-header" style={{
         padding: '40px 80px',
@@ -2021,10 +2155,22 @@ function ExperienceTimeline() {
         justifyContent: 'space-between',
         alignItems: 'baseline',
         borderBottom: `1px solid ${T.rule}`,
+        position: 'relative',
+        zIndex: 1,
       }}>
+        {/* Diagonal hatch accent — top-right corner */}
+        <div style={{
+          position: 'absolute', top: 0, right: 0,
+          width: 140, height: '100%',
+          backgroundImage: 'repeating-linear-gradient(45deg, #C8C5BE 0px, #C8C5BE 1px, transparent 1px, transparent 9px)',
+          maskImage: 'linear-gradient(to left, black 0%, transparent 75%)',
+          WebkitMaskImage: 'linear-gradient(to left, black 0%, transparent 75%)',
+          opacity: 0.35,
+          pointerEvents: 'none',
+        }} />
         <div>
           <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
-            Work Experience
+            Experience timeline
           </p>
           <p style={{ fontFamily: T.sans, fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 700, letterSpacing: '-0.03em', color: T.ink, margin: 0, lineHeight: 1.1 }}>
             Where I&rsquo;ve shipped
@@ -2037,8 +2183,38 @@ function ExperienceTimeline() {
       <div
         ref={ref}
         className="tl-wrap"
-        style={{ position: 'relative', height: trackH, overflowX: 'auto', overflowY: 'visible' }}
+        style={{ position: 'relative', height: trackH, overflowX: 'clip', overflowY: 'visible', zIndex: 1 }}
       >
+        {/* Upper grid rule — creates column-structure above circles */}
+        <div style={{
+          position: 'absolute', left: 0, right: 0,
+          top: Math.round(TL_LINE_Y * 0.38),
+          height: 1,
+          background: T.rule,
+          opacity: 0.3,
+          zIndex: 0,
+        }} />
+
+        {/* Rotated left-edge annotation */}
+        <div style={{
+          position: 'absolute',
+          left: 16,
+          top: TL_LINE_Y,
+          transform: 'rotate(-90deg)',
+          transformOrigin: 'left top',
+          fontFamily: T.mono,
+          fontSize: '8px',
+          color: T.inkMute,
+          letterSpacing: '0.16em',
+          textTransform: 'uppercase',
+          opacity: 0.35,
+          whiteSpace: 'nowrap',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}>
+          Career path · chronological
+        </div>
+
         {/* Horizontal line */}
         <div className="tl-line" style={{
           position: 'absolute',
@@ -2046,6 +2222,16 @@ function ExperienceTimeline() {
           top: TL_LINE_Y,
           height: '2px',
           background: `linear-gradient(to right, #E2DFD8 0%, #C8C5BE 8%, #C8C5BE 92%, #E2DFD8 100%)`,
+          zIndex: 0,
+        }} />
+
+        {/* Lower grid rule — below circles */}
+        <div style={{
+          position: 'absolute', left: 0, right: 0,
+          top: TL_LINE_Y + Math.round(TL_MAX_PX / 2) + TL_TICK_EXTRA + 20,
+          height: 1,
+          background: T.rule,
+          opacity: 0.25,
           zIndex: 0,
         }} />
 
@@ -2060,7 +2246,6 @@ function ExperienceTimeline() {
           {timelineJobs.map((job, i) => {
             const size   = tlSize(job.months)
             const radius = size / 2
-            const bg     = job.accent ? '#FF4A1C' : '#2a2a2a'
             const pad    = Math.round(size * 0.13)
             const roleFs = Math.max(9,  Math.round(size * 0.055))
             const metaFs = Math.max(7,  Math.round(size * 0.037))
@@ -2070,6 +2255,19 @@ function ExperienceTimeline() {
             // tick from circle centre to (radius + EXTRA) below circle centre
             const tickH  = radius + TL_TICK_EXTRA
 
+            const isHovered = hoveredIdx === i
+
+            // Accent = light cream + orange inset ring; non-accent = dark charcoal
+            const circleBg  = job.accent ? '#EDEAE2' : '#2a2a2a'
+            const circleBox = job.accent
+              ? (isHovered ? '0 10px 36px rgba(0,0,0,0.12), inset 0 0 0 3px #FF4A1C' : '0 4px 20px rgba(0,0,0,0.08), inset 0 0 0 3px #FF4A1C')
+              : (isHovered ? '0 10px 40px rgba(0,0,0,0.28)' : '0 6px 28px rgba(0,0,0,0.16)')
+            const textPrimary = job.accent ? '#1a1a1a'            : '#ffffff'
+            const textMuted   = job.accent ? 'rgba(0,0,0,0.50)'  : 'rgba(255,255,255,0.68)'
+            const textDim     = job.accent ? 'rgba(0,0,0,0.30)'  : 'rgba(255,255,255,0.40)'
+            const textDesc    = job.accent ? '#4A4740'            : 'rgba(255,255,255,0.86)'
+            const tickCol     = '#2a2a2a'
+
             return (
               <motion.div
                 key={i}
@@ -2077,72 +2275,147 @@ function ExperienceTimeline() {
                 initial={{ opacity: 0, x: -60 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.65, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}
+                onMouseEnter={() => setHoveredIdx(i)}
+                onMouseLeave={() => setHoveredIdx(null)}
               >
+                {/* Column index — Swiss editorial column marker */}
+                <div style={{
+                  position: 'absolute',
+                  top: Math.round(TL_LINE_Y * 0.38) - 18,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  fontFamily: T.mono,
+                  fontSize: '9px',
+                  fontWeight: 500,
+                  color: job.accent ? '#FF4A1C' : T.inkMute,
+                  letterSpacing: '0.12em',
+                  opacity: job.accent ? 0.7 : 0.4,
+                  pointerEvents: 'none',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {String(i + 1).padStart(2, '0')}
+                </div>
+
+                {/* Column tick mark on the upper grid rule */}
+                <div style={{
+                  position: 'absolute',
+                  top: Math.round(TL_LINE_Y * 0.38) - 4,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: 1,
+                  height: 8,
+                  background: T.rule,
+                  opacity: 0.45,
+                  pointerEvents: 'none',
+                }} />
+
                 {/* Spacer — aligns circle centre with the horizontal line */}
                 <div style={{ height: spacer, flexShrink: 0 }} />
 
-                {/* Circle */}
-                <div
-                  className="tl-circle"
-                  style={{
-                    width: size, height: size,
-                    borderRadius: '50%',
-                    background: bg,
-                    flexShrink: 0,
-                    position: 'relative', zIndex: 2,
-                    display: 'flex', flexDirection: 'column',
-                    alignItems: 'center', justifyContent: 'center',
-                    padding: pad,
-                    textAlign: 'center',
-                    gap: 4,
-                    overflow: 'hidden',
-                    boxShadow: '0 6px 28px rgba(0,0,0,0.16)',
-                  }}
-                >
-                  <span style={{ display: 'block', fontFamily: T.sans, fontSize: roleFs, fontWeight: 700, color: '#fff', letterSpacing: '-0.01em', lineHeight: 1.2, overflow: 'hidden', maxHeight: roleFs * 1.2 * 2 }}>
-                    {job.role}
-                  </span>
-                  <span style={{ display: 'block', fontFamily: T.mono, fontSize: metaFs, color: 'rgba(255,255,255,0.68)', letterSpacing: '0.04em', textTransform: 'uppercase', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%', lineHeight: 1.3 }}>
-                    {job.company}
-                  </span>
-                  <span style={{ display: 'block', fontFamily: T.mono, fontSize: metaFs - 1, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em', textTransform: 'uppercase', lineHeight: 1.2 }}>
-                    {job.type}
-                  </span>
-                  <span style={{ display: 'block', fontFamily: T.sans, fontSize: descFs, color: 'rgba(255,255,255,0.86)', lineHeight: 1.35, marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
-                    {job.desc}
-                  </span>
+                {/* Circle + bubble wrapper — bubble must be a sibling of circle, not inside it */}
+                <div style={{ position: 'relative', flexShrink: 0, zIndex: 2 }}>
+                  {/* Hover bubble — sits above the circle, outside overflow:hidden */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: '100%',
+                    left: '55%',
+                    marginBottom: 14,
+                    width: 280,
+                    background: '#ffffff',
+                    border: `1px solid ${T.rule}`,
+                    borderRadius: '14px',
+                    padding: '18px 20px',
+                    boxShadow: '0 16px 48px rgba(0,0,0,0.14)',
+                    opacity: isHovered ? 1 : 0,
+                    transform: isHovered ? 'translateY(0)' : 'translateY(10px)',
+                    transition: 'opacity 0.3s ease, transform 0.3s ease',
+                    pointerEvents: 'none',
+                    zIndex: 50,
+                    textAlign: 'left',
+                  }}>
+                    <p style={{ fontFamily: T.mono, fontSize: '9px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+                      {job.company}
+                    </p>
+                    <p style={{ fontFamily: T.sans, fontSize: '13px', fontWeight: 600, color: T.ink, letterSpacing: '-0.01em', lineHeight: 1.4, margin: '0 0 12px' }}>
+                      {job.desc}
+                    </p>
+                    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                      {job.points.map((pt, pi) => (
+                        <li key={pi} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                          <span style={{ color: '#FF4A1C', fontWeight: 700, fontSize: '10px', lineHeight: '17px', flexShrink: 0 }}>—</span>
+                          <span style={{ fontFamily: T.sans, fontSize: '12px', color: T.ink, lineHeight: 1.5, letterSpacing: '-0.005em' }}>{pt}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Circle */}
+                  <div
+                    className="tl-circle"
+                    style={{
+                      width: size, height: size,
+                      borderRadius: '50%',
+                      background: circleBg,
+                      flexShrink: 0,
+                      display: 'flex', flexDirection: 'column',
+                      alignItems: 'center', justifyContent: 'center',
+                      padding: pad,
+                      textAlign: 'center',
+                      gap: 4,
+                      overflow: 'hidden',
+                      boxShadow: circleBox,
+                      transition: 'box-shadow 0.3s ease',
+                    }}
+                  >
+                    <span style={{ display: 'block', fontFamily: T.sans, fontSize: roleFs, fontWeight: 700, color: textPrimary, letterSpacing: '-0.01em', lineHeight: 1.2, overflow: 'hidden', maxHeight: roleFs * 1.2 * 2 }}>
+                      {job.role}
+                    </span>
+                    <span style={{ display: 'block', fontFamily: T.mono, fontSize: metaFs, color: textMuted, letterSpacing: '0.04em', textTransform: 'uppercase', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%', lineHeight: 1.3 }}>
+                      {job.company}
+                    </span>
+                    <span style={{ display: 'block', fontFamily: T.mono, fontSize: metaFs - 1, color: textDim, letterSpacing: '0.06em', textTransform: 'uppercase', lineHeight: 1.2 }}>
+                      {job.type}
+                    </span>
+                    <span style={{ display: 'block', fontFamily: T.sans, fontSize: descFs, color: textDesc, lineHeight: 1.35, marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
+                      {job.desc}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Vertical tick — drawn from circle centre (marginTop pulls it up) */}
                 <div style={{
                   width: 1.5,
                   height: tickH,
-                  background: bg,
+                  background: tickCol,
                   marginTop: -radius,          // start at circle centre
                   flexShrink: 0,
                   position: 'relative', zIndex: 1,
-                  opacity: 0.55,
+                  opacity: 0.35,
                 }} />
 
-                {/* Dot at tick end */}
-                <div style={{
-                  width: 6, height: 6,
-                  borderRadius: '50%',
-                  background: bg,
-                  flexShrink: 0,
-                  marginTop: -1,
-                }} />
+                {/* Crosshair registration mark at tick base */}
+                <div style={{ position: 'relative', width: 16, height: 16, flexShrink: 0, marginTop: -1 }}>
+                  {/* Horizontal arm */}
+                  <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 1, background: tickCol, transform: 'translateY(-50%)', opacity: 0.35 }} />
+                  {/* Vertical arm */}
+                  <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 1, background: tickCol, transform: 'translateX(-50%)', opacity: 0.35 }} />
+                  {/* Centre dot — orange for accent, dark otherwise */}
+                  <div style={{ position: 'absolute', top: '50%', left: '50%', width: 4, height: 4, background: job.accent ? '#FF4A1C' : tickCol, borderRadius: '50%', transform: 'translate(-50%, -50%)', opacity: 0.7 }} />
+                </div>
 
                 {/* Date label */}
                 <div style={{ textAlign: 'center', marginTop: 8, flexShrink: 0 }}>
-                  <p style={{ fontFamily: T.mono, fontSize: 10, fontWeight: 600, color: T.ink, letterSpacing: '0.04em', margin: '0 0 2px', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontFamily: T.mono, fontSize: 12, fontWeight: 400, color: T.ink, letterSpacing: '0.04em', margin: '0 0 2px', whiteSpace: 'nowrap' }}>
                     {job.period}
                   </p>
-                  <p style={{ fontFamily: T.mono, fontSize: 9, color: T.inkMute, letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0, whiteSpace: 'nowrap' }}>
+                  <p style={{ fontFamily: T.mono, fontSize: 10, color: T.inkMute, letterSpacing: '0.06em', textTransform: 'uppercase', margin: '0 0 3px', whiteSpace: 'nowrap' }}>
                     {job.months < 12
                       ? `${job.months} mo`
                       : `${Math.round(job.months / 12 * 10) / 10} yr`}
+                  </p>
+                  <p style={{ fontFamily: T.mono, fontSize: 9, color: T.inkMute, letterSpacing: '0.06em', margin: 0, whiteSpace: 'nowrap', opacity: 0.7 }}>
+                    ({job.type.toLowerCase()})
                   </p>
                 </div>
               </motion.div>
@@ -2395,12 +2668,12 @@ export default function Home() {
           50% { opacity: 0.35; box-shadow: 0 0 2px #D04D1F; }
         }
         @keyframes blobMorph {
-          0%   { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
-          20%  { border-radius: 45% 55% 35% 65% / 65% 35% 60% 40%; }
-          40%  { border-radius: 55% 45% 65% 35% / 42% 58% 45% 55%; }
-          60%  { border-radius: 38% 62% 50% 50% / 55% 45% 58% 42%; }
-          80%  { border-radius: 62% 38% 45% 55% / 45% 55% 38% 62%; }
-          100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+          0%   { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; box-shadow: 20px 30px 80px rgba(255,74,28,0.45), 0 0 40px rgba(255,74,28,0.2); }
+          20%  { border-radius: 45% 55% 35% 65% / 65% 35% 60% 40%; box-shadow: -10px 40px 90px rgba(255,74,28,0.38), 10px 0 50px rgba(255,74,28,0.18); }
+          40%  { border-radius: 55% 45% 65% 35% / 42% 58% 45% 55%; box-shadow: 30px 20px 70px rgba(255,74,28,0.50), -5px 10px 45px rgba(255,74,28,0.22); }
+          60%  { border-radius: 38% 62% 50% 50% / 55% 45% 58% 42%; box-shadow: -15px 35px 85px rgba(255,74,28,0.42), 20px 5px 55px rgba(255,74,28,0.2); }
+          80%  { border-radius: 62% 38% 45% 55% / 45% 55% 38% 62%; box-shadow: 10px 45px 75px rgba(255,74,28,0.48), -8px 15px 40px rgba(255,74,28,0.24); }
+          100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; box-shadow: 20px 30px 80px rgba(255,74,28,0.45), 0 0 40px rgba(255,74,28,0.2); }
         }
         .hero-blob {
           border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
@@ -2435,19 +2708,11 @@ export default function Home() {
           {/* Header strip */}
           {/* Case Studies — 4 vertical cards */}
           <WorkSubSection label="Case Studies">
-            <div className="case-studies-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', gridAutoRows: '552px' }}>
-              {projects.map((project, i) => (
-                <motion.div
-                  key={project.slug}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.08, ease }}
-                  style={{ height: '100%' }}
-                >
-                  <CaseStudyCard project={project} />
-                </motion.div>
-              ))}
+            <div className="home-bento-grid">
+              <BentoTall   project={projects[0]} />
+              <BentoWide   project={projects[1]} />
+              <BentoSquare project={projects[2]} className="home-bento-cell-stat" />
+              <BentoSquare project={projects[3]} className="home-bento-cell-img" />
             </div>
           </WorkSubSection>
 
@@ -2512,13 +2777,41 @@ export default function Home() {
             DOODLES — just above footer
         ═══════════════════════════════════════════════════════════════════ */}
         <div style={{ background: T.paper, overflow: 'hidden', position: 'relative', padding: '48px 0', borderTop: '1px solid #E5E5E0' }}>
-          <div style={{ padding: '0 64px 24px' }}>
-            <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
-              Raw sketches &amp; explorations
-            </p>
-            <p style={{ fontFamily: T.sans, fontSize: '22px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.02em' }}>
-              Doodling on the go
-            </p>
+          {/* Background dot grid */}
+          <div aria-hidden style={{
+            position: 'absolute', inset: 0,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='1.2' fill='%23B0ADA6'/%3E%3C/svg%3E")`,
+            backgroundRepeat: 'repeat',
+            opacity: 0.2,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }} />
+          {/* Diagonal hatch — bottom-right corner */}
+          <div aria-hidden style={{
+            position: 'absolute', bottom: 0, right: 0,
+            width: 200, height: 120,
+            backgroundImage: 'repeating-linear-gradient(45deg, #C8C5BE 0px, #C8C5BE 1px, transparent 1px, transparent 9px)',
+            maskImage: 'linear-gradient(135deg, transparent 40%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(135deg, transparent 40%, black 100%)',
+            opacity: 0.3,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }} />
+          {/* Top rule */}
+          <div aria-hidden style={{
+            position: 'absolute', left: 64, right: 64, top: 48,
+            height: 1, background: T.rule, opacity: 0.2, pointerEvents: 'none', zIndex: 1,
+          }} />
+          <div style={{ padding: '0 64px 32px', position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid #E5E5E0', marginBottom: '24px' }}>
+            <div>
+              <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
+                Raw sketches &amp; explorations
+              </p>
+              <h2 style={{ fontFamily: T.sans, fontSize: '28px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                Doodling on the go
+              </h2>
+            </div>
+            <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em', flexShrink: 0 }}>07/</span>
           </div>
           <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
@@ -2556,6 +2849,18 @@ export default function Home() {
           scrollbar-width: none;
           -ms-overflow-style: none;
         }
+
+        /* ── Home bento grid ── */
+        .home-bento-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-rows: 360px 320px;
+          gap: 12px;
+        }
+        .home-bento-cell-tall { grid-column: 1; grid-row: 1 / 3; }
+        .home-bento-cell-wide { grid-column: 2 / 4; grid-row: 1; }
+        .home-bento-cell-stat { grid-column: 2; grid-row: 2; }
+        .home-bento-cell-img  { grid-column: 3; grid-row: 2; }
 
         /* ── Tablet (≤768px) ── */
         @media (max-width: 768px) {
@@ -2617,9 +2922,14 @@ export default function Home() {
             padding-left: 24px !important;
             padding-right: 24px !important;
           }
-          .case-studies-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
+          .home-bento-grid {
+            grid-template-columns: 1fr 1fr !important;
+            grid-template-rows: 300px 280px 280px !important;
           }
+          .home-bento-cell-tall { grid-column: 1; grid-row: 1 / 3; }
+          .home-bento-cell-wide { grid-column: 2; grid-row: 1; }
+          .home-bento-cell-stat { grid-column: 2; grid-row: 2; }
+          .home-bento-cell-img  { grid-column: 1 / 3; grid-row: 3; }
           .webflow-builds-grid {
             grid-template-columns: 1fr !important;
           }
@@ -2752,9 +3062,14 @@ export default function Home() {
           .work-panel-header {
             padding: 20px 18px !important;
           }
-          .case-studies-grid {
+          .home-bento-grid {
             grid-template-columns: 1fr !important;
+            grid-template-rows: 320px 300px 260px 300px !important;
           }
+          .home-bento-cell-tall { grid-column: 1 !important; grid-row: 1 !important; }
+          .home-bento-cell-wide { grid-column: 1 !important; grid-row: 2 !important; }
+          .home-bento-cell-stat { grid-column: 1 !important; grid-row: 3 !important; }
+          .home-bento-cell-img  { grid-column: 1 !important; grid-row: 4 !important; }
 
           /* Behance */
           .behance-section {

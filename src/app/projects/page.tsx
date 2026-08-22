@@ -25,109 +25,137 @@ const stripedLight = {
   border: `1px solid ${T.rule}`,
 } as const
 
-// ─── Case study card — matches home page CaseStudyCard exactly ─────────────────
-function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const [flipped, setFlipped] = useState(false)
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease }}
-      style={{ height: '100%' }}
-    >
-      <Link
-        href={project.directPath}
-        style={{ display: 'block', position: 'relative', perspective: '1000px', cursor: 'pointer', textDecoration: 'none', height: '100%' }}
-        onMouseEnter={() => setFlipped(true)}
-        onMouseLeave={() => setFlipped(false)}
-      >
-        <div style={{
-          position: 'relative',
-          transformStyle: 'preserve-3d',
-          transition: 'transform 600ms cubic-bezier(0.22,1,0.36,1)',
-          transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-          height: '100%',
-        }}>
-          {/* FRONT — tall image + bottom strip */}
-          <div style={{
-            backfaceVisibility: 'hidden',
-            WebkitBackfaceVisibility: 'hidden',
-            background: '#111',
-            border: '1px solid #1a1a1a',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-          }}>
-            {/* Image fills most of the card */}
-            <div style={{ flex: 1, overflow: 'hidden', background: '#0a0a0a', minHeight: 0 }}>
-              {project.banner
-                ? <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.9 }} />
-                : <div style={{ width: '100%', height: '100%', background: 'repeating-linear-gradient(135deg, #1a1a1a 0 8px, transparent 8px 16px)' }} />
-              }
-            </div>
-            {/* Bottom strip — tags + title */}
-            <div style={{ padding: '14px 16px', borderTop: '1px solid #1a1a1a', flexShrink: 0 }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
-                {project.tags.map(tag => (
-                  <span key={tag} style={{ background: '#27272a', color: '#a1a1aa', fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em', padding: '3px 8px', borderRadius: '9999px' }}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <p style={{ color: '#f4f4f5', fontSize: '17px', fontWeight: 500, lineHeight: 1.4, margin: 0, fontFamily: T.sans }}>
-                {project.title}
-              </p>
-            </div>
-          </div>
+// ─── Bento case study grid ────────────────────────────────────────────────────
+const BC = {
+  bg: '#F4F2EC',
+  border: '#E0DDD6',
+  ink: '#0B0B0B',
+  mute: '#8A8A85',
+  orange: '#FF4A1C',
+  divider: '#D9D6CE',
+}
 
-          {/* BACK — description + metrics */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backfaceVisibility: 'hidden',
-            WebkitBackfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
-            background: '#f4f4f5',
-            border: '1px solid #e4e4e7',
-            borderRadius: '12px',
-            padding: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          }}>
-            <div>
-              <p style={{ fontFamily: T.mono, fontSize: '10px', color: '#71717a', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '8px' }}>
-                {project.company}
-              </p>
-              <p style={{ color: '#0B0B0B', fontSize: '17px', lineHeight: 1.6, margin: 0, fontFamily: T.sans }}>
-                {project.description}
-              </p>
-            </div>
-            <div style={{ display: 'flex', gap: '24px' }}>
-              {project.metrics.map(m => (
-                <div key={m.l}>
-                  <p style={{ color: '#0B0B0B', fontSize: '26px', fontWeight: 600, lineHeight: 1, margin: 0, fontFamily: T.sans }}>{m.v}</p>
-                  <p style={{ color: '#71717a', fontSize: '11px', margin: '4px 0 0', fontFamily: T.mono }}>{m.l}</p>
-                </div>
-              ))}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {project.tags.map(tag => (
-                  <span key={tag} style={{ background: '#e4e4e7', color: '#52525b', fontFamily: T.mono, fontSize: '9px', letterSpacing: '0.05em', padding: '3px 8px', borderRadius: '9999px' }}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <span style={{ color: '#0B0B0B', fontSize: '16px', flexShrink: 0, marginLeft: '8px' }}>→</span>
-            </div>
-          </div>
+// Shared resting meta block (metrics shown on hover only)
+function BentoMeta({ project }: { project: Project }) {
+  return (
+    <div style={{ flexShrink: 0, paddingTop: '2px' }}>
+      <p style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
+        {project.company} · {project.year}
+      </p>
+      <p style={{ fontFamily: T.sans, fontSize: '18px', fontWeight: 500, color: BC.ink, lineHeight: 1.35, margin: 0, letterSpacing: '-0.02em' }}>
+        {project.title}
+      </p>
+    </div>
+  )
+}
+
+// Hover overlay — description + metrics + tags, fades in over the card
+function BentoOverlay({ project, visible }: { project: Project; visible: boolean }) {
+  return (
+    <div style={{
+      position: 'absolute', inset: 0,
+      background: 'rgba(244, 242, 236, 0.92)',
+      backdropFilter: 'blur(16px) saturate(160%)',
+      WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+      padding: '22px',
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(10px)',
+      transition: 'opacity 0.4s ease, transform 0.4s ease',
+      pointerEvents: 'none',
+    }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        <div>
+          <p style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>
+            {project.company}
+          </p>
+          <p style={{ fontFamily: T.sans, fontSize: '15px', color: BC.ink, lineHeight: 1.6, margin: 0, letterSpacing: '-0.01em' }}>
+            {project.description}
+          </p>
         </div>
-      </Link>
-    </motion.div>
+        <div style={{ display: 'flex', gap: '24px' }}>
+          {project.metrics.map(m => (
+            <div key={m.l}>
+              <p style={{ fontFamily: T.sans, fontSize: '26px', fontWeight: 600, color: BC.orange, margin: 0, lineHeight: 1, letterSpacing: '-0.04em' }}>{m.v}</p>
+              <p style={{ fontFamily: T.mono, fontSize: '10px', color: BC.mute, margin: '4px 0 0', letterSpacing: '0.06em' }}>{m.l}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+          {project.tags.map(tag => (
+            <span key={tag} style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, background: BC.border, padding: '3px 8px', borderRadius: '9999px', letterSpacing: '0.04em' }}>
+              {tag}
+            </span>
+          ))}
+        </div>
+        <span style={{ fontFamily: T.sans, fontSize: '18px', color: BC.ink, flexShrink: 0, marginLeft: '8px' }}>→</span>
+      </div>
+    </div>
+  )
+}
+
+// Cell 1: tall card — image top (inset), text bottom (col 1, rows 1–2)
+function BentoTall({ project }: { project: Project }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <Link href={project.directPath} className="bento-cell-tall"
+      style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '14px', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', textDecoration: 'none', cursor: 'pointer', position: 'relative', overflow: 'hidden' }}
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{ flex: 1, borderRadius: '8px', overflow: 'hidden', minHeight: 0 }}>
+        <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transform: hovered ? 'scale(1.04)' : 'scale(1)', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+      </div>
+      <BentoMeta project={project} />
+      <BentoOverlay project={project} visible={hovered} />
+    </Link>
+  )
+}
+
+// Cell 2: wide split — text left, image right inset (cols 2–3, row 1)
+function BentoWide({ project }: { project: Project }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <Link href={project.directPath} className="bento-cell-wide"
+      style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', overflow: 'hidden', textDecoration: 'none', cursor: 'pointer', position: 'relative' }}
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+    >
+      {/* Left: text panel */}
+      <div style={{ padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderRight: `1px solid ${BC.divider}` }}>
+        <div>
+          <p style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>{project.company}</p>
+          <p style={{ fontFamily: T.sans, fontSize: '18px', fontWeight: 500, color: BC.ink, lineHeight: 1.35, margin: 0, letterSpacing: '-0.02em' }}>{project.title}</p>
+        </div>
+        <span style={{ fontFamily: T.mono, fontSize: '10px', color: hovered ? BC.ink : BC.mute, transition: 'color 0.2s', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          View case study →
+        </span>
+      </div>
+      {/* Right: image inset */}
+      <div style={{ padding: '14px' }}>
+        <div style={{ height: '100%', borderRadius: '8px', overflow: 'hidden' }}>
+          <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transform: hovered ? 'scale(1.04)' : 'scale(1)', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+        </div>
+      </div>
+      <BentoOverlay project={project} visible={hovered} />
+    </Link>
+  )
+}
+
+// Cells 3 & 4: square cards — image top (inset), text + metrics below
+function BentoSquare({ project, className }: { project: Project; className: string }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <Link href={project.directPath} className={className}
+      style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '14px', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', textDecoration: 'none', cursor: 'pointer', position: 'relative', overflow: 'hidden' }}
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{ flex: 1, borderRadius: '8px', overflow: 'hidden', minHeight: 0 }}>
+        <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transform: hovered ? 'scale(1.04)' : 'scale(1)', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+      </div>
+      <BentoMeta project={project} />
+      <BentoOverlay project={project} visible={hovered} />
+    </Link>
   )
 }
 
@@ -347,7 +375,18 @@ export default function ProjectsPage() {
         .proj-section { padding: 0 64px 80px; }
         .arch-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .articles-grid { display: flex; flex-direction: column; gap: 12px; }
-        .digital-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; grid-auto-rows: 552px; }
+
+        /* ── Bento grid ── */
+        .bento-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-rows: 360px 320px;
+          gap: 12px;
+        }
+        .bento-cell-tall { grid-column: 1; grid-row: 1 / 3; }
+        .bento-cell-wide { grid-column: 2 / 4; grid-row: 1; }
+        .bento-cell-stat { grid-column: 2; grid-row: 2; }
+        .bento-cell-img  { grid-column: 3; grid-row: 2; }
 
         .behance-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
         .webflow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -356,14 +395,28 @@ export default function ProjectsPage() {
           .pnav { padding: 0 32px; }
           .proj-section { padding: 0 32px 64px; }
           .arch-card-grid { grid-template-columns: repeat(2, 1fr); }
-          .digital-grid { grid-template-columns: repeat(2, 1fr); }
+          .bento-grid {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 300px 280px 280px;
+          }
+          .bento-cell-tall { grid-column: 1; grid-row: 1 / 3; }
+          .bento-cell-wide { grid-column: 2; grid-row: 1; }
+          .bento-cell-stat { grid-column: 2; grid-row: 2; }
+          .bento-cell-img  { grid-column: 1 / 3; grid-row: 3; }
           .behance-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 640px) {
           .pnav { padding: 0 20px; }
           .proj-section { padding: 0 20px 48px; }
           .arch-card-grid { grid-template-columns: 1fr; }
-          .digital-grid { grid-template-columns: 1fr; grid-auto-rows: 480px; }
+          .bento-grid {
+            grid-template-columns: 1fr;
+            grid-template-rows: 320px 300px 260px 300px;
+          }
+          .bento-cell-tall { grid-column: 1; grid-row: 1; }
+          .bento-cell-wide { grid-column: 1; grid-row: 2; }
+          .bento-cell-stat { grid-column: 1; grid-row: 3; }
+          .bento-cell-img  { grid-column: 1; grid-row: 4; }
           .behance-grid { grid-template-columns: repeat(2, 1fr); }
           .webflow-grid { grid-template-columns: 1fr; }
         }
@@ -416,10 +469,11 @@ export default function ProjectsPage() {
       {/* ── 01 Digital Design ── */}
       <section className="proj-section" style={{ paddingTop: '64px', background: T.dark, borderRadius: '24px 24px 0 0' }}>
         <SectionHeader kicker="UX Case Studies" title="Digital Design" index="01/" dark />
-        <div className="digital-grid">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.slug} project={project} index={i} />
-          ))}
+        <div className="bento-grid">
+          <BentoTall   project={projects[0]} />
+          <BentoWide   project={projects[1]} />
+          <BentoSquare project={projects[2]} className="bento-cell-stat" />
+          <BentoSquare project={projects[3]} className="bento-cell-img" />
         </div>
       </section>
 
