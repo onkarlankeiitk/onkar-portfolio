@@ -902,6 +902,35 @@ function HeroSection() {
               pointerEvents: 'none',
             }} />
           )}
+          {/* Hero figure — centered on blob, flipped, behind card */}
+          {rightReady && (
+            <motion.div
+              className="hero-figure"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                position: 'absolute',
+                /* blob top/left = clamp(-80px,-15vw,-110px) ≈ -80px; blob size = clamp(200px,35vw,300px) */
+                /* center = blob_tl + blob_size/2 */
+                top: 'calc(clamp(-80px, -15vw, -110px) + clamp(200px, 35vw, 300px) / 2)',
+                left: 'calc(clamp(-80px, -15vw, -110px) + clamp(200px, 35vw, 300px) / 2 - 100px)',
+                width: 'clamp(280px, 44vw, 400px)',
+                /* shift back by own half-size to truly centre the image on the blob centre */
+                transform: 'translate(-50%, -50%)',
+                zIndex: 1,
+                pointerEvents: 'none',
+              }}
+            >
+              <img
+                src="/hero-figure.png"
+                alt=""
+                aria-hidden
+                style={{ width: '100%', display: 'block', transform: 'scaleX(-1)' }}
+              />
+            </motion.div>
+          )}
+
           {/* Orange circle — mounts when Storyteller starts, pixel dissolve reveals it */}
           {rightReady && <motion.div
             className="hero-blob"
@@ -950,7 +979,7 @@ function HeroSection() {
             transition={{ duration: 0 }}
             style={{
               position: 'relative',
-              zIndex: 1,
+              zIndex: 2,
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
@@ -1005,7 +1034,7 @@ function HeroSection() {
               maxWidth: '380px',
               position: 'relative', zIndex: 1,
             }}>
-              Product craftsman, passionate UX researcher, &amp; technologist, building experiences for{' '}
+              A Product craftsman, passionate UX researcher, &amp; technologist, building experiences for{' '}
               <span style={{ color: HERO_INK, fontWeight: 500 }}>5+ years</span>, with recent development
               in agentic environments and AI powered research &amp; prototyping.
             </p>
@@ -1830,16 +1859,6 @@ function AboutSection() {
             />
           </motion.div>
 
-          {/* Tools marquee */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.12, ease }}
-          >
-            <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#2a2a2a', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 12px' }}>Tools I use</p>
-            <ToolsMarquee bg="#FCFCFA" />
-          </motion.div>
         </div>
 
         {/* ── Right column: stats + bio + skills accordion ── */}
@@ -1909,6 +1928,228 @@ function AboutSection() {
         </div>
       </div>
 
+      {/* Tools marquee — full page width */}
+      <div style={{ padding: '40px 0 48px', position: 'relative', zIndex: 1 }}>
+        <div style={{ padding: '0 80px 16px' }}>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#2a2a2a', letterSpacing: '0.12em', textTransform: 'uppercase', margin: 0 }}>Tools I use</p>
+        </div>
+        <ToolsMarquee bg="#FCFCFA" />
+      </div>
+
+    </section>
+  )
+}
+
+// ─── Experience Timeline ──────────────────────────────────────────────────────
+const timelineJobs = [
+  {
+    role: 'UX Researcher',
+    company: 'TeamLease Pvt Ltd',
+    type: 'Internship',
+    period: 'May – Jul 2019',
+    months: 3,
+    desc: 'Platform revamp research — 86% engagement growth post-redesign.',
+    accent: false,
+  },
+  {
+    role: 'Product Designer',
+    company: 'Kritsnam Technologies',
+    type: 'Internship',
+    period: 'Oct – Dec 2019',
+    months: 2,
+    desc: 'Sensor dashboard — 65% reduction in service time (47m → 16m).',
+    accent: true,
+  },
+  {
+    role: 'UX Designer',
+    company: 'Tata Consultancy Services',
+    type: 'Full-time',
+    period: 'Sept 2020 – Mar 2023',
+    months: 30,
+    desc: 'AirAsia CX, Tata Neu heuristic eval, hybrid work platform.',
+    accent: false,
+  },
+  {
+    role: 'Senior UX Designer',
+    company: 'Mindseye Creative Studios',
+    type: 'Full-time',
+    period: 'Apr 2023 – Dec 2025',
+    months: 32,
+    desc: 'End-to-end UX + AI SaaS for consultants; 40–55% productivity gain.',
+    accent: true,
+  },
+  {
+    role: 'Product Design Consultant',
+    company: 'Laminar Interactive',
+    type: 'Freelance',
+    period: 'Mar – May 2026',
+    months: 2,
+    desc: 'AI tool for architects — research, prototype, 20% workflow gain.',
+    accent: false,
+  },
+]
+
+// Circle size scales with tenure (months)
+const TL_MIN_PX = 130
+const TL_MAX_PX = 270
+const TL_MAX_MONTHS = 32
+// Horizontal line sits 240px from the top of the track area
+const TL_LINE_Y = 240
+// Tick extends this many px below the circle's bottom edge
+const TL_TICK_EXTRA = 40
+
+function tlSize(months: number) {
+  return Math.round(TL_MIN_PX + (months / TL_MAX_MONTHS) * (TL_MAX_PX - TL_MIN_PX))
+}
+
+function ExperienceTimeline() {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
+
+  // total track height: line (240) + max radius (135) + tick extra (40) + date text (56) + bottom pad (40)
+  const trackH = TL_LINE_Y + Math.round(TL_MAX_PX / 2) + TL_TICK_EXTRA + 56 + 40
+
+  return (
+    <section
+      id="experience"
+      style={{ background: '#F7F4EE', position: 'relative', zIndex: 10, fontFamily: T.sans }}
+    >
+      {/* Header strip */}
+      <div className="tl-header" style={{
+        padding: '40px 80px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'baseline',
+        borderBottom: `1px solid ${T.rule}`,
+      }}>
+        <div>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+            Work Experience
+          </p>
+          <p style={{ fontFamily: T.sans, fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 700, letterSpacing: '-0.03em', color: T.ink, margin: 0, lineHeight: 1.1 }}>
+            Where I&rsquo;ve shipped
+          </p>
+        </div>
+        <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>05/</span>
+      </div>
+
+      {/* Timeline track */}
+      <div
+        ref={ref}
+        className="tl-wrap"
+        style={{ position: 'relative', height: trackH, overflowX: 'auto', overflowY: 'visible' }}
+      >
+        {/* Horizontal line */}
+        <div className="tl-line" style={{
+          position: 'absolute',
+          left: 0, right: 0,
+          top: TL_LINE_Y,
+          height: '2px',
+          background: `linear-gradient(to right, #E2DFD8 0%, #C8C5BE 8%, #C8C5BE 92%, #E2DFD8 100%)`,
+          zIndex: 0,
+        }} />
+
+        {/* Items row — flex-start so spacers control vertical position */}
+        <div className="tl-track" style={{
+          position: 'absolute', inset: 0,
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '32px',
+          padding: '0 80px',
+        }}>
+          {timelineJobs.map((job, i) => {
+            const size   = tlSize(job.months)
+            const radius = size / 2
+            const bg     = job.accent ? '#FF4A1C' : '#2a2a2a'
+            const pad    = Math.round(size * 0.13)
+            const roleFs = Math.max(9,  Math.round(size * 0.055))
+            const metaFs = Math.max(7,  Math.round(size * 0.037))
+            const descFs = Math.max(8,  Math.round(size * 0.044))
+            // spacer pushes circle so its centre sits on TL_LINE_Y
+            const spacer = TL_LINE_Y - radius
+            // tick from circle centre to (radius + EXTRA) below circle centre
+            const tickH  = radius + TL_TICK_EXTRA
+
+            return (
+              <motion.div
+                key={i}
+                className="tl-item"
+                initial={{ opacity: 0, x: -60 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.65, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+              >
+                {/* Spacer — aligns circle centre with the horizontal line */}
+                <div style={{ height: spacer, flexShrink: 0 }} />
+
+                {/* Circle */}
+                <div
+                  className="tl-circle"
+                  style={{
+                    width: size, height: size,
+                    borderRadius: '50%',
+                    background: bg,
+                    flexShrink: 0,
+                    position: 'relative', zIndex: 2,
+                    display: 'flex', flexDirection: 'column',
+                    alignItems: 'center', justifyContent: 'center',
+                    padding: pad,
+                    textAlign: 'center',
+                    gap: 4,
+                    overflow: 'hidden',
+                    boxShadow: '0 6px 28px rgba(0,0,0,0.16)',
+                  }}
+                >
+                  <span style={{ display: 'block', fontFamily: T.sans, fontSize: roleFs, fontWeight: 700, color: '#fff', letterSpacing: '-0.01em', lineHeight: 1.2, overflow: 'hidden', maxHeight: roleFs * 1.2 * 2 }}>
+                    {job.role}
+                  </span>
+                  <span style={{ display: 'block', fontFamily: T.mono, fontSize: metaFs, color: 'rgba(255,255,255,0.68)', letterSpacing: '0.04em', textTransform: 'uppercase', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%', lineHeight: 1.3 }}>
+                    {job.company}
+                  </span>
+                  <span style={{ display: 'block', fontFamily: T.mono, fontSize: metaFs - 1, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em', textTransform: 'uppercase', lineHeight: 1.2 }}>
+                    {job.type}
+                  </span>
+                  <span style={{ display: 'block', fontFamily: T.sans, fontSize: descFs, color: 'rgba(255,255,255,0.86)', lineHeight: 1.35, marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
+                    {job.desc}
+                  </span>
+                </div>
+
+                {/* Vertical tick — drawn from circle centre (marginTop pulls it up) */}
+                <div style={{
+                  width: 1.5,
+                  height: tickH,
+                  background: bg,
+                  marginTop: -radius,          // start at circle centre
+                  flexShrink: 0,
+                  position: 'relative', zIndex: 1,
+                  opacity: 0.55,
+                }} />
+
+                {/* Dot at tick end */}
+                <div style={{
+                  width: 6, height: 6,
+                  borderRadius: '50%',
+                  background: bg,
+                  flexShrink: 0,
+                  marginTop: -1,
+                }} />
+
+                {/* Date label */}
+                <div style={{ textAlign: 'center', marginTop: 8, flexShrink: 0 }}>
+                  <p style={{ fontFamily: T.mono, fontSize: 10, fontWeight: 600, color: T.ink, letterSpacing: '0.04em', margin: '0 0 2px', whiteSpace: 'nowrap' }}>
+                    {job.period}
+                  </p>
+                  <p style={{ fontFamily: T.mono, fontSize: 9, color: T.inkMute, letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0, whiteSpace: 'nowrap' }}>
+                    {job.months < 12
+                      ? `${job.months} mo`
+                      : `${Math.round(job.months / 12 * 10) / 10} yr`}
+                  </p>
+                </div>
+              </motion.div>
+            )
+          })}
+        </div>
+      </div>
     </section>
   )
 }
@@ -2257,8 +2498,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════════════
             EXPERIENCE — below behance
         ═══════════════════════════════════════════════════════════════════ */}
-        {/* TEMPORARILY HIDDEN — Experience section */}
-        {false && <ExperienceSection />}
+        <ExperienceTimeline />
 
         {/* ═══════════════════════════════════════════════════════════════════
             INDUSTRIAL DESIGN PHOTO GRID — normal scroll
@@ -2277,7 +2517,7 @@ export default function Home() {
               Raw sketches &amp; explorations
             </p>
             <p style={{ fontFamily: T.sans, fontSize: '22px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.02em' }}>
-              Doodles: Keep designing, keep sketching
+              Doodling on the go
             </p>
           </div>
           <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
@@ -2355,6 +2595,18 @@ export default function Home() {
           .hero-badge {
             top: 20px !important;
             left: 24px !important;
+          }
+          /* Blob — move to top-right of card, smaller */
+          .hero-blob {
+            width: 140px !important;
+            height: 140px !important;
+            top: -50px !important;
+            left: auto !important;
+            right: -30px !important;
+          }
+          /* Figure — hide on mobile (too large, overlaps layout) */
+          .hero-figure {
+            display: none !important;
           }
 
           /* Work section */
@@ -2442,6 +2694,27 @@ export default function Home() {
             height: 240px !important;
           }
 
+          /* Experience Timeline */
+          .tl-header {
+            padding: 28px 24px !important;
+          }
+          .tl-wrap {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+          }
+          .tl-wrap::-webkit-scrollbar { display: none; }
+          .tl-track {
+            padding: 0 24px !important;
+            gap: 20px !important;
+          }
+          .tl-circle {
+            zoom: 0.65;
+          }
+          .tl-item {
+            zoom: 0.65;
+          }
+
         }
 
         /* ── Mobile (≤480px) ── */
@@ -2456,6 +2729,13 @@ export default function Home() {
           }
           .hero-right-col {
             padding: 24px 20px !important;
+          }
+          /* Blob — even smaller on phone */
+          .hero-blob {
+            width: 110px !important;
+            height: 110px !important;
+            top: -40px !important;
+            right: -20px !important;
           }
           /* Further reduce card font sizes on small mobile */
           .hero-right-col .hero-card-heading {
@@ -2515,6 +2795,14 @@ export default function Home() {
           }
           .industrial-grid > div {
             height: 220px !important;
+          }
+
+          /* Experience Timeline */
+          .tl-header {
+            padding: 24px 18px !important;
+          }
+          .tl-item {
+            zoom: 0.52;
           }
         }
       `}</style>
