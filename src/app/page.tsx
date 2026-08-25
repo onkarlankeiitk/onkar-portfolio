@@ -1083,7 +1083,7 @@ function HeroSection() {
               position: 'relative', zIndex: 1,
             }}>
               A Product craftsman, passionate UX researcher, &amp; technologist, building experiences for{' '}
-              <span style={{ color: HERO_INK, fontWeight: 500 }}>5+ years</span>, with recent development
+              <span style={{ color: HERO_INK, fontWeight: 500 }}>6+ years</span>, with recent development
               in agentic environments and AI powered research &amp; prototyping.
             </p>
 
