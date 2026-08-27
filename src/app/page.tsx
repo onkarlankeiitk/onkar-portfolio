@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Fragment } from 'react'
 import { motion, useInView } from 'framer-motion'
 import Link from 'next/link'
 import Nav from '@/components/Nav'
@@ -319,11 +319,18 @@ function BentoOverlay({ project, visible }: { project: typeof projects[0]; visib
 }
 
 // Cell 1: tall card — image top (inset), text bottom (col 1, rows 1–2)
-function BentoTall({ project }: { project: typeof projects[0] }) {
+function BentoTall({ project, animDelay = 0 }: { project: typeof projects[0]; animDelay?: number }) {
   const [hovered, setHovered] = useState(false)
   return (
-    <Link href={project.directPath} className="home-bento-cell-tall"
-      style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '14px', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', textDecoration: 'none', cursor: 'pointer', position: 'relative', overflow: 'hidden' }}
+    <motion.div
+      className="home-bento-cell-tall"
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: animDelay, ease }}
+    >
+    <Link href={project.directPath}
+      style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '14px', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', textDecoration: 'none', cursor: 'pointer', position: 'relative', overflow: 'hidden', height: '100%' }}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
     >
       <div style={{ flex: 1, borderRadius: '8px', overflow: 'hidden', minHeight: 0 }}>
@@ -332,15 +339,23 @@ function BentoTall({ project }: { project: typeof projects[0] }) {
       <BentoMeta project={project} />
       <BentoOverlay project={project} visible={hovered} />
     </Link>
+    </motion.div>
   )
 }
 
 // Cell 2: wide split — text left, image right inset (cols 2–3, row 1)
-function BentoWide({ project }: { project: typeof projects[0] }) {
+function BentoWide({ project, animDelay = 0 }: { project: typeof projects[0]; animDelay?: number }) {
   const [hovered, setHovered] = useState(false)
   return (
-    <Link href={project.directPath} className="home-bento-cell-wide"
-      style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', overflow: 'hidden', textDecoration: 'none', cursor: 'pointer', position: 'relative' }}
+    <motion.div
+      className="home-bento-cell-wide"
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: animDelay, ease }}
+    >
+    <Link href={project.directPath}
+      style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', overflow: 'hidden', textDecoration: 'none', cursor: 'pointer', position: 'relative', height: '100%' }}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
     >
       {/* Left: text panel */}
@@ -361,15 +376,23 @@ function BentoWide({ project }: { project: typeof projects[0] }) {
       </div>
       <BentoOverlay project={project} visible={hovered} />
     </Link>
+    </motion.div>
   )
 }
 
 // Cells 3 & 4: square cards — image top (inset), text + metrics below
-function BentoSquare({ project, className }: { project: typeof projects[0]; className: string }) {
+function BentoSquare({ project, className, animDelay = 0 }: { project: typeof projects[0]; className: string; animDelay?: number }) {
   const [hovered, setHovered] = useState(false)
   return (
-    <Link href={project.directPath} className={className}
-      style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '14px', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', textDecoration: 'none', cursor: 'pointer', position: 'relative', overflow: 'hidden' }}
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: animDelay, ease }}
+    >
+    <Link href={project.directPath}
+      style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '14px', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', textDecoration: 'none', cursor: 'pointer', position: 'relative', overflow: 'hidden', height: '100%' }}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
     >
       <div style={{ flex: 1, borderRadius: '8px', overflow: 'hidden', minHeight: 0 }}>
@@ -378,6 +401,7 @@ function BentoSquare({ project, className }: { project: typeof projects[0]; clas
       <BentoMeta project={project} />
       <BentoOverlay project={project} visible={hovered} />
     </Link>
+    </motion.div>
   )
 }
 
@@ -401,10 +425,14 @@ function ArticleCard({ article, index = 0 }: { article: { title: string; pubDate
   const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
   const thumbnail = getArticleThumbnail(article.title)
   return (
-    <a
+    <motion.a
       href={article.link}
       target="_blank"
       rel="noreferrer"
+      initial={{ opacity: 0, y: 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.07, ease }}
       style={{
         display: 'flex',
         gap: '12px',
@@ -450,7 +478,7 @@ function ArticleCard({ article, index = 0 }: { article: { title: string; pubDate
           </div>
         )}
       </div>
-    </a>
+    </motion.a>
   )
 }
 
@@ -471,7 +499,13 @@ function MediumSection() {
 
   return (
     <div className="medium-section" style={{ borderTop: `1px solid ${T.rule}`, padding: '72px 80px', background: '#FCFCFA' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '40px' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.55, ease }}
+        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '40px' }}
+      >
         <h3 style={{ fontFamily: T.sans, fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.025em', lineHeight: 1.05 }}>
           Weekend pen-downs: My articles
         </h3>
@@ -485,7 +519,7 @@ function MediumSection() {
         >
           All articles →
         </a>
-      </div>
+      </motion.div>
       <div className="medium-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
         {loading
           ? Array.from({ length: 6 }).map((_, i) => (
@@ -1825,7 +1859,7 @@ function AboutSection() {
           backgroundImage: 'url(/about-bg.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          opacity: 0.2,
+          opacity: 0.1,
           zIndex: 0,
           pointerEvents: 'none',
         }}
@@ -2173,7 +2207,7 @@ function ExperienceTimeline() {
             Experience timeline
           </p>
           <p style={{ fontFamily: T.sans, fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 700, letterSpacing: '-0.03em', color: T.ink, margin: 0, lineHeight: 1.1 }}>
-            Where I&rsquo;ve shipped
+            Journey so far...
           </p>
         </div>
         <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>05/</span>
@@ -2185,16 +2219,6 @@ function ExperienceTimeline() {
         className="tl-wrap"
         style={{ position: 'relative', height: trackH, overflowX: 'clip', overflowY: 'visible', zIndex: 1 }}
       >
-        {/* Upper grid rule — creates column-structure above circles */}
-        <div style={{
-          position: 'absolute', left: 0, right: 0,
-          top: Math.round(TL_LINE_Y * 0.38),
-          height: 1,
-          background: T.rule,
-          opacity: 0.3,
-          zIndex: 0,
-        }} />
-
         {/* Rotated left-edge annotation */}
         <div style={{
           position: 'absolute',
@@ -2215,37 +2239,18 @@ function ExperienceTimeline() {
           Career path · chronological
         </div>
 
-        {/* Horizontal line */}
-        <div className="tl-line" style={{
-          position: 'absolute',
-          left: 0, right: 0,
-          top: TL_LINE_Y,
-          height: '2px',
-          background: `linear-gradient(to right, #E2DFD8 0%, #C8C5BE 8%, #C8C5BE 92%, #E2DFD8 100%)`,
-          zIndex: 0,
-        }} />
-
-        {/* Lower grid rule — below circles */}
-        <div style={{
-          position: 'absolute', left: 0, right: 0,
-          top: TL_LINE_Y + Math.round(TL_MAX_PX / 2) + TL_TICK_EXTRA + 20,
-          height: 1,
-          background: T.rule,
-          opacity: 0.25,
-          zIndex: 0,
-        }} />
-
         {/* Items row — flex-start so spacers control vertical position */}
         <div className="tl-track" style={{
           position: 'absolute', inset: 0,
           display: 'flex',
           alignItems: 'flex-start',
-          gap: '32px',
+          gap: '0',
           padding: '0 80px',
         }}>
           {timelineJobs.map((job, i) => {
             const size   = tlSize(job.months)
             const radius = size / 2
+            const nextSize = i < timelineJobs.length - 1 ? tlSize(timelineJobs[i + 1].months) : 150
             const pad    = Math.round(size * 0.13)
             const roleFs = Math.max(9,  Math.round(size * 0.055))
             const metaFs = Math.max(7,  Math.round(size * 0.037))
@@ -2269,8 +2274,8 @@ function ExperienceTimeline() {
             const tickCol     = '#2a2a2a'
 
             return (
+              <Fragment key={i}>
               <motion.div
-                key={i}
                 className="tl-item"
                 initial={{ opacity: 0, x: -60 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -2419,8 +2424,53 @@ function ExperienceTimeline() {
                   </p>
                 </div>
               </motion.div>
+              {/* Connector to next circle */}
+              <div style={{
+                flexGrow: 1,
+                flexShrink: 1,
+                minWidth: '24px',
+                height: '2px',
+                marginTop: TL_LINE_Y - 1,
+                alignSelf: 'flex-start',
+                background: '#C8C5BE',
+              }} />
+              </Fragment>
             )
           })}
+
+          {/* Searching circle — current state, extreme right */}
+          {(() => {
+            const size   = 150
+            const radius = size / 2
+            const spacer = TL_LINE_Y - radius
+            return (
+              <motion.div
+                initial={{ opacity: 0, x: -60 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.65, delay: timelineJobs.length * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}
+              >
+                <div style={{ height: spacer, flexShrink: 0 }} />
+                <div style={{
+                  width: size, height: size, borderRadius: '50%',
+                  border: '2px dashed #FF4A1C',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  textAlign: 'center',
+                  padding: '16px',
+                  boxSizing: 'border-box',
+                  animation: 'spin-slow 12s linear infinite',
+                }}>
+                  <span style={{
+                    fontFamily: T.mono, fontSize: '10px', color: '#FF4A1C',
+                    letterSpacing: '0.06em', lineHeight: 1.45, textTransform: 'uppercase',
+                    animation: 'counter-spin-slow 12s linear infinite',
+                  }}>
+                    Searching for next great place to work..
+                  </span>
+                </div>
+              </motion.div>
+            )
+          })()}
         </div>
       </div>
     </section>
@@ -2604,33 +2654,91 @@ function SkillPill({ label }: { label: string }) {
 }
 
 // ─── Work subsection with hover-orange label ──────────────────────────────────
-function WorkSubSection({ label, children, topPadding = '56px' }: { label: string; children: React.ReactNode; topPadding?: string }) {
-  const [hovered, setHovered] = useState(false)
+function WorkSubSection({ kicker, title, index, children, topPadding = '56px' }: { kicker: string; title: string; index: string; children: React.ReactNode; topPadding?: string }) {
   return (
-    <div
-      style={{ padding: `${topPadding} 64px 0` }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <motion.p
+    <div style={{ padding: `${topPadding} 64px 0` }}>
+      <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, ease }}
         style={{
-          fontFamily: T.mono,
-          fontSize: '17px',
-          color: hovered ? '#FF4A1C' : '#52525b',
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-          margin: '0 0 20px',
-          transition: 'color 0.2s ease',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
+          borderBottom: '1px solid #1a1a1a', paddingBottom: '20px', marginBottom: '40px',
         }}
       >
-        {label}
-      </motion.p>
+        <div>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+            {kicker}
+          </p>
+          <h2 style={{ fontFamily: T.sans, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 500, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.05, margin: 0 }}>
+            {title}
+          </h2>
+        </div>
+        <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: '#1a1a1a', letterSpacing: '-0.03em' }}>
+          {index}
+        </span>
+      </motion.div>
       {children}
     </div>
+  )
+}
+
+// ─── Back To Top ──────────────────────────────────────────────────────────────
+function BackToTop() {
+  const [visible, setVisible] = useState(false)
+  const [hovered, setHovered] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <motion.button
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      initial={false}
+      animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 16, pointerEvents: visible ? 'auto' : 'none' }}
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        position: 'fixed',
+        top: 32,
+        left: 32,
+        zIndex: 999,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 6,
+        background: hovered ? T.ink : T.paper,
+        border: `1.5px solid ${hovered ? T.ink : T.rule}`,
+        borderRadius: 12,
+        padding: '10px 14px',
+        cursor: 'pointer',
+        boxShadow: hovered ? '0 8px 24px rgba(0,0,0,0.18)' : '0 2px 12px rgba(0,0,0,0.08)',
+        transition: 'background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease',
+      }}
+      aria-label="Back to top"
+    >
+      {/* Upward arrow */}
+      <svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 13V3M8 3L3 8M8 3L13 8" stroke={hovered ? T.paper : T.ink} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      <span style={{
+        fontFamily: T.mono,
+        fontSize: '9px',
+        fontWeight: 700,
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        color: hovered ? T.paper : T.inkMute,
+        whiteSpace: 'nowrap',
+        transition: 'color 0.18s ease',
+      }}>
+        Back to top
+      </span>
+    </motion.button>
   )
 }
 
@@ -2658,6 +2766,18 @@ export default function Home() {
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
+        }
+        @keyframes blink-dot {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.3; transform: scale(0.75); }
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+        @keyframes counter-spin-slow {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(-360deg); }
         }
         @keyframes heroCursor {
           0%, 100% { opacity: 1; }
@@ -2707,17 +2827,17 @@ export default function Home() {
         >
           {/* Header strip */}
           {/* Case Studies — 4 vertical cards */}
-          <WorkSubSection label="Case Studies">
+          <WorkSubSection kicker="UX Case Studies" title="Digital Design" index="01/">
             <div className="home-bento-grid">
-              <BentoTall   project={projects[0]} />
-              <BentoWide   project={projects[1]} />
-              <BentoSquare project={projects[2]} className="home-bento-cell-stat" />
-              <BentoSquare project={projects[3]} className="home-bento-cell-img" />
+              <BentoTall   project={projects[0]} animDelay={0} />
+              <BentoWide   project={projects[1]} animDelay={0.1} />
+              <BentoSquare project={projects[2]} className="home-bento-cell-stat" animDelay={0.18} />
+              <BentoSquare project={projects[3]} className="home-bento-cell-img"  animDelay={0.24} />
             </div>
           </WorkSubSection>
 
           {/* Webflow Builds — 2 columns */}
-          <WorkSubSection label="Design + Low-code work on webflow" topPadding="96px">
+          <WorkSubSection kicker="Low-code" title="Design + Webflow Builds" index="02/" topPadding="96px">
             <div className="webflow-builds-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               {webflowSites.map((site, i) => (
                 <motion.div
@@ -2734,7 +2854,7 @@ export default function Home() {
           </WorkSubSection>
 
           {/* Behance Archive */}
-          <WorkSubSection label="Notable previous work" topPadding="96px">
+          <WorkSubSection kicker="Archive" title="Previous Work: Portfolio 2020" index="03/" topPadding="96px">
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '24px' }}>
               <a
                 href="https://www.behance.net/lankeonkar"
@@ -2765,10 +2885,8 @@ export default function Home() {
         ═══════════════════════════════════════════════════════════════════ */}
         <ExperienceTimeline />
 
-        {/* ═══════════════════════════════════════════════════════════════════
-            INDUSTRIAL DESIGN PHOTO GRID — normal scroll
-        ═══════════════════════════════════════════════════════════════════ */}
-        <IndustrialSection />
+        {/* TEMPORARILY HIDDEN — Industrial Design Photo Grid */}
+        {/* <IndustrialSection /> */}
 
         {/* TEMPORARILY HIDDEN — Beyond Pixels / Arch + Industrial section */}
         {/* <ArchSection /> */}
@@ -2802,7 +2920,13 @@ export default function Home() {
             position: 'absolute', left: 64, right: 64, top: 48,
             height: 1, background: T.rule, opacity: 0.2, pointerEvents: 'none', zIndex: 1,
           }} />
-          <div style={{ padding: '0 64px 32px', position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid #E5E5E0', marginBottom: '24px' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, ease }}
+            style={{ padding: '0 64px 32px', position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid #E5E5E0', marginBottom: '24px' }}
+          >
             <div>
               <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
                 Raw sketches &amp; explorations
@@ -2811,8 +2935,14 @@ export default function Home() {
                 Doodling on the go
               </h2>
             </div>
-            <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em', flexShrink: 0 }}>07/</span>
-          </div>
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.15, ease }}
+              style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em', flexShrink: 0 }}
+            >07/</motion.span>
+          </motion.div>
           <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
           <SketchMarquee />
@@ -3016,7 +3146,7 @@ export default function Home() {
           .tl-wrap::-webkit-scrollbar { display: none; }
           .tl-track {
             padding: 0 24px !important;
-            gap: 20px !important;
+            gap: 0 !important;
           }
           .tl-circle {
             zoom: 0.65;
@@ -3121,6 +3251,8 @@ export default function Home() {
           }
         }
       `}</style>
+
+      <BackToTop />
     </>
   )
 }

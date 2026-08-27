@@ -20,8 +20,55 @@ const contactLinks = [
   { label: 'Email',    href: 'mailto:onkarlanke.iitk@gmail.com',  display: 'onkarlanke.iitk@gmail.com',   external: false },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/onkarlanke/', display: 'linkedin.com/in/onkarlanke', external: true  },
   { label: 'Phone',    href: 'tel:+918669882810',                  display: '+91 86698 82810',              external: false },
-  { label: 'Resume',   href: '/ONKAR_LANKE.pdf', display: 'Download Resume ↗', external: true },
+  { label: 'Resume',   href: '/ONKAR_LANKE.pdf', display: 'Download Resume', external: true },
 ]
+
+const SPACE_MONO = '"Space Mono", "JetBrains Mono", monospace'
+const ACCENT = '#FF4A1C'
+
+function FooterContactBtn({ href, label, display, external }: { href: string; label: string; display: string; external: boolean }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <a
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noreferrer' : undefined}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        fontFamily: SPACE_MONO,
+        fontSize: '13px',
+        letterSpacing: '0.06em',
+        textTransform: 'uppercase',
+        textDecoration: 'none',
+        color: hovered ? '#ffffff' : ACCENT,
+        background: hovered ? ACCENT : 'transparent',
+        padding: '6px 10px 6px 0',
+        paddingLeft: hovered ? '10px' : '0',
+        clipPath: hovered
+          ? 'polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%)'
+          : 'none',
+        cursor: 'pointer',
+        transition: 'color 0.2s ease, background 0.2s ease, clip-path 0.2s ease, padding-left 0.2s ease',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      <span style={{ fontSize: '10px', letterSpacing: '0.12em', opacity: hovered ? 0.7 : 0.5, transition: 'opacity 0.2s ease' }}>
+        {label}
+      </span>
+      <span style={{
+        textDecoration: hovered ? 'none' : 'underline',
+        textDecorationColor: ACCENT,
+        textUnderlineOffset: '6px',
+        transition: 'text-decoration-color 0.2s ease',
+      }}>{display}</span>
+      <span style={{ fontSize: '15px', lineHeight: 1, textDecoration: 'none' }}>↗</span>
+    </a>
+  )
+}
 
 const navLinks = [
   { href: '/#work',    label: 'Work' },
@@ -284,9 +331,7 @@ export default function Footer() {
       .footer-top {
         gap: 64px;
       }
-      .footer-contact-btn {
-        min-width: 280px;
-      }
+
       .footer-bottom {
         padding-top: 48px;
       }
@@ -306,10 +351,7 @@ export default function Footer() {
           flex-direction: column !important;
           gap: 40px !important;
         }
-        .footer-contact-btn {
-          min-width: 0 !important;
-          width: 100% !important;
-        }
+
         .footer-contact-col {
           width: 100% !important;
         }
@@ -383,21 +425,13 @@ export default function Footer() {
           style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: '0 0 auto', paddingTop: '8px', position: 'relative', zIndex: 1 }}
         >
           {contactLinks.map(link => (
-            <a
+            <FooterContactBtn
               key={link.label}
               href={link.href}
-              target={link.external ? '_blank' : undefined}
-              rel={link.external ? 'noreferrer' : undefined}
-              className="footer-contact-btn"
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', border: '1px solid #3f3f46', borderRadius: '9999px', padding: '12px 24px', color: '#d4d4d8', fontSize: '14px', textDecoration: 'none', transition: 'border-color 0.2s ease, color 0.2s ease' }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = '#FF4A1C'; el.style.color = '#FF4A1C' }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = '#3f3f46'; el.style.color = '#d4d4d8' }}
-            >
-              <span style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#52525b' }}>
-                {link.label}
-              </span>
-              <span style={{ fontSize: '13px' }}>{link.display}</span>
-            </a>
+              label={link.label}
+              display={link.display}
+              external={link.external}
+            />
           ))}
         </motion.div>
       </div>

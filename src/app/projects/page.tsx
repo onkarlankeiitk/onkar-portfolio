@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { projects, archProjects, getArticleThumbnail, ARTICLE_QUADRANT_POS } from '@/lib/portfolio-data'
 import type { Project } from '@/lib/portfolio-data'
 import Footer from '@/components/Footer'
+import Nav from '@/components/Nav'
 
 // ─── Design tokens ─────────────────────────────────────────────────────────────
 const T = {
@@ -16,7 +17,7 @@ const T = {
   ruleSoft: '#E8E5DD',
   dark: '#0A0A0A',
   sans: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
-  mono: '"JetBrains Mono", ui-monospace, monospace',
+  mono: "'Space Mono', monospace",
 }
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -348,29 +349,72 @@ function SectionHeader({ kicker, title, index, dark = false }: { kicker: string;
   )
 }
 
+// ─── Back To Top ─────────────────────────────────────────────────────────────────
+function BackToTop() {
+  const [visible, setVisible] = useState(false)
+  const [hovered, setHovered] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <motion.button
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      initial={false}
+      animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 16, pointerEvents: visible ? 'auto' : 'none' }}
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        position: 'fixed',
+        top: 32,
+        left: 32,
+        zIndex: 999,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 6,
+        background: hovered ? T.ink : T.paper,
+        border: `1.5px solid ${hovered ? T.ink : T.rule}`,
+        borderRadius: 12,
+        padding: '10px 14px',
+        cursor: 'pointer',
+        boxShadow: hovered ? '0 8px 24px rgba(0,0,0,0.18)' : '0 2px 12px rgba(0,0,0,0.08)',
+        transition: 'background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease',
+      }}
+      aria-label="Back to top"
+    >
+      <svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 13V3M8 3L3 8M8 3L13 8" stroke={hovered ? T.paper : T.ink} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      <span style={{
+        fontFamily: T.mono,
+        fontSize: '9px',
+        fontWeight: 700,
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        color: hovered ? T.paper : T.inkMute,
+        whiteSpace: 'nowrap',
+        transition: 'color 0.18s ease',
+      }}>
+        Back to top
+      </span>
+    </motion.button>
+  )
+}
+
 // ─── Page ────────────────────────────────────────────────────────────────────────
 export default function ProjectsPage() {
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: ${T.paper}; color: ${T.ink}; font-family: ${T.sans}; -webkit-font-smoothing: antialiased; }
-
-        .pnav {
-          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-          display: flex; align-items: center; justify-content: space-between;
-          padding: 0 64px; height: 56px;
-          background: rgba(244,242,236,0.92);
-          border-bottom: 1px solid ${T.rule};
-          backdrop-filter: blur(8px);
-          font-family: ${T.sans};
-        }
-        .pnav a { text-decoration: none; color: ${T.ink}; }
-        .pnav-links { display: flex; gap: 24px; align-items: center; }
-        .pnav-links a { font-size: 14px; color: ${T.inkMute}; transition: color 0.2s; }
-        .pnav-links a:hover { color: ${T.ink}; }
 
         .proj-section { padding: 0 64px 80px; }
         .arch-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -392,7 +436,6 @@ export default function ProjectsPage() {
         .webflow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
         @media (max-width: 1024px) {
-          .pnav { padding: 0 32px; }
           .proj-section { padding: 0 32px 64px; }
           .arch-card-grid { grid-template-columns: repeat(2, 1fr); }
           .bento-grid {
@@ -406,7 +449,6 @@ export default function ProjectsPage() {
           .behance-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 640px) {
-          .pnav { padding: 0 20px; }
           .proj-section { padding: 0 20px 48px; }
           .arch-card-grid { grid-template-columns: 1fr; }
           .bento-grid {
@@ -422,35 +464,11 @@ export default function ProjectsPage() {
         }
       `}</style>
 
-      {/* Nav */}
-      <nav className="pnav">
-        <Link href="/" style={{ fontFamily: T.sans, fontWeight: 600, fontSize: '16px', letterSpacing: '-0.02em' }}>
-          Onkar Lanke
-        </Link>
-        <div className="pnav-links">
-          <Link href="/#work">Work</Link>
-          <Link href="/#about">About</Link>
-          <Link href="/#contact">Contact</Link>
-          <a
-            href="/ONKAR_LANKE.pdf"
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              background: T.ink, color: '#ffffff',
-              fontSize: '13px', fontWeight: 500,
-              padding: '8px 18px', borderRadius: '9999px',
-              transition: 'opacity 0.2s',
-            }}
-            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.opacity = '0.8')}
-            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.opacity = '1')}
-          >
-            Resume
-          </a>
-        </div>
-      </nav>
+      <Nav />
+      <BackToTop />
 
       {/* Page hero */}
-      <section style={{ background: T.paper, padding: '120px 64px 48px', borderBottom: `1px solid ${T.rule}`, position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: T.paper, padding: '140px 64px 48px', borderBottom: `1px solid ${T.rule}`, position: 'relative', overflow: 'hidden' }}>
         {/* Ghost word */}
         <div aria-hidden style={{ position: 'absolute', bottom: '-10px', right: '-10px', fontSize: 'clamp(80px, 12vw, 160px)', fontWeight: 500, letterSpacing: '-0.04em', color: T.ruleSoft, lineHeight: 1, pointerEvents: 'none', userSelect: 'none' }}>
           Work
