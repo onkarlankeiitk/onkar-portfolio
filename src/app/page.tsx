@@ -2438,11 +2438,10 @@ function ExperienceTimeline() {
             )
           })}
 
-          {/* Searching circle — current state, extreme right */}
+          {/* Searching compass — current state, extreme right */}
           {(() => {
-            const size   = 150
-            const radius = size / 2
-            const spacer = TL_LINE_Y - radius
+            const iconSize = 95  // 73 * 1.3 ≈ 95
+            const spacer   = TL_LINE_Y - iconSize / 2
             return (
               <motion.div
                 initial={{ opacity: 0, x: -60 }}
@@ -2452,20 +2451,38 @@ function ExperienceTimeline() {
               >
                 <div style={{ height: spacer, flexShrink: 0 }} />
                 <div style={{
-                  width: size, height: size, borderRadius: '50%',
-                  border: '2px dashed #FF4A1C',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  textAlign: 'center',
-                  padding: '16px',
-                  boxSizing: 'border-box',
-                  animation: 'spin-slow 12s linear infinite',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center',
+                  gap: '12px', textAlign: 'center', width: 160,
                 }}>
-                  <span style={{
-                    fontFamily: T.mono, fontSize: '10px', color: '#FF4A1C',
-                    letterSpacing: '0.06em', lineHeight: 1.45, textTransform: 'uppercase',
-                    animation: 'counter-spin-slow 12s linear infinite',
+                  {/* Rotating dotted border — SVG counter-spins so needle stays upright */}
+                  <div style={{
+                    width: iconSize, height: iconSize, borderRadius: '50%',
+                    border: '2px dotted #FF4A1C',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    animation: 'spin-slow 12s linear infinite',
+                    flexShrink: 0,
                   }}>
-                    Searching for next great place to work..
+                    <svg
+                      width={iconSize - 16} height={iconSize - 16}
+                      viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
+                      style={{ animation: 'counter-spin-slow 12s linear infinite' }}
+                    >
+                      <line x1="7" y1="20" x2="9" y2="20" stroke="#8A8A85" strokeWidth="1" strokeLinecap="round" />
+                      <line x1="31" y1="20" x2="33" y2="20" stroke="#8A8A85" strokeWidth="1" strokeLinecap="round" />
+                      <g className="compass-needle">
+                        <line x1="20" y1="20" x2="20" y2="9" stroke="#FF4A1C" strokeWidth="1.5" strokeLinecap="round" />
+                        <polygon points="20,6 18,11 22,11" fill="#FF4A1C" />
+                        <line x1="20" y1="20" x2="20" y2="31" stroke="#0B0B0B" strokeWidth="1.5" strokeLinecap="round" />
+                        <polygon points="20,34 18,29 22,29" fill="#0B0B0B" />
+                      </g>
+                      <circle cx="20" cy="20" r="2" fill="#FF4A1C" />
+                    </svg>
+                  </div>
+                  <span style={{
+                    fontFamily: T.sans, fontSize: '13px', color: '#0B0B0B',
+                    letterSpacing: '0.01em', lineHeight: 1.5,
+                  }}>
+                    Finding next great place and amazing folks to work with
                   </span>
                 </div>
               </motion.div>
@@ -2778,6 +2795,24 @@ export default function Home() {
         @keyframes counter-spin-slow {
           from { transform: rotate(0deg); }
           to   { transform: rotate(-360deg); }
+        }
+        @keyframes gradientShift {
+          0%   { background-position: 0% 50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        @keyframes compassSway {
+          0%   { transform: rotate(0deg); }
+          15%  { transform: rotate(30deg); }
+          35%  { transform: rotate(-22deg); }
+          55%  { transform: rotate(14deg); }
+          72%  { transform: rotate(-8deg); }
+          86%  { transform: rotate(4deg); }
+          100% { transform: rotate(0deg); }
+        }
+        .compass-needle {
+          transform-origin: 20px 20px;
+          animation: compassSway 3.5s ease-in-out infinite;
         }
         @keyframes heroCursor {
           0%, 100% { opacity: 1; }
