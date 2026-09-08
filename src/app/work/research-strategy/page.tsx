@@ -10,10 +10,30 @@ import { researchStrategy as cs } from '@/lib/case-studies/research-strategy'
 const DARK   = '#0B0B0B'
 const ACCENT = '#E75175'
 
+// ─── SCROLL PROGRESS ─────────────────────────────────────────────────────────
+
+function ScrollProgress() {
+  const [pct, setPct] = useState(0)
+  useEffect(() => {
+    function onScroll() {
+      const doc = document.documentElement
+      const total = doc.scrollHeight - doc.clientHeight
+      setPct(total > 0 ? (doc.scrollTop / total) * 100 : 0)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 h-[2px]">
+      <div style={{ width: `${pct}%`, backgroundColor: ACCENT, height: '100%', transition: 'width 0.08s linear' }} />
+    </div>
+  )
+}
+
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 function SectionLabel({ children }: { children: React.ReactNode; light?: boolean }) {
   return (
-    <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-4" style={{ color: ACCENT }}>
+    <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-3" style={{ color: ACCENT }}>
       {children}
     </p>
   )
@@ -25,8 +45,8 @@ function ProcessImage({ src, alt, dark = false }: {
   if (!src) return null
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }} transition={{ duration: 0.6 }}
+      initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }} transition={{ duration: 0.4 }}
       className="w-full rounded-2xl overflow-hidden shadow-sm"
     >
       <img src={src} alt={alt} className="w-full h-auto block" />
@@ -95,7 +115,7 @@ function Hero() {
       }} />
 
       {/* Row 1: Back + Tags */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-16 md:pt-20 pb-6 md:pb-8 flex-wrap gap-3">
+      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-5 pb-4 flex-wrap gap-3">
         <Link
           href="/#work"
           className="flex items-center gap-2 text-zinc-400 text-xs transition-colors hover:text-orange-400"
@@ -120,8 +140,8 @@ function Hero() {
 
       {/* Row 2: Headline + subline */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-        className="relative z-10 px-8 md:px-16 lg:px-24 pb-8 md:pb-12"
+        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+        className="relative z-10 px-8 md:px-16 lg:px-24 pb-6"
       >
         <p className="text-xs tracking-[0.22em] uppercase font-medium mb-3" style={{ color: ACCENT }}>
           {cs.client}
@@ -135,7 +155,7 @@ function Hero() {
       </motion.div>
 
       {/* NDA strip */}
-      <div style={{ background: '#E75175', padding: '12px 0', textAlign: 'center' }}>
+      <div style={{ background: '#E75175', padding: '10px 0', textAlign: 'center' }}>
         <p style={{ fontFamily: '"JetBrains Mono", ui-monospace, monospace', fontSize: '12px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#ffffff', margin: 0 }}>
           ⚠ Sharing only snippets as per NDA
         </p>
@@ -156,8 +176,8 @@ function Hero() {
 
       {/* Row 4: Meta strip */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-        className="relative z-10 flex flex-wrap items-center gap-8 px-8 md:px-16 lg:px-24 py-6 md:py-10 border-t border-zinc-800"
+        initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}
+        className="relative z-10 flex flex-wrap items-center gap-8 px-8 md:px-16 lg:px-24 py-4 border-t border-zinc-800"
       >
         {[
           { label: 'Client',   value: cs.client },
@@ -179,6 +199,7 @@ function Hero() {
 export default function ResearchStrategyPage() {
   return (
     <main className="bg-white">
+      <ScrollProgress />
       {/* <Nav /> */}
       <StickyNav />
 
@@ -187,8 +208,8 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           TEAM
       ══════════════════════════════════════════════════════ */}
-      <section id="team" className="px-8 md:px-16 lg:px-24 py-20 bg-white border-t border-zinc-100">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+      <section id="team" className="px-8 md:px-16 lg:px-24 py-8 bg-white border-t border-zinc-100">
+        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
           <SectionLabel light>Team</SectionLabel>
 
@@ -211,23 +232,23 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           OVERVIEW
       ══════════════════════════════════════════════════════ */}
-      <section id="overview" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+      <section id="overview" className="px-8 md:px-16 lg:px-24 py-12 bg-white">
+        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
           <SectionLabel light>01 — Overview</SectionLabel>
-          <h2 className="text-zinc-900 font-bold mb-10 leading-tight max-w-3xl" style={{ fontSize: 'clamp(24px, 3.5vw, 40px)' }}>
+          <h2 className="text-zinc-900 font-bold mb-8 leading-tight max-w-3xl" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>
             {cs.title}
           </h2>
 
           {/* Context / Problem / Solution */}
-          <div className="grid md:grid-cols-3 border border-zinc-200 rounded-2xl overflow-hidden mb-12">
+          <div className="grid md:grid-cols-3 border border-zinc-200 rounded-2xl overflow-hidden mb-10">
             {[
               { head: 'Context',  body: cs.overview.context },
               { head: 'Problem',  body: cs.overview.problem },
               { head: cs.overview.directionLabel ?? 'Solution', body: cs.overview.direction },
             ].map((col, i, arr) => (
-              <div key={col.head} className={`p-7 ${i < arr.length - 1 ? 'border-b md:border-b-0 md:border-r border-zinc-200' : ''}`}>
-                <p className="text-xs uppercase tracking-widest text-zinc-400 mb-3">{col.head}</p>
+              <div key={col.head} className={`p-6 ${i < arr.length - 1 ? 'border-b md:border-b-0 md:border-r border-zinc-200' : ''}`}>
+                <p className="text-xs uppercase tracking-widest text-zinc-400 mb-2">{col.head}</p>
                 <p className="text-zinc-700 text-sm leading-relaxed">{col.body}</p>
               </div>
             ))}
@@ -236,8 +257,8 @@ export default function ResearchStrategyPage() {
           {/* Metrics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-200 rounded-2xl overflow-hidden">
             {cs.metrics.map(m => (
-              <div key={m.label} className="bg-white p-7">
-                <div className="font-bold mb-1 leading-none" style={{ fontSize: 'clamp(28px, 3.5vw, 48px)', color: ACCENT }}>
+              <div key={m.label} className="bg-white p-6">
+                <div className="font-bold mb-1 leading-none" style={{ fontSize: 'clamp(26px, 3vw, 42px)', color: ACCENT }}>
                   {m.value}
                 </div>
                 <div className="text-zinc-800 text-sm font-medium mb-0.5">{m.label}</div>
@@ -261,40 +282,38 @@ export default function ResearchStrategyPage() {
             <section
               key={step.num}
               id={`step-${i}`}
-              className={`px-8 md:px-16 lg:px-24 py-24 ${isDark ? 'bg-zinc-950' : 'bg-zinc-50'}`}
+              className={`px-8 md:px-16 lg:px-24 py-12 ${isDark ? 'bg-zinc-950' : 'bg-zinc-50'}`}
             >
-              <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+              <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
                 <SectionLabel light={!isDark}>{sectionNum} — {step.num}</SectionLabel>
 
-                <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-                  <div className={isLeft ? 'md:order-2' : ''}>
-                    <h3 className={`font-bold mb-4 leading-tight ${isDark ? 'text-white' : 'text-zinc-900'}`} style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}>
-                      {step.title}
-                    </h3>
-                    <p className={`text-base leading-relaxed mb-6 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                      {step.body}
-                    </p>
-                    {step.tags && step.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {step.tags.map(tag => (
-                          <span
-                            key={tag}
-                            className={`text-xs px-3 py-1 rounded-full border font-medium ${
-                              isDark
-                                ? 'border-zinc-700 text-zinc-400 bg-zinc-800/60'
-                                : 'border-zinc-200 text-zinc-500 bg-white'
-                            }`}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className={isLeft ? 'md:order-1' : ''}>
+                <div className="border-l-2 pl-6" style={{ borderColor: `${ACCENT}40` }}>
+                  <h3 className={`font-bold mb-3 leading-tight ${isDark ? 'text-white' : 'text-zinc-900'}`} style={{ fontSize: 'clamp(18px, 2.2vw, 26px)' }}>
+                    {step.title}
+                  </h3>
+                  <p className={`text-sm leading-relaxed mb-5 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                    {step.body}
+                  </p>
+                  {step.tags && step.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      {step.tags.map(tag => (
+                        <span
+                          key={tag}
+                          className={`text-xs px-3 py-1 rounded-full border font-medium ${
+                            isDark
+                              ? 'border-zinc-700 text-zinc-400 bg-zinc-800/60'
+                              : 'border-zinc-200 text-zinc-500 bg-white'
+                          }`}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  {step.image.src && (
                     <ProcessImage src={step.image.src} alt={step.image.alt} aspect={step.image.aspect} dark={isDark} />
-                  </div>
+                  )}
                 </div>
 
               </motion.div>
@@ -319,25 +338,26 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           FINDINGS
       ══════════════════════════════════════════════════════ */}
-      <section id="findings" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-white">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+      <section id="findings" className="px-8 md:px-16 lg:px-24 py-12 bg-white">
+        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
           <SectionLabel light>06 — Key Findings</SectionLabel>
-          <h2 className="text-zinc-900 font-bold mb-12 leading-tight" style={{ fontSize: 'clamp(24px, 3.5vw, 40px)' }}>
+          <h2 className="text-zinc-900 font-bold mb-8 leading-tight" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>
             What the research surfaced
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-4">
             {cs.findings.map((f, i) => (
               <motion.div
                 key={f.num}
-                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="border border-zinc-100 rounded-2xl p-7"
+                initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.07 }}
+                whileHover={{ y: -2, transition: { duration: 0.15 } }}
+                className="border border-zinc-100 rounded-2xl p-5 hover:shadow-md transition-shadow cursor-default"
                 style={{ borderLeft: `3px solid ${ACCENT}` }}
               >
-                <p className="text-xs uppercase tracking-widest text-zinc-400 mb-3">{f.num}</p>
-                <h4 className="text-zinc-900 text-base font-semibold mb-3 leading-snug">{f.title}</h4>
+                <p className="text-xs uppercase tracking-widest text-zinc-400 mb-2">{f.num}</p>
+                <h4 className="text-zinc-900 text-sm font-semibold mb-2 leading-snug">{f.title}</h4>
                 <p className="text-zinc-500 text-sm leading-relaxed">{f.desc}</p>
               </motion.div>
             ))}
@@ -355,19 +375,19 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           REFLECTION
       ══════════════════════════════════════════════════════ */}
-      <section id="reflect" className="px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-zinc-950">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+      <section id="reflect" className="px-8 md:px-16 lg:px-24 py-12 bg-zinc-950">
+        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
           <SectionLabel>07 — {cs.conclusion.heading}</SectionLabel>
-          <h2 className="text-white font-bold mb-12 leading-tight" style={{ fontSize: 'clamp(24px, 3.5vw, 40px)' }}>
+          <h2 className="text-white font-bold mb-8 leading-tight" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>
             Learnings & Reflections
           </h2>
 
-          <div className="max-w-3xl flex flex-col gap-6">
+          <div className="max-w-3xl flex flex-col gap-5">
             {cs.conclusion.paragraphs.map((p, i) => (
               <p
                 key={i}
-                className={`leading-relaxed ${i === 0 ? 'text-zinc-200 text-lg border-l-2 pl-6' : 'text-zinc-500 text-sm'}`}
+                className={`leading-relaxed ${i === 0 ? 'text-zinc-200 text-base border-l-2 pl-5' : 'text-zinc-500 text-sm'}`}
                 style={i === 0 ? { borderColor: ACCENT } : {}}
               >
                 {p}
@@ -381,21 +401,21 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           FOOTER / CTA
       ══════════════════════════════════════════════════════ */}
-      <section style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-32 border-t border-zinc-800">
+      <section style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-16 border-t border-zinc-800">
         <motion.div
-          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
-          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-12"
+          initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
+          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10"
         >
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] font-medium mb-4" style={{ color: ACCENT }}>
+            <p className="text-xs uppercase tracking-[0.2em] font-medium mb-3" style={{ color: ACCENT }}>
               {cs.client}
             </p>
-            <h2 className="text-white text-4xl md:text-5xl font-bold leading-tight">
+            <h2 className="text-white text-2xl md:text-3xl font-bold leading-tight">
               Onkar Lanke<br />
               <span className="text-zinc-500">{cs.role}</span>
             </h2>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             <Link
               href="/#work"
               className="inline-flex items-center gap-3 border border-zinc-700 text-zinc-300 px-8 py-4 rounded-full text-sm font-medium hover:border-zinc-500 hover:text-white transition-all no-underline"

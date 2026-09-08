@@ -6,11 +6,31 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { deckup as cs } from '@/lib/case-studies/deckup'
 
 const BG   = '#0F1729'
 const BLUE = '#F97316'
+
+// ─── SCROLL PROGRESS ─────────────────────────────────────────────────────────
+
+function ScrollProgress() {
+  const [pct, setPct] = useState(0)
+  useEffect(() => {
+    function onScroll() {
+      const doc = document.documentElement
+      const total = doc.scrollHeight - doc.clientHeight
+      setPct(total > 0 ? (doc.scrollTop / total) * 100 : 0)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 h-[2px]">
+      <div style={{ width: `${pct}%`, backgroundColor: BLUE, height: '100%', transition: 'width 0.08s linear' }} />
+    </div>
+  )
+}
 
 // ─── SHARED ATOMS ─────────────────────────────────────────────────────────────
 
@@ -25,26 +45,13 @@ function Tag({ children }: { children: React.ReactNode }) {
 function StepImage({ src, alt, hint, aspect = 'aspect-video', dark = false }: {
   src: string | null; alt: string; hint: string; aspect?: string; dark?: boolean
 }) {
-  if (src) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-        className={`${aspect} w-full rounded-2xl overflow-hidden shadow-sm`}
-      >
-        <img src={src} alt={alt} className="w-full h-full object-cover" />
-      </motion.div>
-    )
-  }
+  if (!src) return null
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-      className={`${aspect} w-full rounded-2xl border-2 border-dashed flex flex-col items-center justify-center gap-3 p-8 text-center ${
-        dark ? 'border-zinc-700 bg-zinc-900/40' : 'border-zinc-200 bg-zinc-50'
-      }`}
+      initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
+      className={`${aspect} w-full rounded-2xl overflow-hidden shadow-sm`}
     >
-      <div className="text-3xl opacity-20">🖼</div>
-      <p className={`text-sm font-medium ${dark ? 'text-zinc-400' : 'text-zinc-500'}`}>{alt}</p>
-      <p className={`text-xs max-w-sm leading-relaxed ${dark ? 'text-zinc-600' : 'text-zinc-400'}`}>{hint}</p>
+      <img src={src} alt={alt} className="w-full h-full object-cover" />
     </motion.div>
   )
 }
@@ -53,7 +60,7 @@ function BannerImage({ src, alt }: { src: string | null; alt: string }) {
   if (!src) return null
   return (
     <motion.div
-      initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
+      initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
       className="w-full overflow-hidden"
       style={{ height: 'clamp(280px, 40vw, 560px)' }}
     >
@@ -122,6 +129,8 @@ export default function DeckUpSummary() {
 
   return (
     <main style={{ backgroundColor: BG }} className="text-white antialiased">
+      <ScrollProgress />
+
       <AnimatePresence>
         {modalOpen && <PasswordModal onClose={() => setModalOpen(false)} onSuccess={handleUnlock} />}
       </AnimatePresence>
@@ -130,7 +139,7 @@ export default function DeckUpSummary() {
       <section className="overflow-hidden" style={{ backgroundColor: BG }}>
 
         {/* Row 1: Back + Tags */}
-        <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-8 pb-5">
+        <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-5 pb-4">
           <Link href="/#work" className="flex items-center gap-2 text-zinc-400 text-xs hover:text-orange-400 transition-colors">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
@@ -142,8 +151,8 @@ export default function DeckUpSummary() {
 
         {/* Row 2: Headline + description — ABOVE banner */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-          className="px-8 md:px-16 lg:px-24 pb-5"
+          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+          className="px-8 md:px-16 lg:px-24 pb-4"
         >
           <p className="text-orange-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">{cs.client}</p>
           <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
@@ -166,7 +175,7 @@ export default function DeckUpSummary() {
         )}
 
         {/* Row 4: Meta — BELOW banner */}
-        <div className="flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-5 border-t border-zinc-800">
+        <div className="flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-4 border-t border-zinc-800">
           {[
             { label: 'Client',   value: cs.client },
             { label: 'Role',     value: cs.role },
@@ -182,20 +191,20 @@ export default function DeckUpSummary() {
       </section>
 
       {/* ── OVERVIEW ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-24 bg-white">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+      <section className="px-8 md:px-16 lg:px-24 py-12 bg-white">
+        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
-          <p className="text-orange-500 text-xs tracking-[0.2em] uppercase font-semibold mb-4">Overview</p>
-          <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-16 max-w-3xl leading-tight">{cs.title}</h2>
+          <p className="text-orange-500 text-xs tracking-[0.2em] uppercase font-semibold mb-3">Overview</p>
+          <h2 className="text-zinc-900 text-2xl md:text-3xl font-bold mb-8 max-w-3xl leading-tight">{cs.title}</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
             {[
               { head: 'Context', body: cs.overview.context },
               { head: 'Problem', body: cs.overview.problem },
               { head: cs.overview.directionLabel ?? 'My Approach', body: cs.overview.direction },
             ].map(col => (
               <div key={col.head}>
-                <h3 className="text-zinc-800 font-semibold text-base mb-3">{col.head}</h3>
+                <h3 className="text-zinc-800 font-semibold text-sm mb-2">{col.head}</h3>
                 <p className="text-zinc-500 text-sm leading-relaxed">{col.body}</p>
               </div>
             ))}
@@ -204,8 +213,8 @@ export default function DeckUpSummary() {
           {/* Metrics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-100 rounded-2xl overflow-hidden">
             {cs.metrics.map(m => (
-              <div key={m.label} className="bg-white px-6 py-8">
-                <div className="text-4xl font-bold mb-1" style={{ color: BLUE }}>{m.value}</div>
+              <div key={m.label} className="bg-white px-6 py-6">
+                <div className="text-3xl font-bold mb-1" style={{ color: BLUE }}>{m.value}</div>
                 <div className="text-zinc-800 text-sm font-medium mb-0.5">{m.label}</div>
                 {m.sub && <div className="text-zinc-400 text-xs">{m.sub}</div>}
               </div>
@@ -216,39 +225,36 @@ export default function DeckUpSummary() {
       </section>
 
       {/* ── PROCESS ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-24 bg-[#f9f9f7]">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+      <section className="px-8 md:px-16 lg:px-24 py-12 bg-[#f9f9f7]">
+        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
-          <p className="text-orange-500 text-xs tracking-[0.2em] uppercase font-semibold mb-4">Process</p>
+          <p className="text-orange-500 text-xs tracking-[0.2em] uppercase font-semibold mb-3">Process</p>
           {cs.processIntro && (
-            <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-20 max-w-3xl leading-tight">{cs.processIntro}</h2>
+            <h2 className="text-zinc-900 text-2xl md:text-3xl font-bold mb-8 max-w-3xl leading-tight">{cs.processIntro}</h2>
           )}
 
-          <div className="space-y-24">
-            {cs.process.map((step, i) => {
-              const isLeft = step.imagePosition === 'left'
-              return (
-                <motion.div
-                  key={step.num}
-                  initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
-                >
-                  <div className={isLeft ? 'order-1 md:order-2' : ''}>
-                    <p className="text-orange-500 text-xs tracking-widest uppercase mb-3 font-semibold">{step.num}</p>
-                    <h3 className="text-zinc-900 font-bold text-2xl mb-4">{step.title}</h3>
-                    <p className="text-zinc-500 text-sm leading-relaxed mb-5">{step.body}</p>
-                    {step.tags && step.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {step.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
-                      </div>
-                    )}
+          <div className="space-y-8">
+            {cs.process.map((step, i) => (
+              <motion.div
+                key={step.num}
+                initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.05 }}
+                className="border-l-2 pl-6"
+                style={{ borderColor: `${BLUE}50` }}
+              >
+                <p className="text-orange-500 text-xs tracking-widest uppercase mb-2 font-semibold">{step.num}</p>
+                <h3 className="text-zinc-900 font-bold text-lg mb-2">{step.title}</h3>
+                <p className="text-zinc-500 text-sm leading-relaxed mb-4">{step.body}</p>
+                {step.tags && step.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {step.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
                   </div>
-                  <div className={isLeft ? 'order-2 md:order-1' : ''}>
-                    <StepImage src={step.image.src} alt={step.image.alt} hint={step.image.hint} aspect={step.image.aspect} />
-                  </div>
-                </motion.div>
-              )
-            })}
+                )}
+                {step.image.src && (
+                  <StepImage src={step.image.src} alt={step.image.alt} hint={step.image.hint} aspect={step.image.aspect} />
+                )}
+              </motion.div>
+            ))}
           </div>
 
         </motion.div>
@@ -261,23 +267,24 @@ export default function DeckUpSummary() {
       {cs.preFindingsBanner && <BannerImage src={cs.preFindingsBanner.src} alt={cs.preFindingsBanner.alt} />}
 
       {/* ── FINDINGS ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-24 bg-white">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+      <section className="px-8 md:px-16 lg:px-24 py-12 bg-white">
+        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
-          <p className="text-orange-500 text-xs tracking-[0.2em] uppercase font-semibold mb-4">Key Findings</p>
-          <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold mb-16 max-w-3xl leading-tight">What this project taught me</h2>
+          <p className="text-orange-500 text-xs tracking-[0.2em] uppercase font-semibold mb-3">Key Findings</p>
+          <h2 className="text-zinc-900 text-2xl md:text-3xl font-bold mb-8 max-w-3xl leading-tight">What this project taught me</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {cs.findings.map((f, i) => (
               <motion.div
                 key={f.num}
-                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="bg-white border border-zinc-200 border-l-4 rounded-2xl p-6 hover:border-orange-300 transition-all"
+                initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.07 }}
+                whileHover={{ y: -2, transition: { duration: 0.15 } }}
+                className="bg-white border border-zinc-200 border-l-4 rounded-2xl p-5 hover:shadow-md transition-shadow cursor-default"
                 style={{ borderLeftColor: BLUE }}
               >
-                <p className="text-orange-500 text-xs uppercase tracking-widest font-semibold mb-3">{f.num}</p>
-                <h4 className="text-zinc-900 font-semibold text-base mb-2">{f.title}</h4>
+                <p className="text-orange-500 text-xs uppercase tracking-widest font-semibold mb-2">{f.num}</p>
+                <h4 className="text-zinc-900 font-semibold text-sm mb-2">{f.title}</h4>
                 <p className="text-zinc-500 text-sm leading-relaxed">{f.desc}</p>
               </motion.div>
             ))}
@@ -290,13 +297,13 @@ export default function DeckUpSummary() {
       {cs.preConclusionBanner && <BannerImage src={(cs as any).preConclusionBanner?.src} alt={(cs as any).preConclusionBanner?.alt ?? ''} />}
 
       {/* ── CONCLUSION ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-24 bg-[#f9f9f7]">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+      <section className="px-8 md:px-16 lg:px-24 py-12 bg-[#f9f9f7]">
+        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
-          <p className="text-orange-500 text-xs tracking-[0.2em] uppercase font-semibold mb-4">{cs.conclusion.heading}</p>
-          <div className="max-w-3xl space-y-6">
+          <p className="text-orange-500 text-xs tracking-[0.2em] uppercase font-semibold mb-3">{cs.conclusion.heading}</p>
+          <div className="max-w-3xl space-y-5">
             {cs.conclusion.paragraphs.map((p, i) => (
-              <p key={i} className={`leading-relaxed ${i === 0 ? 'text-zinc-800 text-lg' : 'text-zinc-500 text-base'}`}>{p}</p>
+              <p key={i} className={`leading-relaxed ${i === 0 ? 'text-zinc-800 text-base' : 'text-zinc-500 text-sm'}`}>{p}</p>
             ))}
           </div>
 
@@ -304,9 +311,9 @@ export default function DeckUpSummary() {
       </section>
 
       {/* ── TEAM ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-20 bg-white border-t border-zinc-100">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-          <p className="text-orange-500 text-xs tracking-[0.2em] uppercase font-semibold mb-6">Team</p>
+      <section className="px-8 md:px-16 lg:px-24 py-8 bg-white border-t border-zinc-100">
+        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+          <p className="text-orange-500 text-xs tracking-[0.2em] uppercase font-semibold mb-4">Team</p>
           <div className="border border-zinc-100 rounded-2xl overflow-hidden divide-y divide-zinc-100">
             {cs.team.map(m => (
               <div key={m.name} className="grid grid-cols-3 items-center px-6 py-4">
@@ -323,17 +330,17 @@ export default function DeckUpSummary() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="px-8 md:px-16 lg:px-24 py-32" style={{ backgroundColor: BG }}>
+      <section className="px-8 md:px-16 lg:px-24 py-16" style={{ backgroundColor: BG }}>
         <motion.div
-          initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
-          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-12"
+          initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
+          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10"
         >
           <div>
-            <p className="text-orange-400 text-xs uppercase tracking-[0.2em] font-medium mb-5">{cs.client} · Full Case Study</p>
-            <h2 className="text-white text-4xl md:text-5xl font-bold leading-tight mb-4 whitespace-pre-line">{cs.cta.heading}</h2>
-            <p className="text-zinc-400 text-base max-w-xl leading-relaxed">{cs.cta.body}</p>
+            <p className="text-orange-400 text-xs uppercase tracking-[0.2em] font-medium mb-4">{cs.client} · Full Case Study</p>
+            <h2 className="text-white text-2xl md:text-3xl font-bold leading-tight mb-3 whitespace-pre-line">{cs.cta.heading}</h2>
+            <p className="text-zinc-400 text-sm max-w-xl leading-relaxed">{cs.cta.body}</p>
           </div>
-          <div className="flex flex-col gap-4 shrink-0">
+          <div className="flex flex-col gap-3 shrink-0">
             <button onClick={() => setModalOpen(true)} className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm font-semibold text-white bg-orange-500 hover:bg-orange-600 transition-colors">
               View full case study →
             </button>

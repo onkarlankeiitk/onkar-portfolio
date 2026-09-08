@@ -749,7 +749,7 @@ function HeroCTA({ href, label, external }: { href: string; label: string; exter
         alignItems: 'center',
         gap: '5px',
         fontFamily: SPACE_MONO,
-        fontSize: '13px',
+        fontSize: '15px',
         letterSpacing: '0.06em',
         textTransform: 'uppercase',
         textDecoration: 'none',
@@ -790,11 +790,11 @@ function HeroCTALight({ href, label, external }: { href: string; label: string; 
         alignItems: 'center',
         gap: '5px',
         fontFamily: SPACE_MONO,
-        fontSize: '13px',
+        fontSize: '15px',
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
         textDecoration: 'none',
-        color: hovered ? '#ffffff' : HERO_INK,
+        color: hovered ? '#ffffff' : HERO_ACCENT,
         background: hovered ? HERO_ACCENT : 'transparent',
         padding: '4px 8px 4px 0',
         paddingLeft: hovered ? '8px' : '0',
@@ -808,7 +808,7 @@ function HeroCTALight({ href, label, external }: { href: string; label: string; 
     >
       <span style={{
         textDecoration: hovered ? 'none' : 'underline',
-        textDecorationColor: HERO_INK,
+        textDecorationColor: HERO_ACCENT,
         textUnderlineOffset: '6px',
       }}>{label}</span>
       <span style={{ fontSize: '13px', lineHeight: 1 }}>↗</span>
@@ -1110,13 +1110,13 @@ function HeroSection() {
             <p className="hero-card-body" style={{
               margin: 0,
               fontFamily: HELV,
-              fontSize: '15px',
+              fontSize: '17px',
               lineHeight: 1.55,
               color: HERO_BODY,
               maxWidth: '380px',
               position: 'relative', zIndex: 1,
             }}>
-              A Product craftsman, passionate UX researcher, &amp; technologist, building experiences for{' '}
+              A passionate product craftsman, UX researcher, &amp; creative technologist, building experiences for{' '}
               <span style={{ color: HERO_INK, fontWeight: 500 }}>6+ years</span>, with recent development
               in agentic environments and AI powered research &amp; prototyping.
             </p>
@@ -1998,14 +1998,14 @@ function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease }}
           >
-            <p style={{ fontSize: '15px', color: '#3D3D38', lineHeight: 1.7, margin: '0 0 16px' }}>
+            <p style={{ fontSize: '17px', fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: '#3D3D38', lineHeight: 1.7, margin: '0 0 16px' }}>
               I&rsquo;m an engineer turned designer, &amp; I simply love product building!
               Through extensive explorations, I bring insights to the forefront &amp;
               ship intentional, desirable experiences, for various outcomes like
               improved user satisfaction, enhanced onboarding, increase in
               task completions and product growth.
             </p>
-            <p style={{ fontSize: '15px', color: '#3D3D38', lineHeight: 1.7, margin: 0 }}>
+            <p style={{ fontSize: '17px', fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: '#3D3D38', lineHeight: 1.7, margin: 0 }}>
               People say, &ldquo;<span style={{ color: T.ink, fontWeight: 500 }}>Good Design shapes you.</span>&rdquo; Design has made me
               more humble, an active listener, &amp; importance of putting your
               heart into every small detail, as I feel designers do an incredible
@@ -2872,7 +2872,7 @@ export default function Home() {
           </WorkSubSection>
 
           {/* Webflow Builds — 2 columns */}
-          <WorkSubSection kicker="Low-code" title="Design + Webflow Builds" index="02/" topPadding="96px">
+          <WorkSubSection kicker="Low-code" title="Design + Low code on webflow" index="02/" topPadding="96px">
             <div className="webflow-builds-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               {webflowSites.map((site, i) => (
                 <motion.div
@@ -2889,7 +2889,7 @@ export default function Home() {
           </WorkSubSection>
 
           {/* Behance Archive */}
-          <WorkSubSection kicker="Archive" title="Previous Work: Portfolio 2020" index="03/" topPadding="96px">
+          <WorkSubSection kicker="Archive" title="Previous work" index="03/" topPadding="96px">
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '24px' }}>
               <a
                 href="https://www.behance.net/lankeonkar"
