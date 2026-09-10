@@ -13,7 +13,7 @@ export const fintechGamification: CaseStudy = {
   detailPath: '/work/fintech-gamification-detail',
 
   hero: {
-    banner: { src: '/case-studies/Frankieone/hero-banner.mov', type: 'video' },
+    banner: { src: '/case-studies/fintech-gamification/hero-banner.png', type: 'image' },
     headline: 'frankieOne',
     subline: 'A visual, no-code rule builder — inspired by puzzle games and MIT Scratch — that lets compliance teams assemble, test, and deploy KYC flows without writing a line of code.',
   },

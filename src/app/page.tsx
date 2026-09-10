@@ -50,20 +50,19 @@ const stripedLight = {
 // ─── Tools Marquee ────────────────────────────────────────────────────────────
 const tools = [
   { name: 'Figma',      category: 'Design',    svgPath: siFigma.path,      iconFill: '#F24E1E' },
-  { name: 'Webflow',    category: 'Design',    svgPath: siWebflow.path,    iconFill: '#146EF5' },
-  { name: 'Framer',     category: 'Design',    svgPath: siFramer.path,     iconFill: '#0055FF' },
   { name: 'Hotjar',     category: 'Research',  svgPath: siHotjar.path,     iconFill: '#FF3C00' },
-  { name: 'Amplitude',  category: 'Analytics', svgPath: null,              iconFill: '#1271F7' },
   { name: 'GitHub',     category: 'Dev',       svgPath: siGithub.path,     iconFill: '#181717' },
   { name: 'Vercel',     category: 'Dev',       svgPath: siVercel.path,     iconFill: '#000000' },
   { name: 'Claude',     category: 'AI',        svgPath: siAnthropic.path,  iconFill: '#CC785C' },
   { name: 'VS Code',    category: 'Dev',       svgPath: null,              iconFill: '#007ACC' },
   { name: 'Adobe CC',  category: 'Design',    svgPath: siAdobeCC.path,   iconFill: '#FF0000' },
+  { name: 'Fusion 360', category: 'Design',  svgPath: null,              iconFill: '#E2511A' },
+  { name: 'Zeplin',     category: 'Design',  svgPath: null,              iconFill: '#FDBD39' },
+  { name: 'Jitter',     category: 'Design',  svgPath: null,              iconFill: '#6C47FF' },
+  { name: 'Procreate',  category: 'Design',  svgPath: null,              iconFill: '#4F4F4F' },
 ]
 
-const fallbackImgSrc: Record<string, string> = {
-  'Amplitude': '/icons/amplitude.svg',
-}
+const fallbackImgSrc: Record<string, string> = {}
 
 const webflowSites = [
   {
@@ -99,18 +98,28 @@ function ToolCard({ tool }: { tool: typeof tools[0] }) {
       <div
         style={{
           width: 144, height: 62,
-          background: hovered ? '#2a2a2a' : '#F0EDE6',
-          border: `1px solid ${hovered ? '#2a2a2a' : '#E2DFD8'}`,
+          background: hovered ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.4)',
+          border: `1px solid ${hovered ? 'rgba(0,0,0,0.18)' : 'rgba(0,0,0,0.08)'}`,
           borderRadius: '8px',
           display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
           gap: '10px',
           padding: '0 17px',
+          backdropFilter: 'blur(4px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(4px) saturate(160%)',
           transition: 'background 0.18s ease, border-color 0.18s ease',
-          boxShadow: hovered ? '0 2px 10px rgba(0,0,0,0.18)' : 'none',
+          boxShadow: hovered ? '0 2px 8px rgba(0,0,0,0.08)' : '0 1px 3px rgba(0,0,0,0.04)',
         }}
       >
         {tool.name === 'VS Code' ? (
           <span style={{ fontFamily: T.mono, fontSize: '11px', fontWeight: 700, color: '#007ACC', letterSpacing: '0.01em', lineHeight: 1.2, textAlign: 'center', flexShrink: 0 }}>{'</>'}</span>
+        ) : tool.name === 'Fusion 360' ? (
+          <span style={{ fontFamily: T.mono, fontSize: '10px', fontWeight: 700, color: hovered ? '#ff7a3d' : '#E2511A', letterSpacing: '0.01em', lineHeight: 1.2, flexShrink: 0 }}>F360</span>
+        ) : tool.name === 'Zeplin' ? (
+          <span style={{ fontFamily: T.mono, fontSize: '10px', fontWeight: 700, color: hovered ? '#ffd166' : '#FDBD39', letterSpacing: '0.01em', lineHeight: 1.2, flexShrink: 0 }}>Zpl</span>
+        ) : tool.name === 'Jitter' ? (
+          <span style={{ fontFamily: T.mono, fontSize: '10px', fontWeight: 700, color: hovered ? '#9b7fff' : '#6C47FF', letterSpacing: '0.01em', lineHeight: 1.2, flexShrink: 0 }}>Jtr</span>
+        ) : tool.name === 'Procreate' ? (
+          <span style={{ fontFamily: T.mono, fontSize: '10px', fontWeight: 700, color: hovered ? '#222222' : '#4F4F4F', letterSpacing: '0.01em', lineHeight: 1.2, flexShrink: 0 }}>Pcr</span>
         ) : tool.svgPath ? (
           <svg role="img" viewBox="0 0 24 24" width={22} height={22} fill={tool.iconFill} style={{ flexShrink: 0 }}>
             <path d={tool.svgPath} />
@@ -118,7 +127,7 @@ function ToolCard({ tool }: { tool: typeof tools[0] }) {
         ) : (
           <img src={fallbackImgSrc[tool.name]} alt={tool.name} width={22} height={22} style={{ flexShrink: 0 }} />
         )}
-        <span style={{ fontFamily: T.sans, fontSize: '14px', fontWeight: 500, color: hovered ? '#ffffff' : T.ink, whiteSpace: 'nowrap', letterSpacing: '-0.01em', transition: 'color 0.18s ease' }}>
+        <span style={{ fontFamily: T.sans, fontSize: '14px', fontWeight: 500, color: hovered ? T.ink : T.inkMute, whiteSpace: 'nowrap', letterSpacing: '-0.01em', transition: 'color 0.18s ease' }}>
           {tool.name}
         </span>
       </div>
@@ -264,42 +273,42 @@ function BentoMeta({ project }: { project: typeof projects[0] }) {
       <p style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
         {project.company} · {project.year}
       </p>
-      <p style={{ fontFamily: T.sans, fontSize: '18px', fontWeight: 500, color: BC.ink, lineHeight: 1.35, margin: 0, letterSpacing: '-0.02em' }}>
+      <p style={{ fontFamily: T.sans, fontSize: '24px', fontWeight: 500, color: BC.ink, lineHeight: 1.35, margin: 0, letterSpacing: '-0.02em' }}>
         {project.title}
       </p>
     </div>
   )
 }
 
-// Hover overlay — description + metrics + tags, fades in over the card
+// Hover overlay — dark glass, description + metrics + tags
 function BentoOverlay({ project, visible }: { project: typeof projects[0]; visible: boolean }) {
   return (
     <div style={{
       position: 'absolute', inset: 0,
-      background: 'rgba(244, 242, 236, 0.92)',
-      backdropFilter: 'blur(16px) saturate(160%)',
-      WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+      background: 'rgba(8, 8, 10, 0.84)',
+      backdropFilter: 'blur(18px) saturate(140%)',
+      WebkitBackdropFilter: 'blur(18px) saturate(140%)',
       padding: '22px',
       display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
       opacity: visible ? 1 : 0,
       transform: visible ? 'translateY(0)' : 'translateY(10px)',
-      transition: 'opacity 0.4s ease, transform 0.4s ease',
+      transition: 'opacity 0.35s ease, transform 0.35s ease',
       pointerEvents: 'none',
     }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
         <div>
-          <p style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>
+          <p style={{ fontFamily: T.mono, fontSize: '13px', color: 'rgba(255,255,255,0.38)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>
             {project.company}
           </p>
-          <p style={{ fontFamily: T.sans, fontSize: '15px', color: BC.ink, lineHeight: 1.6, margin: 0, letterSpacing: '-0.01em' }}>
+          <p style={{ fontFamily: T.sans, fontSize: '20px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.65, margin: 0, letterSpacing: '-0.01em' }}>
             {project.description}
           </p>
         </div>
         <div style={{ display: 'flex', gap: '24px' }}>
           {project.metrics.map(m => (
             <div key={m.l}>
-              <p style={{ fontFamily: T.sans, fontSize: '26px', fontWeight: 600, color: BC.orange, margin: 0, lineHeight: 1, letterSpacing: '-0.04em' }}>{m.v}</p>
-              <p style={{ fontFamily: T.mono, fontSize: '10px', color: BC.mute, margin: '4px 0 0', letterSpacing: '0.06em' }}>{m.l}</p>
+              <p style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 600, color: '#FF4A1C', margin: 0, lineHeight: 1, letterSpacing: '-0.04em' }}>{m.v}</p>
+              <p style={{ fontFamily: T.mono, fontSize: '14px', color: 'rgba(255,255,255,0.35)', margin: '4px 0 0', letterSpacing: '0.06em' }}>{m.l}</p>
             </div>
           ))}
         </div>
@@ -307,12 +316,12 @@ function BentoOverlay({ project, visible }: { project: typeof projects[0]; visib
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
           {project.tags.map(tag => (
-            <span key={tag} style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, background: BC.border, padding: '3px 8px', borderRadius: '9999px', letterSpacing: '0.04em' }}>
+            <span key={tag} style={{ fontFamily: T.mono, fontSize: '13px', color: 'rgba(255,255,255,0.5)', background: 'rgba(255,255,255,0.08)', padding: '3px 8px', borderRadius: '9999px', letterSpacing: '0.04em' }}>
               {tag}
             </span>
           ))}
         </div>
-        <span style={{ fontFamily: T.sans, fontSize: '18px', color: BC.ink, flexShrink: 0, marginLeft: '8px' }}>→</span>
+        <span style={{ fontFamily: T.sans, fontSize: '25px', color: '#ffffff', flexShrink: 0, marginLeft: '8px' }}>→</span>
       </div>
     </div>
   )
@@ -362,7 +371,7 @@ function BentoWide({ project, animDelay = 0 }: { project: typeof projects[0]; an
       <div style={{ padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderRight: `1px solid ${BC.divider}` }}>
         <div>
           <p style={{ fontFamily: T.mono, fontSize: '9px', color: BC.mute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>{project.company}</p>
-          <p style={{ fontFamily: T.sans, fontSize: '18px', fontWeight: 500, color: BC.ink, lineHeight: 1.35, margin: 0, letterSpacing: '-0.02em' }}>{project.title}</p>
+          <p style={{ fontFamily: T.sans, fontSize: '24px', fontWeight: 500, color: BC.ink, lineHeight: 1.35, margin: 0, letterSpacing: '-0.02em' }}>{project.title}</p>
         </div>
         <span style={{ fontFamily: T.mono, fontSize: '10px', color: hovered ? BC.ink : BC.mute, transition: 'color 0.2s', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
           View case study →
@@ -380,27 +389,82 @@ function BentoWide({ project, animDelay = 0 }: { project: typeof projects[0]; an
   )
 }
 
-// Cells 3 & 4: square cards — image top (inset), text + metrics below
+// 2×2 card — title outside box, full-bleed image, transparent glass card
 function BentoSquare({ project, className, animDelay = 0 }: { project: typeof projects[0]; className: string; animDelay?: number }) {
   const [hovered, setHovered] = useState(false)
   return (
     <motion.div
       className={className}
+      style={{ display: 'flex', flexDirection: 'column' }}
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: animDelay, ease }}
     >
-    <Link href={project.directPath}
-      style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '14px', background: BC.bg, border: `1px solid ${BC.border}`, borderRadius: '14px', textDecoration: 'none', cursor: 'pointer', position: 'relative', overflow: 'hidden', height: '100%' }}
-      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-    >
-      <div style={{ flex: 1, borderRadius: '8px', overflow: 'hidden', minHeight: 0 }}>
-        <img src={project.banner} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transform: hovered ? 'scale(1.04)' : 'scale(1)', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+      {/* Title + company — OUTSIDE the card box */}
+      <div style={{ flexShrink: 0, paddingBottom: '12px' }}>
+        <p style={{ fontFamily: T.mono, fontSize: '9px', color: 'rgba(255,255,255,0.32)', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 5px' }}>
+          {project.company} · {project.year}
+        </p>
+        <p style={{ fontFamily: T.sans, fontSize: '24px', fontWeight: 500, color: '#ffffff', lineHeight: 1.3, margin: 0, letterSpacing: '-0.02em' }}>
+          {project.title}
+        </p>
       </div>
-      <BentoMeta project={project} />
-      <BentoOverlay project={project} visible={hovered} />
-    </Link>
+
+      {/* Transparent card — full-bleed image */}
+      <Link
+        href={project.directPath}
+        style={{
+          flex: 1,
+          position: 'relative',
+          display: 'block',
+          borderRadius: '14px',
+          overflow: 'hidden',
+          border: '1px solid rgba(255,255,255,0.1)',
+          background: 'rgba(255,255,255,0.03)',
+          backdropFilter: 'blur(4px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(4px) saturate(140%)',
+          textDecoration: 'none',
+          cursor: 'pointer',
+          minHeight: 0,
+        }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {/* Full-bleed image */}
+        <img
+          src={project.banner}
+          alt={project.title}
+          style={{
+            position: 'absolute', inset: 0,
+            width: '100%', height: '100%',
+            objectFit: 'cover', display: 'block',
+            transform: hovered ? 'scale(1.04)' : 'scale(1)',
+            transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)',
+          }}
+        />
+
+        {/* Bottom glass strip — fades out on hover */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0,
+          background: 'rgba(0,0,0,0.42)',
+          backdropFilter: 'blur(14px) saturate(130%)',
+          WebkitBackdropFilter: 'blur(14px) saturate(130%)',
+          borderTop: '1px solid rgba(255,255,255,0.07)',
+          padding: '12px 18px',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          opacity: hovered ? 0 : 1,
+          transition: 'opacity 0.3s ease',
+        }}>
+          <p style={{ fontFamily: T.mono, fontSize: '9px', color: 'rgba(255,255,255,0.42)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
+            {project.company}
+          </p>
+          <span style={{ fontFamily: T.sans, fontSize: '16px', color: 'rgba(255,255,255,0.55)' }}>→</span>
+        </div>
+
+        {/* Hover overlay */}
+        <BentoOverlay project={project} visible={hovered} />
+      </Link>
     </motion.div>
   )
 }
@@ -916,7 +980,7 @@ function HeroSection() {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#333333' }}>
-                <span style={{ display: 'inline-block', width: '6px', height: '6px', background: '#333333', flexShrink: 0 }} />
+                <span style={{ display: 'inline-block', width: '6px', height: '6px', background: '#333333', flexShrink: 0, borderRadius: '50%', animation: 'dotBlink 1s step-end infinite' }} />
                 Portfolio — 2026
               </div>
               <div style={{ color: '#EAEAEA' }}>Est. 2020 / 6+ Years</div>
@@ -1099,7 +1163,7 @@ function HeroSection() {
 
             <div className="hero-card-heading" style={{
               fontFamily: SPACE_MONO,
-              fontSize: '21px',
+              fontSize: '24px',
               letterSpacing: '0.04em',
               color: HERO_INK,
               position: 'relative', zIndex: 1,
@@ -1800,11 +1864,11 @@ function SkillsAccordion() {
     <div>
       <p style={{ fontFamily: T.mono, fontSize: '13px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: T.inkMute, margin: '0 0 12px' }}>Skills</p>
     <div style={{
-      background: 'rgba(225, 217, 214, 0.30)',
-      backdropFilter: 'blur(20px) saturate(180%)',
-      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+      background: 'rgba(225, 217, 214, 0.50)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
       borderRadius: '12px',
-      border: '1px solid rgba(219, 219, 219, 0.5)',
+      border: '1px solid #DBDBDB',
       overflow: 'hidden',
       padding: '0 20px',
       position: 'relative',
@@ -1836,7 +1900,7 @@ function AboutSection() {
     <section
       id="about"
       style={{
-        background: '#FCFCFA',
+        background: '#ffffff',
         fontFamily: T.sans,
         position: 'relative',
       }}
@@ -1859,7 +1923,7 @@ function AboutSection() {
           backgroundImage: 'url(/about-bg.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          opacity: 0.1,
+          opacity: 0,
           zIndex: 0,
           pointerEvents: 'none',
         }}
@@ -1933,7 +1997,7 @@ function AboutSection() {
           </p>
         </div>
         <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
-          03/
+          04/
         </span>
       </div>
 
@@ -2058,9 +2122,9 @@ function AboutSection() {
       {/* Tools marquee — full page width */}
       <div style={{ padding: '40px 0 48px', position: 'relative', zIndex: 1 }}>
         <div style={{ padding: '0 80px 16px' }}>
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#2a2a2a', letterSpacing: '0.12em', textTransform: 'uppercase', margin: 0 }}>Tools I use</p>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.12em', textTransform: 'uppercase', margin: 0 }}>Tools I use</p>
         </div>
-        <ToolsMarquee bg="#FCFCFA" />
+        <ToolsMarquee bg="#ffffff" />
       </div>
 
     </section>
@@ -2170,17 +2234,8 @@ function ExperienceTimeline() {
   return (
     <section
       id="experience"
-      style={{ background: '#F7F4EE', position: 'relative', zIndex: 10, fontFamily: T.sans }}
+      style={{ background: '#ffffff', position: 'relative', zIndex: 10, fontFamily: T.sans }}
     >
-      {/* Background dot grid — full section */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='1.2' fill='%23B0ADA6'/%3E%3C/svg%3E")`,
-        backgroundRepeat: 'repeat',
-        opacity: 0.28,
-        pointerEvents: 'none',
-        zIndex: 0,
-      }} />
 
       {/* Header strip */}
       <div className="tl-header" style={{
@@ -2252,9 +2307,10 @@ function ExperienceTimeline() {
             const radius = size / 2
             const nextSize = i < timelineJobs.length - 1 ? tlSize(timelineJobs[i + 1].months) : 150
             const pad    = Math.round(size * 0.13)
-            const roleFs = Math.max(9,  Math.round(size * 0.055))
-            const metaFs = Math.max(7,  Math.round(size * 0.037))
-            const descFs = Math.max(8,  Math.round(size * 0.044))
+            const t      = (size - TL_MIN_PX) / (TL_MAX_PX - TL_MIN_PX) // 0 = smallest, 1 = largest
+            const roleFs = Math.round(14 + t * 4)   // 14px (small) → 18px (large)
+            const metaFs = Math.round(10 + t * 3)   // 10px (small) → 13px (large)
+            const descFs = Math.round(11 + t * 3)   // 11px (small) → 14px (large)
             // spacer pushes circle so its centre sits on TL_LINE_Y
             const spacer = TL_LINE_Y - radius
             // tick from circle centre to (radius + EXTRA) below circle centre
@@ -2379,12 +2435,16 @@ function ExperienceTimeline() {
                     <span style={{ display: 'block', fontFamily: T.mono, fontSize: metaFs, color: textMuted, letterSpacing: '0.04em', textTransform: 'uppercase', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%', lineHeight: 1.3 }}>
                       {job.company}
                     </span>
-                    <span style={{ display: 'block', fontFamily: T.mono, fontSize: metaFs - 1, color: textDim, letterSpacing: '0.06em', textTransform: 'uppercase', lineHeight: 1.2 }}>
-                      {job.type}
-                    </span>
-                    <span style={{ display: 'block', fontFamily: T.sans, fontSize: descFs, color: textDesc, lineHeight: 1.35, marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
-                      {job.desc}
-                    </span>
+                    {size >= 175 && (
+                      <span style={{ display: 'block', fontFamily: T.mono, fontSize: metaFs - 1, color: textDim, letterSpacing: '0.06em', textTransform: 'uppercase', lineHeight: 1.2 }}>
+                        {job.type}
+                      </span>
+                    )}
+                    {size >= 200 && (
+                      <span style={{ display: 'block', fontFamily: T.sans, fontSize: descFs, color: textDesc, lineHeight: 1.35, marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
+                        {job.desc}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -2681,81 +2741,23 @@ function WorkSubSection({ kicker, title, index, children, topPadding = '56px' }:
         transition={{ duration: 0.5, ease }}
         style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
-          borderBottom: '1px solid #1a1a1a', paddingBottom: '20px', marginBottom: '40px',
+          borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '20px', marginBottom: '40px',
         }}
       >
         <div>
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
             {kicker}
           </p>
           <h2 style={{ fontFamily: T.sans, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 500, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.05, margin: 0 }}>
             {title}
           </h2>
         </div>
-        <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: '#1a1a1a', letterSpacing: '-0.03em' }}>
+        <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: 'rgba(255,255,255,0.15)', letterSpacing: '-0.03em' }}>
           {index}
         </span>
       </motion.div>
       {children}
     </div>
-  )
-}
-
-// ─── Back To Top ──────────────────────────────────────────────────────────────
-function BackToTop() {
-  const [visible, setVisible] = useState(false)
-  const [hovered, setHovered] = useState(false)
-
-  useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 400)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  return (
-    <motion.button
-      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      initial={false}
-      animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 16, pointerEvents: visible ? 'auto' : 'none' }}
-      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-      style={{
-        position: 'fixed',
-        top: 32,
-        left: 32,
-        zIndex: 999,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 6,
-        background: hovered ? T.ink : T.paper,
-        border: `1.5px solid ${hovered ? T.ink : T.rule}`,
-        borderRadius: 12,
-        padding: '10px 14px',
-        cursor: 'pointer',
-        boxShadow: hovered ? '0 8px 24px rgba(0,0,0,0.18)' : '0 2px 12px rgba(0,0,0,0.08)',
-        transition: 'background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease',
-      }}
-      aria-label="Back to top"
-    >
-      {/* Upward arrow */}
-      <svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M8 13V3M8 3L3 8M8 3L13 8" stroke={hovered ? T.paper : T.ink} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-      <span style={{
-        fontFamily: T.mono,
-        fontSize: '9px',
-        fontWeight: 700,
-        letterSpacing: '0.08em',
-        textTransform: 'uppercase',
-        color: hovered ? T.paper : T.inkMute,
-        whiteSpace: 'nowrap',
-        transition: 'color 0.18s ease',
-      }}>
-        Back to top
-      </span>
-    </motion.button>
   )
 }
 
@@ -2814,6 +2816,10 @@ export default function Home() {
           transform-origin: 20px 20px;
           animation: compassSway 3.5s ease-in-out infinite;
         }
+        @keyframes dotBlink {
+          0%, 49% { background: #333333; }
+          50%, 100% { background: #ffffff; }
+        }
         @keyframes heroCursor {
           0%, 100% { opacity: 1; }
           50% { opacity: 0; }
@@ -2839,7 +2845,7 @@ export default function Home() {
 
       <main style={{ background: T.dark }}>
         {/* Spacer blocks give each sticky section its own scroll budget */}
-        {/* {showUI && <Nav />} */}
+        <Nav />
 
         {/* ═══════════════════════════════════════════════════════════════════
             HERO — sticky, white bg, editorial layout
@@ -2861,13 +2867,13 @@ export default function Home() {
           }}
         >
           {/* Header strip */}
-          {/* Case Studies — 4 vertical cards */}
+          {/* Case Studies — 2×2 grid */}
           <WorkSubSection kicker="UX Case Studies" title="Digital Design" index="01/">
             <div className="home-bento-grid">
-              <BentoTall   project={projects[0]} animDelay={0} />
-              <BentoWide   project={projects[1]} animDelay={0.1} />
-              <BentoSquare project={projects[2]} className="home-bento-cell-stat" animDelay={0.18} />
-              <BentoSquare project={projects[3]} className="home-bento-cell-img"  animDelay={0.24} />
+              <BentoSquare project={projects[0]} className="home-bento-cell" animDelay={0} />
+              <BentoSquare project={projects[1]} className="home-bento-cell" animDelay={0.1} />
+              <BentoSquare project={projects[2]} className="home-bento-cell" animDelay={0.18} />
+              <BentoSquare project={projects[3]} className="home-bento-cell" animDelay={0.24} />
             </div>
           </WorkSubSection>
 
@@ -2960,7 +2966,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease }}
-            style={{ padding: '0 64px 32px', position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid #E5E5E0', marginBottom: '24px' }}
+            style={{ padding: '0 64px 32px', position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: `1px solid ${T.rule}`, marginBottom: '24px' }}
           >
             <div>
               <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
@@ -2976,7 +2982,7 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15, ease }}
               style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em', flexShrink: 0 }}
-            >07/</motion.span>
+            >06/</motion.span>
           </motion.div>
           <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
@@ -3015,17 +3021,15 @@ export default function Home() {
           -ms-overflow-style: none;
         }
 
-        /* ── Home bento grid ── */
+        /* ── Home bento grid — 2×2 ── */
         .home-bento-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          grid-template-rows: 360px 320px;
-          gap: 12px;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 500px 500px;
+          column-gap: 16px;
+          row-gap: 64px;
         }
-        .home-bento-cell-tall { grid-column: 1; grid-row: 1 / 3; }
-        .home-bento-cell-wide { grid-column: 2 / 4; grid-row: 1; }
-        .home-bento-cell-stat { grid-column: 2; grid-row: 2; }
-        .home-bento-cell-img  { grid-column: 3; grid-row: 2; }
+        .home-bento-cell { /* auto-flow fills 2×2 naturally */ }
 
         /* ── Tablet (≤768px) ── */
         @media (max-width: 768px) {
@@ -3089,12 +3093,9 @@ export default function Home() {
           }
           .home-bento-grid {
             grid-template-columns: 1fr 1fr !important;
-            grid-template-rows: 300px 280px 280px !important;
+            grid-template-rows: 420px 420px !important;
           }
-          .home-bento-cell-tall { grid-column: 1; grid-row: 1 / 3; }
-          .home-bento-cell-wide { grid-column: 2; grid-row: 1; }
-          .home-bento-cell-stat { grid-column: 2; grid-row: 2; }
-          .home-bento-cell-img  { grid-column: 1 / 3; grid-row: 3; }
+          .home-bento-cell { grid-column: auto !important; grid-row: auto !important; }
           .webflow-builds-grid {
             grid-template-columns: 1fr !important;
           }
@@ -3229,12 +3230,9 @@ export default function Home() {
           }
           .home-bento-grid {
             grid-template-columns: 1fr !important;
-            grid-template-rows: 320px 300px 260px 300px !important;
+            grid-template-rows: repeat(4, 420px) !important;
           }
-          .home-bento-cell-tall { grid-column: 1 !important; grid-row: 1 !important; }
-          .home-bento-cell-wide { grid-column: 1 !important; grid-row: 2 !important; }
-          .home-bento-cell-stat { grid-column: 1 !important; grid-row: 3 !important; }
-          .home-bento-cell-img  { grid-column: 1 !important; grid-row: 4 !important; }
+          .home-bento-cell { grid-column: 1 !important; grid-row: auto !important; }
 
           /* Behance */
           .behance-section {
@@ -3287,7 +3285,6 @@ export default function Home() {
         }
       `}</style>
 
-      <BackToTop />
     </>
   )
 }

@@ -13,7 +13,7 @@ export const deckup: CaseStudy = {
   detailPath: '/work/deckup-detail',
 
   hero: {
-    banner: { type: 'video', src: '/hero-video.mp4' },
+    banner: { type: 'image', src: '/case-studies/deck-up/hero-banner.png' },
     headline: 'DeckUp',
     subline: 'From SlideXpress internal expertise to a 4-platform SaaS — a PowerPoint productivity plugin built end-to-end for consultants, strategy teams, and agencies.',
   },

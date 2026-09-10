@@ -8,6 +8,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import Nav from '@/components/Nav'
+import PasswordGate from '@/components/PasswordGate'
+import { dilKyc as cs } from '@/lib/case-studies/dil-kyc'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const NAVY  = '#0D1B2A'
@@ -133,63 +135,80 @@ function Hero() {
         height: '100%',
       }} />
 
-      {/* Row 1: Back + Tags */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-16 md:pt-20 pb-6 md:pb-8 flex-wrap gap-3">
-        <Link href="/#work" className="flex items-center gap-2 text-zinc-400 text-xs hover:text-green-400 transition-colors">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
-          </svg>
-          Back to work
-        </Link>
-        <div className="flex gap-2 flex-wrap justify-end">
-          {['UX Design', 'Enterprise', 'Bullion'].map(t => (
-            <span key={t} className="inline-block text-xs px-3 py-1 rounded-full border border-green-500/30 bg-green-500/10 text-green-300 font-medium">{t}</span>
-          ))}
-        </div>
-      </div>
+      {/* Two-column layout */}
+      <div className="flex flex-col-reverse md:grid md:grid-cols-[1fr_1.2fr] gap-10 md:gap-16 px-8 md:px-16 lg:px-24 pt-10 md:pt-14 pb-14 md:pb-20 items-start">
 
-      {/* Row 2: Headline + description */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-        className="relative z-10 px-8 md:px-16 lg:px-24 pb-8 md:pb-12"
-      >
-        <p className="text-green-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">Diamond India Limited</p>
-        <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight">
-          KYC, Onboarding & Customer management portal design
-        </h1>
-      </motion.div>
+        {/* LEFT — info */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+          className="relative z-10 flex flex-col gap-5"
+        >
+          <div>
+            <p className="text-green-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">Diamond India Limited</p>
+            <h1 className="text-white text-3xl md:text-[2.5rem] font-bold leading-tight mb-3">
+              KYC, Onboarding & Customer management portal design
+            </h1>
+            <p className="text-zinc-400 leading-relaxed mb-4" style={{ fontSize: '20px' }}>{cs.overview.context}</p>
+          </div>
 
-      {/* Row 3: Banner */}
-      <div className="relative overflow-hidden">
-        <img
-          src="/case-studies/dil-kyc/detail-banner-hero.png"
-          alt="DIL KYC Platform — Dashboard and KYC Process screens"
-          className="w-full h-auto block"
-        />
-      </div>
+          {/* Impact metrics */}
+          <div className="grid grid-cols-2 gap-4 pt-2">
+            {[
+              { value: '55%',  label: 'Onboarding time cut', sub: '2 weeks → 5–7 days' },
+              { value: '800+', label: 'Customers served',    sub: 'Largest private agency base' },
+            ].map(m => (
+              <div key={m.label}>
+                <p className="text-2xl font-bold mb-0.5 text-green-400">{m.value}</p>
+                <p className="text-zinc-300 text-xs font-medium">{m.label}</p>
+                <p className="text-zinc-600 text-xs mt-0.5">{m.sub}</p>
+              </div>
+            ))}
+          </div>
 
-      {/* Row 4: Meta */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-        className="relative z-10 flex flex-wrap items-center justify-between gap-6 px-8 md:px-16 lg:px-24 py-6 md:py-10 border-t border-zinc-800"
-      >
-        <div className="flex flex-wrap gap-8">
-          {[
-            { label: 'Client',    value: 'Diamond India Limited' },
-            { label: 'Role',      value: 'Senior UX Designer' },
-            { label: 'Timeline',  value: '8 Months' },
-            { label: 'Year',      value: '2024' },
-          ].map(m => (
-            <div key={m.label}>
-              <p className="text-zinc-500 text-xs uppercase tracking-widest mb-1">{m.label}</p>
-              <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
+          {/* Meta info */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-3 border-t border-zinc-800 pt-4">
+            {[
+              { label: 'Client',    value: 'Diamond India Limited' },
+              { label: 'Role',      value: 'Senior UX Designer' },
+              { label: 'Timeline',  value: '8 Months' },
+              { label: 'Year',      value: '2024' },
+            ].map(m => (
+              <div key={m.label}>
+                <p className="text-zinc-500 text-xs uppercase tracking-widest mb-0.5">{m.label}</p>
+                <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Team */}
+          <div className="border-t border-zinc-800 pt-4">
+            <p className="text-zinc-600 text-[10px] uppercase tracking-widest mb-2">Team</p>
+            <div className="flex flex-wrap gap-1.5">
+              {TEAM.map(m => (
+                <a key={m.name} href={m.url} target="_blank" rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-zinc-700 bg-zinc-800/50 hover:border-green-500/50 transition-colors group">
+                  <span className="text-white text-xs font-medium">{m.name}</span>
+                  <span className="text-zinc-600 text-[10px]">·</span>
+                  <span className="text-zinc-500 text-xs">{m.role}</span>
+                  <svg className="w-2.5 h-2.5 text-zinc-600 group-hover:text-green-400 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
+                </a>
+              ))}
             </div>
-          ))}
-        </div>
-        <p className="text-zinc-600 text-xs italic max-w-xs hidden md:block">
-          "For banks, KYC is a filtering-out process. For DIL, KYC is a welcoming-in process."
-        </p>
-      </motion.div>
+          </div>
+        </motion.div>
+
+        {/* RIGHT — square banner */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.15 }}
+          className="w-full aspect-[3/2] overflow-hidden rounded-2xl"
+        >
+          <img
+            src="/case-studies/dil-kyc/detail-banner.png"
+            alt="DIL KYC Platform — Dashboard and KYC Process screens"
+            className="w-full h-full object-cover block"
+          />
+        </motion.div>
+      </div>
     </section>
   )
 }
@@ -1444,23 +1463,22 @@ const TEAM = [
 ]
 
 function Team() {
+  const liIcon = <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
   return (
-    <section id="team" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-24">
+    <section id="team" style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 py-12">
       <motion.div
         initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
       >
         <SectionLabel>Team</SectionLabel>
-
-        <div className="border border-zinc-700 rounded-2xl overflow-hidden divide-y divide-zinc-800">
+        <div className="flex flex-wrap gap-2">
           {TEAM.map((member) => (
-            <div key={member.name} className="grid grid-cols-3 items-center px-6 py-4">
-              <p className="text-white text-sm font-medium">{member.name}</p>
-              <p className="text-zinc-500 text-sm">{member.role}</p>
-              <a href={member.url} target="_blank" rel="noreferrer" className="justify-self-end flex items-center gap-1.5 text-xs border border-zinc-700 rounded-full px-3 py-1.5 text-zinc-500 hover:border-green-500/50 hover:text-green-400 transition-colors">
-                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
-                LinkedIn
-              </a>
-            </div>
+            <a key={member.name} href={member.url} target="_blank" rel="noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-zinc-700 bg-zinc-800/50 hover:border-green-500/50 hover:bg-zinc-800 transition-colors group">
+              <span className="text-white text-xs font-medium">{member.name}</span>
+              <span className="text-zinc-600 text-[10px]">·</span>
+              <span className="text-zinc-500 text-xs">{member.role}</span>
+              <span className="text-zinc-600 group-hover:text-green-400 transition-colors">{liIcon}</span>
+            </a>
           ))}
         </div>
       </motion.div>
@@ -1468,29 +1486,6 @@ function Team() {
   )
 }
 
-// ─── SECTION: IMPACT ──────────────────────────────────────────────────────────
-function Impact() {
-  return (
-    <section style={{ backgroundColor: NAVY }} className="px-8 md:px-16 lg:px-24 pb-24">
-      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-        <SectionLabel>Impact</SectionLabel>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-zinc-800 rounded-2xl overflow-hidden mt-8">
-          {[
-            { v: '55%',  l: 'Onboarding time cut',  s: '5 weeks → 2 weeks' },
-            { v: '800+', l: 'Customers served',      s: 'Largest private agency base' },
-            { v: '3',    l: 'KYC form types',        s: 'Proprietor, Corporate, Bullion' },
-          ].map(m => (
-            <div key={m.l} className="px-6 py-8" style={{ backgroundColor: NAVY }}>
-              <div className="text-4xl font-bold mb-1" style={{ color: AMBER }}>{m.v}</div>
-              <div className="text-white text-sm font-medium mb-0.5">{m.l}</div>
-              <div className="text-zinc-500 text-xs">{m.s}</div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-    </section>
-  )
-}
 
 // ─── SECTION: CASE STUDY VIDEO ────────────────────────────────────────────────
 function CaseStudyVideo() {
@@ -1554,11 +1549,10 @@ function FooterCTA() {
 export default function DILKYCDetail() {
   return (
     <main className="bg-white text-zinc-900 antialiased">
+      <PasswordGate accentColor="#0fa475" />
       {/* <Nav /> */}
       <StickyNav />
       <Hero />
-      <Team />
-      <Impact />
       {/* HIDDEN — restore by changing false to true */}
       {false && <TheMoment />}
       <Brief />

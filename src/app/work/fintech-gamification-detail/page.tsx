@@ -8,6 +8,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import Nav from '@/components/Nav'
+import PasswordGate from '@/components/PasswordGate'
+import { fintechGamification as cs } from '@/lib/case-studies/fintech-gamification'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const DARK   = '#0F0F12'
@@ -130,66 +132,76 @@ function Hero() {
         height: '100%',
       }} />
 
-      {/* Row 1: Back + Tags */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-16 md:pt-20 pb-6 md:pb-8 flex-wrap gap-3">
-        <Link href="/#work" className="flex items-center gap-2 text-zinc-500 text-xs hover:text-purple-400 transition-colors">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
-          </svg>
-          Back to work
-        </Link>
-        <div className="flex gap-2">
-          {['B2B SaaS', 'RegTech', 'Compliance', 'Gamification'].map(t => (
-            <Pill key={t} purple>{t}</Pill>
-          ))}
-        </div>
-      </div>
+      {/* Two-column layout */}
+      <div className="flex flex-col-reverse md:grid md:grid-cols-[1fr_1.2fr] gap-10 md:gap-16 px-8 md:px-16 lg:px-24 pt-10 md:pt-14 pb-14 md:pb-20 items-start">
 
-      {/* Row 2: Headline + description — ABOVE banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-        className="relative z-10 px-8 md:px-16 lg:px-24 pb-8 md:pb-12"
-      >
-        <p className="text-purple-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">frankieOne · 2024</p>
-        <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
-          No-Code KYC Builder
-        </h1>
-        <p className="text-zinc-400 text-sm max-w-2xl leading-relaxed">
-          A gamified, no-code rule builder that turns compliance configuration into an engaging puzzle-solving experience — giving teams full ownership of KYC flows without writing a line of code.
-        </p>
-      </motion.div>
-
-      {/* Row 3: Banner — styled block (no video for this page) */}
-      <div className="relative overflow-hidden aspect-video" style={{ backgroundColor: '#0a0614' }}>
-        <div className="absolute inset-0 opacity-[0.06]" style={{
-          backgroundImage: `linear-gradient(${PURPLE} 1px, transparent 1px), linear-gradient(90deg, ${PURPLE} 1px, transparent 1px)`,
-          backgroundSize: '60px 60px',
-        }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full opacity-10 blur-3xl" style={{ backgroundColor: PURPLE }} />
-        <div className="relative flex items-center justify-center gap-4 opacity-20">
-          <div className="px-3 py-1.5 rounded-lg text-white text-sm font-bold tracking-wider" style={{ backgroundColor: PURPLE }}>f1</div>
-          <div className="h-px w-24 opacity-40" style={{ backgroundColor: PURPLE_MUTED }} />
-          <span className="text-3xl font-bold tracking-tight" style={{ color: PURPLE_MUTED }}>No-Code KYC Rule Builder</span>
-        </div>
-      </div>
-
-      {/* Row 4: Meta — BELOW banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-        className="relative z-10 flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-6 md:py-10 border-t border-zinc-800"
-      >
-        {[
-          { label: 'Client',    value: 'frankieOne' },
-          { label: 'Role',      value: 'Senior Product Designer' },
-          { label: 'Timeline',  value: '3 Months' },
-          { label: 'Year',      value: '2024' },
-        ].map(m => (
-          <div key={m.label}>
-            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-1">{m.label}</p>
-            <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
+        {/* LEFT — info */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+          className="relative z-10 flex flex-col gap-5"
+        >
+          <div>
+            <p className="text-purple-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">frankieOne · 2024</p>
+            <h1 className="text-white text-3xl md:text-[2.5rem] font-bold leading-tight mb-3">
+              No-Code KYC Builder
+            </h1>
+            <p className="text-zinc-400 leading-relaxed mb-4" style={{ fontSize: '20px' }}>{cs.overview.context}</p>
           </div>
-        ))}
-      </motion.div>
+
+          {/* Impact metrics */}
+          <div className="grid grid-cols-2 gap-4 pt-2">
+            {[
+              { value: '80%', label: 'Faster flow deployment', sub: '3 weeks → 3 days' },
+              { value: '95%', label: 'Compliance team adoption', sub: 'Within 6 months' },
+            ].map(m => (
+              <div key={m.label}>
+                <p className="text-2xl font-bold mb-0.5" style={{ color: PURPLE }}>{m.value}</p>
+                <p className="text-zinc-300 text-xs font-medium">{m.label}</p>
+                <p className="text-zinc-600 text-xs mt-0.5">{m.sub}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Meta info */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-3 border-t border-zinc-800 pt-4">
+            {[
+              { label: 'Client',    value: 'frankieOne' },
+              { label: 'Role',      value: 'Senior Product Designer' },
+              { label: 'Timeline',  value: '3 Months' },
+              { label: 'Year',      value: '2024' },
+            ].map(m => (
+              <div key={m.label}>
+                <p className="text-zinc-500 text-xs uppercase tracking-widest mb-0.5">{m.label}</p>
+                <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Team */}
+          <div className="border-t border-zinc-800 pt-4">
+            <p className="text-zinc-600 text-[10px] uppercase tracking-widest mb-2">Team</p>
+            <div className="flex flex-wrap gap-1.5">
+              {cs.team.map(m => (
+                <a key={m.name} href={m.url} target="_blank" rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-zinc-700 bg-zinc-800/50 hover:border-purple-500/50 transition-colors group">
+                  <span className="text-white text-xs font-medium">{m.name}</span>
+                  <span className="text-zinc-600 text-[10px]">·</span>
+                  <span className="text-zinc-500 text-xs">{m.role}</span>
+                  <svg className="w-2.5 h-2.5 text-zinc-600 group-hover:text-purple-400 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
+                </a>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* RIGHT — square banner */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.15 }}
+          className="w-full aspect-[3/2] overflow-hidden rounded-2xl"
+        >
+          <img src="/case-studies/fintech-gamification/hero-banner.png" alt="frankieOne No-Code KYC Builder" className="w-full h-full object-cover block" />
+        </motion.div>
+      </div>
     </section>
   )
 }
@@ -223,22 +235,6 @@ function Brief() {
             <div key={col.head}>
               <h3 className="text-zinc-900 font-semibold text-base mb-3">{col.head}</h3>
               <p className="text-zinc-500 text-sm leading-relaxed">{col.body}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Impact strip */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-100 rounded-2xl overflow-hidden mb-16">
-          {[
-            { v: '80%',  l: 'Faster deployment',    s: '3 weeks → 3 days' },
-            { v: '95%',  l: 'Team adoption',        s: 'Within 6 months' },
-            { v: '60%',  l: 'Fewer dev tickets',    s: 'For flow changes' },
-            { v: '9.1',  l: 'Satisfaction score',   s: 'Up from 7.2 / 10' },
-          ].map(m => (
-            <div key={m.l} className="bg-white px-6 py-8">
-              <div className="text-4xl font-bold mb-1" style={{ color: PURPLE }}>{m.v}</div>
-              <div className="text-zinc-700 text-sm font-medium mb-0.5">{m.l}</div>
-              <div className="text-zinc-400 text-xs">{m.s}</div>
             </div>
           ))}
         </div>
@@ -1193,6 +1189,7 @@ function FooterCTA() {
 export default function FrankieOneDetail() {
   return (
     <main className="antialiased" style={{ backgroundColor: DARK }}>
+      <PasswordGate accentColor="#6D28D9" />
       {/* <Nav /> */}
       <StickyNav />
       <Hero />

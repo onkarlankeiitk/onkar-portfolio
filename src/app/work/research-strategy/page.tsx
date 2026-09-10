@@ -4,11 +4,12 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import Nav from '@/components/Nav'
+import PasswordGate from '@/components/PasswordGate'
 import { researchStrategy as cs } from '@/lib/case-studies/research-strategy'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const DARK   = '#0B0B0B'
-const ACCENT = '#E75175'
+const ACCENT = '#53B5B9'
 
 // ─── SCROLL PROGRESS ─────────────────────────────────────────────────────────
 
@@ -114,83 +115,102 @@ function Hero() {
         height: '100%',
       }} />
 
-      {/* Row 1: Back + Tags */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-5 pb-4 flex-wrap gap-3">
-        <Link
-          href="/#work"
-          className="flex items-center gap-2 text-zinc-400 text-xs transition-colors hover:text-orange-400"
-        >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      {/* Back arrow */}
+      <div className="relative z-10 flex items-center px-8 md:px-16 pt-3 pb-1">
+        <Link href="/#work" className="flex items-center text-zinc-400 transition-colors hover:text-orange-400">
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
-          Back to work
         </Link>
-        <div className="flex gap-2 flex-wrap justify-end">
-          {cs.tags.map(t => (
-            <span
-              key={t}
-              className="inline-block text-xs px-3 py-1 rounded-full border font-medium"
-              style={{ borderColor: `${ACCENT}50`, background: `${ACCENT}18`, color: '#e8a07a' }}
-            >
-              {t}
-            </span>
-          ))}
-        </div>
       </div>
 
-      {/* Row 2: Headline + subline */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-        className="relative z-10 px-8 md:px-16 lg:px-24 pb-6"
-      >
-        <p className="text-xs tracking-[0.22em] uppercase font-medium mb-3" style={{ color: ACCENT }}>
-          {cs.client}
-        </p>
-        <h1 className="text-white font-bold leading-tight mb-4" style={{ fontSize: 'clamp(28px, 5vw, 56px)' }}>
-          {cs.hero.headline}
-        </h1>
-        <p className="text-zinc-400 text-sm max-w-2xl leading-relaxed">
-          {cs.hero.subline}
-        </p>
-      </motion.div>
+      {/* Two-column layout */}
+      <div className="flex flex-col-reverse md:grid md:grid-cols-[1fr_1.2fr] gap-10 md:gap-16 px-8 md:px-16 lg:px-24 pt-6 pb-12 md:pb-16 items-start">
 
-      {/* NDA strip */}
-      <div style={{ background: '#E75175', padding: '10px 0', textAlign: 'center' }}>
-        <p style={{ fontFamily: '"JetBrains Mono", ui-monospace, monospace', fontSize: '12px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#ffffff', margin: 0 }}>
-          ⚠ Sharing only snippets as per NDA
-        </p>
-      </div>
-
-      {/* Row 3: Banner */}
-      <div className="relative overflow-hidden aspect-video bg-zinc-900">
-        {cs.hero.banner && (
-          cs.hero.banner.type === 'video' ? (
-            <video autoPlay muted loop playsInline className="w-full h-full object-cover block">
-              <source src={cs.hero.banner.src!} type="video/mp4" />
-            </video>
-          ) : (
-            <img src={cs.hero.banner.src!} alt={cs.hero.headline} className="w-full h-full object-cover block" />
-          )
-        )}
-      </div>
-
-      {/* Row 4: Meta strip */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}
-        className="relative z-10 flex flex-wrap items-center gap-8 px-8 md:px-16 lg:px-24 py-4 border-t border-zinc-800"
-      >
-        {[
-          { label: 'Client',   value: cs.client },
-          { label: 'Role',     value: cs.role },
-          { label: 'Timeline', value: cs.timeline },
-          { label: 'Year',     value: cs.year },
-        ].map(m => (
-          <div key={m.label}>
-            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-1">{m.label}</p>
-            <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
+        {/* LEFT — info */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+          className="relative z-10 flex flex-col gap-5"
+        >
+          <div>
+            <p className="text-xs tracking-[0.22em] uppercase font-medium mb-3" style={{ color: ACCENT }}>{cs.client}</p>
+            <h1 className="text-white font-bold leading-tight mb-4" style={{ fontSize: 'clamp(28px, 4vw, 40px)' }}>
+              {cs.hero.headline}
+            </h1>
+            <p className="text-zinc-400 leading-relaxed mb-4" style={{ fontSize: '20px' }}>
+              Munk Pack is a US-based snacking brand selling low-sugar, high-protein keto bars across 25,000+ retail stores (Kroger, Sprouts, Walmart) and online DTC. In collaboration with Commongood USA, we evaluated the existing site and delivered a research-backed redesign strategy.
+            </p>
           </div>
-        ))}
-      </motion.div>
+
+          {/* Impact metrics */}
+          <div className="grid grid-cols-2 gap-4 pt-2">
+            {cs.metrics.slice(0, 2).map(m => (
+              <div key={m.label}>
+                <p className="text-2xl font-bold mb-0.5" style={{ color: ACCENT }}>{m.value}</p>
+                <p className="text-zinc-300 text-xs font-medium">{m.label}</p>
+                {m.sub && <p className="text-zinc-600 text-xs mt-0.5">{m.sub}</p>}
+              </div>
+            ))}
+          </div>
+
+          {/* Meta info */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-3 border-t border-zinc-800 pt-4">
+            {[
+              { label: 'Client',   value: cs.client },
+              { label: 'Role',     value: cs.role },
+              { label: 'Timeline', value: cs.timeline },
+              { label: 'Year',     value: cs.year },
+            ].map(m => (
+              <div key={m.label}>
+                <p className="text-zinc-500 text-xs uppercase tracking-widest mb-0.5">{m.label}</p>
+                <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Team */}
+          <div className="border-t border-zinc-800 pt-4">
+            <p className="text-zinc-600 text-[10px] uppercase tracking-widest mb-2">Team</p>
+            <div className="flex flex-wrap gap-1.5">
+              {cs.team.map(m => (
+                <a key={m.name} href={m.url} target="_blank" rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-zinc-700 bg-zinc-800/50 hover:border-zinc-500 transition-colors group">
+                  <span className="text-white text-xs font-medium">{m.name}</span>
+                  <span className="text-zinc-600 text-[10px]">·</span>
+                  <span className="text-zinc-500 text-xs">{m.role}</span>
+                  <svg className="w-2.5 h-2.5 text-zinc-600 group-hover:text-zinc-300 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
+                </a>
+              ))}
+            </div>
+          </div>
+
+        </motion.div>
+
+        {/* RIGHT — square banner */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.1 }}
+          className="w-full aspect-[3/2] overflow-hidden rounded-2xl bg-zinc-900"
+        >
+          {cs.hero.banner && (
+            cs.hero.banner.type === 'video' ? (
+              <video autoPlay muted loop playsInline className="w-full h-full object-cover block">
+                <source src={cs.hero.banner.src!} type="video/mp4" />
+              </video>
+            ) : (
+              <img src={cs.hero.banner.src!} alt={cs.hero.headline} className="w-full h-full object-cover block" />
+            )
+          )}
+        </motion.div>
+      </div>
+
+      {/* NDA notice — full width */}
+      <div className="relative z-10 flex items-center justify-center gap-2.5 px-8 py-3"
+        style={{ background: `${ACCENT}18`, borderTop: `1px solid ${ACCENT}30` }}>
+        <span style={{ color: ACCENT }} className="text-sm">⚠</span>
+        <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: ACCENT }}>
+          Sharing only snippets as per NDA
+        </p>
+      </div>
     </section>
   )
 }
@@ -199,35 +219,12 @@ function Hero() {
 export default function ResearchStrategyPage() {
   return (
     <main className="bg-white">
+      <PasswordGate accentColor="#53B5B9" />
       <ScrollProgress />
       {/* <Nav /> */}
       <StickyNav />
 
       <Hero />
-
-      {/* ══════════════════════════════════════════════════════
-          TEAM
-      ══════════════════════════════════════════════════════ */}
-      <section id="team" className="px-8 md:px-16 lg:px-24 py-8 bg-white border-t border-zinc-100">
-        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
-
-          <SectionLabel light>Team</SectionLabel>
-
-          <div className="border border-zinc-100 rounded-2xl overflow-hidden divide-y divide-zinc-100 mt-2">
-            {cs.team.map(m => (
-              <div key={m.name} className="grid grid-cols-3 items-center px-6 py-4">
-                <p className="text-zinc-800 text-sm font-medium">{m.name}</p>
-                <p className="text-zinc-400 text-sm">{m.role}</p>
-                <a href={m.url} target="_blank" rel="noreferrer" className="justify-self-end flex items-center gap-1.5 text-xs border border-zinc-200 rounded-full px-3 py-1.5 text-zinc-500 hover:border-zinc-400 hover:text-zinc-700 transition-colors">
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
-                  LinkedIn
-                </a>
-              </div>
-            ))}
-          </div>
-
-        </motion.div>
-      </section>
 
       {/* ══════════════════════════════════════════════════════
           OVERVIEW
@@ -346,19 +343,22 @@ export default function ResearchStrategyPage() {
             What the research surfaced
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {cs.findings.map((f, i) => (
               <motion.div
                 key={f.num}
                 initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.07 }}
-                whileHover={{ y: -2, transition: { duration: 0.15 } }}
-                className="border border-zinc-100 rounded-2xl p-5 hover:shadow-md transition-shadow cursor-default"
-                style={{ borderLeft: `3px solid ${ACCENT}` }}
               >
-                <p className="text-xs uppercase tracking-widest text-zinc-400 mb-2">{f.num}</p>
-                <h4 className="text-zinc-900 text-sm font-semibold mb-2 leading-snug">{f.title}</h4>
-                <p className="text-zinc-500 text-sm leading-relaxed">{f.desc}</p>
+                <h4 className="text-zinc-900 text-base font-semibold mb-3 leading-snug">{f.title}</h4>
+                <motion.div
+                  whileHover={{ y: -2, transition: { duration: 0.15 } }}
+                  className="border border-zinc-100 rounded-2xl p-5 hover:shadow-md transition-shadow cursor-default"
+                  style={{ borderLeft: `3px solid ${ACCENT}` }}
+                >
+                  <p className="text-xs uppercase tracking-widest text-zinc-400 mb-2">{f.num}</p>
+                  <p className="text-zinc-500 text-sm leading-relaxed">{f.desc}</p>
+                </motion.div>
               </motion.div>
             ))}
           </div>

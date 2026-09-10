@@ -13,7 +13,7 @@ export const dilKyc: CaseStudy = {
   detailPath: '/work/dil-kyc-detail',
 
   hero: {
-    banner: { src: '/case-studies/dil-kyc/hero-banner.png', type: 'image' },
+    banner: { src: '/case-studies/dil-kyc/detail-banner.png', type: 'image' },
     // SCREEN TO CREATE → Full-width hero banner:
     // DIL brand colours: black (#1C1C1C) background, gold/amber (#F5A623) accents.
     // Show the KYC portal interface on a dark navy background — the 3-step progress bar

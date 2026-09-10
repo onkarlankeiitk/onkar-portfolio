@@ -8,6 +8,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import Nav from '@/components/Nav'
+import PasswordGate from '@/components/PasswordGate'
+import { deckup as cs } from '@/lib/case-studies/deckup'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const DARK  = '#0B1628'
@@ -129,59 +131,80 @@ function Hero() {
         height: '100%',
       }} />
 
-      {/* Row 1: Back + Tags */}
-      <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-16 md:pt-20 pb-6 md:pb-8 flex-wrap gap-3">
-        <Link href="/#work" className="flex items-center gap-2 text-zinc-400 text-xs hover:text-orange-400 transition-colors">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
-          </svg>
-          Back to work
-        </Link>
-        <div className="flex gap-2 flex-wrap justify-end">
-          {['SaaS', 'B2B', 'PowerPoint Plugin'].map(t => (
-            <Pill key={t} blue>{t}</Pill>
-          ))}
-        </div>
-      </div>
+      {/* Two-column layout */}
+      <div className="flex flex-col-reverse md:grid md:grid-cols-[1fr_1.2fr] gap-10 md:gap-16 px-8 md:px-16 lg:px-24 pt-10 md:pt-14 pb-14 md:pb-20 items-start">
 
-      {/* Row 2: Headline + description — ABOVE banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-        className="relative z-10 px-8 md:px-16 lg:px-24 pb-8 md:pb-12"
-      >
-        <p className="text-orange-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">SlideXpress · DeckUp · 2024</p>
-        <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
-          DeckUp
-        </h1>
-        <p className="text-zinc-400 text-sm max-w-2xl leading-relaxed">
-          A PowerPoint productivity plugin that reduces repetitive formatting, data visualisation, and consistency work by up to 60% — built end-to-end for consultants and strategy teams.
-        </p>
-      </motion.div>
-
-      {/* Row 3: Banner video — 16:9 */}
-      <div className="overflow-hidden aspect-video">
-        <video autoPlay muted loop playsInline className="w-full h-full object-cover block">
-          <source src="/hero-video.mp4" type="video/mp4" />
-        </video>
-      </div>
-
-      {/* Row 4: Meta — BELOW banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-        className="relative z-10 flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-6 md:py-10 border-t border-zinc-800"
-      >
-        {[
-          { label: 'Client',   value: 'SlideXpress' },
-          { label: 'Role',     value: 'Product Design Specialist' },
-          { label: 'Timeline', value: 'Ongoing' },
-          { label: 'Year',     value: '2024' },
-        ].map(m => (
-          <div key={m.label}>
-            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-1">{m.label}</p>
-            <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
+        {/* LEFT — info */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+          className="relative z-10 flex flex-col gap-5"
+        >
+          <div>
+            <p className="text-orange-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">SlideXpress · DeckUp · 2024</p>
+            <h1 className="text-white text-3xl md:text-[2.5rem] font-bold leading-tight mb-3">DeckUp</h1>
+            <p className="text-zinc-400 leading-relaxed mb-4" style={{ fontSize: '20px' }}>{cs.overview.context}</p>
           </div>
-        ))}
-      </motion.div>
+
+          {/* Impact metrics */}
+          <div className="grid grid-cols-2 gap-4 pt-2">
+            {[
+              { value: '60%', label: 'Productivity gain', sub: 'For daily power users' },
+              { value: '11',  label: 'Core problems solved', sub: 'Alignment · Tables · Diagrams' },
+            ].map(m => (
+              <div key={m.label}>
+                <p className="text-2xl font-bold mb-0.5 text-blue-400">{m.value}</p>
+                <p className="text-zinc-300 text-xs font-medium">{m.label}</p>
+                <p className="text-zinc-600 text-xs mt-0.5">{m.sub}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Meta info */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-3 border-t border-zinc-800 pt-4">
+            {[
+              { label: 'Client',   value: 'SlideXpress' },
+              { label: 'Role',     value: 'Product Design Specialist' },
+              { label: 'Timeline', value: 'Ongoing' },
+              { label: 'Year',     value: '2024' },
+            ].map(m => (
+              <div key={m.label}>
+                <p className="text-zinc-500 text-xs uppercase tracking-widest mb-0.5">{m.label}</p>
+                <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Team */}
+          <div className="border-t border-zinc-800 pt-4">
+            <p className="text-zinc-600 text-[10px] uppercase tracking-widest mb-2">Team</p>
+            <div className="flex flex-wrap gap-1.5">
+              {TEAM.map(m => m.url !== '#' ? (
+                <a key={m.name} href={m.url} target="_blank" rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-zinc-700 bg-zinc-800/50 hover:border-orange-500/50 transition-colors group">
+                  <span className="text-white text-xs font-medium">{m.name}</span>
+                  <span className="text-zinc-600 text-[10px]">·</span>
+                  <span className="text-zinc-500 text-xs">{m.role}</span>
+                  <svg className="w-2.5 h-2.5 text-zinc-600 group-hover:text-orange-400 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
+                </a>
+              ) : (
+                <div key={m.name} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-800/30">
+                  <span className="text-white text-xs font-medium">{m.name}</span>
+                  <span className="text-zinc-600 text-[10px]">·</span>
+                  <span className="text-zinc-500 text-xs">{m.role}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* RIGHT — square banner */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.15 }}
+          className="w-full aspect-[3/2] overflow-hidden rounded-2xl"
+        >
+          <img src="/case-studies/deck-up/hero-banner.png" alt="DeckUp" className="w-full h-full object-cover block" />
+        </motion.div>
+      </div>
     </section>
   )
 }
@@ -278,22 +301,6 @@ function TheIdea() {
                   ))}
                 </ul>
               </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Impact numbers */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-100 rounded-2xl overflow-hidden mb-16">
-          {[
-            { v: '60%',  l: 'Productivity gain',        s: 'For daily power users' },
-            { v: '7',    l: 'Competitors benchmarked',  s: 'Onboarding + features + pricing' },
-            { v: '4',    l: 'Platforms designed',       s: 'Website · Dashboard · Plugin · Installer' },
-            { v: '60+',  l: 'Design system components', s: 'Built from scratch in Figma' },
-          ].map(m => (
-            <div key={m.l} className="bg-white px-6 py-8">
-              <div className="text-4xl font-bold mb-1" style={{ color: BLUE }}>{m.v}</div>
-              <div className="text-zinc-700 text-sm font-medium mb-0.5">{m.l}</div>
-              <div className="text-zinc-400 text-xs">{m.s}</div>
             </div>
           ))}
         </div>
@@ -1597,38 +1604,39 @@ const TEAM = [
   { initials: 'KI', name: 'Krithika Iyer',        role: 'Visual Designer',           url: 'https://www.linkedin.com/in/krithika-iyer-596a3a1b0/' },
   { initials: 'SW', name: 'Swapnil',              role: 'UX Designer',               url: '#' },
   { initials: 'PM', name: 'Priyanka',             role: 'Project Manager',           url: 'https://www.linkedin.com/in/tatzope/' },
-  { initials: 'HJ', name: 'Harsh Jain',           role: 'Frontend Developer',        url: 'https://www.linkedin.com/in/harshjain4204/' },
+  { initials: 'HJ', name: 'Harsh Jain',           role: 'Frontend Developer',        url: 'https://www.linkedin.com/in/harsh-jain-b75967247/' },
   { initials: 'HK', name: 'Haris Kumar',          role: 'QA Engineer',               url: 'https://www.linkedin.com/in/hariskumar-p/' },
   { initials: 'NB', name: 'Naveen Ben',           role: 'Backend Engineer',          url: 'https://www.linkedin.com/in/naveen-ben/' },
   { initials: 'PJ', name: 'Ponmalar Jagannathan', role: 'Director',                  url: 'https://www.linkedin.com/in/ponmalar-jagannathan-a32566a/' },
 ]
 
 function Team() {
+  const liIcon = <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
   return (
-    <section id="team" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-24">
+    <section id="team" style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-12">
       <motion.div
         initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
       >
         <SectionLabel light>Team</SectionLabel>
-        <h2 className="text-white text-3xl md:text-4xl font-bold mb-12">
-          Who built this
-        </h2>
-
-        <div className="border border-zinc-700 rounded-2xl overflow-hidden divide-y divide-zinc-800">
-          {TEAM.map((member) => (
-            <div key={member.name} className="grid grid-cols-3 items-center px-6 py-4">
-              <p className="text-white text-sm font-medium">{member.name}</p>
-              <p className="text-zinc-500 text-sm">{member.role}</p>
-              {member.url !== '#' ? (
-                <a href={member.url} target="_blank" rel="noreferrer" className="justify-self-end flex items-center gap-1.5 text-xs border border-zinc-700 rounded-full px-3 py-1.5 text-zinc-500 hover:border-blue-500/50 hover:text-blue-400 transition-colors">
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
-                  LinkedIn
-                </a>
-              ) : (
-                <span className="justify-self-end" />
-              )}
-            </div>
-          ))}
+        <div className="flex flex-wrap gap-2">
+          {TEAM.map((member) =>
+            member.url !== '#' ? (
+              <a key={member.name} href={member.url} target="_blank" rel="noreferrer"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-zinc-700 bg-zinc-800/50 hover:border-orange-500/50 hover:bg-zinc-800 transition-colors group">
+                <span className="text-white text-xs font-medium">{member.name}</span>
+                <span className="text-zinc-600 text-[10px]">·</span>
+                <span className="text-zinc-500 text-xs">{member.role}</span>
+                <span className="text-zinc-600 group-hover:text-orange-400 transition-colors">{liIcon}</span>
+              </a>
+            ) : (
+              <div key={member.name}
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-zinc-800 bg-zinc-800/30">
+                <span className="text-white text-xs font-medium">{member.name}</span>
+                <span className="text-zinc-600 text-[10px]">·</span>
+                <span className="text-zinc-500 text-xs">{member.role}</span>
+              </div>
+            )
+          )}
         </div>
       </motion.div>
     </section>
@@ -1676,10 +1684,10 @@ function FooterCTA() {
 export default function DeckUpDetail() {
   return (
     <main className="bg-white text-zinc-900 antialiased">
+      <PasswordGate accentColor="#F97316" />
       {/* <Nav /> */}
       <StickyNav />
       <Hero />
-      <Team />
       <TheIdea />
       <Research />
       <Competitive />

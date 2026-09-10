@@ -18,7 +18,7 @@ export const researchStrategy: CaseStudy = {
     // { src: '/case-studies/research-strategy/banner.mp4', type: 'video', poster: '/case-studies/research-strategy/poster.jpg' }
     // or for an image/gif:
     // { src: '/case-studies/research-strategy/banner.gif', type: 'image' }
-    banner: { src: '/case-studies/research-strategy/step-00-banner.mp4', type: "video" },
+    banner: { src: '/case-studies/research-strategy/hero-banner.png', type: 'image' },
     headline: 'Munk Pack - UX Evaluation, brand communication & strategy',
     subline: 'Research & UX strategy for a US health snacking brand — driving 24% sales growth in 90 days.',
   },

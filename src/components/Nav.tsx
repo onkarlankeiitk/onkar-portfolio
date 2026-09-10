@@ -149,10 +149,13 @@ function LinkedInIcon({ isLight }: { isLight: boolean }) {
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [isLight, setIsLight]   = useState(true)
+  const [visible, setVisible]   = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY
+      const heroThreshold = window.innerHeight * 0.3
+      setVisible(y >= heroThreshold)
       setIsLight(y < window.innerHeight * 0.85)
     }
     onScroll()
@@ -161,6 +164,8 @@ export default function Nav() {
   }, [])
 
   const g = glassTokens(isLight)
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
   return (
     <>
@@ -179,8 +184,8 @@ export default function Nav() {
 
       <motion.div
             initial={{ y: -80, opacity: 0 }}
-            animate={{ y: 0,   opacity: 1 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            animate={{ y: visible ? 0 : -80, opacity: visible ? 1 : 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             style={{
               position: 'fixed',
               top: '16px',
@@ -190,6 +195,7 @@ export default function Nav() {
               maxWidth: '1120px',
               margin: '0 auto',
               zIndex: 50,
+              pointerEvents: visible ? 'auto' : 'none',
             }}
           >
             {/* Gradient border wrapper */}
@@ -367,6 +373,87 @@ export default function Nav() {
               </nav>
             </div>
           </motion.div>
+
+      {/* ─── Back to top glass button ─────────────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: -80 }}
+        animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -80 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        style={{
+          position: 'fixed',
+          top: '16px',
+          left: '24px',
+          zIndex: 50,
+          pointerEvents: visible ? 'auto' : 'none',
+        }}
+      >
+        {/* Gradient border wrapper — identical to nav */}
+        <div style={{
+          background: isLight
+            ? 'linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(200,196,188,0.5) 60%, rgba(255,255,255,0.6) 100%)'
+            : 'linear-gradient(145deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 60%, rgba(255,255,255,0.14) 100%)',
+          borderRadius: '9999px',
+          padding: '1px',
+          transition: 'background 0.35s ease',
+        }}>
+          <button
+            onClick={scrollToTop}
+            aria-label="Back to top"
+            style={{
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '5px',
+              padding: '13px 20px',
+              borderRadius: '9999px',
+              border: 'none',
+              backdropFilter: 'blur(48px) saturate(220%) brightness(1.04)',
+              WebkitBackdropFilter: 'blur(48px) saturate(220%) brightness(1.04)',
+              background: g.bg,
+              boxShadow: g.shadow,
+              cursor: 'pointer',
+              fontFamily: T.sans,
+              fontSize: '12px',
+              fontWeight: 500,
+              letterSpacing: '-0.01em',
+              color: g.logoColor,
+              overflow: 'hidden',
+              transition: 'background 0.35s ease, box-shadow 0.35s ease',
+            }}
+          >
+            {/* Glass gradient layer */}
+            <div aria-hidden style={{
+              position: 'absolute', inset: 0,
+              background: g.glassGradient,
+              borderRadius: '9999px',
+              pointerEvents: 'none',
+              zIndex: 0,
+              transition: 'background 0.35s ease',
+            }} />
+            {/* Iridescent shimmer layer */}
+            <div aria-hidden className="liquid-shimmer" style={{
+              position: 'absolute', inset: 0,
+              background: g.iridescence,
+              borderRadius: '9999px',
+              pointerEvents: 'none',
+              zIndex: 0,
+              transition: 'background 0.35s ease',
+            }} />
+            {/* Content */}
+            <svg
+              width="12" height="12" viewBox="0 0 12 12"
+              fill="none" stroke="currentColor"
+              strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+              style={{ position: 'relative', zIndex: 1, flexShrink: 0 }}
+            >
+              <path d="M6 10V2M2 6l4-4 4 4"/>
+            </svg>
+            <span style={{ position: 'relative', zIndex: 1 }}>Back to top</span>
+          </button>
+        </div>
+      </motion.div>
     </>
   )
 }

@@ -138,51 +138,70 @@ export default function FintechGamificationSummary() {
       {/* ── HERO ── */}
       <section className="overflow-hidden" style={{ backgroundColor: BG }}>
 
-        {/* Row 1: Back + Tags */}
-        <div className="relative z-10 flex items-center justify-between px-8 md:px-16 pt-5 pb-4">
-          <Link href="/#work" className="flex items-center gap-2 text-zinc-500 text-xs hover:text-purple-400 transition-colors">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        {/* Back arrow */}
+        <div className="relative z-10 flex items-center px-8 md:px-16 pt-3 pb-1">
+          <Link href="/#work" className="flex items-center text-zinc-500 hover:text-purple-400 transition-colors">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
             </svg>
-            Back to work
           </Link>
-          <div className="flex flex-wrap gap-2 justify-end">{cs.tags.map(t => <Tag key={t}>{t}</Tag>)}</div>
         </div>
 
-        {/* Row 2: Headline + description — ABOVE banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-          className="px-8 md:px-16 lg:px-24 pb-4"
-        >
-          <p className="text-purple-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">{cs.client}</p>
-          <h1 className="text-white text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-3">
-            {cs.hero.headline} — <span style={{ color: VIOLET }}>Rule Builder</span>
-          </h1>
-          <p className="text-zinc-400 text-sm max-w-2xl leading-relaxed">{cs.hero.subline}</p>
-        </motion.div>
+        {/* Two-column layout */}
+        <div className="flex flex-col-reverse md:grid md:grid-cols-[1fr_1.2fr] gap-10 md:gap-16 px-8 md:px-16 lg:px-24 pt-6 pb-12 md:pb-16 items-start">
 
-        {/* Row 3: Banner — 16:9 */}
-        {cs.hero.banner && (
-          <div className="overflow-hidden aspect-video">
-            <video autoPlay muted loop playsInline className="w-full h-full object-cover block">
-              <source src={cs.hero.banner.src!} />
-            </video>
-          </div>
-        )}
-
-        {/* Row 4: Meta — BELOW banner */}
-        <div className="flex flex-wrap gap-8 px-8 md:px-16 lg:px-24 py-4 border-t border-zinc-800">
-          {[
-            { label: 'Client',   value: cs.client },
-            { label: 'Role',     value: cs.role },
-            { label: 'Timeline', value: cs.timeline },
-            { label: 'Year',     value: cs.year },
-          ].map(m => (
-            <div key={m.label}>
-              <p className="text-zinc-600 text-xs uppercase tracking-widest mb-1">{m.label}</p>
-              <p className="text-zinc-300 text-sm font-medium">{m.value}</p>
+          {/* LEFT — info */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+            className="flex flex-col gap-5"
+          >
+            <div>
+              <p className="text-purple-400 text-xs tracking-[0.22em] uppercase font-medium mb-3">{cs.client}</p>
+              <h1 className="text-white text-3xl md:text-[2.5rem] font-bold leading-tight mb-3">
+                {cs.hero.headline} — <span style={{ color: VIOLET }}>Rule Builder</span>
+              </h1>
+              <p className="text-zinc-400 text-sm leading-relaxed mb-4">{cs.hero.subline}</p>
+              <div className="flex flex-wrap gap-2">{cs.tags.map(t => <Tag key={t}>{t}</Tag>)}</div>
             </div>
-          ))}
+
+            {/* Impact metrics */}
+            <div className="grid grid-cols-2 gap-4 pt-2">
+              {cs.metrics.slice(0, 2).map(m => (
+                <div key={m.label}>
+                  <p className="text-2xl font-bold mb-0.5" style={{ color: VIOLET }}>{m.value}</p>
+                  <p className="text-zinc-300 text-xs font-medium">{m.label}</p>
+                  {m.sub && <p className="text-zinc-600 text-xs mt-0.5">{m.sub}</p>}
+                </div>
+              ))}
+            </div>
+
+            {/* Meta info */}
+            <div className="grid grid-cols-2 gap-x-6 gap-y-3 border-t border-zinc-800 pt-4">
+              {[
+                { label: 'Client',   value: cs.client },
+                { label: 'Role',     value: cs.role },
+                { label: 'Timeline', value: cs.timeline },
+                { label: 'Year',     value: cs.year },
+              ].map(m => (
+                <div key={m.label}>
+                  <p className="text-zinc-600 text-xs uppercase tracking-widest mb-0.5">{m.label}</p>
+                  <p className="text-zinc-300 text-sm font-medium">{m.value}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* RIGHT — square banner */}
+          {cs.hero.banner && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.1 }}
+              className="w-full aspect-[3/2] overflow-hidden rounded-2xl"
+            >
+              <video autoPlay muted loop playsInline className="w-full h-full object-cover block">
+                <source src={cs.hero.banner.src!} />
+              </video>
+            </motion.div>
+          )}
         </div>
       </section>
 
@@ -269,19 +288,22 @@ export default function FintechGamificationSummary() {
           <p className="text-purple-600 text-xs tracking-[0.2em] uppercase font-semibold mb-3">Key Findings</p>
           <h2 className="text-zinc-900 text-2xl md:text-3xl font-bold mb-8 max-w-3xl leading-tight">What this project proved</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {cs.findings.map((f, i) => (
               <motion.div
                 key={f.num}
                 initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: i * 0.07 }}
-                whileHover={{ y: -2, transition: { duration: 0.15 } }}
-                className="bg-white border border-zinc-200 border-l-4 rounded-2xl p-5 hover:shadow-md transition-shadow cursor-default"
-                style={{ borderLeftColor: PURPLE }}
               >
-                <p className="text-purple-600 text-xs uppercase tracking-widest font-semibold mb-2">{f.num}</p>
-                <h4 className="text-zinc-900 font-semibold text-sm mb-2">{f.title}</h4>
-                <p className="text-zinc-500 text-sm leading-relaxed">{f.desc}</p>
+                <h4 className="text-zinc-900 font-semibold text-base mb-3">{f.title}</h4>
+                <motion.div
+                  whileHover={{ y: -2, transition: { duration: 0.15 } }}
+                  className="bg-white border border-zinc-200 border-l-4 rounded-2xl p-5 hover:shadow-md transition-shadow cursor-default"
+                  style={{ borderLeftColor: PURPLE }}
+                >
+                  <p className="text-purple-600 text-xs uppercase tracking-widest font-semibold mb-2">{f.num}</p>
+                  <p className="text-zinc-500 text-sm leading-relaxed">{f.desc}</p>
+                </motion.div>
               </motion.div>
             ))}
           </div>
@@ -312,16 +334,15 @@ export default function FintechGamificationSummary() {
       <section className="px-8 md:px-16 lg:px-24 py-8 bg-white border-t border-zinc-100">
         <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
           <p className="text-purple-600 text-xs tracking-[0.2em] uppercase font-semibold mb-4">Team</p>
-          <div className="border border-zinc-100 rounded-2xl overflow-hidden divide-y divide-zinc-100">
+          <div className="flex flex-wrap gap-2">
             {cs.team.map(m => (
-              <div key={m.name} className="grid grid-cols-3 items-center px-6 py-4">
-                <p className="text-zinc-800 text-sm font-medium">{m.name}</p>
-                <p className="text-zinc-400 text-sm">{m.role}</p>
-                <a href={m.url} target="_blank" rel="noreferrer" className="justify-self-end flex items-center gap-1.5 text-xs border border-zinc-200 rounded-full px-3 py-1.5 text-zinc-500 hover:border-purple-400 hover:text-purple-600 transition-colors">
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
-                  LinkedIn
-                </a>
-              </div>
+              <a key={m.name} href={m.url} target="_blank" rel="noreferrer"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-zinc-200 bg-zinc-50 hover:border-purple-300 hover:bg-purple-50 transition-colors group">
+                <span className="text-zinc-800 text-xs font-medium">{m.name}</span>
+                <span className="text-zinc-300 text-[10px]">·</span>
+                <span className="text-zinc-400 text-xs">{m.role}</span>
+                <svg className="w-3 h-3 text-zinc-300 group-hover:text-purple-400 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
+              </a>
             ))}
           </div>
         </motion.div>
