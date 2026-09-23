@@ -45,7 +45,7 @@ export const researchStrategy: CaseStudy = {
   process: [
     {
       num: 'Step 01',
-      title: 'Site audit — broad & structural',
+      title: "Key Persona's, user segmentation and Behavior mapping",
       body: 'Reviewed the full existing site for information architecture, hierarchy, navigation flow, page interlinking, and storytelling. Mapped the entire structure to identify dead-ends and content gaps before any qualitative work began.',
       tags: ['IA mapping', '14 heuristic issues found', 'Severity-rated Critical → Low'],
       image: {

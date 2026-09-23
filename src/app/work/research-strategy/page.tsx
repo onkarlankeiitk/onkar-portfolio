@@ -10,6 +10,7 @@ import { researchStrategy as cs } from '@/lib/case-studies/research-strategy'
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const DARK   = '#0B0B0B'
 const ACCENT = '#53B5B9'
+const BG     = '#F4F2EC'
 
 // ─── SCROLL PROGRESS ─────────────────────────────────────────────────────────
 
@@ -40,8 +41,8 @@ function SectionLabel({ children }: { children: React.ReactNode; light?: boolean
   )
 }
 
-function ProcessImage({ src, alt, dark = false }: {
-  src?: string | null; alt: string; aspect?: string; dark?: boolean
+function ProcessImage({ src, alt }: {
+  src?: string | null; alt: string; aspect?: string
 }) {
   if (!src) return null
   return (
@@ -107,110 +108,37 @@ function StickyNav() {
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 function Hero() {
   return (
-    <section className="overflow-hidden" style={{ backgroundColor: DARK }}>
-      {/* Subtle grid texture */}
-      <div className="absolute inset-x-0 top-0 pointer-events-none opacity-[0.03]" style={{
-        backgroundImage: `linear-gradient(${ACCENT} 1px, transparent 1px), linear-gradient(90deg, ${ACCENT} 1px, transparent 1px)`,
-        backgroundSize: '80px 80px',
-        height: '100%',
-      }} />
-
+    <section
+      className="min-h-screen flex flex-col"
+      style={{ backgroundColor: BG }}
+    >
       {/* Back arrow */}
-      <div className="relative z-10 flex items-center px-8 md:px-16 pt-3 pb-1">
-        <Link href="/#work" className="flex items-center text-zinc-400 transition-colors hover:text-orange-400">
+      <div className="flex items-center px-8 md:px-16 pt-5 pb-0 shrink-0">
+        <Link href="/#work" className="flex items-center text-zinc-500 transition-colors hover:text-orange-400">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
         </Link>
       </div>
 
-      {/* Two-column layout */}
-      <div className="flex flex-col-reverse md:grid md:grid-cols-[1fr_1.2fr] gap-10 md:gap-16 px-8 md:px-16 lg:px-24 pt-6 pb-12 md:pb-16 items-start">
+      {/* Headline */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+        className="px-8 md:px-16 lg:px-24 pt-5 pb-4 shrink-0"
+      >
+        <h1 className="text-zinc-900 font-bold leading-tight" style={{ fontSize: 'clamp(24px, 3.5vw, 42px)' }}>
+          {cs.hero.headline}
+        </h1>
+      </motion.div>
 
-        {/* LEFT — info */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-          className="relative z-10 flex flex-col gap-5"
-        >
-          <div>
-            <p className="text-xs tracking-[0.22em] uppercase font-medium mb-3" style={{ color: ACCENT }}>{cs.client}</p>
-            <h1 className="text-white font-bold leading-tight mb-4" style={{ fontSize: 'clamp(28px, 4vw, 40px)' }}>
-              {cs.hero.headline}
-            </h1>
-            <p className="text-zinc-400 leading-relaxed mb-4" style={{ fontSize: '20px' }}>
-              Munk Pack is a US-based snacking brand selling low-sugar, high-protein keto bars across 25,000+ retail stores (Kroger, Sprouts, Walmart) and online DTC. In collaboration with Commongood USA, we evaluated the existing site and delivered a research-backed redesign strategy.
-            </p>
-          </div>
-
-          {/* Impact metrics */}
-          <div className="grid grid-cols-2 gap-4 pt-2">
-            {cs.metrics.slice(0, 2).map(m => (
-              <div key={m.label}>
-                <p className="text-2xl font-bold mb-0.5" style={{ color: ACCENT }}>{m.value}</p>
-                <p className="text-zinc-300 text-xs font-medium">{m.label}</p>
-                {m.sub && <p className="text-zinc-600 text-xs mt-0.5">{m.sub}</p>}
-              </div>
-            ))}
-          </div>
-
-          {/* Meta info */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-3 border-t border-zinc-800 pt-4">
-            {[
-              { label: 'Client',   value: cs.client },
-              { label: 'Role',     value: cs.role },
-              { label: 'Timeline', value: cs.timeline },
-              { label: 'Year',     value: cs.year },
-            ].map(m => (
-              <div key={m.label}>
-                <p className="text-zinc-500 text-xs uppercase tracking-widest mb-0.5">{m.label}</p>
-                <p className="text-zinc-200 text-sm font-medium">{m.value}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Team */}
-          <div className="border-t border-zinc-800 pt-4">
-            <p className="text-zinc-600 text-[10px] uppercase tracking-widest mb-2">Team</p>
-            <div className="flex flex-wrap gap-1.5">
-              {cs.team.map(m => (
-                <a key={m.name} href={m.url} target="_blank" rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-zinc-700 bg-zinc-800/50 hover:border-zinc-500 transition-colors group">
-                  <span className="text-white text-xs font-medium">{m.name}</span>
-                  <span className="text-zinc-600 text-[10px]">·</span>
-                  <span className="text-zinc-500 text-xs">{m.role}</span>
-                  <svg className="w-2.5 h-2.5 text-zinc-600 group-hover:text-zinc-300 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
-                </a>
-              ))}
-            </div>
-          </div>
-
-        </motion.div>
-
-        {/* RIGHT — square banner */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.1 }}
-          className="w-full aspect-[3/2] overflow-hidden rounded-2xl bg-zinc-900"
-        >
-          {cs.hero.banner && (
-            cs.hero.banner.type === 'video' ? (
-              <video autoPlay muted loop playsInline className="w-full h-full object-cover block">
-                <source src={cs.hero.banner.src!} type="video/mp4" />
-              </video>
-            ) : (
-              <img src={cs.hero.banner.src!} alt={cs.hero.headline} className="w-full h-full object-cover block" />
-            )
-          )}
-        </motion.div>
-      </div>
-
-      {/* NDA notice — full width */}
-      <div className="relative z-10 flex items-center justify-center gap-2.5 px-8 py-3"
-        style={{ background: `${ACCENT}18`, borderTop: `1px solid ${ACCENT}30` }}>
-        <span style={{ color: ACCENT }} className="text-sm">⚠</span>
-        <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: ACCENT }}>
-          Sharing only snippets as per NDA
-        </p>
-      </div>
+      {/* 16:7 Banner placeholder */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+        className="mx-8 md:mx-16 lg:mx-24 mb-6 overflow-hidden rounded-2xl flex items-center justify-center"
+        style={{ aspectRatio: '16/8', backgroundColor: '#E2DFDA' }}
+      >
+        <p className="text-zinc-400 text-sm tracking-widest uppercase">Banner image</p>
+      </motion.div>
     </section>
   )
 }
@@ -218,7 +146,7 @@ function Hero() {
 // ─── PAGE ─────────────────────────────────────────────────────────────────────
 export default function ResearchStrategyPage() {
   return (
-    <main className="bg-white">
+    <main style={{ backgroundColor: BG, fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
       <PasswordGate accentColor="#53B5B9" />
       <ScrollProgress />
       {/* <Nav /> */}
@@ -227,104 +155,266 @@ export default function ResearchStrategyPage() {
       <Hero />
 
       {/* ══════════════════════════════════════════════════════
-          OVERVIEW
+          CONTEXT + PROBLEM
       ══════════════════════════════════════════════════════ */}
-      <section id="overview" className="px-8 md:px-16 lg:px-24 py-12 bg-white">
-        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
-
-          <SectionLabel light>01 — Overview</SectionLabel>
-          <h2 className="text-zinc-900 font-bold mb-8 leading-tight max-w-3xl" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>
-            {cs.title}
-          </h2>
-
-          {/* Context / Problem / Solution */}
-          <div className="grid md:grid-cols-3 border border-zinc-200 rounded-2xl overflow-hidden mb-10">
-            {[
-              { head: 'Context',  body: cs.overview.context },
-              { head: 'Problem',  body: cs.overview.problem },
-              { head: cs.overview.directionLabel ?? 'Solution', body: cs.overview.direction },
-            ].map((col, i, arr) => (
-              <div key={col.head} className={`p-6 ${i < arr.length - 1 ? 'border-b md:border-b-0 md:border-r border-zinc-200' : ''}`}>
-                <p className="text-xs uppercase tracking-widest text-zinc-400 mb-2">{col.head}</p>
-                <p className="text-zinc-700 text-sm leading-relaxed">{col.body}</p>
-              </div>
-            ))}
+      <section className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24"
+        >
+          <div>
+            <h2 className="text-zinc-900 font-bold mb-6" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>Context</h2>
+            <p className="text-zinc-800 font-medium leading-relaxed" style={{ fontSize: '20px' }}>
+              {'Munk Pack is a US-based snacking company specializing in '}
+                <span style={{ backgroundColor: '#FDE68A', borderRadius: '2px', padding: '0 2px' }}>healthy, convenient, and delicious snack bars.</span>
+                {' Their products are designed for health-conscious consumers seeking '}
+                <span style={{ backgroundColor: '#FDE68A', borderRadius: '2px', padding: '0 2px' }}>high-protein, low-sugar, and keto-friendly options.</span>
+                {' The brand emphasizes '}
+                <span style={{ backgroundColor: '#FDE68A', borderRadius: '2px', padding: '0 2px' }}>clean ingredients, great taste, and on-the-go nutrition,</span>
+                {' making their bars ideal for busy professionals, fitness enthusiasts, and anyone looking for a guilt-free snack.'}
+            </p>
           </div>
-
-          {/* Metrics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-200 rounded-2xl overflow-hidden">
-            {cs.metrics.map(m => (
-              <div key={m.label} className="bg-white p-6">
-                <div className="font-bold mb-1 leading-none" style={{ fontSize: 'clamp(26px, 3vw, 42px)', color: ACCENT }}>
-                  {m.value}
-                </div>
-                <div className="text-zinc-800 text-sm font-medium mb-0.5">{m.label}</div>
-                {m.sub && <div className="text-zinc-400 text-xs">{m.sub}</div>}
-              </div>
-            ))}
+          <div>
+            <h2 className="text-zinc-900 font-bold mb-6" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>Problem</h2>
+            <p className="text-zinc-800 font-medium leading-relaxed" style={{ fontSize: '20px' }}>
+              {'Growth stagnation. Munk Pack was '}
+                <span style={{ backgroundColor: '#FDE68A', borderRadius: '2px', padding: '0 2px' }}>not able to connect their product offerings to its audience,</span>
+                {' as primary audience, was '}
+                <span style={{ backgroundColor: '#FDE68A', borderRadius: '2px', padding: '0 2px' }}>never mapped precisely.</span>
+                {" People couldn't connect with stories they tell, drop offs were high and thus low conversion rates."}
+            </p>
           </div>
-
         </motion.div>
+      </section>
+
+      {/* Statement strip */}
+      <div className="px-8 md:px-16 lg:px-24 py-8">
+      <div className="relative overflow-hidden px-8 md:px-16 lg:px-24 py-16 rounded-2xl" style={{ backgroundColor: '#D4A017' }}>
+        {/* Noise overlay */}
+        <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.45, pointerEvents: 'none' }}>
+          <filter id="noise">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#noise)" />
+        </svg>
+        <motion.h2
+          initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
+          className="relative text-zinc-900 font-bold leading-snug w-full"
+          style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}
+        >
+          "Munk Pack's storytelling wasn't convincing enough despite having built good product range"
+        </motion.h2>
+      </div>
+      </div>
+
+      {/* ══════════════════════════════════════════════════════
+          OVERVIEW (Role + Team + Impact)
+      ══════════════════════════════════════════════════════ */}
+      <section id="overview" className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
+
+        <h2 className="text-zinc-900 font-bold mb-14" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>Overview</h2>
+
+        {/* My Role + Team */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 mb-20"
+        >
+          <div>
+            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: ACCENT }}>My Role</p>
+            <p className="text-zinc-800 font-medium leading-snug" style={{ fontSize: 'clamp(20px, 2.2vw, 28px)' }}>
+              Senior Ux'er & project lead: Led the research and strategy in collaboration with Commongood USA, running heuristic evaluation, competitive benchmarking, user segmentation & behavior mapping, IA redesign, wireframes and visual design. 
+            </p>
+          </div>
+
+          <div>
+            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: ACCENT }}>Team</p>
+            <div className="flex flex-col gap-4">
+              {cs.team.map(m => (
+                <a key={m.name} href={m.url} target="_blank" rel="noreferrer" className="group flex items-center justify-between border-b border-zinc-200 pb-4 last:border-0 last:pb-0">
+                  <div>
+                    <p className="text-zinc-900 font-semibold" style={{ fontSize: 'clamp(16px, 1.5vw, 20px)' }}>{m.name}</p>
+                    <p className="text-zinc-400 text-sm mt-0.5">{m.role}</p>
+                  </div>
+                  <svg className="w-4 h-4 text-zinc-300 group-hover:text-zinc-500 transition-colors shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
+                </a>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Quantitative */}
+        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="mb-20">
+          <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>Impact — Quantitative</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-14">
+            {cs.metrics.slice(0, -1).map(m => (
+              <div key={m.label}>
+                <p className="font-bold leading-none mb-3 text-zinc-800" style={{ fontSize: 'clamp(48px, 6vw, 80px)' }}>{m.value}</p>
+                <p className="text-zinc-800 font-medium text-base mb-1">{m.label}</p>
+                {m.sub && <p className="text-zinc-400 text-sm">{m.sub}</p>}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Qualitative */}
+        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+          <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>Impact — Qualitative</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+            {[
+              'Shifted site communication from transactional product listing to lifestyle storytelling — giving the 1g sugar USP a clear visual and content home.',
+              'Every artifact — heuristic audit, competitive matrix, journey maps — was structured so Commongood\'s design team could act on it without additional briefing.',
+              'The Net Carbs Calculator and Store Locator were buried; we re-architected the IA to give both tools prominent, discoverable entry points.',
+              'Established a clean separation between research deliverables and design execution — a reusable workflow for multi-agency engagements.',
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.06 }}
+              >
+                <div className="flex items-start gap-3">
+                  <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 self-center" />
+                  <p className="text-zinc-500 leading-relaxed" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)' }}>{item}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Collaboration Partner */}
+        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="mt-36">
+          <h2 className="text-zinc-900 font-bold mb-6" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>Collaboration Partner</h2>
+          <img
+            src="/case-studies/research-strategy/commongood.png"
+            alt="Commongood — Collaboration Partner"
+            className="w-full h-auto block mb-6"
+          />
+          <p className="text-zinc-500 text-sm mb-3">Important links:</p>
+          <div className="flex gap-3">
+            <a
+              href="https://www.commongood.co/work/munk-pack/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-12 px-5 py-2.5 rounded-lg border border-zinc-300 text-zinc-700 font-bold hover:border-zinc-600 hover:text-zinc-900 transition-all underline underline-offset-2" style={{ fontSize: '18px' }}
+            >
+              Commongood work
+              <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </a>
+            <a
+              href="https://munkpack.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-12 px-5 py-2.5 rounded-lg border border-zinc-300 text-zinc-700 font-bold hover:border-zinc-600 hover:text-zinc-900 transition-all underline underline-offset-2" style={{ fontSize: '18px' }}
+            >
+              Munk Pack site
+              <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </a>
+          </div>
+        </motion.div>
+
+        {/* How we solved it */}
+        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="mt-20">
+          <h2 className="text-zinc-900 font-bold mb-10" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>How we solved it?</h2>
+
+          {/* Category 1: How we solved it */}
+          <div className="mb-12">
+            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: ACCENT }}>How we solved it?</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8">
+              {[
+                { num: '01', body: 'Conducted a 14-point heuristic evaluation of the existing site, rating every issue from critical to low severity to establish a clear priority order for redesign.' },
+                { num: '02', body: 'Benchmarked 6 competitor brands — Kind, Magic Spoon, GoMacro, IQ Bar, Ratio, and High Key — across 17 UX parameters to identify gaps and opportunities.' },
+                { num: '03', body: 'Mapped 4 user segments (kids, students, working adults, seniors) with distinct journeys, frustrations, and entry points to anchor the IA in real behaviour.' },
+                { num: '04', body: 'Redesigned the full information architecture with circular navigation, a single filterable shop, and surfaced high-value tools — Net Carbs Calculator and Store Locator.' },
+                { num: '05', body: 'Delivered Figma wireframes for all 10 pages, each annotated for direct handoff to the visual design team without additional interpretation.' },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.num}
+                  initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.06 }}
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 self-center" />
+                    <p className="text-zinc-600 leading-relaxed" style={{ fontSize: '20px' }}>{item.body}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Category 2: Constraints */}
+          <div>
+            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: ACCENT }}>Constraints</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8">
+              {[
+                { num: '01', body: 'Placeholder constraint 1 — to be filled in.' },
+                { num: '02', body: 'Placeholder constraint 2 — to be filled in.' },
+                { num: '03', body: 'Placeholder constraint 3 — to be filled in.' },
+                { num: '04', body: 'Placeholder constraint 4 — to be filled in.' },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.num}
+                  initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.06 }}
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 self-center" />
+                    <p className="text-zinc-600 leading-relaxed" style={{ fontSize: '20px' }}>{item.body}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
       </section>
 
       {/* ══════════════════════════════════════════════════════
           PROCESS STEPS
       ══════════════════════════════════════════════════════ */}
-      {cs.process.map((step, i) => {
-        const isDark = i % 2 === 1
-        const isLeft = step.imagePosition === 'left'
-        const sectionNum = String(i + 2).padStart(2, '0')
-        return (
-          <>
-            <section
-              key={step.num}
-              id={`step-${i}`}
-              className={`px-8 md:px-16 lg:px-24 py-12 ${isDark ? 'bg-zinc-950' : 'bg-zinc-50'}`}
-            >
-              <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+      {cs.process.map((step, i) => (
+        <section
+          key={step.num}
+          id={`step-${i}`}
+          className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200"
+        >
+          <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
-                <SectionLabel light={!isDark}>{sectionNum} — {step.num}</SectionLabel>
+            <p className="text-zinc-300 font-normal mb-2" style={{ fontSize: 'clamp(37px, 4.12vw, 56px)' }}>{step.num.replace(/^Step\s*/i, '')}/</p>
+            <h2 className="text-zinc-900 font-bold leading-snug mb-5" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>
+              {step.title}
+            </h2>
 
-                <div className="border-l-2 pl-6" style={{ borderColor: `${ACCENT}40` }}>
-                  <h3 className={`font-bold mb-3 leading-tight ${isDark ? 'text-white' : 'text-zinc-900'}`} style={{ fontSize: 'clamp(18px, 2.2vw, 26px)' }}>
-                    {step.title}
-                  </h3>
-                  <p className={`text-sm leading-relaxed mb-5 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                    {step.body}
-                  </p>
-                  {step.tags && step.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-5">
-                      {step.tags.map(tag => (
-                        <span
-                          key={tag}
-                          className={`text-xs px-3 py-1 rounded-full border font-medium ${
-                            isDark
-                              ? 'border-zinc-700 text-zinc-400 bg-zinc-800/60'
-                              : 'border-zinc-200 text-zinc-500 bg-white'
-                          }`}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  {step.image.src && (
-                    <ProcessImage src={step.image.src} alt={step.image.alt} aspect={step.image.aspect} dark={isDark} />
-                  )}
-                </div>
+            <p className="text-zinc-500 leading-relaxed mb-8 max-w-2xl" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)' }}>
+              {step.body}
+            </p>
 
-              </motion.div>
-            </section>
-
-            {/* Strategy overview banner — inserted before Step 04 (last step) */}
-            {i === cs.process.length - 2 && cs.processMidBanner?.src && (
-              <div className="w-full overflow-hidden">
-                <img src={cs.processMidBanner.src} alt={cs.processMidBanner.alt} className="w-full h-auto block" />
+            {step.tags && step.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-8">
+                {step.tags.map(tag => (
+                  <span key={tag} className="text-xs px-3 py-1 rounded-full border border-zinc-300 text-zinc-500">
+                    {tag}
+                  </span>
+                ))}
               </div>
             )}
-          </>
-        )
-      })}
+
+            {step.image.src && (
+              <ProcessImage src={step.image.src} alt={step.image.alt} aspect={step.image.aspect} />
+            )}
+
+          </motion.div>
+
+          {i === cs.process.length - 2 && cs.processMidBanner?.src && (
+            <div className="w-full overflow-hidden mt-12 -mx-0 rounded-2xl">
+              <img src={cs.processMidBanner.src} alt={cs.processMidBanner.alt} className="w-full h-auto block" />
+            </div>
+          )}
+        </section>
+      ))}
 
       {cs.preFindingsBanner?.src && (
         <div className="w-full overflow-hidden">
@@ -335,30 +425,20 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           FINDINGS
       ══════════════════════════════════════════════════════ */}
-      <section id="findings" className="px-8 md:px-16 lg:px-24 py-12 bg-white">
-        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+      <section id="findings" className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
+        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
-          <SectionLabel light>06 — Key Findings</SectionLabel>
-          <h2 className="text-zinc-900 font-bold mb-8 leading-tight" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>
-            What the research surfaced
-          </h2>
+          <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>Key Findings</p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
             {cs.findings.map((f, i) => (
               <motion.div
                 key={f.num}
                 initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.07 }}
+                viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.06 }}
               >
-                <h4 className="text-zinc-900 text-base font-semibold mb-3 leading-snug">{f.title}</h4>
-                <motion.div
-                  whileHover={{ y: -2, transition: { duration: 0.15 } }}
-                  className="border border-zinc-100 rounded-2xl p-5 hover:shadow-md transition-shadow cursor-default"
-                  style={{ borderLeft: `3px solid ${ACCENT}` }}
-                >
-                  <p className="text-xs uppercase tracking-widest text-zinc-400 mb-2">{f.num}</p>
-                  <p className="text-zinc-500 text-sm leading-relaxed">{f.desc}</p>
-                </motion.div>
+                <h4 className="text-zinc-900 font-semibold leading-snug mb-3" style={{ fontSize: 'clamp(18px, 1.8vw, 22px)' }}>{f.title}</h4>
+                <p className="text-zinc-400 leading-relaxed" style={{ fontSize: 'clamp(14px, 1.2vw, 16px)' }}>{f.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -375,20 +455,17 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           REFLECTION
       ══════════════════════════════════════════════════════ */}
-      <section id="reflect" className="px-8 md:px-16 lg:px-24 py-12 bg-zinc-950">
-        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+      <section id="reflect" className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
+        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
 
-          <SectionLabel>07 — {cs.conclusion.heading}</SectionLabel>
-          <h2 className="text-white font-bold mb-8 leading-tight" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>
-            Learnings & Reflections
-          </h2>
+          <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>{cs.conclusion.heading}</p>
 
-          <div className="max-w-3xl flex flex-col gap-5">
+          <div className="max-w-3xl flex flex-col gap-8">
             {cs.conclusion.paragraphs.map((p, i) => (
               <p
                 key={i}
-                className={`leading-relaxed ${i === 0 ? 'text-zinc-200 text-base border-l-2 pl-5' : 'text-zinc-500 text-sm'}`}
-                style={i === 0 ? { borderColor: ACCENT } : {}}
+                className="text-zinc-700 leading-relaxed"
+                style={{ fontSize: i === 0 ? 'clamp(18px, 1.8vw, 24px)' : 'clamp(15px, 1.4vw, 17px)' }}
               >
                 {p}
               </p>
@@ -401,24 +478,22 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           FOOTER / CTA
       ══════════════════════════════════════════════════════ */}
-      <section style={{ backgroundColor: DARK }} className="px-8 md:px-16 lg:px-24 py-16 border-t border-zinc-800">
+      <section className="px-8 md:px-16 lg:px-24 py-16 border-t border-zinc-300">
         <motion.div
           initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
-          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10"
+          className="flex flex-col md:flex-row items-start md:items-end justify-between gap-10"
         >
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] font-medium mb-3" style={{ color: ACCENT }}>
-              {cs.client}
-            </p>
-            <h2 className="text-white text-2xl md:text-3xl font-bold leading-tight">
+            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-4" style={{ color: ACCENT }}>{cs.client}</p>
+            <h2 className="text-zinc-900 font-bold leading-tight" style={{ fontSize: 'clamp(24px, 3vw, 40px)' }}>
               Onkar Lanke<br />
-              <span className="text-zinc-500">{cs.role}</span>
+              <span className="text-zinc-400 font-normal">{cs.role}</span>
             </h2>
           </div>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <Link
               href="/#work"
-              className="inline-flex items-center gap-3 border border-zinc-700 text-zinc-300 px-8 py-4 rounded-full text-sm font-medium hover:border-zinc-500 hover:text-white transition-all no-underline"
+              className="inline-flex items-center gap-2 border border-zinc-400 text-zinc-600 px-6 py-3 rounded-full text-sm font-medium hover:border-zinc-700 hover:text-zinc-900 transition-all no-underline"
             >
               ← Back to all work
             </Link>
@@ -426,7 +501,7 @@ export default function ResearchStrategyPage() {
               href="https://www.linkedin.com/in/onkarlanke/"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-3 text-white px-8 py-4 rounded-full text-sm font-semibold transition-all no-underline"
+              className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-full text-sm font-semibold transition-all no-underline"
               style={{ backgroundColor: ACCENT }}
             >
               Connect on LinkedIn →
