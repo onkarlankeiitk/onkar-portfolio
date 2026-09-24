@@ -1072,7 +1072,7 @@ function HeroSection() {
                 src="/hero-figure.png"
                 alt=""
                 aria-hidden
-                style={{ width: '100%', display: 'block', transform: 'scaleX(-1)' }}
+                style={{ width: '100%', display: 'none', transform: 'scale(1) translateY(0px)', filter: 'grayscale(100%)' }}
               />
             </motion.div>
           )}
@@ -2926,11 +2926,9 @@ export default function Home() {
         ═══════════════════════════════════════════════════════════════════ */}
         <ExperienceTimeline />
 
-        {/* TEMPORARILY HIDDEN — Industrial Design Photo Grid */}
-        {/* <IndustrialSection /> */}
+        <IndustrialSection />
 
-        {/* TEMPORARILY HIDDEN — Beyond Pixels / Arch + Industrial section */}
-        {/* <ArchSection /> */}
+        <ArchSection />
 
         {/* ═══════════════════════════════════════════════════════════════════
             DOODLES — just above footer

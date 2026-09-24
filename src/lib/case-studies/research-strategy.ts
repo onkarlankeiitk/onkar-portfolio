@@ -46,8 +46,12 @@ export const researchStrategy: CaseStudy = {
     {
       num: 'Step 01',
       title: "Key Persona's, user segmentation and Behavior mapping",
-      body: 'Reviewed the full existing site for information architecture, hierarchy, navigation flow, page interlinking, and storytelling. Mapped the entire structure to identify dead-ends and content gaps before any qualitative work began.',
-      tags: ['IA mapping', '14 heuristic issues found', 'Severity-rated Critical → Low'],
+      body: '',
+      bodyPoints: [
+        'We mapped the user\'s key personas, their lifestyle & habits, use cases in order to understand how the products serve them and in what contexts.',
+        'We found primary decision makers who are responsible for final decisions.',
+      ],
+      tags: [],
       image: {
         src: '/case-studies/research-strategy/step-01-research.png', // replace with: '/case-studies/research-strategy/site-audit.png'
         alt: 'Original site audit diagram',
@@ -58,11 +62,45 @@ export const researchStrategy: CaseStudy = {
     },
     {
       num: 'Step 02',
+      title: 'User Journey/Customer acquisition',
+      body: '',
+      bodyPoints: [
+        'Physical stores nearby are an important factor in customer acquisition to build trust, even if they are buying online. Hybrid journeys are more common.',
+        'People like to try sample packs consisting variety of products before committing to a single one or their favourite 1 or 2 packs.',
+        'Closed social circles like gym-goers, athletes, or fitness influencers have more impact during the product research phase.',
+      ],
+      tags: [],
+      image: {
+        src: '/case-studies/research-strategy/step-02-journey.png',
+        alt: 'User journey and product acquisition pipeline',
+        hint: 'Add user journey / pipeline diagram here',
+        aspect: 'aspect-[16/7]',
+      },
+      imagePosition: 'right',
+    },
+    {
+      num: 'Step 03',
+      title: 'Competition mapping: 6 brands across 17 parameters',
+      body: '',
+      bodyPoints: [],
+      tags: [],
+      image: {
+        src: '/case-studies/research-strategy/step-03-competition.png',
+        alt: 'Competition mapping — 6 brands across 17 parameters',
+        hint: 'Add competitive mapping diagram or table here',
+        aspect: 'aspect-[16/7]',
+      },
+      imagePosition: 'right',
+    },
+
+    // ─── reference: old step 03 ────────────────────────────────────────────────
+    {
+      num: 'Step 04',
       title: 'Competitive analysis — 6 brands, 17 parameters',
       body: 'Benchmarked Kind, Magic Spoon, GoMacro, IQ Bar, Ratio, and High Key across 17 parameters jointly defined with Commongood — covering content hierarchy, navigation, social proof, lead gen, storytelling, filters, and mobile.',
       tags: ['Kind & Magic Spoon lead on lifestyle storytelling', 'Munk Pack\'s 1g sugar is an edge the site wasn\'t using'],
       image: {
-        src: '/case-studies/research-strategy/step-02-competitive.png', // replace with: '/case-studies/research-strategy/competitive.png'
+        src: '/case-studies/research-strategy/step-02-competitive.png',
         alt: 'Competitive analysis table',
         hint: 'Replace with your competitive analysis spreadsheet or benchmarking slide from Phase I PDF',
         aspect: 'aspect-[4/3]',
@@ -70,7 +108,7 @@ export const researchStrategy: CaseStudy = {
       imagePosition: 'left',
     },
     {
-      num: 'Step 03',
+      num: 'Step 05',
       title: 'User segmentation & journey mapping',
       body: 'Mapped 4 audience segments — kids, students, working adults, seniors — each with distinct context, frustrations, and use-cases. Built customer journey flows identifying the drop-off point where most users were leaving.',
       tags: ['Students 15–28', 'Working Adults 25–55', 'Seniors 60+', 'Kids (parents decide)'],
@@ -83,12 +121,12 @@ export const researchStrategy: CaseStudy = {
       imagePosition: 'right',
     },
     {
-      num: 'Step 04',
+      num: 'Step 06',
       title: 'IA redesign & Figma wireframes',
       body: 'Delivered a full IA overhaul and Figma wireframes for all 10 pages — homepage, shop, product detail, learn/nutrition (with Allulose explainer + Net Carbs Calculator), rewards, about, contact, store locator, blog, and legal.',
       tags: ['Circular navigation', 'Single filterable shop', 'Subscribe & Save', 'Net Carbs Calculator surfaced', 'Lifestyle content per segment'],
       image: {
-        src: '/case-studies/research-strategy/step-04-comms.png', // replace with: '/case-studies/research-strategy/wireframes.png'
+        src: '/case-studies/research-strategy/step-04-comms.png',
         alt: 'Figma wireframes — all 10 pages',
         hint: 'Replace with a full Figma canvas screenshot showing all page wireframes tiled together',
         aspect: 'aspect-[5.5/3]',

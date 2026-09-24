@@ -47,8 +47,10 @@ function ProcessImage({ src, alt }: {
   if (!src) return null
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }} transition={{ duration: 0.4 }}
+      initial={{ opacity: 0, y: 32, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
       className="w-full rounded-2xl overflow-hidden shadow-sm"
     >
       <img src={src} alt={alt} className="w-full h-auto block" />
@@ -59,10 +61,12 @@ function ProcessImage({ src, alt }: {
 // ─── STICKY SIDE NAV ──────────────────────────────────────────────────────────
 const NAV_ITEMS = [
   { id: 'overview',     label: 'Overview'      },
-  { id: 'step-0',       label: 'Site Audit'    },
-  { id: 'step-1',       label: 'Competitive'   },
-  { id: 'step-2',       label: 'Segmentation'  },
-  { id: 'step-3',       label: 'IA & Wires'    },
+  { id: 'step-0',       label: 'Personas'      },
+  { id: 'step-1',       label: 'User Journey'  },
+  { id: 'step-2',       label: 'Competition'   },
+  { id: 'step-3',       label: 'Competitive'   },
+  { id: 'step-4',       label: 'Segmentation'  },
+  { id: 'step-5',       label: 'IA & Wires'    },
   { id: 'findings',     label: 'Findings'      },
   { id: 'reflect',      label: 'Reflection'    },
   { id: 'team',         label: 'Team'          },
@@ -123,7 +127,7 @@ function Hero() {
 
       {/* Headline */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+        initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="px-8 md:px-16 lg:px-24 pt-5 pb-4 shrink-0"
       >
         <h1 className="text-zinc-900 font-bold leading-tight" style={{ fontSize: 'clamp(24px, 3.5vw, 42px)' }}>
@@ -133,7 +137,7 @@ function Hero() {
 
       {/* 16:7 Banner placeholder */}
       <motion.div
-        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+        initial={{ opacity: 0, y: 40, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.85, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         className="mx-8 md:mx-16 lg:mx-24 mb-6 overflow-hidden rounded-2xl flex items-center justify-center"
         style={{ aspectRatio: '16/8', backgroundColor: '#E2DFDA' }}
       >
@@ -157,9 +161,11 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           CONTEXT + PROBLEM
       ══════════════════════════════════════════════════════ */}
-      <section className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
+      <motion.section
+        initial={{ opacity: 0, y: 70, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.05 }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+        className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200"
+      >
+        <div
           className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24"
         >
           <div>
@@ -184,8 +190,8 @@ export default function ResearchStrategyPage() {
                 {" People couldn't connect with stories they tell, drop offs were high and thus low conversion rates."}
             </p>
           </div>
-        </motion.div>
-      </section>
+        </div>
+      </motion.section>
 
       {/* Statement strip */}
       <div className="px-8 md:px-16 lg:px-24 py-8">
@@ -199,7 +205,7 @@ export default function ResearchStrategyPage() {
           <rect width="100%" height="100%" filter="url(#noise)" />
         </svg>
         <motion.h2
-          initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
+          initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="relative text-zinc-900 font-bold leading-snug w-full"
           style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}
         >
@@ -211,13 +217,13 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           OVERVIEW (Role + Team + Impact)
       ══════════════════════════════════════════════════════ */}
-      <section id="overview" className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
+      <motion.section id="overview" initial={{ opacity: 0, y: 70, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.05 }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }} className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
 
         <h2 className="text-zinc-900 font-bold mb-14" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>Overview</h2>
 
         {/* My Role + Team */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
+          initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 mb-20"
         >
           <div>
@@ -244,7 +250,7 @@ export default function ResearchStrategyPage() {
         </motion.div>
 
         {/* Quantitative */}
-        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="mb-20">
+        <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} className="mb-20">
           <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>Impact — Quantitative</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-14">
             {cs.metrics.slice(0, -1).map(m => (
@@ -258,23 +264,23 @@ export default function ResearchStrategyPage() {
         </motion.div>
 
         {/* Qualitative */}
-        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+        <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
           <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>Impact — Qualitative</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
             {[
-              'Shifted site communication from transactional product listing to lifestyle storytelling — giving the 1g sugar USP a clear visual and content home.',
-              'Every artifact — heuristic audit, competitive matrix, journey maps — was structured so Commongood\'s design team could act on it without additional briefing.',
-              'The Net Carbs Calculator and Store Locator were buried; we re-architected the IA to give both tools prominent, discoverable entry points.',
-              'Established a clean separation between research deliverables and design execution — a reusable workflow for multi-agency engagements.',
+              'Shifted communication from product listing to lifestyle storytelling.',
+              'Every artifact structured for immediate handoff — no additional briefing needed.',
+              'Re-architected IA to surface the buried Net Carbs Calculator and Store Locator.',
+              'Clean research-to-design handoff workflow for multi-agency engagements.',
             ].map((item, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.06 }}
+                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: i * 0.09 }}
               >
                 <div className="flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 self-center" />
-                  <p className="text-zinc-500 leading-relaxed" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)' }}>{item}</p>
+                  <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 mt-[12px]" />
+                  <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '16px', fontWeight: 500 }}>{item}</p>
                 </div>
               </motion.div>
             ))}
@@ -282,7 +288,7 @@ export default function ResearchStrategyPage() {
         </motion.div>
 
         {/* Collaboration Partner */}
-        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="mt-36">
+        <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} className="mt-36">
           <h2 className="text-zinc-900 font-bold mb-6" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>Collaboration Partner</h2>
           <img
             src="/case-studies/research-strategy/commongood.png"
@@ -317,7 +323,7 @@ export default function ResearchStrategyPage() {
         </motion.div>
 
         {/* How we solved it */}
-        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="mt-20">
+        <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} className="mt-20">
           <h2 className="text-zinc-900 font-bold mb-10" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>How we solved it?</h2>
 
           {/* Category 1: How we solved it */}
@@ -325,11 +331,11 @@ export default function ResearchStrategyPage() {
             <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: ACCENT }}>How we solved it?</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8">
               {[
-                { num: '01', body: 'Conducted a 14-point heuristic evaluation of the existing site, rating every issue from critical to low severity to establish a clear priority order for redesign.' },
-                { num: '02', body: 'Benchmarked 6 competitor brands — Kind, Magic Spoon, GoMacro, IQ Bar, Ratio, and High Key — across 17 UX parameters to identify gaps and opportunities.' },
-                { num: '03', body: 'Mapped 4 user segments (kids, students, working adults, seniors) with distinct journeys, frustrations, and entry points to anchor the IA in real behaviour.' },
-                { num: '04', body: 'Redesigned the full information architecture with circular navigation, a single filterable shop, and surfaced high-value tools — Net Carbs Calculator and Store Locator.' },
-                { num: '05', body: 'Delivered Figma wireframes for all 10 pages, each annotated for direct handoff to the visual design team without additional interpretation.' },
+                { num: '01', body: '14-point heuristic evaluation — every issue severity-rated Critical → Low.' },
+                { num: '02', body: 'Benchmarked 6 brands across 17 UX parameters — Kind, Magic Spoon, GoMacro, IQ Bar, Ratio, High Key.' },
+                { num: '03', body: 'Mapped 4 user segments — kids, students, working adults, seniors — with distinct journeys and entry points.' },
+                { num: '04', body: 'Full IA overhaul — circular navigation, single filterable shop, surfaced Net Carbs Calculator and Store Locator.' },
+                { num: '05', body: 'Figma wireframes for all 10 pages, annotated for direct design team handoff.' },
               ].map((item, i) => (
                 <motion.div
                   key={item.num}
@@ -337,8 +343,8 @@ export default function ResearchStrategyPage() {
                   viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.06 }}
                 >
                   <div className="flex items-start gap-3">
-                    <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 self-center" />
-                    <p className="text-zinc-600 leading-relaxed" style={{ fontSize: '20px' }}>{item.body}</p>
+                    <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 mt-[12px]" />
+                    <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '16px', fontWeight: 500 }}>{item.body}</p>
                   </div>
                 </motion.div>
               ))}
@@ -361,8 +367,8 @@ export default function ResearchStrategyPage() {
                   viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.06 }}
                 >
                   <div className="flex items-start gap-3">
-                    <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 self-center" />
-                    <p className="text-zinc-600 leading-relaxed" style={{ fontSize: '20px' }}>{item.body}</p>
+                    <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 mt-[12px]" />
+                    <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '16px', fontWeight: 500 }}>{item.body}</p>
                   </div>
                 </motion.div>
               ))}
@@ -370,27 +376,39 @@ export default function ResearchStrategyPage() {
           </div>
         </motion.div>
 
-      </section>
+      </motion.section>
 
       {/* ══════════════════════════════════════════════════════
           PROCESS STEPS
       ══════════════════════════════════════════════════════ */}
       {cs.process.map((step, i) => (
-        <section
+        <motion.section
           key={step.num}
           id={`step-${i}`}
           className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200"
+          initial={{ opacity: 0, y: 70, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.05 }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
         >
-          <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+          <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
 
             <p className="text-zinc-300 font-normal mb-2" style={{ fontSize: 'clamp(37px, 4.12vw, 56px)' }}>{step.num.replace(/^Step\s*/i, '')}/</p>
             <h2 className="text-zinc-900 font-bold leading-snug mb-5" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>
               {step.title}
             </h2>
 
-            <p className="text-zinc-500 leading-relaxed mb-8 max-w-2xl" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)' }}>
-              {step.body}
-            </p>
+            {step.bodyPoints && step.bodyPoints.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4 mb-8">
+                {step.bodyPoints.map((pt, pi) => (
+                  <div key={pi} className="flex items-start gap-3">
+                    <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 mt-[11px]" />
+                    <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '18px', fontWeight: 400 }}>{pt}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-zinc-800 leading-relaxed mb-8 max-w-2xl" style={{ fontSize: '18px', fontWeight: 400 }}>
+                {step.body}
+              </p>
+            )}
 
             {step.tags && step.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-8">
@@ -413,7 +431,7 @@ export default function ResearchStrategyPage() {
               <img src={cs.processMidBanner.src} alt={cs.processMidBanner.alt} className="w-full h-auto block" />
             </div>
           )}
-        </section>
+        </motion.section>
       ))}
 
       {cs.preFindingsBanner?.src && (
@@ -425,8 +443,8 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           FINDINGS
       ══════════════════════════════════════════════════════ */}
-      <section id="findings" className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
-        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+      <motion.section id="findings" initial={{ opacity: 0, y: 70, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.05 }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }} className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
+        <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
 
           <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>Key Findings</p>
 
@@ -434,8 +452,8 @@ export default function ResearchStrategyPage() {
             {cs.findings.map((f, i) => (
               <motion.div
                 key={f.num}
-                initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.06 }}
+                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: i * 0.09 }}
               >
                 <h4 className="text-zinc-900 font-semibold leading-snug mb-3" style={{ fontSize: 'clamp(18px, 1.8vw, 22px)' }}>{f.title}</h4>
                 <p className="text-zinc-400 leading-relaxed" style={{ fontSize: 'clamp(14px, 1.2vw, 16px)' }}>{f.desc}</p>
@@ -444,7 +462,7 @@ export default function ResearchStrategyPage() {
           </div>
 
         </motion.div>
-      </section>
+      </motion.section>
 
       {cs.preConclusionBanner?.src && (
         <div className="w-full overflow-hidden">
@@ -455,8 +473,8 @@ export default function ResearchStrategyPage() {
       {/* ══════════════════════════════════════════════════════
           REFLECTION
       ══════════════════════════════════════════════════════ */}
-      <section id="reflect" className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
-        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+      <motion.section id="reflect" initial={{ opacity: 0, y: 70, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.05 }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }} className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
+        <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
 
           <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>{cs.conclusion.heading}</p>
 
@@ -473,12 +491,12 @@ export default function ResearchStrategyPage() {
           </div>
 
         </motion.div>
-      </section>
+      </motion.section>
 
       {/* ══════════════════════════════════════════════════════
           FOOTER / CTA
       ══════════════════════════════════════════════════════ */}
-      <section className="px-8 md:px-16 lg:px-24 py-16 border-t border-zinc-300">
+      <motion.section initial={{ opacity: 0, y: 70, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.05 }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }} className="px-8 md:px-16 lg:px-24 py-16 border-t border-zinc-300">
         <motion.div
           initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
           className="flex flex-col md:flex-row items-start md:items-end justify-between gap-10"
@@ -508,7 +526,7 @@ export default function ResearchStrategyPage() {
             </a>
           </div>
         </motion.div>
-      </section>
+      </motion.section>
 
     </main>
   )

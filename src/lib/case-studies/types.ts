@@ -10,6 +10,7 @@ export type ProcessStep = {
   num: string         // e.g. 'Step 01'
   title: string
   body: string
+  bodyPoints?: string[]  // optional bullet pointers to replace body paragraph
   tags?: string[]     // optional pill tags below the body
   image: {
     src: string | null  // null = show placeholder
