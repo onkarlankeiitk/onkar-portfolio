@@ -35,7 +35,7 @@ function ScrollProgress() {
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 function SectionLabel({ children }: { children: React.ReactNode; light?: boolean }) {
   return (
-    <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-3" style={{ color: ACCENT }}>
+    <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-3" style={{ color: '#71717a' }}>
       {children}
     </p>
   )
@@ -65,8 +65,11 @@ const NAV_ITEMS = [
   { id: 'step-1',       label: 'User Journey'  },
   { id: 'step-2',       label: 'Competition'   },
   { id: 'step-3',       label: 'Competitive'   },
-  { id: 'step-4',       label: 'Segmentation'  },
-  { id: 'step-5',       label: 'IA & Wires'    },
+  { id: 'step-4',       label: 'Info Design'   },
+  { id: 'step-5',       label: 'Direction'     },
+  { id: 'step-6',       label: 'Comms'         },
+  { id: 'step-7',       label: 'New IA'        },
+  { id: 'step-8',       label: 'Wireframes'    },
   { id: 'findings',     label: 'Findings'      },
   { id: 'reflect',      label: 'Reflection'    },
   { id: 'team',         label: 'Team'          },
@@ -130,7 +133,7 @@ function Hero() {
         initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="px-8 md:px-16 lg:px-24 pt-5 pb-4 shrink-0"
       >
-        <h1 className="text-zinc-900 font-bold leading-tight" style={{ fontSize: 'clamp(24px, 3.5vw, 42px)' }}>
+        <h1 className="text-zinc-900 font-bold leading-tight" style={{ fontSize: 'clamp(22px, 3.5vw, 40px)' }}>
           {cs.hero.headline}
         </h1>
       </motion.div>
@@ -138,10 +141,16 @@ function Hero() {
       {/* 16:7 Banner placeholder */}
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.85, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-        className="mx-8 md:mx-16 lg:mx-24 mb-6 overflow-hidden rounded-2xl flex items-center justify-center"
-        style={{ aspectRatio: '16/8', backgroundColor: '#E2DFDA' }}
+        className="mx-8 md:mx-16 lg:mx-24 mb-6 overflow-hidden rounded-2xl"
       >
-        <p className="text-zinc-400 text-sm tracking-widest uppercase">Banner image</p>
+        <video
+          src="/case-studies/research-strategy/hero-banner.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-auto block"
+        />
       </motion.div>
     </section>
   )
@@ -152,8 +161,8 @@ export default function ResearchStrategyPage() {
   return (
     <main style={{ backgroundColor: BG, fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
       <PasswordGate accentColor="#53B5B9" />
+      <Nav alwaysVisible />
       <ScrollProgress />
-      {/* <Nav /> */}
       <StickyNav />
 
       <Hero />
@@ -169,8 +178,8 @@ export default function ResearchStrategyPage() {
           className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24"
         >
           <div>
-            <h2 className="text-zinc-900 font-bold mb-6" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>Context</h2>
-            <p className="text-zinc-800 font-medium leading-relaxed" style={{ fontSize: '20px' }}>
+            <h2 className="text-zinc-900 font-bold mb-6" style={{ fontSize: 'clamp(22px, 2.94vw, 39px)' }}>Context</h2>
+            <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '18px', fontWeight: 400 }}>
               {'Munk Pack is a US-based snacking company specializing in '}
                 <span style={{ backgroundColor: '#FDE68A', borderRadius: '2px', padding: '0 2px' }}>healthy, convenient, and delicious snack bars.</span>
                 {' Their products are designed for health-conscious consumers seeking '}
@@ -181,8 +190,8 @@ export default function ResearchStrategyPage() {
             </p>
           </div>
           <div>
-            <h2 className="text-zinc-900 font-bold mb-6" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>Problem</h2>
-            <p className="text-zinc-800 font-medium leading-relaxed" style={{ fontSize: '20px' }}>
+            <h2 className="text-zinc-900 font-bold mb-6" style={{ fontSize: 'clamp(22px, 2.94vw, 39px)' }}>Problem</h2>
+            <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '18px', fontWeight: 400 }}>
               {'Growth stagnation. Munk Pack was '}
                 <span style={{ backgroundColor: '#FDE68A', borderRadius: '2px', padding: '0 2px' }}>not able to connect their product offerings to its audience,</span>
                 {' as primary audience, was '}
@@ -195,19 +204,11 @@ export default function ResearchStrategyPage() {
 
       {/* Statement strip */}
       <div className="px-8 md:px-16 lg:px-24 py-8">
-      <div className="relative overflow-hidden px-8 md:px-16 lg:px-24 py-16 rounded-2xl" style={{ backgroundColor: '#D4A017' }}>
-        {/* Noise overlay */}
-        <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.45, pointerEvents: 'none' }}>
-          <filter id="noise">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-            <feColorMatrix type="saturate" values="0" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#noise)" />
-        </svg>
+      <div style={{ background: 'rgba(225, 217, 214, 0.50)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid #DBDBDB', borderRadius: '12px', padding: '40px 36px', overflow: 'hidden' }}>
         <motion.h2
           initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative text-zinc-900 font-bold leading-snug w-full"
-          style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}
+          className="text-zinc-900 font-bold leading-snug w-full"
+          style={{ fontSize: 'clamp(22px, 2.94vw, 39px)' }}
         >
           "Munk Pack's storytelling wasn't convincing enough despite having built good product range"
         </motion.h2>
@@ -219,7 +220,7 @@ export default function ResearchStrategyPage() {
       ══════════════════════════════════════════════════════ */}
       <motion.section id="overview" initial={{ opacity: 0, y: 70, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.05 }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }} className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
 
-        <h2 className="text-zinc-900 font-bold mb-14" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>Overview</h2>
+        <h2 className="text-zinc-900 font-bold mb-14" style={{ fontSize: 'clamp(22px, 2.94vw, 39px)' }}>Overview</h2>
 
         {/* My Role + Team */}
         <motion.div
@@ -227,14 +228,14 @@ export default function ResearchStrategyPage() {
           className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 mb-20"
         >
           <div>
-            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: ACCENT }}>My Role</p>
-            <p className="text-zinc-800 font-medium leading-snug" style={{ fontSize: 'clamp(20px, 2.2vw, 28px)' }}>
+            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: '#71717a' }}>My Role</p>
+            <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '20px', fontWeight: 400 }}>
               Senior Ux'er & project lead: Led the research and strategy in collaboration with Commongood USA, running heuristic evaluation, competitive benchmarking, user segmentation & behavior mapping, IA redesign, wireframes and visual design. 
             </p>
           </div>
 
           <div>
-            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: ACCENT }}>Team</p>
+            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: '#71717a' }}>Team</p>
             <div className="flex flex-col gap-4">
               {cs.team.map(m => (
                 <a key={m.name} href={m.url} target="_blank" rel="noreferrer" className="group flex items-center justify-between border-b border-zinc-200 pb-4 last:border-0 last:pb-0">
@@ -251,7 +252,7 @@ export default function ResearchStrategyPage() {
 
         {/* Quantitative */}
         <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} className="mb-20">
-          <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>Impact — Quantitative</p>
+          <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: '#71717a' }}>Impact — Quantitative</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-14">
             {cs.metrics.slice(0, -1).map(m => (
               <div key={m.label}>
@@ -265,7 +266,7 @@ export default function ResearchStrategyPage() {
 
         {/* Qualitative */}
         <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
-          <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>Impact — Qualitative</p>
+          <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: '#71717a' }}>Impact — Qualitative</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
             {[
               'Shifted communication from product listing to lifestyle storytelling.',
@@ -280,7 +281,7 @@ export default function ResearchStrategyPage() {
               >
                 <div className="flex items-start gap-3">
                   <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 mt-[12px]" />
-                  <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '16px', fontWeight: 500 }}>{item}</p>
+                  <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '18px', fontWeight: 400 }}>{item}</p>
                 </div>
               </motion.div>
             ))}
@@ -289,7 +290,7 @@ export default function ResearchStrategyPage() {
 
         {/* Collaboration Partner */}
         <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} className="mt-36">
-          <h2 className="text-zinc-900 font-bold mb-6" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>Collaboration Partner</h2>
+          <h2 className="text-zinc-900 font-bold mb-6" style={{ fontSize: 'clamp(22px, 2.94vw, 39px)' }}>Collaboration Partner</h2>
           <img
             src="/case-studies/research-strategy/commongood.png"
             alt="Commongood — Collaboration Partner"
@@ -322,57 +323,30 @@ export default function ResearchStrategyPage() {
           </div>
         </motion.div>
 
-        {/* How we solved it */}
+        {/* Key Brand Attributes */}
         <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} className="mt-20">
-          <h2 className="text-zinc-900 font-bold mb-10" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>How we solved it?</h2>
+          <h2 className="text-zinc-900 font-bold mb-10" style={{ fontSize: 'clamp(22px, 2.94vw, 39px)' }}>Key Brand Attributes</h2>
 
-          {/* Category 1: How we solved it */}
-          <div className="mb-12">
-            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: ACCENT }}>How we solved it?</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8">
-              {[
-                { num: '01', body: '14-point heuristic evaluation — every issue severity-rated Critical → Low.' },
-                { num: '02', body: 'Benchmarked 6 brands across 17 UX parameters — Kind, Magic Spoon, GoMacro, IQ Bar, Ratio, High Key.' },
-                { num: '03', body: 'Mapped 4 user segments — kids, students, working adults, seniors — with distinct journeys and entry points.' },
-                { num: '04', body: 'Full IA overhaul — circular navigation, single filterable shop, surfaced Net Carbs Calculator and Store Locator.' },
-                { num: '05', body: 'Figma wireframes for all 10 pages, annotated for direct design team handoff.' },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.num}
-                  initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.06 }}
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 mt-[12px]" />
-                    <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '16px', fontWeight: 500 }}>{item.body}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Category 2: Constraints */}
-          <div>
-            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-6" style={{ color: ACCENT }}>Constraints</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8">
-              {[
-                { num: '01', body: 'Placeholder constraint 1 — to be filled in.' },
-                { num: '02', body: 'Placeholder constraint 2 — to be filled in.' },
-                { num: '03', body: 'Placeholder constraint 3 — to be filled in.' },
-                { num: '04', body: 'Placeholder constraint 4 — to be filled in.' },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.num}
-                  initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.06 }}
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 mt-[12px]" />
-                    <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '16px', fontWeight: 500 }}>{item.body}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4">
+            {[
+              { label: 'Product Line', body: 'Protein bars, keto bars, and oatmeal squoosh bars.' },
+              { label: 'Target Audience', body: 'Health chat-focused individuals, keto/low-carb dieters, fitness lovers, and busy professionals.' },
+              { label: 'USP', body: 'Low sugar, high protein, gluten-free, non-GMO, and no artificial ingredients.' },
+              { label: 'Distribution', body: 'Sold online (DTC via their website) and in retail stores (e.g., Whole Foods, Walmart, Amazon).' },
+            ].map((item, i) => (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.06 }}
+              >
+                <div className="flex items-start gap-3">
+                  <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 mt-[11px]" />
+                  <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '18px', fontWeight: 400 }}>
+                    <span style={{ fontWeight: 600 }}>{item.label}: </span>{item.body}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
 
@@ -391,7 +365,7 @@ export default function ResearchStrategyPage() {
           <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
 
             <p className="text-zinc-300 font-normal mb-2" style={{ fontSize: 'clamp(37px, 4.12vw, 56px)' }}>{step.num.replace(/^Step\s*/i, '')}/</p>
-            <h2 className="text-zinc-900 font-bold leading-snug mb-5" style={{ fontSize: 'clamp(24px, 2.94vw, 41px)' }}>
+            <h2 className="text-zinc-900 font-bold leading-snug mb-5" style={{ fontSize: 'clamp(22px, 2.94vw, 39px)' }}>
               {step.title}
             </h2>
 
@@ -404,11 +378,11 @@ export default function ResearchStrategyPage() {
                   </div>
                 ))}
               </div>
-            ) : (
+            ) : step.body ? (
               <p className="text-zinc-800 leading-relaxed mb-8 max-w-2xl" style={{ fontSize: '18px', fontWeight: 400 }}>
                 {step.body}
               </p>
-            )}
+            ) : null}
 
             {step.tags && step.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-8">
@@ -422,6 +396,60 @@ export default function ResearchStrategyPage() {
 
             {step.image.src && (
               <ProcessImage src={step.image.src} alt={step.image.alt} aspect={step.image.aspect} />
+            )}
+
+            {step.additionalImages && step.additionalImages.length > 0 && (
+              <div className="flex flex-col gap-6 mt-6">
+                {step.additionalImages.map((img, ai) => (
+                  <ProcessImage key={ai} src={img.src} alt={img.alt} aspect={img.aspect} />
+                ))}
+              </div>
+            )}
+
+            {step.subSections && step.subSections.length > 0 && (
+              <div className="flex flex-col gap-10 mt-12">
+                {step.subSections.map((sub, si) => (
+                  <motion.div
+                    key={si}
+                    initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: si * 0.06 }}
+                    className={`flex ${si % 2 === 0 ? 'justify-start' : 'justify-end'}`}
+                  >
+                    <div className="w-full md:w-[62%] flex flex-col gap-4">
+                      <div>
+                        <h3 className="text-zinc-900 font-bold mb-2" style={{ fontSize: 'clamp(16px, 1.8vw, 22px)' }}>{sub.headline}</h3>
+                        <p className="text-zinc-700 leading-relaxed" style={{ fontSize: '16px', fontWeight: 400 }}>{sub.body}</p>
+                      </div>
+                      <div className="rounded-2xl overflow-hidden border border-zinc-200" style={{ boxShadow: '-6px 6px 24px rgba(0,0,0,0.08)' }}>
+                        {sub.image.src
+                          ? <img src={sub.image.src} alt={sub.image.alt} className="w-full h-auto block" />
+                          : <div className="aspect-[16/9] bg-zinc-100 flex items-center justify-center">
+                              <p className="text-zinc-400 text-sm tracking-widest uppercase">Image</p>
+                            </div>
+                        }
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+
+            {step.labeledPoints && step.labeledPoints.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 mt-10">
+                {step.labeledPoints.map((pt, pi) => (
+                  <motion.div
+                    key={pi}
+                    initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }} transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: pi * 0.06 }}
+                    className="flex items-start gap-3"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0 mt-[11px]" />
+                    <p className="text-zinc-800 leading-relaxed" style={{ fontSize: '18px', fontWeight: 400 }}>
+                      <span style={{ fontWeight: 600 }}>{pt.label}: </span>{pt.body}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
             )}
 
           </motion.div>
@@ -440,35 +468,7 @@ export default function ResearchStrategyPage() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════════════════
-          FINDINGS
-      ══════════════════════════════════════════════════════ */}
-      <motion.section id="findings" initial={{ opacity: 0, y: 70, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.05 }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }} className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
-        <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
 
-          <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>Key Findings</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
-            {cs.findings.map((f, i) => (
-              <motion.div
-                key={f.num}
-                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: i * 0.09 }}
-              >
-                <h4 className="text-zinc-900 font-semibold leading-snug mb-3" style={{ fontSize: 'clamp(18px, 1.8vw, 22px)' }}>{f.title}</h4>
-                <p className="text-zinc-400 leading-relaxed" style={{ fontSize: 'clamp(14px, 1.2vw, 16px)' }}>{f.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-
-        </motion.div>
-      </motion.section>
-
-      {cs.preConclusionBanner?.src && (
-        <div className="w-full overflow-hidden">
-          <img src={cs.preConclusionBanner.src} alt={cs.preConclusionBanner.alt} className="w-full h-auto block" />
-        </div>
-      )}
 
       {/* ══════════════════════════════════════════════════════
           REFLECTION
@@ -476,14 +476,14 @@ export default function ResearchStrategyPage() {
       <motion.section id="reflect" initial={{ opacity: 0, y: 70, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.05 }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }} className="px-8 md:px-16 lg:px-24 py-16 border-b border-zinc-200">
         <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
 
-          <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: ACCENT }}>{cs.conclusion.heading}</p>
+          <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-8" style={{ color: '#71717a' }}>{cs.conclusion.heading}</p>
 
           <div className="max-w-3xl flex flex-col gap-8">
             {cs.conclusion.paragraphs.map((p, i) => (
               <p
                 key={i}
-                className="text-zinc-700 leading-relaxed"
-                style={{ fontSize: i === 0 ? 'clamp(18px, 1.8vw, 24px)' : 'clamp(15px, 1.4vw, 17px)' }}
+                className="text-zinc-800 leading-relaxed"
+                style={{ fontSize: '18px', fontWeight: 400 }}
               >
                 {p}
               </p>
@@ -502,10 +502,10 @@ export default function ResearchStrategyPage() {
           className="flex flex-col md:flex-row items-start md:items-end justify-between gap-10"
         >
           <div>
-            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-4" style={{ color: ACCENT }}>{cs.client}</p>
-            <h2 className="text-zinc-900 font-bold leading-tight" style={{ fontSize: 'clamp(24px, 3vw, 40px)' }}>
+            <p className="text-xs tracking-[0.2em] uppercase font-semibold mb-4" style={{ color: '#71717a' }}>{cs.client}</p>
+            <h2 className="text-zinc-900 font-bold leading-tight" style={{ fontSize: 'clamp(22px, 3vw, 38px)' }}>
               Onkar Lanke<br />
-              <span className="text-zinc-400 font-normal">{cs.role}</span>
+              <span className="text-zinc-400 font-normal">UX lead and strategist</span>
             </h2>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">

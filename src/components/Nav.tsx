@@ -146,22 +146,24 @@ function LinkedInIcon({ isLight }: { isLight: boolean }) {
 }
 
 // ─── Nav ──────────────────────────────────────────────────────────────────────
-export default function Nav() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [isLight, setIsLight]   = useState(true)
-  const [visible, setVisible]   = useState(false)
+export default function Nav({ alwaysVisible = false }: { alwaysVisible?: boolean }) {
+  const [menuOpen, setMenuOpen]           = useState(false)
+  const [isLight, setIsLight]             = useState(true)
+  const [visible, setVisible]             = useState(alwaysVisible)
+  const [backToTopVisible, setBackToTopVisible] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY
       const heroThreshold = window.innerHeight * 0.3
-      setVisible(y >= heroThreshold)
+      if (!alwaysVisible) setVisible(y >= heroThreshold)
+      setBackToTopVisible(y >= heroThreshold)
       setIsLight(y < window.innerHeight * 0.85)
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [alwaysVisible])
 
   const g = glassTokens(isLight)
 
@@ -377,14 +379,14 @@ export default function Nav() {
       {/* ─── Back to top glass button ─────────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: -80 }}
-        animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -80 }}
+        animate={{ opacity: backToTopVisible ? 1 : 0, y: backToTopVisible ? 0 : -80 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         style={{
           position: 'fixed',
           top: '16px',
           left: '24px',
           zIndex: 50,
-          pointerEvents: visible ? 'auto' : 'none',
+          pointerEvents: backToTopVisible ? 'auto' : 'none',
         }}
       >
         {/* Gradient border wrapper — identical to nav */}

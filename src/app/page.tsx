@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, Fragment } from 'react'
 import { motion, useInView } from 'framer-motion'
 import Link from 'next/link'
+import { grenzeFont } from '@/lib/fonts'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { projects, archProjects, getArticleThumbnail, ARTICLE_QUADRANT_POS } from '@/lib/portfolio-data'
@@ -25,7 +26,7 @@ const T = {
   ruleSoft: '#E8E5DD',
   accent: '#1E3AE8',
   dark: '#0A0A0A',
-  sans: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
+  sans: '"Helvetica Neue", "Helvetica", Arial, sans-serif',
   mono: "'Space Mono', monospace",
 }
 
@@ -91,46 +92,30 @@ function ToolCard({ tool }: { tool: typeof tools[0] }) {
       whileHover={{ scale: 1.04, y: -2 }}
       transition={{ type: 'spring', stiffness: 400, damping: 20 }}
       className="group"
-      style={{ position: 'relative', flexShrink: 0, cursor: 'default' }}
+      style={{ position: 'relative', flexShrink: 0, cursor: 'default', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '0 48px' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div
-        style={{
-          width: 144, height: 62,
-          background: hovered ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.4)',
-          border: `1px solid ${hovered ? 'rgba(0,0,0,0.18)' : 'rgba(0,0,0,0.08)'}`,
-          borderRadius: '8px',
-          display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
-          gap: '10px',
-          padding: '0 17px',
-          backdropFilter: 'blur(4px) saturate(160%)',
-          WebkitBackdropFilter: 'blur(4px) saturate(160%)',
-          transition: 'background 0.18s ease, border-color 0.18s ease',
-          boxShadow: hovered ? '0 2px 8px rgba(0,0,0,0.08)' : '0 1px 3px rgba(0,0,0,0.04)',
-        }}
-      >
-        {tool.name === 'VS Code' ? (
-          <span style={{ fontFamily: T.mono, fontSize: '11px', fontWeight: 700, color: '#007ACC', letterSpacing: '0.01em', lineHeight: 1.2, textAlign: 'center', flexShrink: 0 }}>{'</>'}</span>
-        ) : tool.name === 'Fusion 360' ? (
-          <span style={{ fontFamily: T.mono, fontSize: '10px', fontWeight: 700, color: hovered ? '#ff7a3d' : '#E2511A', letterSpacing: '0.01em', lineHeight: 1.2, flexShrink: 0 }}>F360</span>
-        ) : tool.name === 'Zeplin' ? (
-          <span style={{ fontFamily: T.mono, fontSize: '10px', fontWeight: 700, color: hovered ? '#ffd166' : '#FDBD39', letterSpacing: '0.01em', lineHeight: 1.2, flexShrink: 0 }}>Zpl</span>
-        ) : tool.name === 'Jitter' ? (
-          <span style={{ fontFamily: T.mono, fontSize: '10px', fontWeight: 700, color: hovered ? '#9b7fff' : '#6C47FF', letterSpacing: '0.01em', lineHeight: 1.2, flexShrink: 0 }}>Jtr</span>
-        ) : tool.name === 'Procreate' ? (
-          <span style={{ fontFamily: T.mono, fontSize: '10px', fontWeight: 700, color: hovered ? '#222222' : '#4F4F4F', letterSpacing: '0.01em', lineHeight: 1.2, flexShrink: 0 }}>Pcr</span>
-        ) : tool.svgPath ? (
-          <svg role="img" viewBox="0 0 24 24" width={22} height={22} fill={tool.iconFill} style={{ flexShrink: 0 }}>
-            <path d={tool.svgPath} />
-          </svg>
-        ) : (
-          <img src={fallbackImgSrc[tool.name]} alt={tool.name} width={22} height={22} style={{ flexShrink: 0 }} />
-        )}
-        <span style={{ fontFamily: T.sans, fontSize: '14px', fontWeight: 500, color: hovered ? T.ink : T.inkMute, whiteSpace: 'nowrap', letterSpacing: '-0.01em', transition: 'color 0.18s ease' }}>
-          {tool.name}
-        </span>
-      </div>
+      {tool.name === 'VS Code' ? (
+        <span style={{ fontFamily: T.mono, fontSize: '39px', fontWeight: 700, color: '#007ACC', letterSpacing: '0.01em', lineHeight: 1, width: 82, height: 82, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{'</>'}</span>
+      ) : tool.name === 'Fusion 360' ? (
+        <span style={{ fontFamily: T.mono, fontSize: '33px', fontWeight: 700, color: hovered ? '#ff7a3d' : '#E2511A', letterSpacing: '0.01em', lineHeight: 1, width: 82, height: 82, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 0.18s ease' }}>F360</span>
+      ) : tool.name === 'Zeplin' ? (
+        <span style={{ fontFamily: T.mono, fontSize: '33px', fontWeight: 700, color: hovered ? '#ffd166' : '#FDBD39', letterSpacing: '0.01em', lineHeight: 1, width: 82, height: 82, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 0.18s ease' }}>Zpl</span>
+      ) : tool.name === 'Jitter' ? (
+        <span style={{ fontFamily: T.mono, fontSize: '33px', fontWeight: 700, color: hovered ? '#9b7fff' : '#6C47FF', letterSpacing: '0.01em', lineHeight: 1, width: 82, height: 82, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 0.18s ease' }}>Jtr</span>
+      ) : tool.name === 'Procreate' ? (
+        <span style={{ fontFamily: T.mono, fontSize: '33px', fontWeight: 700, color: hovered ? '#222222' : '#4F4F4F', letterSpacing: '0.01em', lineHeight: 1, width: 82, height: 82, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 0.18s ease' }}>Pcr</span>
+      ) : tool.svgPath ? (
+        <svg role="img" viewBox="0 0 24 24" width={82} height={82} fill={tool.iconFill} style={{ flexShrink: 0 }}>
+          <path d={tool.svgPath} />
+        </svg>
+      ) : (
+        <img src={fallbackImgSrc[tool.name]} alt={tool.name} width={82} height={82} style={{ flexShrink: 0 }} />
+      )}
+      <span style={{ fontFamily: T.sans, fontSize: '18px', fontWeight: 500, color: hovered ? T.ink : T.inkMute, whiteSpace: 'nowrap', letterSpacing: '-0.01em', transition: 'color 0.18s ease' }}>
+        {tool.name}
+      </span>
     </motion.div>
   )
 }
@@ -401,16 +386,6 @@ function BentoSquare({ project, className, animDelay = 0 }: { project: typeof pr
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: animDelay, ease }}
     >
-      {/* Title + company — OUTSIDE the card box */}
-      <div style={{ flexShrink: 0, paddingBottom: '12px' }}>
-        <p style={{ fontFamily: T.mono, fontSize: '9px', color: 'rgba(255,255,255,0.32)', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 5px' }}>
-          {project.company} · {project.year}
-        </p>
-        <p style={{ fontFamily: T.sans, fontSize: '24px', fontWeight: 500, color: '#ffffff', lineHeight: 1.3, margin: 0, letterSpacing: '-0.02em' }}>
-          {project.title}
-        </p>
-      </div>
-
       {/* Transparent card — full-bleed image */}
       <Link
         href={project.directPath}
@@ -452,19 +427,27 @@ function BentoSquare({ project, className, animDelay = 0 }: { project: typeof pr
           WebkitBackdropFilter: 'blur(14px) saturate(130%)',
           borderTop: '1px solid rgba(255,255,255,0.07)',
           padding: '12px 18px',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          display: 'flex', justifyContent: 'flex-end', alignItems: 'center',
           opacity: hovered ? 0 : 1,
           transition: 'opacity 0.3s ease',
         }}>
-          <p style={{ fontFamily: T.mono, fontSize: '9px', color: 'rgba(255,255,255,0.42)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
-            {project.company}
-          </p>
           <span style={{ fontFamily: T.sans, fontSize: '16px', color: 'rgba(255,255,255,0.55)' }}>→</span>
         </div>
 
         {/* Hover overlay */}
         <BentoOverlay project={project} visible={hovered} />
       </Link>
+
+      {/* Title — OUTSIDE the card box, below */}
+      <div style={{ flexShrink: 0, paddingTop: '12px', height: '72px', overflow: 'hidden' }}>
+        <p style={{
+          fontFamily: T.sans, fontSize: '22px', fontWeight: 400, color: '#192028',
+          lineHeight: 1.5, margin: 0, letterSpacing: '-0.02em',
+          display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+        }}>
+          {project.title}
+        </p>
+      </div>
     </motion.div>
   )
 }
@@ -570,16 +553,16 @@ function MediumSection() {
         transition={{ duration: 0.55, ease }}
         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '40px' }}
       >
-        <h3 style={{ fontFamily: T.sans, fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.025em', lineHeight: 1.05 }}>
-          Weekend pen-downs: My articles
+        <h3 style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.025em', lineHeight: 1.05 }}>
+          My writing on Medium
         </h3>
         <a
           href="https://medium.com/@onkarlanke"
           target="_blank"
           rel="noreferrer"
-          style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s', flexShrink: 0, marginLeft: '24px' }}
-          onMouseEnter={e => (e.currentTarget.style.color = T.ink)}
-          onMouseLeave={e => (e.currentTarget.style.color = T.inkMute)}
+          style={{ fontFamily: T.mono, fontSize: '11px', color: '#192028', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s', flexShrink: 0, marginLeft: '24px' }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#FF4A1C')}
+          onMouseLeave={e => (e.currentTarget.style.color = '#192028')}
         >
           All articles →
         </a>
@@ -625,68 +608,93 @@ function WebflowCard({ site }: { site: { name: string; url: string; description:
       href={site.url}
       target="_blank"
       rel="noreferrer"
-      style={{ borderRadius: '10px', overflow: 'hidden', border: `1px solid ${hovered ? '#333' : '#1a1a1a'}`, transition: 'border-color 0.2s', display: 'block', textDecoration: 'none', cursor: 'pointer' }}
+      style={{ borderRadius: '10px', overflow: 'hidden', display: 'block', textDecoration: 'none', cursor: 'pointer', position: 'relative' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       {/* Browser chrome */}
-      <div style={{ background: '#111', borderBottom: '1px solid #1a1a1a', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-        {/* Traffic lights */}
+      <div style={{ background: T.ruleSoft, borderBottom: `1px solid ${T.rule}`, padding: '8px 12px', display: 'flex', alignItems: 'center', gap: '8px', position: 'relative', zIndex: 2 }}>
         <div style={{ display: 'flex', gap: '5px' }}>
           {['#ff5f57', '#febc2e', '#28c840'].map(c => (
             <div key={c} style={{ width: '8px', height: '8px', borderRadius: '50%', background: c, opacity: 0.8 }} />
           ))}
         </div>
-        {/* URL bar */}
-        <div style={{ flex: 1, background: '#1a1a1a', borderRadius: '4px', padding: '3px 8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#3f3f46" strokeWidth="2">
+        <div style={{ flex: 1, background: T.paper, borderRadius: '4px', padding: '3px 8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke={T.inkMute} strokeWidth="2">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
           </svg>
-          <span style={{ fontFamily: T.mono, fontSize: '9px', color: '#52525b', letterSpacing: '0.03em' }}>
+          <span style={{ fontFamily: T.mono, fontSize: '9px', color: T.inkMute, letterSpacing: '0.03em' }}>
             {site.url.replace('https://', '')}
           </span>
         </div>
-        {/* External link indicator */}
-        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="#3f3f46" strokeWidth="2" style={{ flexShrink: 0 }}>
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke={T.inkMute} strokeWidth="2" style={{ flexShrink: 0 }}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
         </svg>
       </div>
 
-      {/* iframe preview */}
+      {/* iframe preview — scales on hover */}
       <div className="webflow-iframe-wrap" style={{ position: 'relative', height: '320px', overflow: 'hidden', background: '#0a0a0a' }}>
-        <iframe
-          src={site.url}
-          title={site.name}
-          loading="lazy"
-          style={{
-            width: '200%',
-            height: '640px',
-            border: 'none',
-            transform: 'scale(0.5)',
-            transformOrigin: 'top left',
-            pointerEvents: 'none',
-          }}
-        />
-        {/* subtle overlay */}
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.08)', transition: 'opacity 0.3s', opacity: hovered ? 0 : 1 }} />
-      </div>
+        <div style={{
+          width: '100%', height: '100%',
+          transform: hovered ? 'scale(1.05)' : 'scale(1)',
+          transition: 'transform 0.55s cubic-bezier(0.22,1,0.36,1)',
+          transformOrigin: 'center center',
+        }}>
+          <iframe
+            src={site.url}
+            title={site.name}
+            loading="lazy"
+            style={{
+              width: '200%',
+              height: '640px',
+              border: 'none',
+              transform: 'scale(0.5)',
+              transformOrigin: 'top left',
+              pointerEvents: 'none',
+            }}
+          />
+        </div>
 
-      {/* Footer strip */}
-      <div style={{ padding: '10px 14px', background: '#111', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <p style={{ fontFamily: T.sans, fontSize: '12px', fontWeight: 500, color: '#d4d4d8', margin: '0 0 2px', letterSpacing: '-0.01em' }}>
-            {site.name}
-          </p>
-          <p style={{ fontFamily: T.sans, fontSize: '10px', color: '#52525b', margin: 0, lineHeight: 1.4 }}>
+        {/* Behance-style overlay — slides up from bottom */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to top, rgba(5,5,10,0.92) 0%, rgba(5,5,10,0.55) 55%, transparent 100%)',
+          opacity: hovered ? 1 : 0,
+          transition: 'opacity 0.35s ease',
+          pointerEvents: 'none',
+        }} />
+
+        {/* Slide-up info panel */}
+        <div style={{
+          position: 'absolute', left: 0, right: 0, bottom: 0,
+          padding: '22px 20px',
+          transform: hovered ? 'translateY(0)' : 'translateY(14px)',
+          opacity: hovered ? 1 : 0,
+          transition: 'transform 0.40s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease',
+          pointerEvents: 'none',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+        }}>
+          {/* Name + arrow */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+            <p style={{ fontFamily: T.sans, fontSize: '20px', fontWeight: 600, color: '#ffffff', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+              {site.name}
+            </p>
+            <span style={{ fontFamily: T.sans, fontSize: '22px', color: '#ffffff', lineHeight: 1, marginBottom: '2px' }}>↗</span>
+          </div>
+          {/* Description */}
+          <p style={{ fontFamily: T.sans, fontSize: '13px', color: 'rgba(255,255,255,0.68)', margin: 0, lineHeight: 1.5, letterSpacing: '-0.005em' }}>
             {site.description}
           </p>
-        </div>
-        <div style={{ display: 'flex', gap: '4px', flexShrink: 0, marginLeft: '8px' }}>
-          {site.tags.map(tag => (
-            <span key={tag} style={{ fontFamily: T.mono, fontSize: '9px', color: '#52525b', letterSpacing: '0.04em', background: '#1a1a1a', padding: '2px 6px', borderRadius: '9999px' }}>
-              {tag}
-            </span>
-          ))}
+          {/* Tags */}
+          <div style={{ display: 'flex', gap: '5px' }}>
+            {site.tags.map(tag => (
+              <span key={tag} style={{ fontFamily: T.mono, fontSize: '9px', color: 'rgba(255,255,255,0.55)', letterSpacing: '0.06em', background: 'rgba(255,255,255,0.10)', padding: '3px 8px', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.15)' }}>
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </a>
@@ -749,9 +757,9 @@ function ArticlesColumn({ headingColor }: { headingColor: string }) {
         href="https://medium.com/@onkarlanke"
         target="_blank"
         rel="noreferrer"
-        style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', textDecoration: 'none', marginTop: '16px', display: 'inline-block', transition: 'color 0.2s' }}
-        onMouseEnter={e => (e.currentTarget.style.color = '#a1a1aa')}
-        onMouseLeave={e => (e.currentTarget.style.color = '#52525b')}
+        style={{ fontFamily: T.mono, fontSize: '11px', color: '#192028', textDecoration: 'none', marginTop: '16px', display: 'inline-block', transition: 'color 0.2s' }}
+        onMouseEnter={e => (e.currentTarget.style.color = '#FF4A1C')}
+        onMouseLeave={e => (e.currentTarget.style.color = '#192028')}
       >
         All articles →
       </a>
@@ -776,6 +784,7 @@ const HERO_BODY   = '#3a3a36'
 const SPACE_MONO  = "'Space Mono', monospace"
 const HELV        = "'Helvetica Neue', Helvetica, Arial, sans-serif"
 const GLORY       = "'Glory', sans-serif"
+const GRENZE      = grenzeFont.style.fontFamily
 
 const HERO_TAGS = [
   { n: '01', label: 'Product Design' },
@@ -882,50 +891,38 @@ function HeroCTALight({ href, label, external }: { href: string; label: string; 
 
 const HERO_TOTAL_CHARS = HERO_LINES.reduce((s, l) => s + l.length, 0)
 
+// Figma canvas dimensions
+const HERO_W = 1728
+const HERO_H = 939
+
 function HeroSection() {
-  const [revealed, setRevealed]       = useState([0, 0, 0])
-  const [cursorLine, setCursorLine]   = useState(0)
-  const [done, setDone]               = useState(false)
-  const [rightReady, setRightReady]   = useState(false)
-  const [charsDone, setCharsDone]     = useState(0)
+  const [scale, setScale]             = useState(1)
+  const [showHeadline, setShowHeadline] = useState(false)
+  const [showWelcome, setShowWelcome]   = useState(false)
+  const [showRight, setShowRight]       = useState(false)
 
+  // Scale canvas to viewport
   useEffect(() => {
-    let lineIdx = 0
-    let charIdx = 0
-    let cancelled = false
-    let count = 0
-
-    const type = () => {
-      if (cancelled) return
-      if (lineIdx >= HERO_LINES.length) {
-        setCursorLine(-1)
-        setTimeout(() => setDone(true), 200)
-        return
-      }
-      const line = HERO_LINES[lineIdx]
-      if (charIdx <= line.length) {
-        const li = lineIdx, ci = charIdx
-        setRevealed(prev => { const n = [...prev]; n[li] = ci; return n })
-        setCursorLine(lineIdx)
-        count++; setCharsDone(count)
-        charIdx++
-        setTimeout(type, 75)
-      } else {
-        lineIdx++; charIdx = 0
-        // Storyteller (line 2) just started — trigger right side
-        if (lineIdx === 2) setRightReady(true)
-        setTimeout(type, 260)
-      }
-    }
-
-    const delay = setTimeout(type, 350)
-    return () => { cancelled = true; clearTimeout(delay) }
+    const update = () => setScale(window.innerWidth / HERO_W)
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
   }, [])
 
-  const p = Math.min(charsDone / HERO_TOTAL_CHARS, 1)
+  // Sequence: badge (~1.3s) → headline → welcome → right section
+  useEffect(() => {
+    const t1 = setTimeout(() => setShowHeadline(true), 1350)
+    const t2 = setTimeout(() => setShowWelcome(true),  1750)
+    const t3 = setTimeout(() => setShowRight(true),    2100)
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+  }, [])
 
-  const CARD_BG = 'rgba(225, 217, 214, 0.50)'
-  const CARD_DISSOLVE = '#E1D9D6'
+  // Pop spring helper
+  const pop = (show: boolean, delay = 0) => ({
+    initial: { opacity: 0, scale: 0.82 },
+    animate: show ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.82 },
+    transition: { type: 'spring' as const, stiffness: 320, damping: 22, delay },
+  })
 
   return (
     <section
@@ -934,282 +931,229 @@ function HeroSection() {
         position: 'sticky',
         top: 0,
         zIndex: 0,
-        height: '100svh',
-        background: HERO_BG,
-        color: HERO_INK,
-        fontFamily: HELV,
-        padding: '36px 80px 36px',
-        display: 'flex',
-        flexDirection: 'column',
+        width: '100%',
+        height: `${HERO_H * scale}px`,
         overflow: 'hidden',
       }}
     >
-      {/* ── Animated badge — top left ── */}
-      <div className="hero-badge" style={{ position: 'absolute', top: '36px', left: '80px', zIndex: 2, perspective: '600px' }}>
-        {p > 0 && (
+      <div style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: `${HERO_W}px`,
+        height: `${HERO_H}px`,
+        background: '#ffffff',
+        transformOrigin: 'top left',
+        transform: `scale(${scale})`,
+      }}>
+
+        {/* Ghost PORTFOLIO — behind everything */}
+        <div aria-hidden style={{
+          position: 'absolute', left: 110, top: 163, width: 251,
+          fontFamily: HELV, fontSize: 150, fontWeight: 400,
+          color: '#f0f0f0', lineHeight: 'normal', wordBreak: 'break-all',
+          pointerEvents: 'none', userSelect: 'none', zIndex: 0,
+        }}>
+          PORTFOLIO
+        </div>
+
+        {/* ── Phase 1: Badge (immediate) ── */}
+        <div style={{ position: 'absolute', left: 119, top: 76, perspective: 600, zIndex: 6 }}>
           <motion.div
             initial={{ rotateY: -85, height: 3 }}
-            animate={{ rotateY: 0, height: 70 }}
+            animate={{ rotateY: 0, height: 69 }}
             transition={{
               rotateY: { duration: 0.975, ease: [0.22, 1, 0.36, 1] },
               height:   { duration: 0.675, ease: [0.22, 1, 0.36, 1], delay: 0.75 },
             }}
             style={{
-              width: '220px',
-              background: HERO_ACCENT,
-              overflow: 'hidden',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
+              width: 232, background: HERO_ACCENT, overflow: 'hidden',
+              display: 'flex', flexDirection: 'column', justifyContent: 'center',
               padding: '10px 16px',
-              clipPath: `polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)`,
+              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)',
               transformOrigin: 'left center',
             }}
           >
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ duration: 0.45, delay: 1.32 }}
-              style={{
-                fontFamily: SPACE_MONO,
-                fontSize: '13px',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                lineHeight: 1.7,
-                whiteSpace: 'nowrap',
-              }}
+              style={{ fontFamily: SPACE_MONO, fontSize: 13, letterSpacing: '0.08em', textTransform: 'uppercase', lineHeight: 1.7, whiteSpace: 'nowrap' }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#333333' }}>
-                <span style={{ display: 'inline-block', width: '6px', height: '6px', background: '#333333', flexShrink: 0, borderRadius: '50%', animation: 'dotBlink 1s step-end infinite' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#333333' }}>
+                <span style={{ display: 'inline-block', width: 6, height: 6, background: '#333333', flexShrink: 0, borderRadius: '50%', animation: 'dotBlink 1s step-end infinite' }} />
                 Portfolio — 2026
               </div>
               <div style={{ color: '#EAEAEA' }}>Est. 2020 / 6+ Years</div>
             </motion.div>
           </motion.div>
-        )}
-      </div>
-
-      {/* ── Main grid: headline | circle+card | vertical skills ── */}
-      <div className="hero-grid" style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 480px',
-        gap: '32px',
-        alignItems: 'center',
-        flex: 1,
-        padding: '80px 0 0',
-      }}>
-
-        {/* Left — typewritten headline */}
-        <div>
-          <h1 style={{
-            margin: 0,
-            fontFamily: HELV,
-            fontWeight: 700,
-            fontSize: 'clamp(40px, 9vw, 100px)',
-            lineHeight: 0.94,
-            letterSpacing: '-0.035em',
-            color: HERO_INK,
-            minHeight: '2.82em',
-          }}>
-            {HERO_LINES.map((line, li) => (
-              <span key={li} style={{ display: 'block' }}>
-                {line.slice(0, revealed[li]).map(({ ch, accent }, ci) => (
-                  <span key={ci} style={accent ? { color: HERO_ACCENT } : undefined}>{ch}</span>
-                ))}
-                {cursorLine === li && (
-                  <span style={{
-                    display: 'inline-block',
-                    width: '3px',
-                    height: '0.8em',
-                    background: HERO_INK,
-                    marginLeft: '4px',
-                    verticalAlign: 'middle',
-                    animation: 'heroCursor 0.75s step-end infinite',
-                  }} />
-                )}
-              </span>
-            ))}
-          </h1>
         </div>
 
-        {/* Center — orange circle + light card */}
-        <div style={{ position: 'relative' }}>
-          {/* Dotted grid — behind blob, 30% larger on each side */}
-          {rightReady && (
-            <div style={{
-              position: 'absolute',
-              top: 'calc(clamp(-80px, -15vw, -110px) - clamp(200px, 35vw, 300px) * 0.3)',
-              left: 'calc(clamp(-80px, -15vw, -110px) - clamp(200px, 35vw, 300px) * 0.3)',
-              width: 'calc(clamp(200px, 35vw, 300px) * 1.6)',
-              height: 'calc(clamp(200px, 35vw, 300px) * 1.6)',
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cline x1='0' y1='0' x2='40' y2='0' stroke='%23C9C9C9' stroke-width='1.5' stroke-dasharray='4 4'/%3E%3Cline x1='0' y1='0' x2='0' y2='40' stroke='%23C9C9C9' stroke-width='1.5' stroke-dasharray='4 4'/%3E%3C/svg%3E")`,
-              backgroundRepeat: 'repeat',
-              zIndex: 1,
-              pointerEvents: 'none',
-            }} />
-          )}
-          {/* Hero figure — centered on blob, flipped, behind card */}
-          {rightReady && (
-            <motion.div
-              className="hero-figure"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              style={{
-                position: 'absolute',
-                /* blob top/left = clamp(-80px,-15vw,-110px) ≈ -80px; blob size = clamp(200px,35vw,300px) */
-                /* center = blob_tl + blob_size/2 */
-                top: 'calc(clamp(-80px, -15vw, -110px) + clamp(200px, 35vw, 300px) / 2)',
-                left: 'calc(clamp(-80px, -15vw, -110px) + clamp(200px, 35vw, 300px) / 2 - 100px)',
-                width: 'clamp(280px, 44vw, 400px)',
-                /* shift back by own half-size to truly centre the image on the blob centre */
-                transform: 'translate(-50%, -50%)',
-                zIndex: 1,
-                pointerEvents: 'none',
-              }}
-            >
-              <img
-                src="/hero-figure.png"
-                alt=""
-                aria-hidden
-                style={{ width: '100%', display: 'none', transform: 'scale(1) translateY(0px)', filter: 'grayscale(100%)' }}
-              />
-            </motion.div>
-          )}
+        {/* ── Phase 1: Headline pop ── */}
+        <motion.h1
+          {...pop(showHeadline)}
+          style={{
+            position: 'absolute', left: 110, top: 444, width: 806,
+            fontFamily: GRENZE, fontSize: 100, fontWeight: 700,
+            lineHeight: '100px', letterSpacing: 0, color: '#3b4551',
+            margin: 0, zIndex: 6,
+          }}
+        >
+          Hey,<br />I&apos;m Onkar.
+        </motion.h1>
 
-          {/* Orange circle — mounts when Storyteller starts, pixel dissolve reveals it */}
-          {rightReady && <motion.div
-            className="hero-blob"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: 'spring', stiffness: 180, damping: 18, delay: 0.1 }}
+        {/* ── Phase 2: Welcome pop ── */}
+        <motion.p
+          {...pop(showWelcome)}
+          style={{
+            position: 'absolute', left: 110, top: 669, width: 806,
+            fontFamily: GRENZE, fontSize: 70, fontWeight: 300,
+            lineHeight: '70px', letterSpacing: 0, color: '#3b4551',
+            margin: 0, zIndex: 6,
+          }}
+        >
+          Welcome!
+        </motion.p>
+
+        {/* ── Phase 3: Right section (after Welcome) — each element pops in ── */}
+
+        {/* Blob — pop wrapper */}
+        <motion.div {...pop(showRight, 0)} style={{
+          position: 'absolute', left: 938, top: 299,
+          width: 449, height: 449,
+          zIndex: 1, pointerEvents: 'none',
+        }}>
+          {/* Float + glow wrapper */}
+          <motion.div
+            animate={{ y: [0, -16, 0] }}
+            transition={{ repeat: Infinity, duration: 4.2, ease: 'easeInOut' }}
             style={{
-            position: 'absolute',
-            top: 'clamp(-80px, -15vw, -110px)',
-            left: 'clamp(-80px, -15vw, -110px)',
-            width: 'clamp(200px, 35vw, 300px)',
-            height: 'clamp(200px, 35vw, 300px)',
-            background: HERO_ACCENT,
-            zIndex: 0,
-            pointerEvents: 'none',
-            overflow: 'hidden',
-          }}>
-            {(
+              width: '100%', height: '100%',
+              borderRadius: '50%',
+              boxShadow: '0 0 72px 28px rgba(255, 74, 28, 0.28)',
+            }}
+          >
+            {/* Actual blob with pixel dissolve */}
+            <div style={{
+              width: '100%', height: '100%',
+              borderRadius: '50%',
+              background: HERO_ACCENT,
+              overflow: 'hidden',
+              position: 'relative',
+            }}>
               <div style={{
-                position: 'absolute',
-                inset: 0,
+                position: 'absolute', inset: 0,
                 display: 'grid',
                 gridTemplateColumns: `repeat(${BLOB_PIXEL_COLS}, 1fr)`,
                 gridTemplateRows: `repeat(${BLOB_PIXEL_ROWS}, 1fr)`,
-                pointerEvents: 'none',
-                zIndex: 2,
+                pointerEvents: 'none', zIndex: 2,
               }}>
-                {BLOB_PIXEL_DELAYS.map((delay, i) => (
-                  <motion.div
-                    key={i}
-                    style={{ background: HERO_BG }}
+                {BLOB_PIXEL_DELAYS.map((d, i) => (
+                  <motion.div key={i}
+                    style={{ background: '#ffffff' }}
                     initial={{ opacity: 1 }}
-                    animate={{ opacity: 0 }}
-                    transition={{ duration: 0.30, delay: delay + 0.2 }}
+                    animate={showRight ? { opacity: 0 } : { opacity: 1 }}
+                    transition={{ duration: 0.30, delay: d + 0.2 }}
                   />
-                ))}
-              </div>
-            )}
-          </motion.div>}
-
-          {/* Card */}
-          <motion.div
-            className="hero-right-col"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: rightReady ? 1 : 0 }}
-            transition={{ duration: 0 }}
-            style={{
-              position: 'relative',
-              zIndex: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px',
-              background: CARD_BG,
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              padding: '40px 36px',
-              borderRadius: '12px',
-              border: '1px solid #DBDBDB',
-              overflow: 'hidden',
-            }}
-          >
-            {/* Pixel dissolve overlay */}
-            {rightReady && (
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'grid',
-                gridTemplateColumns: `repeat(${PIXEL_COLS}, 1fr)`,
-                gridTemplateRows: `repeat(${PIXEL_ROWS}, 1fr)`,
-                pointerEvents: 'none',
-                zIndex: 10,
-              }}>
-                {PIXEL_DELAYS.map((delay, i) => (
-                  <motion.div
-                    key={i}
-                    style={{ background: CARD_DISSOLVE }}
-                    initial={{ opacity: 1 }}
-                    animate={{ opacity: 0 }}
-                    transition={{ duration: 0.30, delay: delay + 0.2 }}
-                  />
-                ))}
-              </div>
-            )}
-
-            <div className="hero-card-heading" style={{
-              fontFamily: SPACE_MONO,
-              fontSize: '24px',
-              letterSpacing: '0.04em',
-              color: HERO_INK,
-              position: 'relative', zIndex: 1,
-            }}>
-              Hi, <span style={{ color: HERO_INK }}>I&rsquo;m Onkar</span>,
-            </div>
-
-            <p className="hero-card-body" style={{
-              margin: 0,
-              fontFamily: HELV,
-              fontSize: '17px',
-              lineHeight: 1.55,
-              color: HERO_BODY,
-              maxWidth: '380px',
-              position: 'relative', zIndex: 1,
-            }}>
-              A passionate product craftsman, UX researcher, &amp; creative technologist, building experiences for{' '}
-              <span style={{ color: HERO_INK, fontWeight: 500 }}>6+ years</span>, with recent development
-              in agentic environments and AI powered research &amp; prototyping.
-            </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '96px', position: 'relative', zIndex: 1 }}>
-              <HeroCTALight href="/ONKAR_LANKE.pdf" label="View Resume" external />
-              <HeroCTALight href="https://www.linkedin.com/in/onkarlanke/" label="Connect on LinkedIn" external />
-              <div style={{
-                marginTop: '14px',
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '4px 0',
-                fontFamily: SPACE_MONO,
-                fontSize: '9px',
-                letterSpacing: '0.09em',
-                textTransform: 'uppercase',
-                color: HERO_MUTED,
-                lineHeight: 1.4,
-              }}>
-                {HERO_TAGS.map(({ label }, i) => (
-                  <span key={label}>
-                    {label}
-                    {i < HERO_TAGS.length - 1 && <span style={{ margin: '0 6px', opacity: 0.5 }}>·</span>}
-                  </span>
                 ))}
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
+
+        {/* Crosshatch grid — z:2 */}
+        <motion.div {...pop(showRight, 0.06)} aria-hidden style={{
+          position: 'absolute', left: 803, top: 164, width: 718, height: 718,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cline x1='0' y1='0' x2='40' y2='0' stroke='%23C9C9C9' stroke-width='1.5' stroke-dasharray='4 4'/%3E%3Cline x1='0' y1='0' x2='0' y2='40' stroke='%23C9C9C9' stroke-width='1.5' stroke-dasharray='4 4'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat', pointerEvents: 'none', zIndex: 2,
+        }} />
+
+        {/* ME illustration — z:4 */}
+        <motion.img {...pop(showRight, 0.12)}
+          src="/hero/me.png" alt="Onkar"
+          style={{
+            position: 'absolute', left: 919, top: 164,
+            width: 441, height: 571,
+            objectFit: 'cover', objectPosition: 'top center', zIndex: 4,
+          }}
+        />
+
+        {/* Card 1: Roles — floats offset from blob */}
+        <motion.div {...pop(showRight, 0.20)} style={{
+          position: 'absolute', top: 270, left: 784, width: 247, height: 206, zIndex: 5,
+        }}>
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ repeat: Infinity, duration: 3.6, ease: 'easeInOut', delay: 0.6 }}
+            style={{
+              width: '100%', height: '100%',
+              background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
+              borderRadius: 12, padding: '20px 18px',
+              display: 'flex', flexDirection: 'column', gap: 10,
+            }}
+          >
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#d4e8a0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🎨</div>
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#192028', margin: 0, lineHeight: 1.5 }}>
+              Product Designer.<br />Researcher.<br />3D artist.<br />Mechanical Engineer.
+            </p>
+          </motion.div>
+        </motion.div>
+
+        {/* Card 2: Music — slowest, most out of phase */}
+        <motion.div {...pop(showRight, 0.30)} style={{
+          position: 'absolute', top: 145, left: 1223, width: 247, height: 206, zIndex: 5,
+        }}>
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ repeat: Infinity, duration: 4.8, ease: 'easeInOut', delay: 1.4 }}
+            style={{
+              width: '100%', height: '100%',
+              background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
+              borderRadius: 12, padding: '20px 18px',
+              display: 'flex', flexDirection: 'column', gap: 10,
+            }}
+          >
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#c8e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🎵</div>
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#192028', margin: 0, lineHeight: 1.5 }}>
+              Music composer &amp;<br />flute player
+            </p>
+          </motion.div>
+        </motion.div>
+
+        {/* Card 3: Tech — fastest, furthest out of phase */}
+        <motion.div {...pop(showRight, 0.40)} style={{
+          position: 'absolute', top: 587, left: 890, width: 247, height: 221, zIndex: 5,
+        }}>
+          <motion.div
+            animate={{ y: [0, -11, 0] }}
+            transition={{ repeat: Infinity, duration: 3.2, ease: 'easeInOut', delay: 2.1 }}
+            style={{
+              width: '100%', height: '100%',
+              background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
+              borderRadius: 12, padding: '20px 18px',
+              display: 'flex', flexDirection: 'column', gap: 10,
+            }}
+          >
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#c8e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>💻</div>
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#192028', margin: 0, lineHeight: 1.5 }}>
+              Creative Technologist:<br />Versatile in front-end,<br />python, no-code tools<br />and agentic prototyping
+            </p>
+          </motion.div>
+        </motion.div>
+
+        {/* Top-right label */}
+        <motion.div {...pop(showRight, 0.18)} style={{
+          position: 'absolute', left: 1289, top: 65,
+          display: 'flex', alignItems: 'center', gap: 7, zIndex: 6,
+        }}>
+          <svg width={76} height={1} style={{ display: 'block', overflow: 'visible' }}>
+            <line x1="0" y1="0.5" x2="76" y2="0.5" stroke="#606c78" strokeWidth="1" />
+          </svg>
+          <span style={{ fontFamily: SPACE_MONO, fontSize: 14, color: '#606c78', whiteSpace: 'nowrap' }}>
+            DESIGN/PRODUCT DEVELOPMENT
+          </span>
+        </motion.div>
 
       </div>
     </section>
@@ -1470,24 +1414,24 @@ function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; i
       rel="noreferrer"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -4 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.08, ease }}
       style={{
         display: 'block',
-        background: '#0A0A0A',
-        border: `1px solid ${hovered ? '#2a2a2a' : '#1a1a1a'}`,
+        background: T.paper,
         borderRadius: '6px',
         overflow: 'hidden',
         textDecoration: 'none',
-        transition: 'border-color 0.25s',
         cursor: 'pointer',
+        border: hovered ? `1px solid ${T.rule}` : '1px solid transparent',
+        boxShadow: hovered ? '0 4px 16px rgba(0,0,0,0.08)' : 'none',
+        transition: 'border-color 0.2s, box-shadow 0.2s',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       {/* Cover image — 872×688 natural ratio ≈ 4:3 */}
-      <div style={{ position: 'relative', aspectRatio: '872 / 688', overflow: 'hidden', background: '#111' }}>
+      <div style={{ position: 'relative', aspectRatio: '872 / 688', overflow: 'hidden', background: T.ruleSoft }}>
         <img
           src={project.cover}
           alt={project.title}
@@ -1495,8 +1439,6 @@ function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; i
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            opacity: hovered ? 1 : 0.75,
-            transition: 'opacity 0.3s',
             display: 'block',
           }}
           onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
@@ -1508,17 +1450,16 @@ function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; i
           fontFamily: T.sans,
           fontSize: '13px',
           fontWeight: 500,
-          color: hovered ? '#ffffff' : '#a1a1aa',
+          color: T.ink,
           margin: '0 0 8px',
           lineHeight: 1.4,
           letterSpacing: '-0.01em',
-          transition: 'color 0.2s',
         }}>
           {project.title}
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontFamily: T.mono, fontSize: '10px', color: '#3f3f46', letterSpacing: '0.04em' }}>{project.year}</span>
-          <span style={{ fontFamily: T.mono, fontSize: '9px', color: '#3f3f46', border: '1px solid #27272a', padding: '1px 6px', borderRadius: '4px', letterSpacing: '0.06em' }}>
+          <span style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, letterSpacing: '0.04em' }}>{project.year}</span>
+          <span style={{ fontFamily: T.mono, fontSize: '9px', color: T.inkMute, border: `1px solid ${T.rule}`, padding: '1px 6px', borderRadius: '4px', letterSpacing: '0.06em' }}>
             Be
           </span>
         </div>
@@ -1552,7 +1493,7 @@ function BehanceSection() {
         <h2 style={{
           color: '#ffffff',
           fontFamily: T.sans,
-          fontSize: '28px',
+          fontSize: '36px',
           fontWeight: 500,
           margin: 0,
           letterSpacing: '-0.02em',
@@ -1566,14 +1507,14 @@ function BehanceSection() {
           style={{
             fontFamily: T.mono,
             fontSize: '11px',
-            color: '#52525b',
+            color: '#192028',
             textDecoration: 'none',
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
             transition: 'color 0.2s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#ffffff')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#52525b')}
+          onMouseEnter={e => (e.currentTarget.style.color = '#FF4A1C')}
+          onMouseLeave={e => (e.currentTarget.style.color = '#192028')}
         >
           View on Behance →
         </a>
@@ -1635,7 +1576,7 @@ function IndustrialSection() {
           <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
             Industrial &amp; Product Design
           </p>
-          <h2 style={{ color: T.ink, fontSize: '28px', fontWeight: 500, letterSpacing: '-0.02em', margin: 0 }}>
+          <h2 style={{ color: T.ink, fontSize: '36px', fontWeight: 500, letterSpacing: '-0.02em', margin: 0 }}>
             Beyond pixels: Design by 1st principles
           </h2>
         </div>
@@ -1745,7 +1686,7 @@ function ArchSection() {
             Industrial &amp; Architectural Design
           </p>
           <h2 style={{ color: '#ffffff', fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 1.05, margin: 0 }}>
-            Beyond pixels: Design by 1st principles!
+            Off the shelf!
           </h2>
         </div>
         <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: '#1a1a1a', letterSpacing: '-0.03em' }}>
@@ -1895,232 +1836,149 @@ function SkillsAccordion() {
   )
 }
 
+const ABOUT_POINTERS = [
+  { n: '01', text: "I'm a multidisciplinary designer. I feel design has no boundaries. I apply design fundamentals for every project, thinking with 1st principles." },
+  { n: '02', text: "I'm highly analytical & may ask lot of questions for clarity before starting the work." },
+  { n: '03', text: "I look at problems at eco-system levels, as the whole system defines the user's experience. So I love to brainstorm and collaborate with developers, admins and product managers to implement certain things for experience and as per the need." },
+  { n: '04', text: "I love studio environments and working with people with complementary skillsets, like animators, devs, and managers. That's how I grow my knowledge." },
+  { n: '05', text: "I love company of people who sit on new problems that don't have solutions in the world and figure it out together. The energy, vibe is completely different." },
+]
+
+function AboutPointer({ n, text }: { n: string; text: string }) {
+  return (
+    <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+      <span style={{ fontFamily: SPACE_MONO, fontSize: 11, color: HERO_ACCENT, letterSpacing: '0.06em', lineHeight: 1, marginTop: 3, flexShrink: 0 }}>{n}</span>
+      <p style={{ fontFamily: HELV, fontSize: 15, color: '#525252', lineHeight: 1.65, margin: 0 }}>{text}</p>
+    </div>
+  )
+}
+
 function AboutSection() {
   return (
     <section
       id="about"
-      style={{
-        background: '#ffffff',
-        fontFamily: T.sans,
-        position: 'relative',
-      }}
+      style={{ background: '#ffffff', position: 'relative', overflow: 'hidden', fontFamily: T.sans }}
     >
-      {/* Background dot grid */}
+      {/* Ghost "ABOUT" — narrow column, wraps like PORTFOLIO in hero */}
       <div aria-hidden style={{
-        position: 'absolute', inset: 0,
-        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='1.2' fill='%23B0ADA6'/%3E%3C/svg%3E")`,
-        backgroundRepeat: 'repeat',
-        opacity: 0.22,
+        position: 'absolute',
+        left: 80,
+        top: '20%',
+        width: 240,
+        fontSize: 150,
+        fontWeight: 400,
+        fontFamily: HELV,
+        color: '#f0f0f0',
+        lineHeight: 'normal',
+        wordBreak: 'break-all',
         pointerEvents: 'none',
+        userSelect: 'none',
         zIndex: 0,
-      }} />
-      {/* Background image */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'url(/about-bg.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0,
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      />
-      {/* Ghost display word */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          top: '40px',
-          right: '-10px',
-          fontSize: 'clamp(49px, 7.35vw, 108px)',
-          fontWeight: 500,
-          letterSpacing: '-0.04em',
-          color: T.ruleSoft,
-          lineHeight: 1,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          zIndex: 0,
-        }}
-      >
-        About
-      </div>
-
-      {/* Horizontal grid rule — below chrome strip */}
-      <div aria-hidden style={{
-        position: 'absolute', left: 0, right: 0, top: '120px',
-        height: 1, background: T.rule, opacity: 0.18,
-        pointerEvents: 'none', zIndex: 1,
-      }} />
-
-      {/* Left-edge vertical annotation */}
-      <div aria-hidden style={{
-        position: 'absolute', left: 20, top: '50%',
-        transform: 'rotate(-90deg)',
-        transformOrigin: 'left top',
-        fontFamily: T.mono, fontSize: '8px',
-        color: T.inkMute, letterSpacing: '0.16em',
-        textTransform: 'uppercase', opacity: 0.3,
-        whiteSpace: 'nowrap', zIndex: 1, pointerEvents: 'none',
       }}>
-        About the designer
+        ABOUT
       </div>
 
-      {/* Chrome strip */}
-      <div
-        style={{
-          padding: '40px 80px',
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'baseline',
-          position: 'relative',
-          zIndex: 1,
-          borderBottom: `1px solid ${T.rule}`,
-        }}
-      >
-        {/* Diagonal hatch accent — left side of chrome strip */}
-        <div aria-hidden style={{
-          position: 'absolute', top: 0, left: 0,
-          width: 140, height: '100%',
-          backgroundImage: 'repeating-linear-gradient(45deg, #C8C5BE 0px, #C8C5BE 1px, transparent 1px, transparent 9px)',
-          maskImage: 'linear-gradient(to right, black 0%, transparent 75%)',
-          WebkitMaskImage: 'linear-gradient(to right, black 0%, transparent 75%)',
-          opacity: 0.3,
-          pointerEvents: 'none',
-        }} />
-        {/* Section label */}
-        <div style={{ position: 'absolute', left: 80, top: '50%', transform: 'translateY(-50%)' }}>
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0, opacity: 0.7 }}>
-            Background &amp; skills
-          </p>
-        </div>
-        <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
-          04/
+      {/* Top-right label — same style as hero */}
+      <div style={{
+        position: 'absolute',
+        top: 80,
+        right: 80,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 7,
+        zIndex: 2,
+        pointerEvents: 'none',
+      }}>
+        <svg width={76} height={1} style={{ display: 'block', overflow: 'visible' }}>
+          <line x1="0" y1="0.5" x2="76" y2="0.5" stroke="#606c78" strokeWidth="1" />
+        </svg>
+        <span style={{ fontFamily: SPACE_MONO, fontSize: 14, color: '#606c78', whiteSpace: 'nowrap' }}>
+          ABOUT ME
         </span>
       </div>
 
-      {/* Body — 2 col */}
-      <div
-        className="about-inner"
-        style={{
+      {/* Inner content */}
+      <div style={{ padding: '80px 80px 90px', position: 'relative', zIndex: 1 }}>
+
+        {/* Headline */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease }}
+          style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
+            borderBottom: `1px solid ${T.rule}`, paddingBottom: '20px', marginBottom: '48px',
+          }}
+        >
+          <div>
+            <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+              About
+            </p>
+            <h2 style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, letterSpacing: '-0.02em', lineHeight: 1.05, margin: 0 }}>
+              Working with me.
+            </h2>
+          </div>
+          <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
+            04/
+          </span>
+        </motion.div>
+
+        {/* 3-col: text | photo | text */}
+        <div style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1.3fr',
-          gap: '64px',
-          padding: '32px 80px 80px',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        {/* ── Left column: headline + illustration ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-          {/* Headline */}
+          gridTemplateColumns: '1fr 340px 1fr',
+          gap: '52px',
+          alignItems: 'center',
+        }}>
+
+          {/* Left text */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease }}
+            style={{ display: 'flex', flexDirection: 'column', gap: 24 }}
           >
-            <h2 style={{
-              fontSize: 'clamp(28px, 3.5vw, 52px)',
-              fontWeight: 700,
-              letterSpacing: '-0.03em',
-              lineHeight: 1.08,
-              color: T.ink,
-              margin: 0,
-              fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
-            }}>
-              Thriving on Curiosity &amp; Experimentation&hellip;
-            </h2>
+            {ABOUT_POINTERS.slice(0, 3).map(p => <AboutPointer key={p.n} {...p} />)}
           </motion.div>
 
-          {/* Illustration */}
+          {/* Center photo */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.94 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.08, ease }}
-            style={{ borderRadius: '12px', overflow: 'hidden', border: `1px solid ${T.rule}` }}
+            transition={{ duration: 0.7, ease }}
+            style={{
+              borderRadius: 14,
+              overflow: 'hidden',
+              border: `1px solid ${T.rule}`,
+              aspectRatio: '3/4',
+            }}
           >
             <img
-              src="/about-illustration.png"
-              alt="Designer at work illustration"
-              style={{ width: '100%', display: 'block' }}
+              src="/about-photo.jpg"
+              alt="Onkar Lanke"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
             />
           </motion.div>
 
-        </div>
-
-        {/* ── Right column: stats + bio + skills accordion ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-
-          {/* Bio */}
+          {/* Right text */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1, ease }}
+            transition={{ duration: 0.6, ease }}
+            style={{ display: 'flex', flexDirection: 'column', gap: 24 }}
           >
-            <p style={{ fontSize: '17px', fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: '#3D3D38', lineHeight: 1.7, margin: '0 0 16px' }}>
-              I&rsquo;m an engineer turned designer, &amp; I simply love product building!
-              Through extensive explorations, I bring insights to the forefront &amp;
-              ship intentional, desirable experiences, for various outcomes like
-              improved user satisfaction, enhanced onboarding, increase in
-              task completions and product growth.
-            </p>
-            <p style={{ fontSize: '17px', fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: '#3D3D38', lineHeight: 1.7, margin: 0 }}>
-              People say, &ldquo;<span style={{ color: T.ink, fontWeight: 500 }}>Good Design shapes you.</span>&rdquo; Design has made me
-              more humble, an active listener, &amp; importance of putting your
-              heart into every small detail, as I feel designers do an incredible
-              job making spaces more liveable and desirable.
-            </p>
+            {ABOUT_POINTERS.slice(3).map(p => <AboutPointer key={p.n} {...p} />)}
           </motion.div>
 
-          {/* Stats card */}
-          <motion.div
-            className="stats-row"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15, ease }}
-            style={{
-              background: '#FF4A1C',
-              clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)',
-              overflow: 'hidden',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-            }}
-          >
-            {stats.map((s, i) => (
-              <div key={i} style={{
-                padding: '20px 20px',
-                borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,0.25)' : 'none',
-              }}>
-                <p style={{ fontFamily: T.mono, fontSize: 'clamp(22px, 2.2vw, 32px)', fontWeight: 700, letterSpacing: '-0.03em', color: '#ffffff', margin: '0 0 4px', lineHeight: 1 }}>
-                  <CountUp target={s.value} suffix={s.suffix} />
-                </p>
-                <p style={{ fontFamily: T.mono, fontSize: '9px', color: 'rgba(255,255,255,0.75)', margin: 0, letterSpacing: '0.08em', textTransform: 'uppercase', lineHeight: 1.4 }}>
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Skills accordion */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2, ease }}
-          >
-            <SkillsAccordion />
-          </motion.div>
         </div>
       </div>
 
-      {/* Tools marquee — full page width */}
-      <div style={{ padding: '40px 0 48px', position: 'relative', zIndex: 1 }}>
+      {/* Tools marquee */}
+      <div style={{ padding: '40px 0 48px', position: 'relative', zIndex: 1, borderTop: `1px solid ${T.ruleSoft}` }}>
         <div style={{ padding: '0 80px 16px' }}>
           <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.12em', textTransform: 'uppercase', margin: 0 }}>Tools I use</p>
         </div>
@@ -2194,18 +2052,16 @@ const timelineJobs = [
     ],
   },
   {
-    role: 'Product Design Consultant',
-    company: 'Laminar Interactive',
-    type: 'Freelance',
-    period: 'Mar – Jun 2026',
-    months: 3,
-    desc: 'AI tool for architects — research, prototype, 20% workflow gain.',
+    role: 'Break — Yoga Program at Isha + Travel',
+    company: '',
+    type: 'Personal',
+    period: 'Jan 2026 – Aug 2026',
+    months: 7,
+    desc: '7-month intentional break: yoga program at Isha Foundation and travel.',
     accent: false,
     points: [
-      'Developed product vision & user scenarios for an AI-powered architecture tool',
-      'Conducted user research — surveys and moderated interviews with practicing architects',
-      'Built working prototype using Claude, Nano Banana, and Vercel',
-      'Trained model agents for site analysis and concept generation in 2D/3D views',
+      'Completed yoga program at Isha Foundation',
+      'Travelled and recharged',
     ],
   },
 ]
@@ -2261,7 +2117,7 @@ function ExperienceTimeline() {
           <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
             Experience timeline
           </p>
-          <p style={{ fontFamily: T.sans, fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 700, letterSpacing: '-0.03em', color: T.ink, margin: 0, lineHeight: 1.1 }}>
+          <p style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 700, letterSpacing: '-0.03em', color: T.ink, margin: 0, lineHeight: 1.1 }}>
             Journey so far...
           </p>
         </div>
@@ -2302,10 +2158,68 @@ function ExperienceTimeline() {
           gap: '0',
           padding: '0 80px',
         }}>
-          {timelineJobs.map((job, i) => {
+          {/* Searching compass — current state, extreme left */}
+          {(() => {
+            const iconSize = 95
+            const spacer   = TL_LINE_Y - iconSize / 2
+            return (
+              <Fragment key="compass">
+              <motion.div
+                initial={{ opacity: 0, x: -60 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.65, delay: 0, ease: [0.22, 1, 0.36, 1] }}
+                style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}
+              >
+                <div style={{ height: spacer, flexShrink: 0 }} />
+                <div style={{
+                  display: 'flex', flexDirection: 'column', alignItems: 'center',
+                  gap: '12px', textAlign: 'center', width: 160,
+                }}>
+                  <div style={{
+                    width: iconSize, height: iconSize, borderRadius: '50%',
+                    border: '2px dotted #FF4A1C',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    animation: 'spin-slow 12s linear infinite',
+                    flexShrink: 0,
+                  }}>
+                    <svg
+                      width={iconSize - 16} height={iconSize - 16}
+                      viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
+                      style={{ animation: 'counter-spin-slow 12s linear infinite' }}
+                    >
+                      <line x1="7" y1="20" x2="9" y2="20" stroke="#8A8A85" strokeWidth="1" strokeLinecap="round" />
+                      <line x1="31" y1="20" x2="33" y2="20" stroke="#8A8A85" strokeWidth="1" strokeLinecap="round" />
+                      <g className="compass-needle">
+                        <line x1="20" y1="20" x2="20" y2="9" stroke="#FF4A1C" strokeWidth="1.5" strokeLinecap="round" />
+                        <polygon points="20,6 18,11 22,11" fill="#FF4A1C" />
+                        <line x1="20" y1="20" x2="20" y2="31" stroke="#0B0B0B" strokeWidth="1.5" strokeLinecap="round" />
+                        <polygon points="20,34 18,29 22,29" fill="#0B0B0B" />
+                      </g>
+                      <circle cx="20" cy="20" r="2" fill="#FF4A1C" />
+                    </svg>
+                  </div>
+                  <span style={{
+                    fontFamily: T.sans, fontSize: '13px', color: '#0B0B0B',
+                    letterSpacing: '0.01em', lineHeight: 1.5,
+                  }}>
+                    Finding next great place and amazing folks to work with
+                  </span>
+                </div>
+              </motion.div>
+              {/* Connector to first job */}
+              <div style={{
+                flexGrow: 1, flexShrink: 1, minWidth: '24px',
+                height: '2px', marginTop: TL_LINE_Y - 1,
+                alignSelf: 'flex-start', background: '#C8C5BE',
+              }} />
+              </Fragment>
+            )
+          })()}
+
+          {[...timelineJobs].reverse().map((job, i, arr) => {
             const size   = tlSize(job.months)
             const radius = size / 2
-            const nextSize = i < timelineJobs.length - 1 ? tlSize(timelineJobs[i + 1].months) : 150
+            const nextSize = i < arr.length - 1 ? tlSize(arr[i + 1].months) : 150
             const pad    = Math.round(size * 0.13)
             const t      = (size - TL_MIN_PX) / (TL_MAX_PX - TL_MIN_PX) // 0 = smallest, 1 = largest
             const roleFs = Math.round(14 + t * 4)   // 14px (small) → 18px (large)
@@ -2498,56 +2412,6 @@ function ExperienceTimeline() {
             )
           })}
 
-          {/* Searching compass — current state, extreme right */}
-          {(() => {
-            const iconSize = 95  // 73 * 1.3 ≈ 95
-            const spacer   = TL_LINE_Y - iconSize / 2
-            return (
-              <motion.div
-                initial={{ opacity: 0, x: -60 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.65, delay: timelineJobs.length * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}
-              >
-                <div style={{ height: spacer, flexShrink: 0 }} />
-                <div style={{
-                  display: 'flex', flexDirection: 'column', alignItems: 'center',
-                  gap: '12px', textAlign: 'center', width: 160,
-                }}>
-                  {/* Rotating dotted border — SVG counter-spins so needle stays upright */}
-                  <div style={{
-                    width: iconSize, height: iconSize, borderRadius: '50%',
-                    border: '2px dotted #FF4A1C',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    animation: 'spin-slow 12s linear infinite',
-                    flexShrink: 0,
-                  }}>
-                    <svg
-                      width={iconSize - 16} height={iconSize - 16}
-                      viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-                      style={{ animation: 'counter-spin-slow 12s linear infinite' }}
-                    >
-                      <line x1="7" y1="20" x2="9" y2="20" stroke="#8A8A85" strokeWidth="1" strokeLinecap="round" />
-                      <line x1="31" y1="20" x2="33" y2="20" stroke="#8A8A85" strokeWidth="1" strokeLinecap="round" />
-                      <g className="compass-needle">
-                        <line x1="20" y1="20" x2="20" y2="9" stroke="#FF4A1C" strokeWidth="1.5" strokeLinecap="round" />
-                        <polygon points="20,6 18,11 22,11" fill="#FF4A1C" />
-                        <line x1="20" y1="20" x2="20" y2="31" stroke="#0B0B0B" strokeWidth="1.5" strokeLinecap="round" />
-                        <polygon points="20,34 18,29 22,29" fill="#0B0B0B" />
-                      </g>
-                      <circle cx="20" cy="20" r="2" fill="#FF4A1C" />
-                    </svg>
-                  </div>
-                  <span style={{
-                    fontFamily: T.sans, fontSize: '13px', color: '#0B0B0B',
-                    letterSpacing: '0.01em', lineHeight: 1.5,
-                  }}>
-                    Finding next great place and amazing folks to work with
-                  </span>
-                </div>
-              </motion.div>
-            )
-          })()}
         </div>
       </div>
     </section>
@@ -2556,16 +2420,6 @@ function ExperienceTimeline() {
 
 // ─── Experience + Tools sections ──────────────────────────────────────────────
 const experience = [
-  {
-    role: 'Product Design + Strategy',
-    company: 'Laminar Interactive',
-    type: 'Freelance · Stealth AI startup',
-    period: 'Mar 2026 – May 2026',
-    bullets: [
-      'AI-powered tool for architects to execute villa/bungalow projects in hours — developed product vision, user scenarios, research (surveys + moderated interviews).',
-      'Built a working prototype using Claude, Nano Banana, and Vercel; trained model agents for site analysis and concept generation in 2D plans and 3D sectional views.',
-    ],
-  },
   {
     role: 'Product Lead — Design + Strategy',
     company: 'SlideXpress · Mindseye Creative',
@@ -2597,12 +2451,12 @@ const experience = [
     ],
   },
   {
-    role: 'Instructional Design · Course Designer',
-    company: 'LOM Digital × LearningMate',
-    type: 'Freelance',
-    period: 'Nov 2022 – Feb 2023',
+    role: 'Break — Yoga Program at Isha + Travel',
+    company: '',
+    type: 'Personal',
+    period: 'Jan 2026 – Aug 2026',
     bullets: [
-      'Designed structure, scope & sequence for "Introduction to Manufacturing: Product Design & Innovation" — an online elective for 9th–12th grade students in Pennsylvania.',
+      '7-month intentional break: completed yoga program at Isha Foundation and travelled.',
     ],
   },
 ]
@@ -2731,7 +2585,7 @@ function SkillPill({ label }: { label: string }) {
 }
 
 // ─── Work subsection with hover-orange label ──────────────────────────────────
-function WorkSubSection({ kicker, title, index, children, topPadding = '56px' }: { kicker: string; title: string; index: string; children: React.ReactNode; topPadding?: string }) {
+function WorkSubSection({ kicker, title, index, children, topPadding = '56px', viewAllHref, viewAllLabel }: { kicker: string; title: string; index: string; children: React.ReactNode; topPadding?: string; viewAllHref?: string; viewAllLabel?: string }) {
   return (
     <div style={{ padding: `${topPadding} 64px 0` }}>
       <motion.div
@@ -2740,21 +2594,35 @@ function WorkSubSection({ kicker, title, index, children, topPadding = '56px' }:
         viewport={{ once: true }}
         transition={{ duration: 0.5, ease }}
         style={{
-          display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
-          borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '20px', marginBottom: '40px',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
+          borderBottom: `1px solid ${T.rule}`, paddingBottom: '20px', marginBottom: '40px',
         }}
       >
         <div>
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
             {kicker}
           </p>
-          <h2 style={{ fontFamily: T.sans, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 500, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.05, margin: 0 }}>
+          <h2 style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, letterSpacing: '-0.02em', lineHeight: 1.05, margin: 0 }}>
             {title}
           </h2>
         </div>
-        <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: 'rgba(255,255,255,0.15)', letterSpacing: '-0.03em' }}>
-          {index}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '24px' }}>
+          {viewAllHref && (
+            <a
+              href={viewAllHref}
+              target="_blank"
+              rel="noreferrer"
+              style={{ fontFamily: T.mono, fontSize: '11px', color: '#192028', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s', flexShrink: 0 }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#FF4A1C')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#192028')}
+            >
+              {viewAllLabel}
+            </a>
+          )}
+          <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
+            {index}
+          </span>
+        </div>
       </motion.div>
       {children}
     </div>
@@ -2860,7 +2728,7 @@ export default function Home() {
           style={{
             position: 'relative',
             zIndex: 10,
-            background: T.dark,
+            background: T.paper,
             borderRadius: '24px 24px 0 0',
             fontFamily: T.sans,
             paddingBottom: '80px',
@@ -2895,25 +2763,14 @@ export default function Home() {
           </WorkSubSection>
 
           {/* Behance Archive */}
-          <WorkSubSection kicker="Archive" title="Previous work" index="03/" topPadding="96px">
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '24px' }}>
-              <a
-                href="https://www.behance.net/lankeonkar"
-                target="_blank"
-                rel="noreferrer"
-                style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#ffffff')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#52525b')}
-              >
-                View on Behance →
-              </a>
-            </div>
+          <WorkSubSection kicker="Archive" title="Earlier behance work" index="03/" topPadding="96px" viewAllHref="https://www.behance.net/lankeonkar" viewAllLabel="View on Behance →">
             <div className="behance-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
               {behanceProjects.map((project, i) => (
                 <BehanceCard key={project.url} project={project} index={i} />
               ))}
             </div>
           </WorkSubSection>
+
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════════
@@ -2926,9 +2783,9 @@ export default function Home() {
         ═══════════════════════════════════════════════════════════════════ */}
         <ExperienceTimeline />
 
-        <IndustrialSection />
+        {/* <IndustrialSection /> — hidden */}
 
-        <ArchSection />
+        {/* <ArchSection /> — hidden: repeat of Off the shelf above */}
 
         {/* ═══════════════════════════════════════════════════════════════════
             DOODLES — just above footer
@@ -2970,7 +2827,7 @@ export default function Home() {
               <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
                 Raw sketches &amp; explorations
               </p>
-              <h2 style={{ fontFamily: T.sans, fontSize: '28px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+              <h2 style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
                 Doodling on the go
               </h2>
             </div>
@@ -2987,6 +2844,11 @@ export default function Home() {
           <SketchMarquee />
         </div>
 
+        {/* ── Articles — light theme, below doodling ── */}
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <MediumSection />
+        </div>
+
         {/* ═══════════════════════════════════════════════════════════════════
             FOOTER — sticky, ends the scroll
         ═══════════════════════════════════════════════════════════════════ */}
@@ -2995,7 +2857,6 @@ export default function Home() {
             position: 'sticky',
             top: 0,
             zIndex: 30,
-            height: '100svh',
             borderRadius: '24px 24px 0 0',
             overflow: 'hidden',
           }}

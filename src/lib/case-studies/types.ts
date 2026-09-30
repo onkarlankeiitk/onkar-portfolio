@@ -11,6 +11,8 @@ export type ProcessStep = {
   title: string
   body: string
   bodyPoints?: string[]  // optional bullet pointers to replace body paragraph
+  labeledPoints?: { label: string; body: string }[]  // optional bold-label + body pointers
+  additionalImages?: { src: string; alt: string; aspect?: string }[]  // extra images rendered below the main image
   tags?: string[]     // optional pill tags below the body
   image: {
     src: string | null  // null = show placeholder
@@ -19,6 +21,11 @@ export type ProcessStep = {
     aspect?: string     // e.g. 'aspect-[4/3]', defaults to 'aspect-video'
   }
   imagePosition?: 'left' | 'right'  // defaults to 'right'
+  subSections?: {
+    headline: string
+    body: string
+    image: { src: string | null; alt: string }
+  }[]
 }
 
 export type FindingCard = {

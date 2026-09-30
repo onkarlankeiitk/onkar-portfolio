@@ -87,7 +87,7 @@ function RolePill({ label }: { label: string }) {
         border: `1px solid ${hovered ? '#FF4A1C' : '#27272a'}`,
         borderRadius: '9999px',
         padding: '8px 20px',
-        fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
+        fontFamily: '"Helvetica Neue", "Helvetica", Arial, sans-serif',
         fontSize: '14px',
         color: hovered ? '#FF4A1C' : '#FF4A1C',
         letterSpacing: '0.04em',
@@ -313,53 +313,40 @@ function AnimatedOrigami() {
 
 // ─── Footer ────────────────────────────────────────────────────────────────────
 export default function Footer() {
-  const [articles, setArticles] = useState<{ title: string; link: string; pubDate: string; tags?: string[]; publication?: string }[]>([])
-
-  useEffect(() => {
-    fetch('/api/medium')
-      .then(r => r.json())
-      .then(data => { if (Array.isArray(data)) setArticles(data.slice(0, 4)) })
-      .catch(() => {})
-  }, [])
-
   return (
     <>
     <style>{`
       .footer-root {
-        padding: 80px 80px 48px;
+        padding: 48px 80px 32px;
       }
       .footer-top {
-        gap: 64px;
+        gap: 40px;
       }
 
       .footer-bottom {
-        padding-top: 48px;
+        padding-top: 28px;
       }
       @media (max-width: 768px) {
         .footer-root {
-          padding: 48px 32px 36px !important;
+          padding: 36px 32px 24px !important;
           height: auto !important;
-          min-height: 100svh;
-        }
-        .footer-articles-grid {
-          grid-template-columns: 1fr !important;
         }
         .footer-headline {
           line-height: 1.05 !important;
         }
         .footer-top {
           flex-direction: column !important;
-          gap: 40px !important;
+          gap: 28px !important;
         }
 
         .footer-contact-col {
           width: 100% !important;
         }
         .footer-bottom {
-          padding-top: 32px !important;
+          padding-top: 20px !important;
           flex-direction: column !important;
           align-items: flex-start !important;
-          gap: 20px !important;
+          gap: 16px !important;
         }
         .footer-nav-links {
           gap: 16px !important;
@@ -367,13 +354,13 @@ export default function Footer() {
       }
       @media (max-width: 480px) {
         .footer-root {
-          padding: 36px 20px 28px !important;
+          padding: 28px 20px 20px !important;
         }
         .footer-top {
-          gap: 32px !important;
+          gap: 24px !important;
         }
         .footer-bottom {
-          padding-top: 24px !important;
+          padding-top: 16px !important;
         }
       }
     `}</style>
@@ -382,8 +369,7 @@ export default function Footer() {
       className="footer-root"
       style={{
         background: '#0A0A0A',
-        minHeight: '100svh',
-        fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif',
+        fontFamily: '"Helvetica Neue", "Helvetica", Arial, sans-serif',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -405,12 +391,12 @@ export default function Footer() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           style={{ flex: '1 1 340px', maxWidth: '520px' }}
         >
-          <h2 className="footer-headline" style={{ color: '#ffffff', fontSize: 'clamp(32px, 5vw, 80px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95, margin: 0, maxWidth: '14ch', fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif' }}>
+          <h2 className="footer-headline" style={{ color: '#ffffff', fontSize: 'clamp(28px, 4vw, 56px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95, margin: 0, maxWidth: '14ch', fontFamily: '"Helvetica Neue", "Helvetica", Arial, sans-serif' }}>
             Open to full time roles
           </h2>
 
           {/* Role pills */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '24px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '16px' }}>
             {roles.map(role => <RolePill key={role} label={role} />)}
           </div>
         </motion.div>
@@ -436,48 +422,6 @@ export default function Footer() {
         </motion.div>
       </div>
 
-      {/* ── Medium articles strip ── */}
-      {articles.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          style={{ position: 'relative', zIndex: 1, borderTop: '1px solid #18181b', paddingTop: '32px' }}
-        >
-          <p style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: '15px', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#ffffff', marginBottom: '16px' }}>
-            My articles
-          </p>
-          <div className="footer-articles-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', background: '#18181b' }}>
-            {articles.map((a) => (
-              <a
-                key={a.link}
-                href={a.link}
-                target="_blank"
-                rel="noreferrer"
-                style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '12px', padding: '20px 24px', background: '#0A0A0A', textDecoration: 'none', transition: 'background 0.2s ease' }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#111'; (el.querySelector('.art-title') as HTMLElement).style.color = '#FF4A1C'; (el.querySelector('.art-arrow') as HTMLElement).style.color = '#FF4A1C' }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#0A0A0A'; (el.querySelector('.art-title') as HTMLElement).style.color = '#d4d4d8'; (el.querySelector('.art-arrow') as HTMLElement).style.color = '#3f3f46' }}
-              >
-                <p className="art-title" style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '13px', fontWeight: 500, color: '#d4d4d8', lineHeight: 1.45, margin: 0, letterSpacing: '-0.01em', transition: 'color 0.2s ease' }}>
-                  {a.title}
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                    {(a.tags ?? []).map(tag => (
-                      <span key={tag} style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: '9px', color: '#52525b', letterSpacing: '0.06em', background: '#18181b', padding: '2px 7px', borderRadius: '4px' }}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <span className="art-arrow" style={{ color: '#3f3f46', fontSize: '14px', flexShrink: 0, transition: 'color 0.2s ease' }}>↗</span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </motion.div>
-      )}
-
       {/* ── Bottom navigation row ── */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -487,14 +431,14 @@ export default function Footer() {
         className="footer-bottom"
         style={{ borderTop: '1px solid #18181b', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', position: 'relative', zIndex: 1 }}
       >
-        <span style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '12px', color: '#52525b', letterSpacing: '0.05em' }}>
+        <span style={{ fontFamily: '"Helvetica Neue", "Helvetica", Arial, sans-serif', fontSize: '12px', color: '#52525b', letterSpacing: '0.05em' }}>
           Onkar Lanke
         </span>
 
         <div className="footer-nav-links" style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
           {navLinks.map(link => (
             <Link key={link.href} href={link.href}
-              style={{ color: '#52525b', fontSize: '12px', textDecoration: 'none', transition: 'color 0.2s ease', fontFamily: '"Inter Tight", system-ui, sans-serif' }}
+              style={{ color: '#52525b', fontSize: '12px', textDecoration: 'none', transition: 'color 0.2s ease', fontFamily: '"Helvetica Neue", "Helvetica", Arial, sans-serif' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#ffffff')}
               onMouseLeave={e => (e.currentTarget.style.color = '#52525b')}
             >
@@ -503,7 +447,7 @@ export default function Footer() {
           ))}
         </div>
 
-        <span style={{ fontFamily: '"Inter Tight", "Helvetica Neue", system-ui, sans-serif', fontSize: '12px', color: '#3f3f46' }}>
+        <span style={{ fontFamily: '"Helvetica Neue", "Helvetica", Arial, sans-serif', fontSize: '12px', color: '#3f3f46' }}>
           © {new Date().getFullYear()}
         </span>
       </motion.div>

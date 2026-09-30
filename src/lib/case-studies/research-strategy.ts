@@ -82,7 +82,12 @@ export const researchStrategy: CaseStudy = {
       num: 'Step 03',
       title: 'Competition mapping: 6 brands across 17 parameters',
       body: '',
-      bodyPoints: [],
+      bodyPoints: [
+        'Product line differentiation from other brands, helping in drafting unique content and storyline.',
+        'Cross-channel integrations.',
+        'Tone of voice and product language.',
+        'Served as a base for new architecture.',
+      ],
       tags: [],
       image: {
         src: '/case-studies/research-strategy/step-03-competition.png',
@@ -93,51 +98,197 @@ export const researchStrategy: CaseStudy = {
       imagePosition: 'right',
     },
 
-    // ─── reference: old step 03 ────────────────────────────────────────────────
     {
       num: 'Step 04',
-      title: 'Competitive analysis — 6 brands, 17 parameters',
-      body: 'Benchmarked Kind, Magic Spoon, GoMacro, IQ Bar, Ratio, and High Key across 17 parameters jointly defined with Commongood — covering content hierarchy, navigation, social proof, lead gen, storytelling, filters, and mobile.',
-      tags: ['Kind & Magic Spoon lead on lifestyle storytelling', 'Munk Pack\'s 1g sugar is an edge the site wasn\'t using'],
+      title: 'Heuristic evaluation',
+      body: 'A simple heuristic evaluation helped us in finding out some critical misleads and structural opportunities for improvements',
+      bodyPoints: [],
+      labeledPoints: [
+        {
+          label: 'Match between system and real world',
+          body: 'The shop is organized the way the brand thinks, not the way customers shop. Categories follow product lines (Nut & Seed, Granola). Buyers shop by goal or occasion: pre-workout, dessert swap, low-carb travel snack.',
+        },
+        {
+          label: 'Recognition rather than recall',
+          body: 'The proof isn\'t where the decision happens. Keto buyers decide on net carbs and ingredients, but those facts sit below the CTA or on a separate Learn page. Users have to go looking for the reason to buy, or remember it, at the moment they commit.',
+        },
+        {
+          label: 'Aesthetic and minimalist design',
+          body: 'The wrong trust signal is taking up prime space. Generic press logos compete with the USP strip and mean little to a niche diet audience, which trusts peers (lifters, keto creators, diabetic parents) over publications. The logos add noise to the above-the-fold area without adding credibility.',
+        },
+        {
+          label: 'Flexibility and efficiency of use',
+          body: 'Repeat buyers get no shortcut. Snack bars are a habit purchase, yet reordering takes the same path as a first visit. Subscribe & Save is a small radio button, and there\'s no quick-reorder route for the customers who bring in the recurring revenue.',
+        },
+        {
+          label: 'Consistency and standards',
+          body: 'Product cards break e-commerce conventions. Price, pack size, and the subscription option shift position from card to card. Users arrive expecting the Amazon or Shopify pattern, so every inconsistency adds friction at checkout intent.',
+        },
+        {
+          label: 'Help and documentation',
+          body: 'The educational content is written to be read, but users only scan it. The Learn page runs on paragraphs and lists. People open it to confirm a decision they\'ve nearly made, so it needs direct comparisons, like "2g net carbs vs 20g in a regular granola bar."',
+        },
+        {
+          label: 'Visibility and affordance',
+          body: 'Interactive elements don\'t look interactive. The bar-type filters on the Shop page and the Contact Us options read as labels. Users can\'t tell at a glance what they can click.',
+        },
+      ],
+      tags: [],
       image: {
-        src: '/case-studies/research-strategy/step-02-competitive.png',
-        alt: 'Competitive analysis table',
-        hint: 'Replace with your competitive analysis spreadsheet or benchmarking slide from Phase I PDF',
-        aspect: 'aspect-[4/3]',
-      },
-      imagePosition: 'left',
-    },
-    {
-      num: 'Step 05',
-      title: 'User segmentation & journey mapping',
-      body: 'Mapped 4 audience segments — kids, students, working adults, seniors — each with distinct context, frustrations, and use-cases. Built customer journey flows identifying the drop-off point where most users were leaving.',
-      tags: ['Students 15–28', 'Working Adults 25–55', 'Seniors 60+', 'Kids (parents decide)'],
-      image: {
-        src: '/case-studies/research-strategy/step-03-direction.png',
-        alt: 'User segmentation and journey map',
-        hint: 'Replace with the User Map: Segmentation & Behaviour Mapping diagram from Sitemap PDF',
-        aspect: 'aspect-[5/3]',
+        src: '/case-studies/research-strategy/step-04-heuristic.png',
+        alt: 'Heuristic evaluation — annotated site screenshots',
+        hint: 'Heuristic evaluation diagram',
+        aspect: 'aspect-[16/9]',
       },
       imagePosition: 'right',
     },
+
+    {
+      num: 'Step 05',
+      title: 'Mapping Information Design: Structure, hierarchy',
+      body: '',
+      bodyPoints: [],
+      labeledPoints: [
+        {
+          label: 'Dynamic content Structure',
+          body: 'The website does not have a circular navigation structure — users should not come to a dead end while going through the site. Proper CTAs and redirection links should be inserted so that the user is continuously engaged on different pages and content. For example: after giving nutrition info, show Products again and redirect to Products on Shop page.',
+        },
+        {
+          label: 'USPs for Marketing',
+          body: 'Nutrition and ingredients are great value-proposing info and have a good USP from a marketing perspective. Show a glance of the info on the home page and interlink to detail internal pages.',
+        },
+        {
+          label: 'Highlight More Products',
+          body: 'We prioritize these opportunities and integrate them into our product development and improvement processes.',
+        },
+        {
+          label: 'Tools',
+          body: 'Net Carbs Calculator and Store Locator both are important interactive tool elements and can be positioned on top of the site or shown on the home page with proper CTA.',
+        },
+        {
+          label: 'Simplify shop page',
+          body: 'Shop page can be a single page, with a category and filters. Filters should help segregate required items and thus should be obvious and visually prioritized. This will further simplify the page. Repetition of testimonials and FAQs on each category page is not necessary — instead, link stores, blog posts, etc.',
+        },
+        {
+          label: 'Include genuine stories of impact',
+          body: 'One or two stories from blog should be highlighted on home page.',
+        },
+        {
+          label: 'Value add using offline stores',
+          body: 'Offline stores should be highlighted on home.',
+        },
+        {
+          label: 'Restructuring',
+          body: 'The Learn page needs rethinking — similar things should be grouped for easy understanding. Our Mission should be put into the Our Story section. The Nutrition section should be broader and more detailed. Add a separate section for ingredients or if combining with Nutrition section, rewrite the headline as "Ingredients and Nutrition".',
+        },
+      ],
+      tags: [],
+      image: {
+        src: '/case-studies/research-strategy/step-05-ia.png',
+        alt: 'Information architecture — structure and hierarchy mapping',
+        hint: 'IA structure and hierarchy diagram',
+        aspect: 'aspect-[16/9]',
+      },
+      imagePosition: 'right',
+    },
+
     {
       num: 'Step 06',
-      title: 'IA redesign & Figma wireframes',
-      body: 'Delivered a full IA overhaul and Figma wireframes for all 10 pages — homepage, shop, product detail, learn/nutrition (with Allulose explainer + Net Carbs Calculator), rewards, about, contact, store locator, blog, and legal.',
-      tags: ['Circular navigation', 'Single filterable shop', 'Subscribe & Save', 'Net Carbs Calculator surfaced', 'Lifestyle content per segment'],
+      title: 'Direction & strategy',
+      body: '',
+      bodyPoints: [],
+      tags: [],
       image: {
-        src: '/case-studies/research-strategy/step-04-comms.png',
-        alt: 'Figma wireframes — all 10 pages',
-        hint: 'Replace with a full Figma canvas screenshot showing all page wireframes tiled together',
-        aspect: 'aspect-[5.5/3]',
+        src: '/case-studies/research-strategy/step-06-direction.png',
+        alt: 'Context & direction — Primary USPs, product offerings and strategic direction',
+        hint: 'Direction and strategy diagram',
+        aspect: 'aspect-[16/9]',
       },
-      imagePosition: 'left',
+      imagePosition: 'right',
     },
+
+    {
+      num: 'Step 07',
+      title: 'Communication strategy',
+      body: '',
+      bodyPoints: [],
+      tags: [],
+      image: {
+        src: '/case-studies/research-strategy/step-07-comms.png',
+        alt: 'Communication strategy — messaging pillars and brand positioning',
+        hint: 'Communication strategy diagram',
+        aspect: 'aspect-[16/9]',
+      },
+      imagePosition: 'right',
+    },
+
+    {
+      num: 'Step 08',
+      title: 'New architecture: Information Design',
+      body: '',
+      bodyPoints: [
+        'Structuring by customer behavior during shopping by goal, occasion, lifestyle, rather than internal product line categories.',
+        'Addition of tools like net carbs calculator, store locator at the top of hierarchy, making them discoverable.',
+        'Circular navigation for more connecting dots and tell more engaging cohesive story across content, product & conversion touchpoints.',
+        'Unified product, nutrition, and storytelling content into a single coherent flow, reducing the cognitive load of switching between separate Learn and Shop sections.',
+      ],
+      tags: [],
+      image: {
+        src: '/case-studies/research-strategy/step-08-new-ia.png',
+        alt: 'New information architecture — full site structure redesign',
+        hint: 'New IA diagram',
+        aspect: 'aspect-[16/9]',
+      },
+      imagePosition: 'right',
+    },
+
+    {
+      num: 'Step 09',
+      title: 'Wireframes & visual Design',
+      body: '',
+      bodyPoints: [],
+      tags: [],
+      image: {
+        src: '/case-studies/research-strategy/step-09-wireframes.png',
+        alt: 'Wireframes and visual design',
+        hint: 'Add wireframes & visual design assets here',
+        aspect: 'aspect-[16/9]',
+      },
+      imagePosition: 'right',
+      subSections: [
+        {
+          headline: '3D pack styling',
+          body: 'Animated 3D pack styling to actually match real world packaging.',
+          image: { src: '/case-studies/research-strategy/step-09-sub-01.png', alt: '3D pack styling' },
+        },
+        {
+          headline: 'Active ingredients',
+          body: 'Hover action shows active ingredients, bringing in transparency.',
+          image: { src: '/case-studies/research-strategy/step-09-sub-02.png', alt: 'Active ingredients' },
+        },
+        {
+          headline: 'Physical store locator',
+          body: 'Bridging the digital and physical channels of product journey.',
+          image: { src: '/case-studies/research-strategy/step-09-sub-03.png', alt: 'Physical store locator' },
+        },
+        {
+          headline: 'Nutrition info at forefront',
+          body: 'Nutritional info section to educate users on the real ingredients that go in the bar.',
+          image: { src: '/case-studies/research-strategy/step-09-sub-04.png', alt: 'Nutrition info at forefront' },
+        },
+        {
+          headline: 'Real ingredients, real stories',
+          body: 'Real stories across social channels to match with behavioral habits of buyers.',
+          image: { src: '/case-studies/research-strategy/step-09-sub-05.png', alt: 'Real ingredients, real stories' },
+        },
+      ],
+    },
+
   ],
 
-  processMidBanner: { src: '/case-studies/research-strategy/strategy_banner.png', alt: 'Strategy overview' },
+  processMidBanner: { src: null, alt: 'Strategy overview' },
 
-  preFindingsBanner: { src: '/case-studies/research-strategy/IA+wires.png', alt: 'IA and wireframes overview' },
+  preFindingsBanner: { src: null, alt: 'IA and wireframes overview' },
 
   preConclusionBanner: { src: '/case-studies/research-strategy/conclusion.banner.png', alt: 'conclusion' },
 
@@ -162,9 +313,8 @@ export const researchStrategy: CaseStudy = {
   conclusion: {
     heading: 'What I learnt',
     paragraphs: [
-      'The biggest shift was reframing the brief — from "improve the website" to "shift the narrative from transaction to lifestyle." Munk Pack didn\'t have a product problem; they had a storytelling problem.',
-      'Working across two agencies taught me how to clearly separate research deliverables from design execution — every artifact I produced had to be immediately actionable for Commongood\'s team without further interpretation.',
-      'The 24% sales growth and 130% engagement increase within 90 days validated that research-led IA and content strategy — not visual redesign alone — is the highest-leverage intervention for underperforming DTC sites.',
+      'Working across 2 studios with top experts, made sure every artifact produced, had to be immediately actionable.',
+      'Aligning general behaviour into digital ecosystem workflows does wonders for the impact.',
     ],
   },
 

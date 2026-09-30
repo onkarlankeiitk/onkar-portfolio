@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono, Quicksand, Kaushan_Script } from "next/font/google"
+import { grenzeFont } from "@/lib/fonts"
 import { Analytics } from "@vercel/analytics/react"
 import ScrollProgress from "@/components/ScrollProgress"
 import SmoothScroll from "@/components/SmoothScroll"
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${quicksand.variable} ${kaushanScript.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${quicksand.variable} ${kaushanScript.variable} ${grenzeFont.variable} antialiased`}>
         <SmoothScroll />
         {children}
         <ScrollProgress />
