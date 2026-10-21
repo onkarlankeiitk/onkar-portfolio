@@ -799,7 +799,7 @@ function WebflowCard({ site }: { site: { name: string; url: string; description:
       </div>
 
       {/* iframe preview — scales on hover */}
-      <div className="webflow-iframe-wrap" style={{ position: 'relative', height: '320px', overflow: 'hidden', background: '#0a0a0a' }}>
+      <div className="webflow-iframe-wrap" style={{ position: 'relative', height: '400px', background: '#0a0a0a' }}>
         <div style={{
           width: '100%', height: '100%',
           transform: hovered ? 'scale(1.05)' : 'scale(1)',
@@ -1941,9 +1941,12 @@ function AboutSection() {
             <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
               About
             </p>
-            <h2 style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, letterSpacing: '-0.02em', lineHeight: 1.05, margin: 0 }}>
+            <h2 style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, letterSpacing: '-0.02em', lineHeight: 1.05, margin: '0 0 20px' }}>
               Working with me.
             </h2>
+            <p style={{ fontFamily: T.sans, fontSize: '17px', color: T.ink, lineHeight: 1.7, margin: 0, maxWidth: '560px', letterSpacing: '-0.005em' }}>
+              Hi, I&apos;m Onkar. Thanks for visiting. I&apos;m an engineer turned Product Designer with deep passion for people centric design &amp; experience creation. I believe good design is highly collaborative and hence I have noted some of the points you may experience while working with me.
+            </p>
           </div>
           <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
             04/
@@ -2081,9 +2084,9 @@ const timelineJobs = [
     role: 'Break — Yoga Program at Isha + Travel',
     company: '',
     type: 'Personal',
-    period: 'Jan 2026 – Aug 2026',
-    months: 7,
-    desc: '7-month intentional break: yoga program at Isha Foundation and travel.',
+    period: 'Jan 2026 – Sept 2026',
+    months: 9,
+    desc: '9-month intentional break: yoga program at Isha Foundation and travel.',
     accent: false,
     points: [
       'Completed yoga program at Isha Foundation',
@@ -2176,8 +2179,8 @@ function ExperienceTimeline() {
           Career path · chronological
         </div>
 
-        {/* Single background line — starts at compass centre (left:160), ends at right padding edge.
-            Circles (zIndex:2) paint on top so the line terminates visually inside each circle. */}
+        {/* Single background line — starts at compass centre, ends at right padding edge.
+            Compass wrapper has white bg to mask the line behind it; circles (zIndex:2) paint on top. */}
         <div style={{
           position: 'absolute',
           top: TL_LINE_Y - 1,
@@ -2185,7 +2188,7 @@ function ExperienceTimeline() {
           right: 80,
           height: 2,
           background: '#C8C5BE',
-          zIndex: 0,
+          zIndex: 1,
           pointerEvents: 'none',
         }} />
 
@@ -2207,7 +2210,7 @@ function ExperienceTimeline() {
                 initial={{ opacity: 0, x: -60 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.65, delay: 0, ease: [0.22, 1, 0.36, 1] }}
-                style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}
+                style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 2, background: '#ffffff' }}
               >
                 <div style={{ height: spacer, flexShrink: 0 }} />
                 <div style={{
@@ -2494,9 +2497,9 @@ const experience = [
     role: 'Break — Yoga Program at Isha + Travel',
     company: '',
     type: 'Personal',
-    period: 'Jan 2026 – Aug 2026',
+    period: 'Jan 2026 – Sept 2026',
     bullets: [
-      '7-month intentional break: completed yoga program at Isha Foundation and travelled.',
+      '9-month intentional break: completed yoga program at Isha Foundation and travelled.',
     ],
   },
 ]
