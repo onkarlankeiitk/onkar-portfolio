@@ -2819,10 +2819,7 @@ export default function Home() {
         ═══════════════════════════════════════════════════════════════════ */}
         <AboutSection />
 
-        {/* ═══════════════════════════════════════════════════════════════════
-            EXPERIENCE — below behance
-        ═══════════════════════════════════════════════════════════════════ */}
-        <ExperienceTimeline />
+        {/* <ExperienceTimeline /> — hidden */}
 
         {/* <IndustrialSection /> — hidden */}
 

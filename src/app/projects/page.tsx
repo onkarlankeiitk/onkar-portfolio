@@ -568,7 +568,7 @@ export default function ProjectsPage() {
       </section> */}
 
       {/* Footer */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 30, height: '100svh', borderRadius: '24px 24px 0 0', overflow: 'hidden' }}>
+      <div style={{ position: 'sticky', top: 0, zIndex: 30, borderRadius: '24px 24px 0 0', overflow: 'hidden' }}>
         <Footer />
       </div>
     </>
