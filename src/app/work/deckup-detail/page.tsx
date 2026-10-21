@@ -1686,7 +1686,7 @@ export default function DeckUpDetail() {
     <main className="bg-white text-zinc-900 antialiased">
       <PasswordGate accentColor="#F97316" />
       {/* <Nav /> */}
-      <StickyNav />
+      {/* <StickyNav /> */}
       <Hero />
       <TheIdea />
       <Research />

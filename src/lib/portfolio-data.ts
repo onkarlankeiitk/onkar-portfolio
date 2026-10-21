@@ -25,23 +25,8 @@ export type ArchProject = {
 // ─── Digital design case studies ───────────────────────────────────────────────
 export const projects: Project[] = [
   {
-    slug: 'research-strategy',
-    directPath: '/work/research-strategy',
-    banner: '/case-studies/research-strategy/hero-banner.png',
-    company: 'Commongood, USA',
-    year: '2023',
-    title: 'UX led design & strategy for US based healthy snacking brand',
-    description:
-      'UX evaluation, communication strategy, positioning, storytelling & information architecture mapping',
-    tags: ['UX Evaluation', 'Strategy', 'Behavioral Mapping', 'Storytelling'],
-    metrics: [
-      { v: '43%', l: 'Engagement' },
-      { v: '11%', l: 'Checkout vol.' },
-    ],
-  },
-  {
     slug: 'dil-kyc',
-    directPath: '/work/dil-kyc-detail',
+    directPath: 'https://light-candidate-173446.framer.app/dil',
     banner: '/case-studies/dil-kyc/detail-banner.png',
     company: 'Diamond India Ltd.',
     year: '2024',
@@ -52,6 +37,21 @@ export const projects: Project[] = [
     metrics: [
       { v: '55%', l: 'Onboarding time' },
       { v: '40%', l: 'Efficiency' },
+    ],
+  },
+  {
+    slug: 'research-strategy',
+    directPath: 'https://light-candidate-173446.framer.app/munk-pack',
+    banner: '/case-studies/research-strategy/hero-banner.png',
+    company: 'Commongood, USA',
+    year: '2023',
+    title: 'UX led design & strategy for US based healthy snacking brand',
+    description:
+      'UX evaluation, communication strategy, positioning, storytelling & information architecture mapping',
+    tags: ['UX Evaluation', 'Strategy', 'Behavioral Mapping', 'Storytelling'],
+    metrics: [
+      { v: '43%', l: 'Engagement' },
+      { v: '11%', l: 'Checkout vol.' },
     ],
   },
   {

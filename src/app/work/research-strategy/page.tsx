@@ -163,7 +163,7 @@ export default function ResearchStrategyPage() {
       <PasswordGate accentColor="#53B5B9" />
       <Nav alwaysVisible />
       <ScrollProgress />
-      <StickyNav />
+      {/* <StickyNav /> */}
 
       <Hero />
 

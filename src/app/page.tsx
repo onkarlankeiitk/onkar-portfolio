@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { grenzeFont } from '@/lib/fonts'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import { projects, archProjects, getArticleThumbnail, ARTICLE_QUADRANT_POS } from '@/lib/portfolio-data'
+import { projects, getArticleThumbnail, ARTICLE_QUADRANT_POS } from '@/lib/portfolio-data'
 // SVG paths inlined from simple-icons to avoid bundling the 25 MB package
 const siFigma    = { path: 'M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z' }
 const siWebflow  = { path: 'm24 4.515-7.658 14.97H9.149l3.205-6.204h-.144C9.566 16.713 5.621 18.973 0 19.485v-6.118s3.596-.213 5.71-2.435H0V4.515h6.417v5.278l.144-.001 2.622-5.277h4.854v5.244h.144l2.72-5.244H24Z' }
@@ -448,6 +448,172 @@ function BentoSquare({ project, className, animDelay = 0 }: { project: typeof pr
           {project.title}
         </p>
       </div>
+    </motion.div>
+  )
+}
+
+// ─── Full-viewport case study row ─────────────────────────────────────────────
+function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof projects[0]; index: number; animDelay?: number }) {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.65, delay: animDelay, ease }}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1.4fr 2.6fr',
+        marginBottom: '10vh',
+        padding: '48px 0',
+        borderTop: `1px solid ${BC.border}`,
+        position: 'relative',
+      }}
+    >
+      {/* ── Left col: client + title ── */}
+      <div style={{
+        padding: '64px 40px 64px 0',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        borderRight: `1px solid ${BC.border}`,
+      }}>
+        <div>
+          <p style={{
+            fontFamily: T.mono, fontSize: '10px', color: BC.mute,
+            letterSpacing: '0.12em', textTransform: 'uppercase',
+            margin: '0 0 16px',
+          }}>
+            {project.company}
+          </p>
+          <p style={{
+            fontFamily: T.mono, fontSize: '10px', color: BC.mute,
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            margin: '0 0 24px', opacity: 0.6,
+          }}>
+            {project.year}
+          </p>
+          <h3 style={{
+            fontFamily: T.sans, fontSize: 'clamp(20px, 2vw, 28px)',
+            fontWeight: 500, color: BC.ink,
+            lineHeight: 1.25, margin: 0,
+            letterSpacing: '-0.02em',
+          }}>
+            {project.title}
+          </h3>
+        </div>
+        {/* Index number */}
+        <span style={{
+          fontFamily: T.mono, fontSize: '11px', color: BC.mute,
+          letterSpacing: '0.1em', opacity: 0.4,
+        }}>
+          {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+        </span>
+      </div>
+
+      {/* ── Middle col: description + metrics + tags ── */}
+      <div style={{
+        padding: '64px 40px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        gap: '40px',
+      }}>
+        <p style={{
+          fontFamily: T.sans, fontSize: 'clamp(14px, 1.2vw, 16px)',
+          color: '#4A4740', lineHeight: 1.65,
+          margin: 0, letterSpacing: '-0.005em',
+        }}>
+          {project.description}
+        </p>
+
+        <div>
+          {/* Metrics */}
+          <div style={{ display: 'flex', gap: '32px', marginBottom: '32px' }}>
+            {project.metrics.map((m, mi) => (
+              <div key={mi}>
+                <p style={{
+                  fontFamily: T.sans, fontSize: 'clamp(28px, 3vw, 40px)',
+                  fontWeight: 700, color: BC.ink,
+                  margin: '0 0 4px', letterSpacing: '-0.03em', lineHeight: 1,
+                }}>
+                  {m.v}
+                </p>
+                <p style={{
+                  fontFamily: T.mono, fontSize: '10px', color: BC.mute,
+                  letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0,
+                }}>
+                  {m.l}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Tags */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '40px' }}>
+            {project.tags.map(tag => (
+              <span key={tag} style={{
+                fontFamily: T.mono, fontSize: '9px',
+                color: BC.mute, letterSpacing: '0.08em', textTransform: 'uppercase',
+                border: `1px solid ${BC.border}`, borderRadius: '4px',
+                padding: '4px 8px',
+              }}>
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <Link
+            href={project.directPath}
+            target={project.directPath.startsWith('http') ? '_blank' : undefined}
+            rel={project.directPath.startsWith('http') ? 'noreferrer' : undefined}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              fontFamily: T.sans, fontSize: '14px', fontWeight: 500,
+              color: BC.ink, textDecoration: 'none',
+              borderBottom: `1.5px solid ${BC.ink}`,
+              paddingBottom: '2px',
+            }}
+          >
+            View case study <span>→</span>
+          </Link>
+        </div>
+      </div>
+
+      {/* ── Right col: banner ── */}
+      <Link
+        href={project.directPath}
+        target={project.directPath.startsWith('http') ? '_blank' : undefined}
+        rel={project.directPath.startsWith('http') ? 'noreferrer' : undefined}
+        style={{
+          display: 'block', alignSelf: 'start',
+          position: 'relative', overflow: 'hidden',
+          textDecoration: 'none', cursor: 'pointer',
+          aspectRatio: '16 / 9', borderRadius: '10px',
+        }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <img
+          src={project.banner}
+          alt={project.title}
+          style={{
+            position: 'absolute', inset: 0,
+            width: '100%', height: '100%',
+            objectFit: 'cover', display: 'block',
+            transform: hovered ? 'scale(1.03)' : 'scale(1)',
+            transition: 'transform 0.7s cubic-bezier(0.22,1,0.36,1)',
+          }}
+        />
+        {/* subtle vignette */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.18) 100%)',
+          pointerEvents: 'none',
+        }} />
+      </Link>
     </motion.div>
   )
 }
@@ -1321,62 +1487,6 @@ const stats = [
 
 const skills = ['Product Strategy', 'Roadmapping', 'UX Research', 'Digital Design', 'Analytics', 'Resource Allocation', 'Spatial Design', 'Articulation & Storytelling', 'KPIs & Success Metrics']
 
-// ─── Arch project card with hover state ──────────────────────────────────────
-function ArchCard({ project, index }: { project: { title: string; label: string; image?: string }; index: number }) {
-  const [hovered, setHovered] = useState(false)
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.45, delay: index * 0.1, ease }}
-      style={{
-        borderRadius: '12px',
-        overflow: 'hidden',
-        border: `1px solid ${hovered ? '#333' : '#1a1a1a'}`,
-        cursor: 'default',
-        transition: 'border-color 0.2s',
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {/* Image / placeholder */}
-      <div
-        style={{
-          aspectRatio: '4/3',
-          overflow: 'hidden',
-          position: 'relative',
-          background: hovered
-            ? 'repeating-linear-gradient(135deg, #d4d4d8 0 8px, transparent 8px 16px), #f4f4f5'
-            : 'repeating-linear-gradient(135deg, #1a1a1a 0 8px, transparent 8px 16px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: 'background 0.25s ease',
-        }}
-      >
-        {project.image ? (
-          <img
-            src={project.image}
-            alt={project.title}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: hovered ? 1 : 0.85, transition: 'opacity 0.3s' }}
-          />
-        ) : (
-          <p style={{ fontFamily: T.mono, fontSize: '10px', color: hovered ? '#a1a1aa' : '#3f3f46', margin: 0, letterSpacing: '0.04em', transition: 'color 0.2s' }}>
-            {project.label}
-          </p>
-        )}
-      </div>
-      {/* Title strip */}
-      <div style={{ padding: '14px 18px', background: hovered ? '#f4f4f5' : '#111', transition: 'background 0.25s ease' }}>
-        <p style={{ fontFamily: T.sans, fontSize: '14px', fontWeight: 500, color: hovered ? '#0B0B0B' : '#d4d4d8', margin: 0, letterSpacing: '-0.01em', transition: 'color 0.2s' }}>
-          {project.title}
-        </p>
-      </div>
-    </motion.div>
-  )
-}
-
 // ─── Behance Section ──────────────────────────────────────────────────────────
 const behanceProjects = [
   {
@@ -1623,90 +1733,6 @@ function IndustrialSection() {
               onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.transform = 'scale(1)' }}
             />
           </motion.div>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-// ─── Arch + Industrial Section ────────────────────────────────────────────────
-function ArchSection() {
-  const disciplines = [
-    { index: '01', title: 'Space + Arch' },
-    { index: '02', title: 'Lighting Products' },
-    { index: '03', title: 'Consumer Electronics' },
-    { index: '04', title: 'Acoustic Panels' },
-  ]
-
-  return (
-    <section
-      id="arch"
-      style={{
-        background: T.dark,
-        fontFamily: T.sans,
-        padding: '80px 64px',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Ghost word */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          bottom: '-24px',
-          left: '-16px',
-          fontSize: 'clamp(80px, 12vw, 180px)',
-          fontWeight: 500,
-          letterSpacing: '-0.04em',
-          color: '#141414',
-          lineHeight: 1,
-          pointerEvents: 'none',
-          userSelect: 'none',
-        }}
-      >
-        Space
-      </div>
-
-      {/* Chrome */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-          borderBottom: '1px solid #1a1a1a',
-          paddingBottom: '24px',
-          marginBottom: '40px',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        <div>
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
-            Industrial &amp; Architectural Design
-          </p>
-          <h2 style={{ color: '#ffffff', fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 1.05, margin: 0 }}>
-            Off the shelf!
-          </h2>
-        </div>
-        <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: '#1a1a1a', letterSpacing: '-0.03em' }}>
-          04/
-        </span>
-      </div>
-
-      {/* Projects — 3 cards */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '16px',
-          position: 'relative',
-          zIndex: 1,
-        }}
-        className="arch-projects"
-      >
-        {archProjects.map((p, i) => (
-          <ArchCard key={i} project={p} index={i} />
         ))}
       </div>
     </section>
@@ -2067,8 +2093,8 @@ const timelineJobs = [
 ]
 
 // Circle size scales with tenure (months)
-const TL_MIN_PX = 130
-const TL_MAX_PX = 270
+const TL_MIN_PX = 110
+const TL_MAX_PX = 220
 const TL_MAX_MONTHS = 32
 // Horizontal line sits 240px from the top of the track area
 const TL_LINE_Y = 240
@@ -2084,7 +2110,7 @@ function ExperienceTimeline() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
 
-  // total track height: line (240) + max radius (135) + tick extra (40) + date text (56) + bottom pad (40)
+  // total track height: line (240) + max radius (110) + tick extra (40) + date text (56) + bottom pad (40)
   const trackH = TL_LINE_Y + Math.round(TL_MAX_PX / 2) + TL_TICK_EXTRA + 56 + 40
 
   return (
@@ -2150,6 +2176,19 @@ function ExperienceTimeline() {
           Career path · chronological
         </div>
 
+        {/* Single background line — starts at compass centre (left:160), ends at right padding edge.
+            Circles (zIndex:2) paint on top so the line terminates visually inside each circle. */}
+        <div style={{
+          position: 'absolute',
+          top: TL_LINE_Y - 1,
+          left: 160,
+          right: 80,
+          height: 2,
+          background: '#C8C5BE',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }} />
+
         {/* Items row — flex-start so spacers control vertical position */}
         <div className="tl-track" style={{
           position: 'absolute', inset: 0,
@@ -2206,11 +2245,11 @@ function ExperienceTimeline() {
                   </span>
                 </div>
               </motion.div>
-              {/* Connector to first job */}
+              {/* Spacer — keeps compass separated from first circle; line drawn absolutely */}
               <div style={{
-                flexGrow: 1, flexShrink: 1, minWidth: '24px',
+                flexGrow: 1, flexShrink: 1, minWidth: 0,
                 height: '2px', marginTop: TL_LINE_Y - 1,
-                alignSelf: 'flex-start', background: '#C8C5BE',
+                alignSelf: 'flex-start',
               }} />
               </Fragment>
             )
@@ -2398,16 +2437,17 @@ function ExperienceTimeline() {
                   </p>
                 </div>
               </motion.div>
-              {/* Connector to next circle */}
-              <div style={{
-                flexGrow: 1,
-                flexShrink: 1,
-                minWidth: '24px',
-                height: '2px',
-                marginTop: TL_LINE_Y - 1,
-                alignSelf: 'flex-start',
-                background: '#C8C5BE',
-              }} />
+              {/* Spacer between circles — line is drawn as an absolute element behind all circles */}
+              {i < arr.length - 1 && (
+                <div style={{
+                  flexGrow: 1,
+                  flexShrink: 1,
+                  minWidth: 0,
+                  height: '2px',
+                  marginTop: TL_LINE_Y - 1,
+                  alignSelf: 'flex-start',
+                }} />
+              )}
               </Fragment>
             )
           })}
@@ -2734,14 +2774,12 @@ export default function Home() {
             paddingBottom: '80px',
           }}
         >
-          {/* Header strip */}
-          {/* Case Studies — 2×2 grid */}
+          {/* Case Studies — full-viewport rows */}
           <WorkSubSection kicker="UX Case Studies" title="Digital Design" index="01/">
-            <div className="home-bento-grid">
-              <BentoSquare project={projects[0]} className="home-bento-cell" animDelay={0} />
-              <BentoSquare project={projects[1]} className="home-bento-cell" animDelay={0.1} />
-              <BentoSquare project={projects[2]} className="home-bento-cell" animDelay={0.18} />
-              <BentoSquare project={projects[3]} className="home-bento-cell" animDelay={0.24} />
+            <div>
+              {projects.map((project, i) => (
+                <CaseStudyRow key={project.slug} project={project} index={i} animDelay={i * 0.08} />
+              ))}
             </div>
           </WorkSubSection>
 
@@ -2785,10 +2823,8 @@ export default function Home() {
 
         {/* <IndustrialSection /> — hidden */}
 
-        {/* <ArchSection /> — hidden: repeat of Off the shelf above */}
-
         {/* ═══════════════════════════════════════════════════════════════════
-            DOODLES — just above footer
+            DOODLES — just above footer — hidden
         ═══════════════════════════════════════════════════════════════════ */}
         <div style={{ background: T.paper, overflow: 'hidden', position: 'relative', padding: '48px 0', borderTop: '1px solid #E5E5E0' }}>
           {/* Background dot grid */}
@@ -2976,21 +3012,6 @@ export default function Home() {
             grid-template-columns: repeat(2, 1fr) !important;
           }
 
-          /* Arch */
-          #arch {
-            padding: 56px 24px !important;
-          }
-          .arch-disciplines {
-            flex-wrap: wrap !important;
-          }
-          .arch-disciplines > div {
-            flex: 1 1 45% !important;
-          }
-          .arch-projects {
-            grid-template-columns: 1fr 1fr !important;
-            gap: 12px !important;
-          }
-
           /* About */
           .about-inner {
             padding: 48px 24px !important;
@@ -3098,14 +3119,6 @@ export default function Home() {
             padding: 48px 18px !important;
           }
           .behance-grid {
-            grid-template-columns: 1fr !important;
-          }
-
-          /* Arch */
-          #arch {
-            padding: 48px 18px !important;
-          }
-          .arch-projects {
             grid-template-columns: 1fr !important;
           }
 

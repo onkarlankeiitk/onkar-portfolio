@@ -146,7 +146,7 @@ function LinkedInIcon({ isLight }: { isLight: boolean }) {
 }
 
 // ─── Nav ──────────────────────────────────────────────────────────────────────
-export default function Nav({ alwaysVisible = false }: { alwaysVisible?: boolean }) {
+export default function Nav({ alwaysVisible = false, viewportThreshold = 0.3 }: { alwaysVisible?: boolean; viewportThreshold?: number }) {
   const [menuOpen, setMenuOpen]           = useState(false)
   const [isLight, setIsLight]             = useState(true)
   const [visible, setVisible]             = useState(alwaysVisible)
@@ -155,15 +155,15 @@ export default function Nav({ alwaysVisible = false }: { alwaysVisible?: boolean
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY
-      const heroThreshold = window.innerHeight * 0.3
-      if (!alwaysVisible) setVisible(y >= heroThreshold)
-      setBackToTopVisible(y >= heroThreshold)
+      const threshold = window.innerHeight * viewportThreshold
+      if (!alwaysVisible) setVisible(y >= threshold)
+      setBackToTopVisible(y >= threshold)
       setIsLight(y < window.innerHeight * 0.85)
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [alwaysVisible])
+  }, [alwaysVisible, viewportThreshold])
 
   const g = glassTokens(isLight)
 

@@ -159,9 +159,9 @@ export default function FintechGamificationPage() {
 
   return (
     <main style={{ backgroundColor: BG, fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
-      <Nav alwaysVisible />
+      <Nav viewportThreshold={0.5} />
       <ScrollProgress />
-      <StickyNav />
+      {/* <StickyNav /> */}
 
       <AnimatePresence>
         {modalOpen && <PasswordModal onClose={() => setModalOpen(false)} onSuccess={handleUnlock} />}

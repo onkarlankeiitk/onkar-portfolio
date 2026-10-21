@@ -1551,7 +1551,7 @@ export default function DILKYCDetail() {
     <main className="bg-white text-zinc-900 antialiased">
       <PasswordGate accentColor="#0fa475" />
       {/* <Nav /> */}
-      <StickyNav />
+      {/* <StickyNav /> */}
       <Hero />
       {/* HIDDEN — restore by changing false to true */}
       {false && <TheMoment />}

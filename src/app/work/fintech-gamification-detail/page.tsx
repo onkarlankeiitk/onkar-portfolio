@@ -1191,7 +1191,7 @@ export default function FrankieOneDetail() {
     <main className="antialiased" style={{ backgroundColor: DARK }}>
       <PasswordGate accentColor="#6D28D9" />
       {/* <Nav /> */}
-      <StickyNav />
+      {/* <StickyNav /> */}
       <Hero />
       <Brief />
       <Strategy />
