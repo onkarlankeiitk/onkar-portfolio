@@ -46,7 +46,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'fintech-gamification',
-    directPath: '/work/fintech-gamification-detail',
+    directPath: 'https://light-candidate-173446.framer.app/frankie-one',
     banner: '/case-studies/fintech-gamification/frankieone-banner.png',
     company: 'Frankieone',
     year: '2023',
