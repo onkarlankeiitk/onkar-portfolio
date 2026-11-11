@@ -13,6 +13,7 @@ export type Project = {
   description: string
   tags: string[]
   metrics: [ProjectMetric, ProjectMetric]
+  extraImages?: [string, string]
 }
 
 export type ArchProject = {
@@ -27,7 +28,7 @@ export const projects: Project[] = [
   {
     slug: 'dil-kyc',
     directPath: 'https://light-candidate-173446.framer.app/dil',
-    banner: '/case-studies/dil-kyc/detail-banner.png',
+    banner: '/case-studies/dil-kyc/dil-dashboard-banner.png',
     company: 'Diamond India Ltd.',
     year: '2024',
     title: "KYC, onboarding & customer management for India's largest bullion supplier",
@@ -38,14 +39,37 @@ export const projects: Project[] = [
       { v: '55%', l: 'Onboarding time' },
       { v: '40%', l: 'Efficiency' },
     ],
+    extraImages: [
+      '/case-studies/dil-kyc/kyc-basic-info.png',
+      '/case-studies/dil-kyc/kyc-renewal.png',
+    ],
+  },
+  {
+    slug: 'fintech-gamification',
+    directPath: '/work/fintech-gamification-detail',
+    banner: '/case-studies/fintech-gamification/frankieone-banner.png',
+    company: 'Frankieone',
+    year: '2023',
+    title: "Gamified, canvas based, puzzle styled platform for financial KYC & onboarding",
+    description:
+      'A no-code KYC & onboarding builder for financial institutions, inspired by puzzle pieces and board game mechanics.',
+    tags: ['Fintech', 'Gamification', 'Board Games'],
+    metrics: [
+      { v: '33%', l: 'Engagement & focus' },
+      { v: '25%', l: 'Faster build rate' },
+    ],
+    extraImages: [
+      '/case-studies/fintech-gamification/frankieone-playground.png',
+      '/case-studies/fintech-gamification/frankieone-backtesting.png',
+    ],
   },
   {
     slug: 'research-strategy',
     directPath: 'https://light-candidate-173446.framer.app/munk-pack',
-    banner: '/case-studies/research-strategy/hero-banner.png',
+    banner: '/case-studies/research-strategy/munk-pack-banner.png',
     company: 'Commongood, USA',
     year: '2023',
-    title: 'UX led design & strategy for US based healthy snacking brand',
+    title: 'Design for growth, trust, repetition, and accessibilty',
     description:
       'UX evaluation, communication strategy, positioning, storytelling & information architecture mapping',
     tags: ['UX Evaluation', 'Strategy', 'Behavioral Mapping', 'Storytelling'],
@@ -53,11 +77,15 @@ export const projects: Project[] = [
       { v: '43%', l: 'Engagement' },
       { v: '11%', l: 'Checkout vol.' },
     ],
+    extraImages: [
+      '/case-studies/research-strategy/munk-pack-accessibility.png',
+      '/case-studies/research-strategy/munk-pack-ia.png',
+    ],
   },
   {
     slug: 'deckup',
     directPath: '/work/deckup-detail',
-    banner: '/case-studies/deck-up/hero-banner.png',
+    banner: '/case-studies/deck-up/deckup-banner.png',
     company: 'SlideXpress',
     year: '2024',
     title: 'Deckup: Product development, subscription based service design (SaaS)',
@@ -68,20 +96,9 @@ export const projects: Project[] = [
       { v: '40–60%', l: 'Productivity gain' },
       { v: '3X',     l: 'Impact' },
     ],
-  },
-  {
-    slug: 'fintech-gamification',
-    directPath: '/work/fintech-gamification-detail',
-    banner: '/case-studies/fintech-gamification/hero-banner.png',
-    company: 'Mindseye Creative',
-    year: '2023',
-    title: "Puzzle styled, gamified no-code builder for Australia's top fintech firm",
-    description:
-      'A no-code KYC & onboarding builder for financial institutions, inspired by puzzle pieces and board game mechanics.',
-    tags: ['Fintech', 'Gamification', 'Board Games'],
-    metrics: [
-      { v: '55%', l: 'Engagement & focus' },
-      { v: '25%', l: 'Faster build rate' },
+    extraImages: [
+      '/case-studies/deck-up/deckup-pricing.png',
+      '/case-studies/deck-up/deckup-dashboard.png',
     ],
   },
 ]

@@ -19,10 +19,10 @@ const siAdobeCC   = { path: 'M13.966 4.79h6.925v14.42h-6.925zm-3.932 0H3.109v14.
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const T = {
-  paper: '#F4F2EC',
-  ink: '#0B0B0B',
-  inkMute: '#8A8A85',
-  rule: '#D9D6CE',
+  paper: '#F4F0ED',
+  ink: '#1A2028',
+  inkMute: '#8E9AA8',
+  rule: '#DCE3EC',
   ruleSoft: '#E8E5DD',
   accent: '#1E3AE8',
   dark: '#0A0A0A',
@@ -244,11 +244,11 @@ function FlipCard({ project }: { project: typeof projects[0] }) {
 // ─── Bento case study grid ────────────────────────────────────────────────────
 const BC = {
   bg: '#F4F2EC',
-  border: '#E0DDD6',
-  ink: '#0B0B0B',
-  mute: '#8A8A85',
+  border: '#DCE3EC',
+  ink: '#1A2028',
+  mute: '#8E9AA8',
   orange: '#FF4A1C',
-  divider: '#D9D6CE',
+  divider: '#DCE3EC',
 }
 
 // Shared resting meta block (company · year, title — metrics shown on hover only)
@@ -441,7 +441,7 @@ function BentoSquare({ project, className, animDelay = 0 }: { project: typeof pr
       {/* Title — OUTSIDE the card box, below */}
       <div style={{ flexShrink: 0, paddingTop: '12px', height: '72px', overflow: 'hidden' }}>
         <p style={{
-          fontFamily: T.sans, fontSize: '22px', fontWeight: 400, color: '#192028',
+          fontFamily: T.sans, fontSize: '22px', fontWeight: 400, color: '#1A2028',
           lineHeight: 1.5, margin: 0, letterSpacing: '-0.02em',
           display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
         }}>
@@ -455,6 +455,7 @@ function BentoSquare({ project, className, animDelay = 0 }: { project: typeof pr
 // ─── Full-viewport case study row ─────────────────────────────────────────────
 function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof projects[0]; index: number; animDelay?: number }) {
   const [hovered, setHovered] = useState(false)
+  const [ctaHovered, setCtaHovered] = useState(false)
 
   return (
     <motion.div
@@ -463,15 +464,16 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.65, delay: animDelay, ease }}
       style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1.4fr 2.6fr',
+        display: 'flex', flexDirection: 'column',
         marginBottom: '10vh',
         padding: '48px 0',
-        borderTop: `1px solid ${BC.border}`,
+        borderTop: index === 0 ? 'none' : `1px solid ${BC.border}`,
         position: 'relative',
       }}
     >
-      {/* ── Left col: client + title ── */}
+      {/* ── 3-col grid ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 2.6fr' }}>
+      {/* ── Left col: client + title + CTA ── */}
       <div style={{
         padding: '64px 40px 64px 0',
         display: 'flex',
@@ -479,37 +481,51 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
         justifyContent: 'space-between',
         borderRight: `1px solid ${BC.border}`,
       }}>
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+          {/* Index number */}
+          <span style={{
+            fontFamily: T.mono, fontSize: '11px', color: BC.mute,
+            letterSpacing: '0.1em', opacity: 0.4, display: 'block', marginBottom: '12px',
+          }}>
+            {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+          </span>
           <p style={{
-            fontFamily: T.mono, fontSize: '10px', color: BC.mute,
-            letterSpacing: '0.12em', textTransform: 'uppercase',
-            margin: '0 0 16px',
+            fontFamily: "'Poppins', sans-serif", fontSize: '15px', color: '#3A4450',
+            margin: '0 0 28px', fontWeight: 400, textTransform: 'uppercase', letterSpacing: '0.08em',
           }}>
             {project.company}
           </p>
-          <p style={{
-            fontFamily: T.mono, fontSize: '10px', color: BC.mute,
-            letterSpacing: '0.1em', textTransform: 'uppercase',
-            margin: '0 0 24px', opacity: 0.6,
-          }}>
-            {project.year}
-          </p>
           <h3 style={{
             fontFamily: T.sans, fontSize: 'clamp(20px, 2vw, 28px)',
-            fontWeight: 500, color: BC.ink,
-            lineHeight: 1.25, margin: 0,
+            fontWeight: 600, color: '#1A2028',
+            lineHeight: 1.25, margin: '0 0 60px',
             letterSpacing: '-0.02em',
           }}>
             {project.title}
           </h3>
+          {/* CTA */}
+          <Link
+            href={project.directPath}
+            target={project.directPath.startsWith('http') ? '_blank' : undefined}
+            rel={project.directPath.startsWith('http') ? 'noreferrer' : undefined}
+            onMouseEnter={() => setCtaHovered(true)}
+            onMouseLeave={() => setCtaHovered(false)}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px', alignSelf: 'flex-start',
+              fontFamily: T.sans, fontSize: '14px', fontWeight: 500,
+              color: ctaHovered ? '#ffffff' : BC.ink,
+              background: ctaHovered ? BC.orange : 'transparent',
+              textDecoration: 'none',
+              borderBottom: ctaHovered ? 'none' : `1.5px solid ${BC.ink}`,
+              padding: ctaHovered ? '7px 14px' : '0 0 2px 0',
+              borderRadius: ctaHovered ? '3px' : '0',
+              clipPath: ctaHovered ? 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)' : 'none',
+              transition: 'color 0.2s ease, background 0.2s ease, padding 0.2s ease',
+            }}
+          >
+            View case study <span style={{ fontSize: '15px' }}>↗</span>
+          </Link>
         </div>
-        {/* Index number */}
-        <span style={{
-          fontFamily: T.mono, fontSize: '11px', color: BC.mute,
-          letterSpacing: '0.1em', opacity: 0.4,
-        }}>
-          {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
-        </span>
       </div>
 
       {/* ── Middle col: description + metrics + tags ── */}
@@ -517,13 +533,13 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
         padding: '64px 40px',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        gap: '40px',
+        justifyContent: 'flex-start',
+        gap: '10px',
       }}>
         <p style={{
-          fontFamily: T.sans, fontSize: 'clamp(14px, 1.2vw, 16px)',
-          color: '#4A4740', lineHeight: 1.65,
-          margin: 0, letterSpacing: '-0.005em',
+          fontFamily: T.sans, fontSize: '17px',
+          fontWeight: 400, color: '#3A4450', lineHeight: 1.65,
+          margin: '76px 0 0', letterSpacing: '-0.005em',
         }}>
           {project.description}
         </p>
@@ -534,8 +550,8 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
             {project.metrics.map((m, mi) => (
               <div key={mi}>
                 <p style={{
-                  fontFamily: T.sans, fontSize: 'clamp(28px, 3vw, 40px)',
-                  fontWeight: 700, color: BC.ink,
+                  fontFamily: T.sans, fontSize: '35px',
+                  fontWeight: 700, color: '#1A2028',
                   margin: '0 0 4px', letterSpacing: '-0.03em', lineHeight: 1,
                 }}>
                   {m.v}
@@ -551,7 +567,7 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
           </div>
 
           {/* Tags */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {project.tags.map(tag => (
               <span key={tag} style={{
                 fontFamily: T.mono, fontSize: '9px',
@@ -563,57 +579,47 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
               </span>
             ))}
           </div>
-
-          {/* CTA */}
-          <Link
-            href={project.directPath}
-            target={project.directPath.startsWith('http') ? '_blank' : undefined}
-            rel={project.directPath.startsWith('http') ? 'noreferrer' : undefined}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              fontFamily: T.sans, fontSize: '14px', fontWeight: 500,
-              color: BC.ink, textDecoration: 'none',
-              borderBottom: `1.5px solid ${BC.ink}`,
-              paddingBottom: '2px',
-            }}
-          >
-            View case study <span>→</span>
-          </Link>
         </div>
       </div>
 
       {/* ── Right col: banner ── */}
-      <Link
-        href={project.directPath}
-        target={project.directPath.startsWith('http') ? '_blank' : undefined}
-        rel={project.directPath.startsWith('http') ? 'noreferrer' : undefined}
-        style={{
-          display: 'block', alignSelf: 'start',
-          position: 'relative', overflow: 'hidden',
-          textDecoration: 'none', cursor: 'pointer',
-          aspectRatio: '16 / 9', borderRadius: '10px',
-        }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        <img
-          src={project.banner}
-          alt={project.title}
+      <div style={{ paddingTop: '140px' }}>
+        <Link
+          href={project.directPath}
+          target={project.directPath.startsWith('http') ? '_blank' : undefined}
+          rel={project.directPath.startsWith('http') ? 'noreferrer' : undefined}
           style={{
-            position: 'absolute', inset: 0,
-            width: '100%', height: '100%',
-            objectFit: 'cover', display: 'block',
-            transform: hovered ? 'scale(1.03)' : 'scale(1)',
-            transition: 'transform 0.7s cubic-bezier(0.22,1,0.36,1)',
+            display: 'block', overflow: 'hidden',
+            textDecoration: 'none', cursor: 'pointer',
+            borderRadius: '10px',
           }}
-        />
-        {/* subtle vignette */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.18) 100%)',
-          pointerEvents: 'none',
-        }} />
-      </Link>
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+        >
+          <img
+            src={project.banner}
+            alt={project.title}
+            style={{
+              width: '100%', height: 'auto', display: 'block',
+              transform: hovered ? 'scale(1.03)' : 'scale(1)',
+              transition: 'transform 0.7s cubic-bezier(0.22,1,0.36,1)',
+            }}
+          />
+        </Link>
+      </div>
+      </div>{/* ── end 3-col grid ── */}
+
+      {/* ── Extra images: full-width below, freely cropped ── */}
+      {project.extraImages && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px', overflow: 'hidden', width: '80%', marginLeft: 'auto' }}>
+          <div style={{ overflow: 'hidden', borderRadius: '8px' }}>
+            <img src={project.extraImages[0]} alt="" style={{ width: '100%', height: 'auto', display: 'block' }} />
+          </div>
+          <div style={{ overflow: 'hidden', borderRadius: '8px' }}>
+            <img src={project.extraImages[1]} alt="" style={{ width: '100%', height: 'auto', display: 'block' }} />
+          </div>
+        </div>
+      )}
     </motion.div>
   )
 }
@@ -726,9 +732,9 @@ function MediumSection() {
           href="https://medium.com/@onkarlanke"
           target="_blank"
           rel="noreferrer"
-          style={{ fontFamily: T.mono, fontSize: '11px', color: '#192028', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s', flexShrink: 0, marginLeft: '24px' }}
+          style={{ fontFamily: T.mono, fontSize: '11px', color: '#1A2028', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s', flexShrink: 0, marginLeft: '24px' }}
           onMouseEnter={e => (e.currentTarget.style.color = '#FF4A1C')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#192028')}
+          onMouseLeave={e => (e.currentTarget.style.color = '#1A2028')}
         >
           All articles →
         </a>
@@ -923,9 +929,9 @@ function ArticlesColumn({ headingColor }: { headingColor: string }) {
         href="https://medium.com/@onkarlanke"
         target="_blank"
         rel="noreferrer"
-        style={{ fontFamily: T.mono, fontSize: '11px', color: '#192028', textDecoration: 'none', marginTop: '16px', display: 'inline-block', transition: 'color 0.2s' }}
+        style={{ fontFamily: T.mono, fontSize: '11px', color: '#1A2028', textDecoration: 'none', marginTop: '16px', display: 'inline-block', transition: 'color 0.2s' }}
         onMouseEnter={e => (e.currentTarget.style.color = '#FF4A1C')}
-        onMouseLeave={e => (e.currentTarget.style.color = '#192028')}
+        onMouseLeave={e => (e.currentTarget.style.color = '#1A2028')}
       >
         All articles →
       </a>
@@ -1158,25 +1164,25 @@ function HeroSection() {
           {...pop(showHeadline)}
           style={{
             position: 'absolute', left: 110, top: 444, width: 806,
-            fontFamily: GRENZE, fontSize: 100, fontWeight: 700,
-            lineHeight: '100px', letterSpacing: 0, color: '#3b4551',
+            fontFamily: "'DynaPuff', cursive", fontSize: 150, fontWeight: 400,
+            lineHeight: '150px', letterSpacing: 0, color: '#3A4450',
             margin: 0, zIndex: 6,
           }}
         >
-          Hey,<br />I&apos;m Onkar.
+          Hello!
         </motion.h1>
 
         {/* ── Phase 2: Welcome pop ── */}
         <motion.p
           {...pop(showWelcome)}
           style={{
-            position: 'absolute', left: 110, top: 669, width: 806,
-            fontFamily: GRENZE, fontSize: 70, fontWeight: 300,
-            lineHeight: '70px', letterSpacing: 0, color: '#3b4551',
+            position: 'absolute', left: 110, top: 614, width: 806,
+            fontFamily: GRENZE, fontSize: 41, fontWeight: 300,
+            lineHeight: '41px', letterSpacing: 0, color: '#606C78',
             margin: 0, zIndex: 6,
           }}
         >
-          Welcome!
+          WELCOME.
         </motion.p>
 
         {/* ── Phase 3: Right section (after Welcome) — each element pops in ── */}
@@ -1258,7 +1264,7 @@ function HeroSection() {
             }}
           >
             <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#d4e8a0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🎨</div>
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#192028', margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
               Product Designer.<br />Researcher.<br />3D artist.<br />Mechanical Engineer.
             </p>
           </motion.div>
@@ -1280,7 +1286,7 @@ function HeroSection() {
             }}
           >
             <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#c8e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🎵</div>
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#192028', margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
               Music composer &amp;<br />flute player
             </p>
           </motion.div>
@@ -1302,7 +1308,7 @@ function HeroSection() {
             }}
           >
             <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#c8e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>💻</div>
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#192028', margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
               Creative Technologist:<br />Versatile in front-end,<br />python, no-code tools<br />and agentic prototyping
             </p>
           </motion.div>
@@ -1517,6 +1523,16 @@ const behanceProjects = [
 
 function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; index: number }) {
   const [hovered, setHovered] = useState(false)
+  const isAccent = index === 1
+
+  const bg = isAccent
+    ? (hovered ? '#252E3A' : '#1A2028')
+    : (hovered ? '#1A2028' : '#ffffff')
+  const textPrimary = (isAccent || hovered) ? '#EDF0F4' : '#1A2028'
+  const textMuted = (isAccent || hovered) ? 'rgba(237,240,244,0.5)' : T.inkMute
+  const dividerColor = (isAccent || hovered) ? 'rgba(237,240,244,0.12)' : T.rule
+  const numColor = hovered ? '#FF4A1C' : (isAccent ? '#EDF0F4' : '#1A2028')
+
   return (
     <motion.a
       href={project.url}
@@ -1526,53 +1542,79 @@ function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; i
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.08, ease }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
-        display: 'block',
-        background: T.paper,
-        borderRadius: '6px',
+        display: 'flex',
+        flexDirection: 'column',
+        background: bg,
+        borderRadius: '12px',
         overflow: 'hidden',
         textDecoration: 'none',
         cursor: 'pointer',
-        border: hovered ? `1px solid ${T.rule}` : '1px solid transparent',
-        boxShadow: hovered ? '0 4px 16px rgba(0,0,0,0.08)' : 'none',
-        transition: 'border-color 0.2s, box-shadow 0.2s',
+        padding: '24px 24px 0',
+        height: '100%',
+        position: 'relative',
+        transform: hovered ? 'translateY(-8px)' : 'translateY(0)',
+        boxShadow: hovered
+          ? '0 20px 48px rgba(0,0,0,0.22)'
+          : isAccent ? '0 12px 40px rgba(0,0,0,0.18)' : '0 1px 4px rgba(0,0,0,0.06)',
+        transition: 'background 0.3s ease, transform 0.35s ease, box-shadow 0.35s ease',
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
-      {/* Cover image — 872×688 natural ratio ≈ 4:3 */}
-      <div style={{ position: 'relative', aspectRatio: '872 / 688', overflow: 'hidden', background: T.ruleSoft }}>
+      {/* Orange top bar — slides in on hover */}
+      <div style={{
+        position: 'absolute', top: 0, left: 0, right: 0,
+        height: '3px',
+        background: '#FF4A1C',
+        transform: hovered ? 'scaleX(1)' : 'scaleX(0)',
+        transformOrigin: 'left',
+        transition: 'transform 0.35s ease',
+        borderRadius: '12px 12px 0 0',
+      }} />
+
+      {/* Index number */}
+      <span style={{
+        fontFamily: T.sans, fontSize: '52px', fontWeight: 300,
+        color: numColor, lineHeight: 1, letterSpacing: '-0.03em',
+        transition: 'color 0.3s ease',
+      }}>
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      {/* Year */}
+      <span style={{
+        fontFamily: T.mono, fontSize: '11px', color: textMuted,
+        letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: '4px',
+        transition: 'color 0.3s ease',
+      }}>
+        {project.year}
+      </span>
+      {/* Divider */}
+      <div style={{
+        height: '1px', background: dividerColor, margin: '16px 0',
+        transition: 'background 0.3s ease',
+      }} />
+      {/* Title */}
+      <p style={{
+        fontFamily: T.sans, fontSize: '13px', fontWeight: 400,
+        color: textPrimary, lineHeight: 1.55, margin: '0 0 20px',
+        letterSpacing: '-0.01em', flex: 1,
+        transition: 'color 0.3s ease',
+      }}>
+        {project.title}
+      </p>
+      {/* Image — zooms on hover, flush to card bottom */}
+      <div style={{ overflow: 'hidden', borderRadius: '6px 6px 0 0' }}>
         <img
           src={project.cover}
           alt={project.title}
           style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
+            width: '100%', height: 'auto', display: 'block',
+            transform: hovered ? 'scale(1.06)' : 'scale(1)',
+            transition: 'transform 0.5s ease',
           }}
           onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
         />
-      </div>
-      {/* Title + meta below image */}
-      <div style={{ padding: '14px 16px 16px' }}>
-        <p style={{
-          fontFamily: T.sans,
-          fontSize: '13px',
-          fontWeight: 500,
-          color: T.ink,
-          margin: '0 0 8px',
-          lineHeight: 1.4,
-          letterSpacing: '-0.01em',
-        }}>
-          {project.title}
-        </p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontFamily: T.mono, fontSize: '10px', color: T.inkMute, letterSpacing: '0.04em' }}>{project.year}</span>
-          <span style={{ fontFamily: T.mono, fontSize: '9px', color: T.inkMute, border: `1px solid ${T.rule}`, padding: '1px 6px', borderRadius: '4px', letterSpacing: '0.06em' }}>
-            Be
-          </span>
-        </div>
       </div>
     </motion.a>
   )
@@ -1617,14 +1659,14 @@ function BehanceSection() {
           style={{
             fontFamily: T.mono,
             fontSize: '11px',
-            color: '#192028',
+            color: '#1A2028',
             textDecoration: 'none',
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
             transition: 'color 0.2s',
           }}
           onMouseEnter={e => (e.currentTarget.style.color = '#FF4A1C')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#192028')}
+          onMouseLeave={e => (e.currentTarget.style.color = '#1A2028')}
         >
           View on Behance →
         </a>
@@ -2282,7 +2324,7 @@ function ExperienceTimeline() {
             const textPrimary = job.accent ? '#1a1a1a'            : '#ffffff'
             const textMuted   = job.accent ? 'rgba(0,0,0,0.50)'  : 'rgba(255,255,255,0.68)'
             const textDim     = job.accent ? 'rgba(0,0,0,0.30)'  : 'rgba(255,255,255,0.40)'
-            const textDesc    = job.accent ? '#4A4740'            : 'rgba(255,255,255,0.86)'
+            const textDesc    = job.accent ? '#3A4450'            : 'rgba(255,255,255,0.86)'
             const tickCol     = '#2a2a2a'
 
             return (
@@ -2645,7 +2687,7 @@ function WorkSubSection({ kicker, title, index, children, topPadding = '56px', v
           <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
             {kicker}
           </p>
-          <h2 style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, letterSpacing: '-0.02em', lineHeight: 1.05, margin: 0 }}>
+          <h2 style={{ fontFamily: "'DynaPuff', cursive", fontSize: 'clamp(24px, 2.5vw, 35px)', fontWeight: 400, color: '#3A4450', letterSpacing: '-0.01em', lineHeight: 1.1, margin: 0 }}>
             {title}
           </h2>
         </div>
@@ -2655,9 +2697,9 @@ function WorkSubSection({ kicker, title, index, children, topPadding = '56px', v
               href={viewAllHref}
               target="_blank"
               rel="noreferrer"
-              style={{ fontFamily: T.mono, fontSize: '11px', color: '#192028', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s', flexShrink: 0 }}
+              style={{ fontFamily: T.mono, fontSize: '11px', color: '#1A2028', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s', flexShrink: 0 }}
               onMouseEnter={e => (e.currentTarget.style.color = '#FF4A1C')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#192028')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#1A2028')}
             >
               {viewAllLabel}
             </a>
@@ -2689,7 +2731,7 @@ export default function Home() {
         crossOrigin="anonymous"
       />
       <link
-        href="https://fonts.googleapis.com/css2?family=Allura&family=Glory:wght@700&family=Quicksand:wght@400;500;600&family=Felipa&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=JetBrains+Mono:wght@400;500&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Allura&family=DynaPuff:wght@400;500;700&family=Glory:wght@700&family=Quicksand:wght@400;500;600&family=Felipa&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=JetBrains+Mono:wght@400;500&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet"
       />
       <style>{`
@@ -2804,8 +2846,8 @@ export default function Home() {
           </WorkSubSection>
 
           {/* Behance Archive */}
-          <WorkSubSection kicker="Archive" title="Earlier behance work" index="03/" topPadding="96px" viewAllHref="https://www.behance.net/lankeonkar" viewAllLabel="View on Behance →">
-            <div className="behance-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+          <WorkSubSection kicker="Archive" title="Previous notable work" index="03/" topPadding="96px" viewAllHref="https://www.behance.net/lankeonkar" viewAllLabel="View on Behance →">
+            <div className="behance-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', alignItems: 'stretch' }}>
               {behanceProjects.map((project, i) => (
                 <BehanceCard key={project.url} project={project} index={i} />
               ))}
