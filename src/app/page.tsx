@@ -1272,43 +1272,41 @@ function HeroSection() {
 
         {/* Card 1: Roles — floats offset from blob */}
         <motion.div {...pop(showRight, 0.20)} style={{
-          position: 'absolute', top: 270, left: 784, width: 247, height: 206, zIndex: 5,
+          position: 'absolute', top: 270, left: 784, zIndex: 5,
         }}>
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ repeat: Infinity, duration: 3.6, ease: 'easeInOut', delay: 0.6 }}
             style={{
-              width: '100%', height: '100%',
               background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
-              borderRadius: 12, padding: '20px 18px',
-              display: 'flex', flexDirection: 'column', gap: 10,
+              borderRadius: 12, padding: '20px 20px 22px',
+              display: 'inline-flex', flexDirection: 'column', gap: 12,
             }}
           >
             <img src="/icons/figma-icon.png" alt="Design" style={{ width: 56, height: 56, objectFit: 'contain' }} />
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 15, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 15, color: '#1A2028', margin: 0, lineHeight: 1.5, whiteSpace: 'nowrap' }}>
               Product Designer.<br />Researcher.<br />3D artist.<br />Mechanical Engineer.
             </p>
           </motion.div>
         </motion.div>
 
-        {/* Card 2: Music — slowest, most out of phase */}
+        {/* Card 2: Education — behind image */}
         <motion.div {...pop(showRight, 0.30)} style={{
-          position: 'absolute', top: 145, left: 1223, width: 247, height: 206, zIndex: 3,
+          position: 'absolute', top: 145, left: 1223, zIndex: 3,
         }}>
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ repeat: Infinity, duration: 4.8, ease: 'easeInOut', delay: 1.4 }}
             style={{
-              width: '100%', height: '100%',
               background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
-              borderRadius: 12, padding: '20px 18px',
-              display: 'flex', flexDirection: 'column', gap: 10,
+              borderRadius: 12, padding: '20px 20px 22px',
+              display: 'inline-flex', flexDirection: 'column', gap: 12,
             }}
           >
             <img src="/icons/graduated.png" alt="Graduated" style={{ width: 56, height: 56, objectFit: 'contain' }} />
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 14, color: '#1A2028', margin: 0, lineHeight: 1.65 }}>
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 14, color: '#1A2028', margin: 0, lineHeight: 1.65, whiteSpace: 'nowrap' }}>
               Product/HCI Design — IIT Kanpur<br />Mechanical Engg — PU
             </p>
           </motion.div>
@@ -1316,21 +1314,20 @@ function HeroSection() {
 
         {/* Card 3: Tech — fastest, furthest out of phase */}
         <motion.div {...pop(showRight, 0.40)} style={{
-          position: 'absolute', top: 587, left: 890, width: 247, height: 221, zIndex: 5,
+          position: 'absolute', top: 587, left: 890, zIndex: 5,
         }}>
           <motion.div
             animate={{ y: [0, -11, 0] }}
             transition={{ repeat: Infinity, duration: 3.2, ease: 'easeInOut', delay: 2.1 }}
             style={{
-              width: '100%', height: '100%',
               background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
-              borderRadius: 12, padding: '20px 18px',
-              display: 'flex', flexDirection: 'column', gap: 10,
+              borderRadius: 12, padding: '20px 20px 22px',
+              display: 'inline-flex', flexDirection: 'column', gap: 12,
             }}
           >
             <img src="/icons/creative-tech.png" alt="Creative Tech" style={{ width: 56, height: 56, objectFit: 'contain' }} />
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 15, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 15, color: '#1A2028', margin: 0, lineHeight: 1.5, whiteSpace: 'nowrap' }}>
               Creative Technologist:<br />Versatile in front-end,<br />python, no-code tools<br />and agentic prototyping
             </p>
           </motion.div>
