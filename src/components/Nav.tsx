@@ -30,7 +30,7 @@ function glassTokens(isLight: boolean) {
       // Multi-layer shadow: top specular inset + depth shadow + bottom inner shadow
       shadow:         '0 1px 0 rgba(255,255,255,0.95) inset, 0 -1px 0 rgba(0,0,0,0.06) inset, 0 12px 48px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06)',
       logoColor:      '#0B0B0B',
-      linkColor:      '#7A7A75',
+      linkColor:      '#2A2A2A',
       linkHover:      '#D04D1F',
       hamburger:      '#0B0B0B',
       divider:        'rgba(180, 174, 163, 0.45)',

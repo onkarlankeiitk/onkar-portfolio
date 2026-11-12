@@ -453,9 +453,20 @@ function BentoSquare({ project, className, animDelay = 0 }: { project: typeof pr
 }
 
 // ─── Full-viewport case study row ─────────────────────────────────────────────
-function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof projects[0]; index: number; animDelay?: number }) {
+function CaseStudyRow({ project, index, animDelay = 0, glass = false }: { project: typeof projects[0]; index: number; animDelay?: number; glass?: boolean }) {
   const [hovered, setHovered] = useState(false)
   const [ctaHovered, setCtaHovered] = useState(false)
+
+  // Glass vs default tokens
+  const rowBorder   = glass ? 'rgba(255,255,255,0.10)' : BC.border
+  const colBorder   = glass ? 'rgba(255,255,255,0.10)' : BC.border
+  const muteColor   = glass ? 'rgba(237,240,244,0.45)' : BC.mute
+  const companyColor= glass ? 'rgba(237,240,244,0.65)' : '#3A4450'
+  const titleColor  = glass ? '#EDF0F4' : '#1A2028'
+  const descColor   = glass ? 'rgba(237,240,244,0.70)' : '#3A4450'
+  const metricColor = glass ? '#EDF0F4' : '#1A2028'
+  const ctaRestColor= glass ? 'rgba(237,240,244,0.85)' : BC.ink
+  const ctaRestBorder= glass ? 'rgba(237,240,244,0.85)' : BC.ink
 
   return (
     <motion.div
@@ -465,39 +476,47 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
       transition={{ duration: 0.65, delay: animDelay, ease }}
       style={{
         display: 'flex', flexDirection: 'column',
-        marginBottom: '10vh',
-        padding: '48px 0',
-        borderTop: index === 0 ? 'none' : `1px solid ${BC.border}`,
+        marginBottom: glass ? '32px' : '10vh',
+        padding: glass ? '0' : '48px 0',
+        borderTop: !glass && index === 0 ? 'none' : glass ? 'none' : `1px solid ${rowBorder}`,
         position: 'relative',
+        ...(glass ? {
+          background: 'rgba(255,255,255,0.055)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          border: '1px solid rgba(255,255,255,0.12)',
+          borderRadius: '16px',
+          overflow: 'hidden',
+        } : {}),
       }}
     >
       {/* ── 3-col grid ── */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 2.6fr' }}>
       {/* ── Left col: client + title + CTA ── */}
       <div style={{
-        padding: '64px 40px 64px 0',
+        padding: '64px 40px 64px 40px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        borderRight: `1px solid ${BC.border}`,
+        borderRight: `1px solid ${colBorder}`,
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
           {/* Index number */}
           <span style={{
-            fontFamily: T.mono, fontSize: '11px', color: BC.mute,
+            fontFamily: T.mono, fontSize: '11px', color: muteColor,
             letterSpacing: '0.1em', opacity: 0.4, display: 'block', marginBottom: '12px',
           }}>
             {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
           </span>
           <p style={{
-            fontFamily: "'Poppins', sans-serif", fontSize: '15px', color: '#3A4450',
+            fontFamily: "'Poppins', sans-serif", fontSize: '15px', color: companyColor,
             margin: '0 0 28px', fontWeight: 400, textTransform: 'uppercase', letterSpacing: '0.08em',
           }}>
             {project.company}
           </p>
           <h3 style={{
             fontFamily: T.sans, fontSize: 'clamp(20px, 2vw, 28px)',
-            fontWeight: 600, color: '#1A2028',
+            fontWeight: 600, color: titleColor,
             lineHeight: 1.25, margin: '0 0 60px',
             letterSpacing: '-0.02em',
           }}>
@@ -513,10 +532,10 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px', alignSelf: 'flex-start',
               fontFamily: T.sans, fontSize: '14px', fontWeight: 500,
-              color: ctaHovered ? '#ffffff' : BC.ink,
+              color: ctaHovered ? '#ffffff' : ctaRestColor,
               background: ctaHovered ? BC.orange : 'transparent',
               textDecoration: 'none',
-              borderBottom: ctaHovered ? 'none' : `1.5px solid ${BC.ink}`,
+              borderBottom: ctaHovered ? 'none' : `1.5px solid ${ctaRestBorder}`,
               padding: ctaHovered ? '7px 14px' : '0 0 2px 0',
               borderRadius: ctaHovered ? '3px' : '0',
               clipPath: ctaHovered ? 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)' : 'none',
@@ -538,7 +557,7 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
       }}>
         <p style={{
           fontFamily: T.sans, fontSize: '17px',
-          fontWeight: 400, color: '#3A4450', lineHeight: 1.65,
+          fontWeight: 400, color: descColor, lineHeight: 1.65,
           margin: '76px 0 0', letterSpacing: '-0.005em',
         }}>
           {project.description}
@@ -551,13 +570,13 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
               <div key={mi}>
                 <p style={{
                   fontFamily: T.sans, fontSize: '35px',
-                  fontWeight: 700, color: '#1A2028',
+                  fontWeight: 700, color: metricColor,
                   margin: '0 0 4px', letterSpacing: '-0.03em', lineHeight: 1,
                 }}>
                   {m.v}
                 </p>
                 <p style={{
-                  fontFamily: T.mono, fontSize: '10px', color: BC.mute,
+                  fontFamily: T.mono, fontSize: '10px', color: muteColor,
                   letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0,
                 }}>
                   {m.l}
@@ -571,8 +590,10 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
             {project.tags.map(tag => (
               <span key={tag} style={{
                 fontFamily: T.mono, fontSize: '9px',
-                color: BC.mute, letterSpacing: '0.08em', textTransform: 'uppercase',
-                border: `1px solid ${BC.border}`, borderRadius: '4px',
+                color: muteColor, letterSpacing: '0.08em', textTransform: 'uppercase',
+                border: `1px solid ${glass ? 'rgba(255,255,255,0.15)' : BC.border}`,
+                background: glass ? 'rgba(255,255,255,0.07)' : 'transparent',
+                borderRadius: '4px',
                 padding: '4px 8px',
               }}>
                 {tag}
@@ -583,7 +604,7 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
       </div>
 
       {/* ── Right col: banner ── */}
-      <div style={{ paddingTop: '140px' }}>
+      <div style={{ paddingTop: '140px', paddingRight: glass ? '40px' : '0', paddingBottom: glass ? '40px' : '0' }}>
         <Link
           href={project.directPath}
           target={project.directPath.startsWith('http') ? '_blank' : undefined}
@@ -591,7 +612,8 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
           style={{
             display: 'block', overflow: 'hidden',
             textDecoration: 'none', cursor: 'pointer',
-            borderRadius: '10px',
+            borderRadius: glass ? '12px' : '10px',
+            border: glass ? '1px solid rgba(255,255,255,0.10)' : 'none',
           }}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
@@ -611,7 +633,7 @@ function CaseStudyRow({ project, index, animDelay = 0 }: { project: typeof proje
 
       {/* ── Extra images: full-width below, freely cropped ── */}
       {project.extraImages && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px', overflow: 'hidden', width: '80%', marginLeft: 'auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px', overflow: 'hidden', width: '80%', marginLeft: 'auto', paddingRight: glass ? '40px' : '0', paddingBottom: glass ? '40px' : '0' }}>
           <div style={{ overflow: 'hidden', borderRadius: '8px' }}>
             <img src={project.extraImages[0]} alt="" style={{ width: '100%', height: 'auto', display: 'block' }} />
           </div>
@@ -1243,7 +1265,7 @@ function HeroSection() {
           src="/hero/me.png" alt="Onkar"
           style={{
             position: 'absolute', left: 919, top: 164,
-            width: 441, height: 571,
+            width: 573, height: 742,
             objectFit: 'cover', objectPosition: 'top center', zIndex: 4,
           }}
         />
@@ -1263,8 +1285,8 @@ function HeroSection() {
               display: 'flex', flexDirection: 'column', gap: 10,
             }}
           >
-            <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#d4e8a0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🎨</div>
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
+            <img src="/icons/figma-icon.png" alt="Design" style={{ width: 56, height: 56, objectFit: 'contain' }} />
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 15, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
               Product Designer.<br />Researcher.<br />3D artist.<br />Mechanical Engineer.
             </p>
           </motion.div>
@@ -1272,7 +1294,7 @@ function HeroSection() {
 
         {/* Card 2: Music — slowest, most out of phase */}
         <motion.div {...pop(showRight, 0.30)} style={{
-          position: 'absolute', top: 145, left: 1223, width: 247, height: 206, zIndex: 5,
+          position: 'absolute', top: 145, left: 1223, width: 247, height: 206, zIndex: 3,
         }}>
           <motion.div
             animate={{ y: [0, -8, 0] }}
@@ -1285,9 +1307,9 @@ function HeroSection() {
               display: 'flex', flexDirection: 'column', gap: 10,
             }}
           >
-            <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#c8e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🎵</div>
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
-              Music composer &amp;<br />flute player
+            <img src="/icons/graduated.png" alt="Graduated" style={{ width: 56, height: 56, objectFit: 'contain' }} />
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 14, color: '#1A2028', margin: 0, lineHeight: 1.65 }}>
+              Product/HCI Design — IIT Kanpur<br />Mechanical Engg — PU
             </p>
           </motion.div>
         </motion.div>
@@ -1307,8 +1329,8 @@ function HeroSection() {
               display: 'flex', flexDirection: 'column', gap: 10,
             }}
           >
-            <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#c8e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>💻</div>
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 13, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
+            <img src="/icons/creative-tech.png" alt="Creative Tech" style={{ width: 56, height: 56, objectFit: 'contain' }} />
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 15, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
               Creative Technologist:<br />Versatile in front-end,<br />python, no-code tools<br />and agentic prototyping
             </p>
           </motion.div>
@@ -1521,17 +1543,19 @@ const behanceProjects = [
   },
 ]
 
-function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; index: number }) {
+function BehanceCard({ project, index, glass = false }: { project: typeof behanceProjects[0]; index: number; glass?: boolean }) {
   const [hovered, setHovered] = useState(false)
-  const isAccent = index === 1
+  const isAccent = !glass && index === 1
 
-  const bg = isAccent
-    ? (hovered ? '#252E3A' : '#1A2028')
-    : (hovered ? '#1A2028' : '#ffffff')
-  const textPrimary = (isAccent || hovered) ? '#EDF0F4' : '#1A2028'
-  const textMuted = (isAccent || hovered) ? 'rgba(237,240,244,0.5)' : T.inkMute
-  const dividerColor = (isAccent || hovered) ? 'rgba(237,240,244,0.12)' : T.rule
-  const numColor = hovered ? '#FF4A1C' : (isAccent ? '#EDF0F4' : '#1A2028')
+  const bg = glass
+    ? (hovered ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.055)')
+    : isAccent
+      ? (hovered ? '#252E3A' : '#1A2028')
+      : (hovered ? '#1A2028' : '#ffffff')
+  const textPrimary = (glass || isAccent || hovered) ? '#EDF0F4' : '#1A2028'
+  const textMuted = (glass || isAccent || hovered) ? 'rgba(237,240,244,0.5)' : T.inkMute
+  const dividerColor = (glass || isAccent || hovered) ? 'rgba(237,240,244,0.12)' : T.rule
+  const numColor = hovered ? '#FF4A1C' : (glass || isAccent) ? '#EDF0F4' : '#1A2028'
 
   return (
     <motion.a
@@ -1548,6 +1572,9 @@ function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; i
         display: 'flex',
         flexDirection: 'column',
         background: bg,
+        backdropFilter: glass ? 'blur(20px)' : 'none',
+        WebkitBackdropFilter: glass ? 'blur(20px)' : 'none',
+        border: glass ? `1px solid rgba(255,255,255,${hovered ? '0.18' : '0.10'})` : 'none',
         borderRadius: '12px',
         overflow: 'hidden',
         textDecoration: 'none',
@@ -1557,9 +1584,9 @@ function BehanceCard({ project, index }: { project: typeof behanceProjects[0]; i
         position: 'relative',
         transform: hovered ? 'translateY(-8px)' : 'translateY(0)',
         boxShadow: hovered
-          ? '0 20px 48px rgba(0,0,0,0.22)'
-          : isAccent ? '0 12px 40px rgba(0,0,0,0.18)' : '0 1px 4px rgba(0,0,0,0.06)',
-        transition: 'background 0.3s ease, transform 0.35s ease, box-shadow 0.35s ease',
+          ? '0 20px 48px rgba(0,0,0,0.35)'
+          : glass ? '0 4px 24px rgba(0,0,0,0.20)' : isAccent ? '0 12px 40px rgba(0,0,0,0.18)' : '0 1px 4px rgba(0,0,0,0.06)',
+        transition: 'background 0.3s ease, transform 0.35s ease, box-shadow 0.35s ease, border-color 0.3s ease',
       }}
     >
       {/* Orange top bar — slides in on hover */}
@@ -2670,7 +2697,12 @@ function SkillPill({ label }: { label: string }) {
 }
 
 // ─── Work subsection with hover-orange label ──────────────────────────────────
-function WorkSubSection({ kicker, title, index, children, topPadding = '56px', viewAllHref, viewAllLabel }: { kicker: string; title: string; index: string; children: React.ReactNode; topPadding?: string; viewAllHref?: string; viewAllLabel?: string }) {
+function WorkSubSection({ kicker, title, index, children, topPadding = '56px', viewAllHref, viewAllLabel, dark = false }: { kicker: string; title: string; index: string; children: React.ReactNode; topPadding?: string; viewAllHref?: string; viewAllLabel?: string; dark?: boolean }) {
+  const kickerColor = dark ? 'rgba(237,240,244,0.45)' : T.inkMute
+  const titleColor  = dark ? '#EDF0F4' : '#3A4450'
+  const borderColor = dark ? 'rgba(255,255,255,0.12)' : T.rule
+  const indexColor  = dark ? 'rgba(255,255,255,0.15)' : T.rule
+  const linkColor   = dark ? 'rgba(237,240,244,0.75)' : '#1A2028'
   return (
     <div style={{ padding: `${topPadding} 64px 0` }}>
       <motion.div
@@ -2680,14 +2712,14 @@ function WorkSubSection({ kicker, title, index, children, topPadding = '56px', v
         transition={{ duration: 0.5, ease }}
         style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
-          borderBottom: `1px solid ${T.rule}`, paddingBottom: '20px', marginBottom: '40px',
+          borderBottom: `1px solid ${borderColor}`, paddingBottom: '20px', marginBottom: '40px',
         }}
       >
         <div>
-          <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
+          <p style={{ fontFamily: T.mono, fontSize: '11px', color: kickerColor, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
             {kicker}
           </p>
-          <h2 style={{ fontFamily: "'DynaPuff', cursive", fontSize: 'clamp(24px, 2.5vw, 35px)', fontWeight: 400, color: '#3A4450', letterSpacing: '-0.01em', lineHeight: 1.1, margin: 0 }}>
+          <h2 style={{ fontFamily: "'DynaPuff', cursive", fontSize: 'clamp(24px, 2.5vw, 35px)', fontWeight: 400, color: titleColor, letterSpacing: '-0.01em', lineHeight: 1.1, margin: 0 }}>
             {title}
           </h2>
         </div>
@@ -2697,14 +2729,14 @@ function WorkSubSection({ kicker, title, index, children, topPadding = '56px', v
               href={viewAllHref}
               target="_blank"
               rel="noreferrer"
-              style={{ fontFamily: T.mono, fontSize: '11px', color: '#1A2028', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s', flexShrink: 0 }}
+              style={{ fontFamily: T.mono, fontSize: '11px', color: linkColor, textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'color 0.2s', flexShrink: 0 }}
               onMouseEnter={e => (e.currentTarget.style.color = '#FF4A1C')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#1A2028')}
+              onMouseLeave={e => (e.currentTarget.style.color = linkColor)}
             >
               {viewAllLabel}
             </a>
           )}
-          <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
+          <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: indexColor, letterSpacing: '-0.03em' }}>
             {index}
           </span>
         </div>
@@ -2819,40 +2851,74 @@ export default function Home() {
             paddingBottom: '80px',
           }}
         >
-          {/* Case Studies — full-viewport rows */}
-          <WorkSubSection kicker="UX Case Studies" title="Digital Design" index="01/">
-            <div>
-              {projects.map((project, i) => (
-                <CaseStudyRow key={project.slug} project={project} index={i} animDelay={i * 0.08} />
-              ))}
-            </div>
-          </WorkSubSection>
+          {/* Case Studies — glass dark section */}
+          <div style={{
+            margin: '0 0 0 0',
+            background: 'linear-gradient(140deg, #0B0F1A 0%, #0F1E30 45%, #0D1117 100%)',
+            borderRadius: '0 0 0 0',
+            position: 'relative',
+            overflow: 'hidden',
+          }}>
+            {/* Subtle noise texture overlay */}
+            <div aria-hidden style={{
+              position: 'absolute', inset: 0, pointerEvents: 'none',
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`,
+              opacity: 0.5,
+            }} />
+            {/* Soft glow orbs */}
+            <div aria-hidden style={{
+              position: 'absolute', top: '-80px', left: '10%',
+              width: '500px', height: '500px', borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(30,58,232,0.12) 0%, transparent 70%)',
+              pointerEvents: 'none',
+            }} />
+            <div aria-hidden style={{
+              position: 'absolute', bottom: '-100px', right: '5%',
+              width: '600px', height: '400px', borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(255,74,28,0.08) 0%, transparent 70%)',
+              pointerEvents: 'none',
+            }} />
+            <WorkSubSection kicker="UX Case Studies" title="Digital Design" index="01/" dark={true}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+                {projects.map((project, i) => (
+                  <CaseStudyRow key={project.slug} project={project} index={i} animDelay={i * 0.08} glass={true} />
+                ))}
+              </div>
+            </WorkSubSection>
 
-          {/* Webflow Builds — 2 columns */}
-          <WorkSubSection kicker="Low-code" title="Design + Low code on webflow" index="02/" topPadding="96px">
-            <div className="webflow-builds-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-              {webflowSites.map((site, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1, ease }}
-                >
-                  <WebflowCard site={site} />
-                </motion.div>
-              ))}
-            </div>
-          </WorkSubSection>
+            {/* Webflow Builds — 2 columns */}
+            <WorkSubSection kicker="Low-code" title="Design + Low code on webflow" index="02/" topPadding="96px" dark={true}>
+              <div className="webflow-builds-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                {webflowSites.map((site, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.1, ease }}
+                    style={{
+                      borderRadius: '12px', overflow: 'hidden',
+                      border: '1px solid rgba(255,255,255,0.10)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                    }}
+                  >
+                    <WebflowCard site={site} />
+                  </motion.div>
+                ))}
+              </div>
+            </WorkSubSection>
 
-          {/* Behance Archive */}
-          <WorkSubSection kicker="Archive" title="Previous notable work" index="03/" topPadding="96px" viewAllHref="https://www.behance.net/lankeonkar" viewAllLabel="View on Behance →">
-            <div className="behance-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', alignItems: 'stretch' }}>
-              {behanceProjects.map((project, i) => (
-                <BehanceCard key={project.url} project={project} index={i} />
-              ))}
-            </div>
-          </WorkSubSection>
+            {/* Behance Archive */}
+            <WorkSubSection kicker="Archive" title="Previous notable work" index="03/" topPadding="96px" viewAllHref="https://www.behance.net/lankeonkar" viewAllLabel="View on Behance →" dark={true}>
+              <div className="behance-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', alignItems: 'stretch' }}>
+                {behanceProjects.map((project, i) => (
+                  <BehanceCard key={project.url} project={project} index={i} glass={true} />
+                ))}
+              </div>
+            </WorkSubSection>
+            <div style={{ height: '80px' }} />
+          </div>
 
         </section>
 
