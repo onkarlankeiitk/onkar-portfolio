@@ -491,7 +491,7 @@ function CaseStudyRow({ project, index, animDelay = 0, glass = false }: { projec
       }}
     >
       {/* ── 3-col grid ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 2.6fr' }}>
+      <div className="case-study-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 2.6fr' }}>
       {/* ── Left col: client + title + CTA ── */}
       <div style={{
         padding: '64px 40px 64px 40px',
@@ -555,7 +555,7 @@ function CaseStudyRow({ project, index, animDelay = 0, glass = false }: { projec
         justifyContent: 'flex-start',
         gap: '10px',
       }}>
-        <p style={{
+        <p className="case-study-desc" style={{
           fontFamily: T.sans, fontSize: '17px',
           fontWeight: 400, color: descColor, lineHeight: 1.65,
           margin: '76px 0 0', letterSpacing: '-0.005em',
@@ -1091,13 +1091,18 @@ const HERO_H = 939
 
 function HeroSection() {
   const [scale, setScale]             = useState(1)
+  const [isMobile, setIsMobile]       = useState(false)
   const [showHeadline, setShowHeadline] = useState(false)
   const [showWelcome, setShowWelcome]   = useState(false)
   const [showRight, setShowRight]       = useState(false)
 
-  // Scale canvas to viewport
+  // Scale canvas to viewport (desktop) or detect mobile
   useEffect(() => {
-    const update = () => setScale(window.innerWidth / HERO_W)
+    const update = () => {
+      const w = window.innerWidth
+      setIsMobile(w <= 768)
+      setScale(w / HERO_W)
+    }
     update()
     window.addEventListener('resize', update)
     return () => window.removeEventListener('resize', update)
@@ -1117,6 +1122,188 @@ function HeroSection() {
     animate: show ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.82 },
     transition: { type: 'spring' as const, stiffness: 320, damping: 22, delay },
   })
+
+  // ── Mobile Hero Layout ──
+  if (isMobile) {
+    return (
+      <section
+        id="hero"
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 0,
+          width: '100%',
+          minHeight: '100svh',
+          background: '#ffffff',
+          padding: '72px 24px 48px',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 24,
+        }}
+      >
+        {/* Ghost PORTFOLIO — background text */}
+        <div aria-hidden style={{
+          position: 'absolute', right: -20, top: '15%',
+          fontFamily: HELV, fontSize: 72, fontWeight: 400,
+          color: '#f0f0f0', lineHeight: 'normal',
+          pointerEvents: 'none', userSelect: 'none', zIndex: 0,
+        }}>
+          PORTFOLIO
+        </div>
+
+        {/* Badge */}
+        <div style={{ position: 'relative', zIndex: 6 }}>
+          <motion.div
+            initial={{ rotateY: -85, height: 3 }}
+            animate={{ rotateY: 0, height: 54 }}
+            transition={{
+              rotateY: { duration: 0.975, ease: [0.22, 1, 0.36, 1] },
+              height:   { duration: 0.675, ease: [0.22, 1, 0.36, 1], delay: 0.75 },
+            }}
+            style={{
+              width: 180, background: HERO_ACCENT, overflow: 'hidden',
+              display: 'flex', flexDirection: 'column', justifyContent: 'center',
+              padding: '8px 14px',
+              clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
+              transformOrigin: 'left center',
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ duration: 0.45, delay: 1.32 }}
+              style={{ fontFamily: SPACE_MONO, fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', lineHeight: 1.7, whiteSpace: 'nowrap' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, color: '#333333' }}>
+                <span style={{ display: 'inline-block', width: 5, height: 5, background: '#333333', flexShrink: 0, borderRadius: '50%', animation: 'dotBlink 1s step-end infinite' }} />
+                Portfolio — 2026
+              </div>
+              <div style={{ color: '#EAEAEA' }}>Est. 2020 / 6+ Years</div>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Hello! + Me photo row */}
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, position: 'relative', zIndex: 6 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <motion.h1
+              {...pop(showHeadline)}
+              style={{
+                fontFamily: "'DynaPuff', cursive", fontSize: 'clamp(52px, 14vw, 80px)',
+                fontWeight: 400, lineHeight: 1.0, color: '#3A4450',
+                margin: 0,
+              }}
+            >
+              Hello!
+            </motion.h1>
+            <motion.p
+              {...pop(showWelcome)}
+              style={{
+                fontFamily: GRENZE, fontSize: 'clamp(20px, 5vw, 28px)', fontWeight: 300,
+                lineHeight: 1.1, color: '#606C78',
+                margin: 0,
+              }}
+            >
+              WELCOME.
+            </motion.p>
+          </div>
+          <motion.div
+            {...pop(showRight, 0.12)}
+            style={{
+              width: 'clamp(110px, 30vw, 160px)', flexShrink: 0,
+              borderRadius: 12, overflow: 'hidden',
+            }}
+          >
+            <img
+              src="/hero/me.png" alt="Onkar"
+              style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover', objectPosition: 'top center' }}
+            />
+          </motion.div>
+        </div>
+
+        {/* Label row */}
+        <motion.div
+          {...pop(showRight, 0.18)}
+          style={{ display: 'flex', alignItems: 'center', gap: 7, position: 'relative', zIndex: 6 }}
+        >
+          <svg width={40} height={1} style={{ display: 'block', overflow: 'visible' }}>
+            <line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#606c78" strokeWidth="1" />
+          </svg>
+          <span style={{ fontFamily: SPACE_MONO, fontSize: 11, color: '#606c78', whiteSpace: 'nowrap' }}>
+            DESIGN / PRODUCT DEVELOPMENT
+          </span>
+        </motion.div>
+
+        {/* Floating cards — horizontal scrollable row */}
+        <motion.div
+          {...pop(showRight, 0.22)}
+          style={{
+            display: 'flex', gap: 12,
+            overflowX: 'auto', overflowY: 'visible',
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+            padding: '8px 0 12px',
+            position: 'relative', zIndex: 6,
+          }}
+        >
+          {/* Card 1: Roles */}
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ repeat: Infinity, duration: 3.6, ease: 'easeInOut', delay: 0.6 }}
+            style={{
+              background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
+              borderRadius: 12, padding: '16px 16px 18px',
+              display: 'inline-flex', flexDirection: 'column', gap: 10,
+              flexShrink: 0, minWidth: 160,
+            }}
+          >
+            <img src="/icons/figma-icon.png" alt="Design" style={{ width: 40, height: 40, objectFit: 'contain' }} />
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 12, color: '#1A2028', margin: 0, lineHeight: 1.5, whiteSpace: 'pre-line' }}>
+              {'Product Designer.\nResearcher.\n3D artist.\nMech. Engineer.'}
+            </p>
+          </motion.div>
+
+          {/* Card 2: Education */}
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ repeat: Infinity, duration: 4.8, ease: 'easeInOut', delay: 1.4 }}
+            style={{
+              background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
+              borderRadius: 12, padding: '16px 16px 18px',
+              display: 'inline-flex', flexDirection: 'column', gap: 10,
+              flexShrink: 0, minWidth: 160,
+            }}
+          >
+            <img src="/icons/graduated.png" alt="Graduated" style={{ width: 40, height: 40, objectFit: 'contain' }} />
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 12, color: '#1A2028', margin: 0, lineHeight: 1.65, whiteSpace: 'pre-line' }}>
+              {'Product/HCI Design\n— IIT Kanpur\nMech. Engg — PU'}
+            </p>
+          </motion.div>
+
+          {/* Card 3: Tech */}
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ repeat: Infinity, duration: 3.2, ease: 'easeInOut', delay: 2.1 }}
+            style={{
+              background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
+              borderRadius: 12, padding: '16px 16px 18px',
+              display: 'inline-flex', flexDirection: 'column', gap: 10,
+              flexShrink: 0, minWidth: 160,
+            }}
+          >
+            <img src="/icons/creative-tech.png" alt="Creative Tech" style={{ width: 40, height: 40, objectFit: 'contain' }} />
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 12, color: '#1A2028', margin: 0, lineHeight: 1.5, whiteSpace: 'pre-line' }}>
+              {'Creative Tech:\nfront-end, Python,\nno-code, agentic'}
+            </p>
+          </motion.div>
+        </motion.div>
+      </section>
+    )
+  }
 
   return (
     <section
@@ -1971,7 +2158,7 @@ function AboutSection() {
       </div>
 
       {/* Top-right label — same style as hero */}
-      <div style={{
+      <div className="about-topright-label" style={{
         position: 'absolute',
         top: 80,
         right: 80,
@@ -1990,7 +2177,7 @@ function AboutSection() {
       </div>
 
       {/* Inner content */}
-      <div style={{ padding: '80px 80px 90px', position: 'relative', zIndex: 1 }}>
+      <div className="about-section-inner" style={{ padding: '80px 80px 90px', position: 'relative', zIndex: 1 }}>
 
         {/* Headline */}
         <motion.div
@@ -1998,6 +2185,7 @@ function AboutSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease }}
+          className="about-headline-row"
           style={{
             display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
             borderBottom: `1px solid ${T.rule}`, paddingBottom: '20px', marginBottom: '48px',
@@ -2007,20 +2195,20 @@ function AboutSection() {
             <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
               About
             </p>
-            <h2 style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, letterSpacing: '-0.02em', lineHeight: 1.05, margin: '0 0 20px' }}>
+            <h2 className="about-h2" style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, letterSpacing: '-0.02em', lineHeight: 1.05, margin: '0 0 20px' }}>
               Working with me.
             </h2>
-            <p style={{ fontFamily: T.sans, fontSize: '17px', color: T.ink, lineHeight: 1.7, margin: 0, maxWidth: '560px', letterSpacing: '-0.005em' }}>
+            <p className="about-intro-para" style={{ fontFamily: T.sans, fontSize: '17px', color: T.ink, lineHeight: 1.7, margin: 0, maxWidth: '560px', letterSpacing: '-0.005em' }}>
               Hi, I&apos;m Onkar. Thanks for visiting. I&apos;m an engineer turned Product Designer with deep passion for people centric design &amp; experience creation. I believe good design is highly collaborative and hence I have noted some of the points you may experience while working with me.
             </p>
           </div>
-          <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
+          <span className="section-index-num" style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
             04/
           </span>
         </motion.div>
 
         {/* 3-col: text | photo | text */}
-        <div style={{
+        <div className="about-3col-grid" style={{
           display: 'grid',
           gridTemplateColumns: '1fr 340px 1fr',
           gap: '52px',
@@ -2074,7 +2262,7 @@ function AboutSection() {
 
       {/* Tools marquee */}
       <div style={{ padding: '40px 0 48px', position: 'relative', zIndex: 1, borderTop: `1px solid ${T.ruleSoft}` }}>
-        <div style={{ padding: '0 80px 16px' }}>
+        <div className="tools-label-pad" style={{ padding: '0 80px 16px' }}>
           <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.12em', textTransform: 'uppercase', margin: 0 }}>Tools I use</p>
         </div>
         <ToolsMarquee bg="#ffffff" />
@@ -2582,7 +2770,7 @@ function ExperienceSection() {
       }}
     >
       {/* Header strip */}
-      <div style={{
+      <div className="exp-section-header" style={{
         padding: '40px 80px',
         display: 'flex',
         justifyContent: 'space-between',
@@ -2592,16 +2780,17 @@ function ExperienceSection() {
         <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
           Experience
         </p>
-        <span style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
+        <span className="section-index-num" style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em' }}>
           05/
         </span>
       </div>
 
       {/* Timeline */}
-      <div style={{ padding: '0 80px 80px' }}>
+      <div className="exp-section-container" style={{ padding: '0 80px 80px' }}>
         {experience.map((job, i) => (
           <motion.div
             key={i}
+            className="exp-row"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -2701,12 +2890,13 @@ function WorkSubSection({ kicker, title, index, children, topPadding = '56px', v
   const indexColor  = dark ? 'rgba(255,255,255,0.15)' : T.rule
   const linkColor   = dark ? 'rgba(237,240,244,0.75)' : '#1A2028'
   return (
-    <div style={{ padding: `${topPadding} 64px 0` }}>
+    <div className="work-sub-section" style={{ padding: `${topPadding} 64px 0` }}>
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, ease }}
+        className="work-sub-section-header-row"
         style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
           borderBottom: `1px solid ${borderColor}`, paddingBottom: '20px', marginBottom: '40px',
@@ -2733,7 +2923,7 @@ function WorkSubSection({ kicker, title, index, children, topPadding = '56px', v
               {viewAllLabel}
             </a>
           )}
-          <span style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: indexColor, letterSpacing: '-0.03em' }}>
+          <span className="section-index-num" style={{ fontFamily: T.mono, fontSize: '32px', fontWeight: 500, color: indexColor, letterSpacing: '-0.03em' }}>
             {index}
           </span>
         </div>
@@ -2962,13 +3152,14 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease }}
+            className="doodles-header"
             style={{ padding: '0 64px 32px', position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: `1px solid ${T.rule}`, marginBottom: '24px' }}
           >
             <div>
               <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
                 Raw sketches &amp; explorations
               </p>
-              <h2 style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+              <h2 className="doodles-h2" style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
                 Doodling on the go
               </h2>
             </div>
@@ -2977,6 +3168,7 @@ export default function Home() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15, ease }}
+              className="section-index-num"
               style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em', flexShrink: 0 }}
             >06/</motion.span>
           </motion.div>
@@ -3033,54 +3225,9 @@ export default function Home() {
 
         /* ── Tablet (≤768px) ── */
         @media (max-width: 768px) {
-          /* Hero */
+          /* Hero — handled by isMobile branch in JS */
           #hero {
-            padding: 72px 24px 32px !important;
             height: auto !important;
-            min-height: 100svh !important;
-          }
-          /* Stack: headline on top, card below */
-          .hero-grid {
-            grid-template-columns: 1fr !important;
-            gap: 28px !important;
-            padding: 24px 0 16px !important;
-          }
-          /* Card — full width, reduce padding */
-          .hero-right-col {
-            padding: 28px 24px !important;
-          }
-          /* Reduce card heading font size on tablet */
-          .hero-right-col .hero-card-heading {
-            font-size: 17px !important;
-          }
-          /* Reduce card body font size on tablet */
-          .hero-right-col .hero-card-body {
-            font-size: 13px !important;
-          }
-          /* Para-to-CTA spacing tighter on mobile */
-          .hero-right-col > div:last-child {
-            margin-top: 32px !important;
-          }
-          /* Hide vertical skills bar on mobile */
-          .hero-skills-bar {
-            display: none !important;
-          }
-          /* Badge repositioned for smaller padding */
-          .hero-badge {
-            top: 20px !important;
-            left: 24px !important;
-          }
-          /* Blob — move to top-right of card, smaller */
-          .hero-blob {
-            width: 140px !important;
-            height: 140px !important;
-            top: -50px !important;
-            left: auto !important;
-            right: -30px !important;
-          }
-          /* Figure — hide on mobile (too large, overlaps layout) */
-          .hero-figure {
-            display: none !important;
           }
 
           /* Work section */
@@ -3107,6 +3254,48 @@ export default function Home() {
           }
           .medium-grid {
             grid-template-columns: 1fr !important;
+          }
+          .medium-section > div:first-child {
+            flex-direction: column !important;
+            gap: 12px !important;
+            align-items: flex-start !important;
+          }
+
+          /* WorkSubSection padding */
+          .work-sub-section {
+            padding-left: 24px !important;
+            padding-right: 24px !important;
+          }
+
+          /* CaseStudyRow: stack to single column */
+          .case-study-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .case-study-grid > div:first-child {
+            padding: 32px 24px 24px !important;
+            border-right: none !important;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+          }
+          .case-study-grid > div:nth-child(2) {
+            padding: 24px 24px 32px !important;
+          }
+          .case-study-grid > div:nth-child(3) {
+            padding: 0 24px 32px !important;
+          }
+
+          /* AboutSection: stack 3-col to 1-col */
+          .about-3col-grid {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+
+          /* ExperienceSection */
+          .exp-section-container {
+            padding: 0 24px 60px !important;
+          }
+          .exp-row {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
           }
 
           /* Behance */
@@ -3176,39 +3365,64 @@ export default function Home() {
             zoom: 0.65;
           }
 
+          /* ── AboutSection ── */
+          .about-section-inner {
+            padding: 48px 24px 60px !important;
+          }
+          .about-topright-label {
+            display: none !important;
+          }
+          .about-headline-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+          }
+          .about-h2 {
+            font-size: 24px !important;
+            margin-bottom: 10px !important;
+          }
+          .about-intro-para {
+            font-size: 15px !important;
+          }
+          .tools-label-pad {
+            padding: 0 24px 16px !important;
+          }
+
+          /* ── ExperienceSection ── */
+          .exp-section-header {
+            padding: 28px 24px !important;
+          }
+
+          /* ── Doodles section ── */
+          .doodles-header {
+            padding: 0 24px 24px !important;
+            flex-wrap: wrap !important;
+            gap: 10px !important;
+          }
+          .doodles-h2 {
+            font-size: 22px !important;
+          }
+
+          /* ── WorkSubSection header ── */
+          .work-sub-section-header-row {
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+          }
+
+          /* ── Decorative section index numbers (01/, 02/ … 06/) ── */
+          .section-index-num {
+            font-size: 18px !important;
+          }
+
+          /* ── CaseStudyRow: remove desktop spacer margin ── */
+          .case-study-desc {
+            margin-top: 0 !important;
+          }
+
         }
 
         /* ── Mobile (≤480px) ── */
         @media (max-width: 480px) {
-          /* Hero */
-          #hero {
-            padding: 64px 18px 24px !important;
-          }
-          .hero-grid {
-            gap: 20px !important;
-            padding: 16px 0 12px !important;
-          }
-          .hero-right-col {
-            padding: 24px 20px !important;
-          }
-          /* Blob — even smaller on phone */
-          .hero-blob {
-            width: 110px !important;
-            height: 110px !important;
-            top: -40px !important;
-            right: -20px !important;
-          }
-          /* Further reduce card font sizes on small mobile */
-          .hero-right-col .hero-card-heading {
-            font-size: 15px !important;
-          }
-          .hero-right-col .hero-card-body {
-            font-size: 12px !important;
-          }
-          .hero-right-col > div:last-child {
-            margin-top: 24px !important;
-          }
-
           /* Work section */
           .work-panel-header {
             padding: 20px 18px !important;
@@ -3218,6 +3432,17 @@ export default function Home() {
             grid-template-rows: repeat(4, 420px) !important;
           }
           .home-bento-cell { grid-column: 1 !important; grid-row: auto !important; }
+
+          /* WorkSubSection padding */
+          .work-sub-section {
+            padding-left: 18px !important;
+            padding-right: 18px !important;
+          }
+
+          /* ExperienceSection */
+          .exp-section-container {
+            padding: 0 18px 48px !important;
+          }
 
           /* Behance */
           .behance-section {
@@ -3258,6 +3483,22 @@ export default function Home() {
           }
           .tl-item {
             zoom: 0.52;
+          }
+
+          .about-section-inner {
+            padding: 40px 18px 48px !important;
+          }
+          .tools-label-pad {
+            padding: 0 18px 16px !important;
+          }
+          .exp-section-header {
+            padding: 24px 18px !important;
+          }
+          .doodles-header {
+            padding: 0 18px 20px !important;
+          }
+          .section-index-num {
+            font-size: 14px !important;
           }
         }
       `}</style>
