@@ -633,7 +633,7 @@ function CaseStudyRow({ project, index, animDelay = 0, glass = false }: { projec
 
       {/* ── Extra images: full-width below, freely cropped ── */}
       {project.extraImages && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px', overflow: 'hidden', width: '80%', marginLeft: 'auto', paddingRight: glass ? '40px' : '0', paddingBottom: glass ? '40px' : '0' }}>
+        <div className="extra-images-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px', overflow: 'hidden', width: '80%', marginLeft: 'auto', paddingRight: glass ? '40px' : '0', paddingBottom: glass ? '40px' : '0' }}>
           <div style={{ overflow: 'hidden', borderRadius: '8px' }}>
             <img src={project.extraImages[0]} alt="" style={{ width: '100%', height: 'auto', display: 'block' }} />
           </div>
@@ -747,7 +747,7 @@ function MediumSection() {
         transition={{ duration: 0.55, ease }}
         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '40px' }}
       >
-        <h3 style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.025em', lineHeight: 1.05 }}>
+        <h3 style={{ fontFamily: "'DynaPuff', cursive", fontSize: '36px', fontWeight: 400, color: T.ink, margin: 0, letterSpacing: '-0.01em', lineHeight: 1.05 }}>
           My writing on Medium
         </h3>
         <a
@@ -1184,13 +1184,13 @@ function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Hello! + Me photo row */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, position: 'relative', zIndex: 6 }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        {/* Hello! + Me photo row — bottom-aligned */}
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12, position: 'relative', zIndex: 6 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, paddingBottom: 4 }}>
             <motion.h1
               {...pop(showHeadline)}
               style={{
-                fontFamily: "'DynaPuff', cursive", fontSize: 'clamp(52px, 14vw, 80px)',
+                fontFamily: "'DynaPuff', cursive", fontSize: 'clamp(44px, 11vw, 64px)',
                 fontWeight: 400, lineHeight: 1.0, color: '#3A4450',
                 margin: 0,
               }}
@@ -1200,7 +1200,7 @@ function HeroSection() {
             <motion.p
               {...pop(showWelcome)}
               style={{
-                fontFamily: GRENZE, fontSize: 'clamp(20px, 5vw, 28px)', fontWeight: 300,
+                fontFamily: GRENZE, fontSize: 'clamp(18px, 5vw, 26px)', fontWeight: 300,
                 lineHeight: 1.1, color: '#606C78',
                 margin: 0,
               }}
@@ -1211,7 +1211,7 @@ function HeroSection() {
           <motion.div
             {...pop(showRight, 0.12)}
             style={{
-              width: 'clamp(110px, 30vw, 160px)', flexShrink: 0,
+              width: 'clamp(190px, 48vw, 240px)', flexShrink: 0,
               borderRadius: 12, overflow: 'hidden',
             }}
           >
@@ -1235,71 +1235,58 @@ function HeroSection() {
           </span>
         </motion.div>
 
-        {/* Floating cards — horizontal scrollable row */}
+        {/* Floating cards — vertically stacked */}
         <motion.div
           {...pop(showRight, 0.22)}
           style={{
-            display: 'flex', gap: 12,
-            overflowX: 'auto', overflowY: 'visible',
-            WebkitOverflowScrolling: 'touch',
-            scrollbarWidth: 'none',
-            padding: '8px 0 12px',
+            display: 'flex', flexDirection: 'column', gap: 10,
             position: 'relative', zIndex: 6,
           }}
         >
           {/* Card 1: Roles */}
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ repeat: Infinity, duration: 3.6, ease: 'easeInOut', delay: 0.6 }}
+          <div
             style={{
               background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
-              borderRadius: 12, padding: '16px 16px 18px',
-              display: 'inline-flex', flexDirection: 'column', gap: 10,
-              flexShrink: 0, minWidth: 160,
+              borderRadius: 12, padding: '14px 16px',
+              display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 14,
             }}
           >
-            <img src="/icons/figma-icon.png" alt="Design" style={{ width: 40, height: 40, objectFit: 'contain' }} />
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 12, color: '#1A2028', margin: 0, lineHeight: 1.5, whiteSpace: 'pre-line' }}>
-              {'Product Designer.\nResearcher.\n3D artist.\nMech. Engineer.'}
+            <img src="/icons/figma-icon.png" alt="Design" style={{ width: 36, height: 36, objectFit: 'contain', flexShrink: 0 }} />
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 11, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
+              Product Designer · Researcher · 3D artist · Mech. Engineer
             </p>
-          </motion.div>
+          </div>
 
           {/* Card 2: Education */}
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ repeat: Infinity, duration: 4.8, ease: 'easeInOut', delay: 1.4 }}
+          <div
             style={{
               background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
-              borderRadius: 12, padding: '16px 16px 18px',
-              display: 'inline-flex', flexDirection: 'column', gap: 10,
-              flexShrink: 0, minWidth: 160,
+              borderRadius: 12, padding: '14px 16px',
+              display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 14,
             }}
           >
-            <img src="/icons/graduated.png" alt="Graduated" style={{ width: 40, height: 40, objectFit: 'contain' }} />
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 12, color: '#1A2028', margin: 0, lineHeight: 1.65, whiteSpace: 'pre-line' }}>
-              {'Product/HCI Design\n— IIT Kanpur\nMech. Engg — PU'}
+            <img src="/icons/graduated.png" alt="Graduated" style={{ width: 36, height: 36, objectFit: 'contain', flexShrink: 0 }} />
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 11, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
+              Product/HCI Design — IIT Kanpur · Mech. Engg — PU
             </p>
-          </motion.div>
+          </div>
 
           {/* Card 3: Tech */}
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ repeat: Infinity, duration: 3.2, ease: 'easeInOut', delay: 2.1 }}
+          <div
             style={{
               background: 'rgba(233,233,233,0.55)', backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)', border: '0.8px solid #dbdbdb',
-              borderRadius: 12, padding: '16px 16px 18px',
-              display: 'inline-flex', flexDirection: 'column', gap: 10,
-              flexShrink: 0, minWidth: 160,
+              borderRadius: 12, padding: '14px 16px',
+              display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 14,
             }}
           >
-            <img src="/icons/creative-tech.png" alt="Creative Tech" style={{ width: 40, height: 40, objectFit: 'contain' }} />
-            <p style={{ fontFamily: SPACE_MONO, fontSize: 12, color: '#1A2028', margin: 0, lineHeight: 1.5, whiteSpace: 'pre-line' }}>
-              {'Creative Tech:\nfront-end, Python,\nno-code, agentic'}
+            <img src="/icons/creative-tech.png" alt="Creative Tech" style={{ width: 36, height: 36, objectFit: 'contain', flexShrink: 0 }} />
+            <p style={{ fontFamily: SPACE_MONO, fontSize: 11, color: '#1A2028', margin: 0, lineHeight: 1.5 }}>
+              Creative Tech: front-end, Python, no-code &amp; agentic prototyping
             </p>
-          </motion.div>
+          </div>
         </motion.div>
       </section>
     )
@@ -1641,8 +1628,8 @@ function SketchMarquee() {
   return (
     <div style={{ overflow: 'hidden', position: 'relative' }}>
       {/* Fade edges */}
-      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, #ffffff, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, #ffffff, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
 
       <motion.div
         className="sketch-track"
@@ -2195,7 +2182,7 @@ function AboutSection() {
             <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>
               About
             </p>
-            <h2 className="about-h2" style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, letterSpacing: '-0.02em', lineHeight: 1.05, margin: '0 0 20px' }}>
+            <h2 className="about-h2" style={{ fontFamily: "'DynaPuff', cursive", fontSize: '36px', fontWeight: 400, color: T.ink, letterSpacing: '-0.01em', lineHeight: 1.05, margin: '0 0 20px' }}>
               Working with me.
             </h2>
             <p className="about-intro-para" style={{ fontFamily: T.sans, fontSize: '17px', color: T.ink, lineHeight: 1.7, margin: 0, maxWidth: '560px', letterSpacing: '-0.005em' }}>
@@ -3035,7 +3022,6 @@ export default function Home() {
             background: T.paper,
             borderRadius: '24px 24px 0 0',
             fontFamily: T.sans,
-            paddingBottom: '80px',
           }}
         >
           {/* Case Studies — glass dark section */}
@@ -3121,7 +3107,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════════════
             DOODLES — just above footer — hidden
         ═══════════════════════════════════════════════════════════════════ */}
-        <div style={{ background: T.paper, overflow: 'hidden', position: 'relative', padding: '48px 0', borderTop: '1px solid #E5E5E0' }}>
+        <div style={{ background: '#ffffff', overflow: 'hidden', position: 'relative', padding: '48px 0', borderTop: '1px solid #E5E5E0' }}>
           {/* Background dot grid */}
           <div aria-hidden style={{
             position: 'absolute', inset: 0,
@@ -3159,7 +3145,7 @@ export default function Home() {
               <p style={{ fontFamily: T.mono, fontSize: '11px', color: T.inkMute, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>
                 Raw sketches &amp; explorations
               </p>
-              <h2 className="doodles-h2" style={{ fontFamily: T.sans, fontSize: '36px', fontWeight: 500, color: T.ink, margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+              <h2 className="doodles-h2" style={{ fontFamily: "'DynaPuff', cursive", fontSize: '36px', fontWeight: 400, color: T.ink, margin: 0, letterSpacing: '-0.01em', lineHeight: 1.1 }}>
                 Doodling on the go
               </h2>
             </div>
@@ -3172,8 +3158,8 @@ export default function Home() {
               style={{ fontFamily: T.mono, fontSize: '40px', fontWeight: 500, color: T.rule, letterSpacing: '-0.03em', flexShrink: 0 }}
             >06/</motion.span>
           </motion.div>
-          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, ${T.paper}, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to right, #ffffff, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(40px, 8vw, 80px)', background: `linear-gradient(to left, #ffffff, transparent)`, zIndex: 2, pointerEvents: 'none' }} />
           <SketchMarquee />
         </div>
 
@@ -3417,6 +3403,14 @@ export default function Home() {
           /* ── CaseStudyRow: remove desktop spacer margin ── */
           .case-study-desc {
             margin-top: 0 !important;
+          }
+
+          /* ── CaseStudyRow extra images: full width, properly aligned ── */
+          .extra-images-grid {
+            width: 100% !important;
+            margin-left: 0 !important;
+            padding-right: 0 !important;
+            gap: 12px !important;
           }
 
         }

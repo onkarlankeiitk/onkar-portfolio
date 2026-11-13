@@ -391,7 +391,7 @@ export default function Footer() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           style={{ flex: '1 1 340px', maxWidth: '520px' }}
         >
-          <h2 className="footer-headline" style={{ color: '#ffffff', fontSize: 'clamp(28px, 4vw, 56px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95, margin: 0, maxWidth: '14ch', fontFamily: '"Helvetica Neue", "Helvetica", Arial, sans-serif' }}>
+          <h2 className="footer-headline" style={{ color: '#ffffff', fontSize: 'clamp(28px, 4vw, 56px)', fontWeight: 400, letterSpacing: '-0.01em', lineHeight: 0.95, margin: 0, maxWidth: '14ch', fontFamily: "'DynaPuff', cursive" }}>
             Open to full time roles
           </h2>
 

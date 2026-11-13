@@ -182,6 +182,9 @@ export default function Nav({ alwaysVisible = false, viewportThreshold = 0.3 }: 
           background-size: 300% 300%;
           animation: liquidShimmer 8s ease infinite;
         }
+        @media (max-width: 768px) {
+          .back-to-top-btn { display: none !important; }
+        }
       `}</style>
 
       <motion.div
@@ -205,9 +208,9 @@ export default function Nav({ alwaysVisible = false, viewportThreshold = 0.3 }: 
               background: isLight
                 ? 'linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(200,196,188,0.5) 60%, rgba(255,255,255,0.6) 100%)'
                 : 'linear-gradient(145deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 60%, rgba(255,255,255,0.14) 100%)',
-              borderRadius: '9999px',
+              borderRadius: menuOpen ? '20px' : '9999px',
               padding: '1px',
-              transition: 'background 0.35s ease',
+              transition: 'background 0.35s ease, border-radius 0.22s ease',
             }}>
               <nav
                 style={{
@@ -215,9 +218,9 @@ export default function Nav({ alwaysVisible = false, viewportThreshold = 0.3 }: 
                   backdropFilter: 'blur(48px) saturate(220%) brightness(1.04)',
                   WebkitBackdropFilter: 'blur(48px) saturate(220%) brightness(1.04)',
                   background: g.bg,
-                  borderRadius: '9999px',
+                  borderRadius: menuOpen ? '19px' : '9999px',
                   boxShadow: g.shadow,
-                  transition: 'background 0.35s ease, box-shadow 0.35s ease',
+                  transition: 'background 0.35s ease, box-shadow 0.35s ease, border-radius 0.22s ease',
                   overflow: 'hidden',
                 }}
               >
@@ -378,6 +381,7 @@ export default function Nav({ alwaysVisible = false, viewportThreshold = 0.3 }: 
 
       {/* ─── Back to top glass button ─────────────────────────────────────── */}
       <motion.div
+        className="back-to-top-btn"
         initial={{ opacity: 0, y: -80 }}
         animate={{ opacity: backToTopVisible ? 1 : 0, y: backToTopVisible ? 0 : -80 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
